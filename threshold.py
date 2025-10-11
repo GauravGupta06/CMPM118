@@ -60,4 +60,8 @@ def main():
     j_opt_idx = np.argmax(tpr-fpr)
     plot_roc(fpr, tpr, thresholds, j_opt_idx=j_opt_idx) 
 
+    g_mean = np.sqrt(tpr * (1-fpr))
+    g_opt_idx = np.argmax(g_mean)
+    plot_roc(fpr, tpr, thresholds, g_opt_idx=g_opt_idx) 
+
 
