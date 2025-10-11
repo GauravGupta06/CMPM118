@@ -1,0 +1,254 @@
+[
+    {
+        "label": "torch",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch",
+        "description": "torch",
+        "detail": "torch",
+        "documentation": {}
+    },
+    {
+        "label": "torch.nn",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch.nn",
+        "description": "torch.nn",
+        "detail": "torch.nn",
+        "documentation": {}
+    },
+    {
+        "label": "snntorch",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "snntorch",
+        "description": "snntorch",
+        "detail": "snntorch",
+        "documentation": {}
+    },
+    {
+        "label": "surrogate",
+        "importPath": "snntorch",
+        "description": "snntorch",
+        "isExtraImport": true,
+        "detail": "snntorch",
+        "documentation": {}
+    },
+    {
+        "label": "surrogate",
+        "importPath": "snntorch",
+        "description": "snntorch",
+        "isExtraImport": true,
+        "detail": "snntorch",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "zipfile",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "zipfile",
+        "description": "zipfile",
+        "detail": "zipfile",
+        "documentation": {}
+    },
+    {
+        "label": "DataLoader",
+        "importPath": "torch.utils.data",
+        "description": "torch.utils.data",
+        "isExtraImport": true,
+        "detail": "torch.utils.data",
+        "documentation": {}
+    },
+    {
+        "label": "tonic",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tonic",
+        "description": "tonic",
+        "detail": "tonic",
+        "documentation": {}
+    },
+    {
+        "label": "tonic.transforms",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tonic.transforms",
+        "description": "tonic.transforms",
+        "detail": "tonic.transforms",
+        "documentation": {}
+    },
+    {
+        "label": "gdown",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "gdown",
+        "description": "gdown",
+        "detail": "gdown",
+        "documentation": {}
+    },
+    {
+        "label": "torch.nn.functional",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch.nn.functional",
+        "description": "torch.nn.functional",
+        "detail": "torch.nn.functional",
+        "documentation": {}
+    },
+    {
+        "label": "tqdm",
+        "importPath": "tqdm",
+        "description": "tqdm",
+        "isExtraImport": true,
+        "detail": "tqdm",
+        "documentation": {}
+    },
+    {
+        "label": "SmallSNN",
+        "importPath": "models.small_snn",
+        "description": "models.small_snn",
+        "isExtraImport": true,
+        "detail": "models.small_snn",
+        "documentation": {}
+    },
+    {
+        "label": "LargeSNN",
+        "importPath": "models.large_snn",
+        "description": "models.large_snn",
+        "isExtraImport": true,
+        "detail": "models.large_snn",
+        "documentation": {}
+    },
+    {
+        "label": "load_dvsgesture",
+        "importPath": "utils.datasets",
+        "description": "utils.datasets",
+        "isExtraImport": true,
+        "detail": "utils.datasets",
+        "documentation": {}
+    },
+    {
+        "label": "train_snn",
+        "importPath": "utils.training",
+        "description": "utils.training",
+        "isExtraImport": true,
+        "detail": "utils.training",
+        "documentation": {}
+    },
+    {
+        "label": "evaluate_snn",
+        "importPath": "utils.evaluation",
+        "description": "utils.evaluation",
+        "isExtraImport": true,
+        "detail": "utils.evaluation",
+        "documentation": {}
+    },
+    {
+        "label": "LargeSNN",
+        "kind": 6,
+        "importPath": "models.large_snn",
+        "description": "models.large_snn",
+        "peekOfCode": "class LargeSNN(nn.Module):\n    def __init__(self, num_inputs=128*128, num_hidden1=512, num_hidden2=256, num_outputs=11, beta=0.9):\n        super().__init__()\n        spike_grad = surrogate.atan()\n        self.fc1 = nn.Linear(num_inputs, num_hidden1)\n        self.lif1 = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)\n        self.fc2 = nn.Linear(num_hidden1, num_hidden2)\n        self.lif2 = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)\n        self.fc3 = nn.Linear(num_hidden2, num_outputs)\n        self.lif3 = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)",
+        "detail": "models.large_snn",
+        "documentation": {}
+    },
+    {
+        "label": "SmallSNN",
+        "kind": 6,
+        "importPath": "models.small_snn",
+        "description": "models.small_snn",
+        "peekOfCode": "class SmallSNN(nn.Module):\n    def __init__(self, num_inputs=128*128, num_hidden=256, num_outputs=11, beta=0.9):\n        super().__init__()\n        spike_grad = surrogate.atan()\n        self.fc1 = nn.Linear(num_inputs, num_hidden)\n        self.lif1 = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)\n        self.fc2 = nn.Linear(num_hidden, num_outputs)\n        self.lif2 = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)\n    def forward(self, x):\n        mem1 = self.lif1.init_leaky()",
+        "detail": "models.small_snn",
+        "documentation": {}
+    },
+    {
+        "label": "download_from_drive",
+        "kind": 2,
+        "importPath": "utils.datasets",
+        "description": "utils.datasets",
+        "peekOfCode": "def download_from_drive(file_id, dest_path):\n    \"\"\"Download dataset zip from Google Drive if it doesn't already exist.\"\"\"\n    if os.path.exists(dest_path):\n        print(f\"Found existing dataset zip at {dest_path}\")\n    else:\n        print(f\"Downloading dataset from Google Drive to {dest_path} ...\")\n        url = f\"https://drive.google.com/uc?id={file_id}\"\n        gdown.download(url, dest_path, quiet=False)\n        print(\"Download complete.\")\ndef extract_if_needed(zip_path, extract_dir):",
+        "detail": "utils.datasets",
+        "documentation": {}
+    },
+    {
+        "label": "extract_if_needed",
+        "kind": 2,
+        "importPath": "utils.datasets",
+        "description": "utils.datasets",
+        "peekOfCode": "def extract_if_needed(zip_path, extract_dir):\n    \"\"\"Extract dataset zip only if not already extracted.\"\"\"\n    marker_file = os.path.join(extract_dir, \".extracted_marker\")\n    if os.path.exists(marker_file):\n        print(\"Dataset already extracted. Skipping unzip.\")\n        return\n    if not zipfile.is_zipfile(zip_path):\n        print(f\"{zip_path} is not a valid zip file.\")\n        return\n    print(\"Extracting dataset ...\")",
+        "detail": "utils.datasets",
+        "documentation": {}
+    },
+    {
+        "label": "load_dvsgesture",
+        "kind": 2,
+        "importPath": "utils.datasets",
+        "description": "utils.datasets",
+        "peekOfCode": "def load_dvsgesture(batch_size=32, drive_file_id=None):\n    \"\"\"\n    Loads DVS Gesture dataset from local cache or Google Drive.\n    If drive_file_id is provided, downloads it automatically.\n    \"\"\"\n    save_dir = \"./data\"\n    os.makedirs(save_dir, exist_ok=True)\n    if drive_file_id:\n        zip_path = os.path.join(save_dir, \"dvsgesture.zip\")\n        download_from_drive(drive_file_id, zip_path)",
+        "detail": "utils.datasets",
+        "documentation": {}
+    },
+    {
+        "label": "evaluate_snn",
+        "kind": 2,
+        "importPath": "utils.evaluation",
+        "description": "utils.evaluation",
+        "peekOfCode": "def evaluate_snn(model, dataloader, device='cuda'):\n    model.eval()\n    correct = 0\n    total = 0\n    with torch.no_grad():\n        for data, targets in dataloader:\n            data = data.to(device)\n            targets = targets.to(device)\n            spk_rec = model(data)\n            outputs = spk_rec.mean(0)",
+        "detail": "utils.evaluation",
+        "documentation": {}
+    },
+    {
+        "label": "train_snn",
+        "kind": 2,
+        "importPath": "utils.training",
+        "description": "utils.training",
+        "peekOfCode": "def train_snn(model, dataloader, optimizer, num_epochs=5, device='cuda'):\n    model.to(device)\n    model.train()\n    for epoch in range(num_epochs):\n        total_loss = 0\n        for data, targets in tqdm(dataloader, desc=f\"Epoch {epoch+1}/{num_epochs}\"):\n            data = data.to(device)\n            targets = targets.to(device)\n            spk_rec = model(data)\n            loss = F.cross_entropy(spk_rec.mean(0), targets)",
+        "detail": "utils.training",
+        "documentation": {}
+    },
+    {
+        "label": "device",
+        "kind": 5,
+        "importPath": "train",
+        "description": "train",
+        "peekOfCode": "device = 'cuda' if torch.cuda.is_available() else 'cpu'\nprint(f\"Using device: {device}\")\n# Choose model type: \"small\" or \"large\"\nmodel_type = \"small\"\nif model_type == \"small\":\n    model = SmallSNN()\nelse:\n    model = LargeSNN()\n# OPTIONAL: Add your Google Drive file ID (replace below)\ngoogle_drive_file_id = \"YOUR_FILE_ID_HERE\"",
+        "detail": "train",
+        "documentation": {}
+    },
+    {
+        "label": "model_type",
+        "kind": 5,
+        "importPath": "train",
+        "description": "train",
+        "peekOfCode": "model_type = \"small\"\nif model_type == \"small\":\n    model = SmallSNN()\nelse:\n    model = LargeSNN()\n# OPTIONAL: Add your Google Drive file ID (replace below)\ngoogle_drive_file_id = \"YOUR_FILE_ID_HERE\"\ntrainloader, testloader = load_dvsgesture(\n    batch_size=32,\n    drive_file_id=google_drive_file_id",
+        "detail": "train",
+        "documentation": {}
+    },
+    {
+        "label": "google_drive_file_id",
+        "kind": 5,
+        "importPath": "train",
+        "description": "train",
+        "peekOfCode": "google_drive_file_id = \"YOUR_FILE_ID_HERE\"\ntrainloader, testloader = load_dvsgesture(\n    batch_size=32,\n    drive_file_id=google_drive_file_id\n)\noptimizer = torch.optim.Adam(model.parameters(), lr=1e-3)\ntrain_snn(model, trainloader, optimizer, num_epochs=5, device=device)\nevaluate_snn(model, testloader, device=device)",
+        "detail": "train",
+        "documentation": {}
+    },
+    {
+        "label": "optimizer",
+        "kind": 5,
+        "importPath": "train",
+        "description": "train",
+        "peekOfCode": "optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)\ntrain_snn(model, trainloader, optimizer, num_epochs=5, device=device)\nevaluate_snn(model, testloader, device=device)",
+        "detail": "train",
+        "documentation": {}
+    }
+]

@@ -1,0 +1,10 @@
+torch
+torchvision
+torchaudio
+snntorch
+numpy
+matplotlib
+tqdm
+tonic
+gdown
+zipfile36
