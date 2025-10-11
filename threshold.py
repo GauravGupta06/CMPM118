@@ -40,6 +40,27 @@ def plot_roc(fpr, tpr, thresholds, g_opt_idx=None, j_opt_idx=None):
     plt.legend()
     plt.show()
 
+    return threshold
+
+def getG_Thresh(X,y, plot=False):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=2, stratify=y)
+
+    clf = LogisticRegression()
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict_proba(X_test)
+
+    fpr, tpr, thresholds = roc_curve(y_test, y_pred[:, 1])
+
+    g_mean = np.sqrt(tpr * (1-fpr))
+    g_opt_idx = np.argmax(g_mean)
+    g_thresh = plot_roc(fpr, tpr, thresholds, g_opt_idx=g_opt_idx)
+
+    print(f"G-mean: {g_thresh:.3f}")
+
+    evaluate(y_test, y_pred, g_thresh)
+
+    return g_thresh
+
 def main():
     X, y = make_classification(
     n_samples=10000, 
@@ -63,5 +84,3 @@ def main():
     g_mean = np.sqrt(tpr * (1-fpr))
     g_opt_idx = np.argmax(g_mean)
     plot_roc(fpr, tpr, thresholds, g_opt_idx=g_opt_idx) 
-
-
