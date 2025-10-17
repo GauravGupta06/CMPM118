@@ -1,86 +1,81 @@
 import numpy as np
+from lempel_ziv_complexity import lempel_ziv_complexity
+from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import roc_curve, precision_recall_curve
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from sklearn.datasets import make_classification
-from sklearn.linear_model import LogisticRegression
 
+# 1. Preprocess DVSGesture Events for LZC
+def preprocess_dvs_events(events, bin_size, frame_shape=(128, 128)):
+    min_t, max_t = events['t'][0], events['t'][-1]
+    num_bins = int((max_t - min_t) / bin_size) + 1
+    spike_train_on = np.zeros((num_bins, *frame_shape), dtype=np.uint8)
+    spike_train_off = np.zeros((num_bins, *frame_shape), dtype=np.uint8)
 
+    for t, x, y, p in zip(events['t'], events['x'], events['y'], events['p']):
+        bin_idx = int((t - min_t) / bin_size)
+        if p == 1:
+            spike_train_on[bin_idx, y, x] = 1
+        else:
+            spike_train_off[bin_idx, y, x] = 1
 
-# Compute the metrics
-def evalute(y_test, y_pred, threshold):
-    y_pred = (y_pred[:,1] >= threshold).astype(bool)
-    print(f'Accuracy: {accuracy_score(y_test, y_pred)}')
-    print(f'Precision: {precision_score(y_test, y_pred)}')
-    print(f'Recall: {recall_score(y_test, y_pred)}')
-    print(f'F1: {f1_score(y_test, y_pred)}')
+    seq_on = spike_train_on.flatten()
+    seq_off = spike_train_off.flatten()
+    lz_input_seq = np.concatenate([seq_on, seq_off])
+    lz_input_str = ''.join(map(str, lz_input_seq))
+    return lz_input_str
 
-# Plot ROC curves
-def plot_roc(fpr, tpr, thresholds, g_opt_idx=None, j_opt_idx=None):
-    fpr, tpr, thresholds = roc_curve(y_test, y_pred[:, 1])
-    plt.plot([0,1], [0,1], linestyle='--', label='Random Classifier')
-    plt.plot(fpr, tpr, linewidth=2, label='Logistic')
-    if g_opt_idx:
-        plt.scatter(fpr[g_opt_idx], tpr[g_opt_idx], s=15, color='green', label='G-mean Optimal Threshold', zorder=5)
-        threshold = thresholds[g_opt_idx]
-        print(f'G-mean Optimal Threshold: {threshold}')
-    elif j_opt_idx:
-        plt.scatter(fpr[j_opt_idx], tpr[j_opt_idx], s=15, color='green', label='J statistic Optimal Threshold', zorder=5)
-        threshold = thresholds[j_opt_idx]
-        print(f"Youden's J statistic Optimal Threshold: {threshold}")
-    else:
-        threshold = 0.5
-        print(f"Default Threshold: {0.5}")
-    evalute(y_test, y_pred, threshold)
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
+# 2. Evaluate both models on the dataset, storing all needed info.
+def evaluate_models_on_dataset(dataset, sparse_model, dense_model, bin_size=0.005):
+    results = []
+    for (events, label) in dataset:
+        lz_input_str = preprocess_dvs_events(events, bin_size)
+        lz_value = lempel_ziv_complexity(lz_input_str)
+        sparse_pred = sparse_model.predict(events)
+        dense_pred = dense_model.predict(events)
+        # Choose which model did better for this input
+        # Here you decide which model is actually more accurate!
+        # Example: assume ground truth label; set as complex IF dense_pred matches label and sparse_pred does NOT
+        # Adjust logic as best fits your data and what you mean by "complex"
+        if dense_pred == label and sparse_pred != label:
+            true_complex = 1
+        else:
+            true_complex = 0
+        results.append({
+            'label': label,
+            'lz_value': lz_value,
+            'sparse_pred': sparse_pred,
+            'dense_pred': dense_pred,
+            'true_complex': true_complex
+        })
+    return results
+
+# 3. Threshold sweep, ROC-AUC curve, and optimal LZC threshold
+def threshold_sweep_and_roc(results):
+    # Ground truth: 1 if dense model was needed, 0 if sparse sufficed
+    y_true = np.array([r['true_complex'] for r in results])
+    lz_scores = np.array([r['lz_value'] for r in results])
+    fpr, tpr, thresholds = roc_curve(y_true, lz_scores)
+    roc_auc = auc(fpr, tpr)
+    gmean = np.sqrt(tpr * (1 - fpr))
+    idx = np.argmax(gmean)
+    optimal_threshold = thresholds[idx]
+    print(f"Optimal LZC threshold: {optimal_threshold:.4f} (G-mean={gmean[idx]:.4f}) (AUC={roc_auc:.4f})")
+    # Plot
+    plt.figure(figsize=(8,6))
+    plt.plot(fpr, tpr, label=f'ROC curve (AUC = {roc_auc:.2f})')
+    plt.scatter(fpr[idx], tpr[idx], color='red', label=f'Optimal G-mean\n(Threshold={optimal_threshold:.4f})')
+    plt.plot([0,1],[0,1],'k--', label='Random')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve for LZC-based Routing')
     plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
     plt.show()
+    return optimal_threshold
 
-    return threshold
-
-def getG_Thresh(X,y, plot=False):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=2, stratify=y)
-
-    clf = LogisticRegression()
-    clf.fit(X_train, y_train)
-    y_pred = clf.predict_proba(X_test)
-
-    fpr, tpr, thresholds = roc_curve(y_test, y_pred[:, 1])
-
-    g_mean = np.sqrt(tpr * (1-fpr))
-    g_opt_idx = np.argmax(g_mean)
-    g_thresh = plot_roc(fpr, tpr, thresholds, g_opt_idx=g_opt_idx)
-
-    print(f"G-mean: {g_thresh:.3f}")
-
-    evaluate(y_test, y_pred, g_thresh)
-
-    return g_thresh
-
-def main():
-    X, y = make_classification(
-    n_samples=10000, 
-    n_redundant=0,
-    n_clusters_per_class=1, 
-    weights=[0.9],
-    flip_y=0, 
-    random_state=24
-    )
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=2, stratify=y)
-    clf = LogisticRegression()
-    clf.fit(X_train, y_train)
-    y_pred = clf.predict_proba(X_test)
-
-    fpr, tpr, thresholds = roc_curve(y_test, y_pred[:, 1])
-    plot_roc(fpr, tpr, thresholds)  
-
-    j_opt_idx = np.argmax(tpr-fpr)
-    plot_roc(fpr, tpr, thresholds, j_opt_idx=j_opt_idx) 
-
-    g_mean = np.sqrt(tpr * (1-fpr))
-    g_opt_idx = np.argmax(g_mean)
-    plot_roc(fpr, tpr, thresholds, g_opt_idx=g_opt_idx) 
+# ---- USAGE EXAMPLE ----
+# dataset = ...   # list of (events, label) samples from DVSGesture
+# sparse_model = ... # your trained model
+# dense_model = ... # your trained model
+# results = evaluate_models_on_dataset(dataset, sparse_model, dense_model)
+# optimal_threshold = threshold_sweep_and_roc(results)
