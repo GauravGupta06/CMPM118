@@ -1,0 +1,130 @@
+[
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "torch,",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch.",
+        "description": "torch.",
+        "detail": "torch.",
+        "documentation": {}
+    },
+    {
+        "label": "Dataset",
+        "importPath": "torch.utils.data",
+        "description": "torch.utils.data",
+        "isExtraImport": true,
+        "detail": "torch.utils.data",
+        "documentation": {}
+    },
+    {
+        "label": "DataLoader",
+        "importPath": "torch.utils.data",
+        "description": "torch.utils.data",
+        "isExtraImport": true,
+        "detail": "torch.utils.data",
+        "documentation": {}
+    },
+    {
+        "label": "Subset",
+        "importPath": "torch.utils.data",
+        "description": "torch.utils.data",
+        "isExtraImport": true,
+        "detail": "torch.utils.data",
+        "documentation": {}
+    },
+    {
+        "label": "torchvision.datasets",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torchvision.datasets",
+        "description": "torchvision.datasets",
+        "detail": "torchvision.datasets",
+        "documentation": {}
+    },
+    {
+        "label": "v2",
+        "importPath": "torchvision.transforms",
+        "description": "torchvision.transforms",
+        "isExtraImport": true,
+        "detail": "torchvision.transforms",
+        "documentation": {}
+    },
+    {
+        "label": "lempel_ziv_complexity",
+        "importPath": "lempel_ziv_complexity",
+        "description": "lempel_ziv_complexity",
+        "isExtraImport": true,
+        "detail": "lempel_ziv_complexity",
+        "documentation": {}
+    },
+    {
+        "label": "roc_curve",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "auc",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "matplotlib.pyplot",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "matplotlib.pyplot",
+        "description": "matplotlib.pyplot",
+        "detail": "matplotlib.pyplot",
+        "documentation": {}
+    },
+    {
+        "label": "ANN_Router",
+        "kind": 6,
+        "importPath": "nn_router",
+        "description": "nn_router",
+        "peekOfCode": "class ANN_Router(nn.Module):\n    def __init__(self):\n        super().__init__()\n        #self.layer1 = nn.Linear()\n        #self.activation = nn.ReLU()",
+        "detail": "nn_router",
+        "documentation": {}
+    },
+    {
+        "label": "preprocess_dvs_events",
+        "kind": 2,
+        "importPath": "router",
+        "description": "router",
+        "peekOfCode": "def preprocess_dvs_events(events, bin_size, frame_shape=(128, 128)):\n    min_t, max_t = events['t'][0], events['t'][-1]\n    num_bins = int((max_t - min_t) / bin_size) + 1\n    spike_train_on = np.zeros((num_bins, *frame_shape), dtype=np.uint8)\n    spike_train_off = np.zeros((num_bins, *frame_shape), dtype=np.uint8)\n    for t, x, y, p in zip(events['t'], events['x'], events['y'], events['p']):\n        bin_idx = int((t - min_t) / bin_size)\n        if p == 1:\n            spike_train_on[bin_idx, y, x] = 1\n        else:",
+        "detail": "router",
+        "documentation": {}
+    },
+    {
+        "label": "evaluate_models_on_dataset",
+        "kind": 2,
+        "importPath": "router",
+        "description": "router",
+        "peekOfCode": "def evaluate_models_on_dataset(dataset, sparse_model, dense_model, bin_size=0.005):\n    results = []\n    for (events, label) in dataset:\n        lz_input_str = preprocess_dvs_events(events, bin_size)\n        lz_value = lempel_ziv_complexity(lz_input_str)\n        sparse_pred = sparse_model.predict(events)\n        dense_pred = dense_model.predict(events)\n        # Choose which model did better for this input\n        # Here you decide which model is actually more accurate!\n        # Example: assume ground truth label; set as complex IF dense_pred matches label and sparse_pred does NOT",
+        "detail": "router",
+        "documentation": {}
+    },
+    {
+        "label": "threshold_sweep_and_roc",
+        "kind": 2,
+        "importPath": "router",
+        "description": "router",
+        "peekOfCode": "def threshold_sweep_and_roc(results):\n    # Ground truth: 1 if dense model was needed, 0 if sparse sufficed\n    y_true = np.array([r['true_complex'] for r in results])\n    lz_scores = np.array([r['lz_value'] for r in results])\n    fpr, tpr, thresholds = roc_curve(y_true, lz_scores)\n    roc_auc = auc(fpr, tpr)\n    gmean = np.sqrt(tpr * (1 - fpr))\n    idx = np.argmax(gmean)\n    optimal_threshold = thresholds[idx]\n    print(f\"Optimal LZC threshold: {optimal_threshold:.4f} (G-mean={gmean[idx]:.4f}) (AUC={roc_auc:.4f})\")",
+        "detail": "router",
+        "documentation": {}
+    }
+]
