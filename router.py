@@ -1,46 +1,126 @@
 import numpy as np
+import tonic
+import torch
+import snntorch as snn
+import torch.nn as nn
 from lempel_ziv_complexity import lempel_ziv_complexity
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 
-# 1. Preprocess DVSGesture Events for LZC
-def preprocess_dvs_events(events, bin_size, frame_shape=(128, 128)):
-    min_t, max_t = events['t'][0], events['t'][-1]
-    num_bins = int((max_t - min_t) / bin_size) + 1
-    spike_train_on = np.zeros((num_bins, *frame_shape), dtype=np.uint8)
-    spike_train_off = np.zeros((num_bins, *frame_shape), dtype=np.uint8)
+#larger model net
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+print(device) 
 
-    for t, x, y, p in zip(events['t'], events['x'], events['y'], events['p']):
-        bin_idx = int((t - min_t) / bin_size)
-        if p == 1:
-            spike_train_on[bin_idx, y, x] = 1
-        else:
-            spike_train_off[bin_idx, y, x] = 1
+w = 64
+h = 64
+n_frames = 100
 
-    seq_on = spike_train_on.flatten()
-    seq_off = spike_train_off.flatten()
-    lz_input_seq = np.concatenate([seq_on, seq_off])
-    lz_input_str = ''.join(map(str, lz_input_seq))
-    return lz_input_str
+cache_root_dense = f"data/dvsgesture/{w}x{h}_T{n_frames}"
+cached_test_dense= tonic.DiskCachedDataset(None, cache_path=f"{cache_root_dense}/test")
+
+test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
+x = nn.Conv2d(2, 8, 3)(test_input)
+x = nn.MaxPool2d(2)(x)
+print("Output shape before flatten:", x.shape)
+print("Flattened size:", x.numel())
+flattenedSize = x.numel() 
+
+grad = snn.surrogate.fast_sigmoid(slope=25)
+beta = 0.5
+
+dense_model = nn.Sequential(
+    nn.Conv2d(2, 12, 5),
+    nn.MaxPool2d(2),
+    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
+    nn.Conv2d(12, 32, 5),
+    nn.MaxPool2d(2),
+    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
+    nn.Flatten(),
+    nn.Linear(flattenedSize, 11),   # make sure 800 matches flattenedSize
+    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
+).to(device)
+
+model_path = "results/large/models/Large_Take2.pth"
+dense_model.load_state_dict(torch.load(model_path, map_location=device))
+dense_model.eval()
+print("Model loaded successfully.")
+
+#small model net
+w = 32
+h = 32
+n_frames = 5
+
+cache_root_sparse = f"data/dvsgesture/{w}x{h}_T{n_frames}"
+cached_test_sparse = tonic.DiskCachedDataset(None, cache_path=f"{cache_root_sparse}/test")
+
+test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
+x = nn.Conv2d(2, 8, 3)(test_input)
+x = nn.MaxPool2d(2)(x)
+print("Output shape before flatten:", x.shape)
+print("Flattened size:", x.numel())
+flattenedSize = x.numel()
+
+grad = snn.surrogate.fast_sigmoid(slope=25)
+beta = 0.5
+
+sparse_model = nn.Sequential(
+    nn.Conv2d(2, 8, 3), # in_channels, out_channels, kernel_size
+    nn.MaxPool2d(2),
+    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
+    nn.Flatten(),
+    nn.Linear(flattenedSize, 11),
+    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
+).to(device)
+
+model_path = "results/small/models/Small_Take2_32x32_T5.pth"
+sparse_model.load_state_dict(torch.load(model_path, map_location=device))
+sparse_model.eval()
+print("Model loaded successfully.")
+
+
+
+def forward_pass(net, data):
+    spk_rec = []
+    snn.utils.reset(net)
+    with torch.no_grad():
+        for t in range(data.size(0)):          # data: [T, 2, H, W]
+            x = data[t].unsqueeze(0).to(device) # -> [1, 2, H, W]
+            spk_out, _ = net(x)
+            spk_rec.append(spk_out)             # [1, 11]
+    return torch.stack(spk_rec)  
+
+
+def predict_sample(frames):
+    frames = torch.tensor(frames, dtype=torch.float)  # [T, 2, H, W]
+    spk_rec = forward_pass(net, frames)
+    counts = spk_rec.sum(0)            # [1, 11]
+    return counts.argmax(1).item()
+
+
+def compute_lzc_from_events(events):
+    spike_seq = (events['p'] > 0).astype(int).flatten()
+    spike_seq_string = ''.join(map(str, spike_seq.tolist()))
+    lz_score = lempel_ziv_complexity(spike_seq_string)
+    return lz_score
 
 # 2. Evaluate both models on the dataset, storing all needed info.
-def evaluate_models_on_dataset(dataset, sparse_model, dense_model, bin_size=0.005):
+def evaluate_models_on_dataset(dataset_sparse, dataset_dense, sparse_model, dense_model, bin_size=0.005):
     results = []
-    for (events, label) in dataset:
-        lz_input_str = preprocess_dvs_events(events, bin_size)
-        lz_value = lempel_ziv_complexity(lz_input_str)
-        sparse_pred = sparse_model.predict(events)
-        dense_pred = dense_model.predict(events)
+    for (events_sparse, label_sparse),(events_dense, label_dense) in zip(dataset_sparse, dataset_dense):
+        lz_value = lempel_ziv_complexity(events_dense)
+        sparse_pred = sparse_model.predict_sample(events_sparse)
+        dense_pred = dense_model.predict_sample(events_dense)
         # Choose which model did better for this input
         # Here you decide which model is actually more accurate!
         # Example: assume ground truth label; set as complex IF dense_pred matches label and sparse_pred does NOT
         # Adjust logic as best fits your data and what you mean by "complex"
-        if dense_pred == label and sparse_pred != label:
+        # expected to have same label
+        if dense_pred == label_dense and sparse_pred != label_sparse:
             true_complex = 1
         else:
             true_complex = 0
         results.append({
-            'label': label,
+            'label': label_dense,
             'lz_value': lz_value,
             'sparse_pred': sparse_pred,
             'dense_pred': dense_pred,
