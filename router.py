@@ -15,18 +15,24 @@ w = 64
 h = 64
 n_frames = 100
 
+# Load in the large preprocessed datast
 cache_root_dense = f"data/dvsgesture/{w}x{h}_T{n_frames}"
 cached_test_dense= tonic.DiskCachedDataset(None, cache_path=f"{cache_root_dense}/test")
 
+
+# this is to find the output layer size (the total number of connections the last layer of 11 neurons will have). 
+# This value (flattenedSize), will be used when we construct the archecture of the CSNN. 
 test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
-x = nn.Conv2d(2, 8, 3)(test_input)
+x = nn.Conv2d(2, 12, 5)(test_input)
+x = nn.MaxPool2d(2)(x)
+x = nn.Conv2d(12, 32, 5)(x)
 x = nn.MaxPool2d(2)(x)
 print("Output shape before flatten:", x.shape)
 print("Flattened size:", x.numel())
-flattenedSize = x.numel() 
+flattenedSize = x.numel()
 
 grad = snn.surrogate.fast_sigmoid(slope=25)
-beta = 0.5
+beta = 0.5 #this is the decay rate of the pontential inside each neuron. The lower this value, the fewer the spikes 
 
 dense_model = nn.Sequential(
     nn.Conv2d(2, 12, 5),
@@ -40,7 +46,7 @@ dense_model = nn.Sequential(
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
 ).to(device)
 
-model_path = "results/large/models/Large_Take2.pth"
+model_path = "results/large/models/Large_Take4.pth"
 dense_model.load_state_dict(torch.load(model_path, map_location=device))
 dense_model.eval()
 print("Model loaded successfully.")
@@ -50,9 +56,14 @@ w = 32
 h = 32
 n_frames = 5
 
+
+# Load in the small preprocessed datast
 cache_root_sparse = f"data/dvsgesture/{w}x{h}_T{n_frames}"
 cached_test_sparse = tonic.DiskCachedDataset(None, cache_path=f"{cache_root_sparse}/test")
 
+
+# this is to find the output layer size (the total number of connections the last layer of 11 neurons will have). 
+# This value (flattenedSize), will be used when we construct the archecture of the CSNN. 
 test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
 x = nn.Conv2d(2, 8, 3)(test_input)
 x = nn.MaxPool2d(2)(x)
@@ -90,7 +101,7 @@ def forward_pass(net, data):
     return torch.stack(spk_rec)  
 
 
-def predict_sample(frames):
+def predict_sample(frames, net):
     frames = torch.tensor(frames, dtype=torch.float)  # [T, 2, H, W]
     spk_rec = forward_pass(net, frames)
     counts = spk_rec.sum(0)            # [1, 11]
@@ -107,7 +118,7 @@ def compute_lzc_from_events(events):
 def evaluate_models_on_dataset(dataset_sparse, dataset_dense, sparse_model, dense_model, bin_size=0.005):
     results = []
     for (events_sparse, label_sparse),(events_dense, label_dense) in zip(dataset_sparse, dataset_dense):
-        lz_value = lempel_ziv_complexity(events_dense)
+        lz_value = lempel_ziv_complexity(events_dense) # we have to figure out which events to calculate the LZC score
         sparse_pred = sparse_model.predict_sample(events_sparse)
         dense_pred = dense_model.predict_sample(events_dense)
         # Choose which model did better for this input
@@ -159,3 +170,12 @@ def threshold_sweep_and_roc(results):
 # dense_model = ... # your trained model
 # results = evaluate_models_on_dataset(dataset, sparse_model, dense_model)
 # optimal_threshold = threshold_sweep_and_roc(results)
+
+print("\n")
+print ("---------------------------------- EVERYTHING LOADED SUCCESSFULLY ----------------------------------")
+print("\n")
+
+
+
+evaluate_models_on_dataset(cached_test_sparse, cached_test_dense, sparse_model, dense_model)
+
