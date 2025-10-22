@@ -1,3 +1,5 @@
+# make sure to have do "pip install PyQT6" otherwise the plt graph for the ROC curve might not show up. 
+
 import numpy as np
 import tonic
 import torch
@@ -92,7 +94,7 @@ print("Model loaded successfully.")
 
 def forward_pass(net, data):
     spk_rec = []
-    snn.utils.reset(net)
+    # snn.utils.reset(net)
     with torch.no_grad():
         for t in range(data.size(0)):          # data: [T, 2, H, W]
             x = data[t].unsqueeze(0).to(device) # -> [1, 2, H, W]
@@ -109,7 +111,8 @@ def predict_sample(frames, net):
 
 
 def compute_lzc_from_events(events):
-    spike_seq = (events['p'] > 0).astype(int).flatten()
+    # print(events.shape)
+    spike_seq = (events).astype(int).flatten()
     spike_seq_string = ''.join(map(str, spike_seq.tolist()))
     lz_score = lempel_ziv_complexity(spike_seq_string)
     return lz_score
@@ -118,9 +121,9 @@ def compute_lzc_from_events(events):
 def evaluate_models_on_dataset(dataset_sparse, dataset_dense, sparse_model, dense_model, bin_size=0.005):
     results = []
     for (events_sparse, label_sparse),(events_dense, label_dense) in zip(dataset_sparse, dataset_dense):
-        lz_value = lempel_ziv_complexity(events_dense) # we have to figure out which events to calculate the LZC score
-        sparse_pred = sparse_model.predict_sample(events_sparse)
-        dense_pred = dense_model.predict_sample(events_dense)
+        lz_value = compute_lzc_from_events(events_dense) # we have to figure out which events to calculate the LZC score
+        sparse_pred = predict_sample(events_sparse, sparse_model)
+        dense_pred = predict_sample(events_dense, dense_model)
         # Choose which model did better for this input
         # Here you decide which model is actually more accurate!
         # Example: assume ground truth label; set as complex IF dense_pred matches label and sparse_pred does NOT
@@ -164,18 +167,12 @@ def threshold_sweep_and_roc(results):
     plt.show()
     return optimal_threshold
 
-# ---- USAGE EXAMPLE ----
-# dataset = ...   # list of (events, label) samples from DVSGesture
-# sparse_model = ... # your trained model
-# dense_model = ... # your trained model
-# results = evaluate_models_on_dataset(dataset, sparse_model, dense_model)
-# optimal_threshold = threshold_sweep_and_roc(results)
 
 print("\n")
 print ("---------------------------------- EVERYTHING LOADED SUCCESSFULLY ----------------------------------")
 print("\n")
 
 
-
-evaluate_models_on_dataset(cached_test_sparse, cached_test_dense, sparse_model, dense_model)
+results = evaluate_models_on_dataset(cached_test_sparse, cached_test_dense, sparse_model, dense_model)
+threshold_sweep_and_roc(results)
 
