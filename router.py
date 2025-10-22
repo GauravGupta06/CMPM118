@@ -4,6 +4,7 @@ import numpy as np
 import tonic
 import torch
 import snntorch as snn
+from snntorch import utils
 import torch.nn as nn
 from lempel_ziv_complexity import lempel_ziv_complexity
 from sklearn.metrics import roc_curve, auc
@@ -93,8 +94,8 @@ print("Model loaded successfully.")
 
 
 def forward_pass(net, data):
+    utils.reset(net)
     spk_rec = []
-    # snn.utils.reset(net)
     with torch.no_grad():
         for t in range(data.size(0)):          # data: [T, 2, H, W]
             x = data[t].unsqueeze(0).to(device) # -> [1, 2, H, W]
@@ -166,6 +167,7 @@ def threshold_sweep_and_roc(results):
     plt.tight_layout()
     plt.show()
     return optimal_threshold
+
 
 
 print("\n")
