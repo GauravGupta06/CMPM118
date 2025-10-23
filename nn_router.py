@@ -3,6 +3,8 @@ import torch, torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, Subset
 import torchvision.datasets as datasets
 from torchvision.transforms import v2
+import pandas as pd
+import matplotlib.pyplot as plt
 
 """
 Possible Approaches:
@@ -45,5 +47,92 @@ Possible Approaches:
 class ANN_Router(nn.Module):
     def __init__(self):
         super().__init__()
-        #self.layer1 = nn.Linear()
-        #self.activation = nn.ReLU()
+        self.layer1 = nn.Linear(6, 32)
+        self.layer2 = nn.Linear(32, 32)
+        self.layer3 = nn.Linear(32, 32)
+        self.layer4 = nn.Linear(32, 32)
+        self.layer5 = nn.Linear(32, 2)
+        self.activation = nn.ReLU()
+
+    def forward(self, input):
+      partial = self.activation(self.layer1(input))
+      partial = self.activation(self.layer2(partial))
+      partial = self.activation(self.layer3(partial))
+      partial = self.activation(self.layer4(partial))
+      output = self.layer5(partial)
+      return output
+    
+device = "cuda" if torch.cuda.is_available() else 'cpu'
+print(f"Using device: {device}")
+    
+model = ANN_Router().to(device)
+
+loss_function = nn.CrossEntropyLoss()
+
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001) 
+    
+NUM_EPOCHS = 1
+
+all_losses = []
+average = []
+for i in range(NUM_EPOCHS):
+    model.train()
+
+    # For printing average
+    total_loss = 0
+    num_batches = 0
+
+    for x, y in train_dataloader:
+        x = x.to(device)
+        y = y.to(device)
+        
+        # PREDICT
+        pred = model(x)
+
+        # SCORE
+        loss = loss_function(pred, y)
+        
+        confidences = torch.softmax(pred, dim=1) 
+        max_confidences, predictions = torch.max(confidences, dim=1)
+
+        # LEARN
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+
+        total_loss += loss.item()
+        num_batches += 1
+        all_losses.append(loss.item()) 
+    average.append(total_loss / num_batches)
+    print(f"Epoch: {i+1} / Loss Average: {total_loss / num_batches}")
+
+
+model.eval()
+
+# TESTING LOOP    
+with torch.no_grad():
+    
+    # For printing average
+    total_loss = 0
+    num_batches = 0
+
+    for x, y in test_dataloader:
+        # PREDICT
+        pred = model(x)
+
+        # SCORE
+        loss = loss_function(pred, y)
+
+        total_loss += loss.item()
+        num_batches += 1
+
+    print(f"TEST LOOP / Loss Average: {total_loss / num_batches}")
+
+fig, axs = plt.subplots(2, 1)
+linear = np.linspace(0, 80, 5680)
+avg_linear = np.linspace(0, 80, 80)
+axs[0].plot(linear, all_losses)
+axs[0].set_title('All Losses')
+axs[1].plot(avg_linear, average)
+axs[1].set_title('Average')
+plt.show()
