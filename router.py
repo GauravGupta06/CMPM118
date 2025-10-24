@@ -10,22 +10,31 @@ from lempel_ziv_complexity import lempel_ziv_complexity
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 
-#larger model net
+
+
+
+
+
+
+
+
+
+#larger model net 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 print(device) 
 
-w = 64
-h = 64
-n_frames = 100
+w_large = 64
+h_large = 64
+n_frames_large = 100
 
 # Load in the large preprocessed datast
-cache_root_dense = f"data/dvsgesture/{w}x{h}_T{n_frames}"
+cache_root_dense = f"data/dvsgesture/{w_large}x{h_large}_T{n_frames_large}"
 cached_test_dense= tonic.DiskCachedDataset(None, cache_path=f"{cache_root_dense}/test")
 
 
 # this is to find the output layer size (the total number of connections the last layer of 11 neurons will have). 
 # This value (flattenedSize), will be used when we construct the archecture of the CSNN. 
-test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
+test_input = torch.zeros((1, 2, w_large, h_large))  # 2 polarity channels
 x = nn.Conv2d(2, 12, 5)(test_input)
 x = nn.MaxPool2d(2)(x)
 x = nn.Conv2d(12, 32, 5)(x)
@@ -54,20 +63,43 @@ dense_model.load_state_dict(torch.load(model_path, map_location=device))
 dense_model.eval()
 print("Model loaded successfully.")
 
-#small model net
-w = 32
-h = 32
-n_frames = 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#small model net 
+w_small = 32
+h_small = 32
+n_frames_small = 10
 
 
 # Load in the small preprocessed datast
-cache_root_sparse = f"data/dvsgesture/{w}x{h}_T{n_frames}"
+cache_root_sparse = f"data/dvsgesture/{w_small}x{h_small}_T{n_frames_small}"
 cached_test_sparse = tonic.DiskCachedDataset(None, cache_path=f"{cache_root_sparse}/test")
 
 
 # this is to find the output layer size (the total number of connections the last layer of 11 neurons will have). 
 # This value (flattenedSize), will be used when we construct the archecture of the CSNN. 
-test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
+test_input = torch.zeros((1, 2, w_small, h_small))  # 2 polarity channels
 x = nn.Conv2d(2, 8, 3)(test_input)
 x = nn.MaxPool2d(2)(x)
 print("Output shape before flatten:", x.shape)
@@ -75,7 +107,7 @@ print("Flattened size:", x.numel())
 flattenedSize = x.numel()
 
 grad = snn.surrogate.fast_sigmoid(slope=25)
-beta = 0.5
+beta = 0.15
 
 sparse_model = nn.Sequential(
     nn.Conv2d(2, 8, 3), # in_channels, out_channels, kernel_size
@@ -86,10 +118,28 @@ sparse_model = nn.Sequential(
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
 ).to(device)
 
-model_path = "results/small/models/Small_Take2_32x32_T5.pth"
+model_path = "results/small/models/Small_Take6_32x32_T10.pth"
 sparse_model.load_state_dict(torch.load(model_path, map_location=device))
 sparse_model.eval()
 print("Model loaded successfully.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -165,6 +215,14 @@ def threshold_sweep_and_roc(results):
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
+
+
+
+
+    graph_save_path = f"results/large/graphs/Small:{w_small}x{h_small}_T{n_frames_small}_Large:{w_large}x{h_large}_T{n_frames_large}.png"
+    plt.savefig(graph_save_path)
+
+
     plt.show()
     return optimal_threshold
 
@@ -172,7 +230,8 @@ def threshold_sweep_and_roc(results):
 
 print("\n")
 print ("---------------------------------- EVERYTHING LOADED SUCCESSFULLY ----------------------------------")
-print("\n")
+print("\n") 
+print("starting evaluation")
 
 
 results = evaluate_models_on_dataset(cached_test_sparse, cached_test_dense, sparse_model, dense_model)
