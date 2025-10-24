@@ -12,13 +12,6 @@ import matplotlib.pyplot as plt
 
 
 
-
-
-
-
-
-
-
 #larger model net 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 print(device) 
@@ -226,6 +219,44 @@ def threshold_sweep_and_roc(results):
     plt.show()
     return optimal_threshold
 
+def route_and_evaluate(dataset_sparse, dataset_dense, sparse_model, dense_model, optimal_threshold, lz_values = None):
+    print("\nRouting and evaluating with threshold:", optimal_threshold)
+    correct_sparse = 0
+    correct_dense = 0
+    route_counts = {'sparse': 0, 'dense': 0}
+
+    if lz_values is None:
+        lz_values = [compute_lzc_from_events(e) for e, _ in dataset_dense]
+
+    for i,(events_sparse, label_sparse), (events_dense, label_dense) in enumerate(zip(dataset_sparse, dataset_dense)):
+        lz_value = lz_values[i]
+
+        if lz_value < optimal_threshold:
+            route_counts['sparse'] += 1
+            pred = predict_sample(events_sparse, sparse_model)
+            if pred == label_sparse:
+                correct_sparse += 1
+        else:
+            route_counts['dense'] += 1
+            pred = predict_sample(events_dense, dense_model)
+            if pred == label_dense:
+                correct_dense += 1
+    
+    accuracy_dense = correct_dense/route_counts['dense'] if route_counts['dense'] > 0 else 0
+    accuracy_sparse = correct_sparse/route_counts['sparse'] if route_counts['sparse'] > 0 else 0
+
+    total_correct = correct_dense + correct_sparse
+    total_samples = route_counts['sparse'] + route_counts['dense']
+    total_accuracy = total_correct/total_samples
+
+    print(f"\n Dense Model accuracy after routing: {accuracy_dense*100: .2f}%")
+    print(f"\n Sparse Model accuracy after routing: {accuracy_sparse*100: .2f}%")
+    print(f"\n Overall Accuracy after routing: {total_accuracy*100: .2f}%")
+    print(f"Routed {route_counts['sparse']} samples to SMALL model")
+    print(f"Routed {route_counts['dense']} samples to LARGE model")
+
+    return total_accuracy, accuracy_dense, accuracy_sparse, route_counts
+
 
 
 print("\n")
@@ -235,5 +266,12 @@ print("starting evaluation")
 
 
 results = evaluate_models_on_dataset(cached_test_sparse, cached_test_dense, sparse_model, dense_model)
-threshold_sweep_and_roc(results)
+optimal_threshold = threshold_sweep_and_roc(results)
+
+lz_values = [compute_lzc_from_events(e) for e, _ in cached_test_dense]
+route_and_evaluate(cached_test_sparse, cached_test_dense, sparse_model, dense_model, optimal_threshold, lz_values)
+
+
+
+
 
