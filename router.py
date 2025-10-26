@@ -9,6 +9,15 @@ import torch.nn as nn
 from lempel_ziv_complexity import lempel_ziv_complexity
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
+from collections import Counter
+
+
+
+
+
+
+
+
 
 
 
@@ -82,7 +91,7 @@ print("Model loaded successfully.")
 #small model net 
 w_small = 32
 h_small = 32
-n_frames_small = 10
+n_frames_small = 20
 
 
 # Load in the small preprocessed datast
@@ -111,7 +120,7 @@ sparse_model = nn.Sequential(
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
 ).to(device)
 
-model_path = "results/small/models/Small_Take6_32x32_T10.pth"
+model_path = "results/small/models/Small_Take4_32x32_T20.pth"
 sparse_model.load_state_dict(torch.load(model_path, map_location=device))
 sparse_model.eval()
 print("Model loaded successfully.")
@@ -139,19 +148,32 @@ print("Model loaded successfully.")
 def forward_pass(net, data):
     utils.reset(net)
     spk_rec = []
+    spike_count = 0
     with torch.no_grad():
         for t in range(data.size(0)):          # data: [T, 2, H, W]
             x = data[t].unsqueeze(0).to(device) # -> [1, 2, H, W]
-            spk_out, _ = net(x)
-            spk_rec.append(spk_out)             # [1, 11]
-    return torch.stack(spk_rec)  
+
+            for layer in net:
+                x = layer(x)
+                if isinstance(layer, snn.Leaky):
+                    if isinstance(x, tuple):
+                        spikes, mem = x
+                    else:
+                        spikes = x 
+                    spike_count += spikes.sum().item()
+                    x = spikes
+            
+            # now x should be the last layer's spikes, so we append to spk_rec
+            spk_rec.append(x)
+
+    return torch.stack(spk_rec), spike_count  
 
 
 def predict_sample(frames, net):
     frames = torch.tensor(frames, dtype=torch.float)  # [T, 2, H, W]
-    spk_rec = forward_pass(net, frames)
+    spk_rec, spike_count = forward_pass(net, frames)
     counts = spk_rec.sum(0)            # [1, 11]
-    return counts.argmax(1).item()
+    return counts.argmax(1).item(), spike_count
 
 
 def compute_lzc_from_events(events):
@@ -166,8 +188,8 @@ def evaluate_models_on_dataset(dataset_sparse, dataset_dense, sparse_model, dens
     results = []
     for (events_sparse, label_sparse),(events_dense, label_dense) in zip(dataset_sparse, dataset_dense):
         lz_value = compute_lzc_from_events(events_dense) # we have to figure out which events to calculate the LZC score
-        sparse_pred = predict_sample(events_sparse, sparse_model)
-        dense_pred = predict_sample(events_dense, dense_model)
+        sparse_pred, spike_count_sparse = predict_sample(events_sparse, sparse_model)
+        dense_pred, spike_count_dense = predict_sample(events_dense, dense_model)
         # Choose which model did better for this input
         # Here you decide which model is actually more accurate!
         # Example: assume ground truth label; set as complex IF dense_pred matches label and sparse_pred does NOT
@@ -182,9 +204,13 @@ def evaluate_models_on_dataset(dataset_sparse, dataset_dense, sparse_model, dens
             'lz_value': lz_value,
             'sparse_pred': sparse_pred,
             'dense_pred': dense_pred,
-            'true_complex': true_complex
+            'true_complex': true_complex,
+            'dense_spikes': spike_count_dense,
+            'sparse_spikes': spike_count_sparse
         })
     return results
+
+
 
 # 3. Threshold sweep, ROC-AUC curve, and optimal LZC threshold
 def threshold_sweep_and_roc(results):
@@ -196,6 +222,18 @@ def threshold_sweep_and_roc(results):
     gmean = np.sqrt(tpr * (1 - fpr))
     idx = np.argmax(gmean)
     optimal_threshold = thresholds[idx]
+
+
+
+
+
+    average_spike_dense = np.mean([r['dense_spikes'] for r in results])
+    average_spike_sparse = np.mean([r['sparse_spikes'] for r in results])
+
+    print(f"average spike dense: {average_spike_dense:.2f}")
+    print(f"average spike sparse: {average_spike_sparse:.2f}")
+
+
     print(f"Optimal LZC threshold: {optimal_threshold:.4f} (G-mean={gmean[idx]:.4f}) (AUC={roc_auc:.4f})")
     # Plot
     plt.figure(figsize=(8,6))
@@ -212,7 +250,7 @@ def threshold_sweep_and_roc(results):
 
 
 
-    graph_save_path = f"results/large/graphs/Small:{w_small}x{h_small}_T{n_frames_small}_Large:{w_large}x{h_large}_T{n_frames_large}.png"
+    graph_save_path = f"results/ROC_curves:{w_small}x{h_small}_T{n_frames_small}_Large:{w_large}x{h_large}_T{n_frames_large}.png"
     plt.savefig(graph_save_path)
 
 
