@@ -25,9 +25,9 @@ from collections import Counter
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 print(device) 
 
-w_large = 64
-h_large = 64
-n_frames_large = 100
+w_large = 32
+h_large = 32
+n_frames_large = 32
 
 # Load in the large preprocessed datast
 cache_root_dense = f"data/dvsgesture/{w_large}x{h_large}_T{n_frames_large}"
@@ -46,7 +46,7 @@ print("Flattened size:", x.numel())
 flattenedSize = x.numel()
 
 grad = snn.surrogate.fast_sigmoid(slope=25)
-beta = 0.5 #this is the decay rate of the pontential inside each neuron. The lower this value, the fewer the spikes 
+beta = 0.6 #this is the decay rate of the pontential inside each neuron. The lower this value, the fewer the spikes 
 
 dense_model = nn.Sequential(
     nn.Conv2d(2, 12, 5),
@@ -60,7 +60,7 @@ dense_model = nn.Sequential(
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
 ).to(device)
 
-model_path = "results/large/models/Large_Take4.pth"
+model_path = "results/large/models/Non_Sparse_Take89_32x32_T32.pth"
 dense_model.load_state_dict(torch.load(model_path, map_location=device))
 dense_model.eval()
 print("Model loaded successfully.")
@@ -91,7 +91,7 @@ print("Model loaded successfully.")
 #small model net 
 w_small = 32
 h_small = 32
-n_frames_small = 20
+n_frames_small = 32
 
 
 # Load in the small preprocessed datast
@@ -101,26 +101,31 @@ cached_test_sparse = tonic.DiskCachedDataset(None, cache_path=f"{cache_root_spar
 
 # this is to find the output layer size (the total number of connections the last layer of 11 neurons will have). 
 # This value (flattenedSize), will be used when we construct the archecture of the CSNN. 
-test_input = torch.zeros((1, 2, w_small, h_small))  # 2 polarity channels
-x = nn.Conv2d(2, 8, 3)(test_input)
+test_input = torch.zeros((1, 2, w_large, h_large))  # 2 polarity channels
+x = nn.Conv2d(2, 12, 5)(test_input)
+x = nn.MaxPool2d(2)(x)
+x = nn.Conv2d(12, 32, 5)(x)
 x = nn.MaxPool2d(2)(x)
 print("Output shape before flatten:", x.shape)
 print("Flattened size:", x.numel())
 flattenedSize = x.numel()
 
 grad = snn.surrogate.fast_sigmoid(slope=25)
-beta = 0.15
+beta = 0.45 #this is the decay rate of the pontential inside each neuron. The lower this value, the fewer the spikes 
 
 sparse_model = nn.Sequential(
-    nn.Conv2d(2, 8, 3), # in_channels, out_channels, kernel_size
+    nn.Conv2d(2, 12, 5),
+    nn.MaxPool2d(2),
+    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
+    nn.Conv2d(12, 32, 5),
     nn.MaxPool2d(2),
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
     nn.Flatten(),
-    nn.Linear(flattenedSize, 11),
+    nn.Linear(flattenedSize, 11),   # make sure 800 matches flattenedSize
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
 ).to(device)
 
-model_path = "results/small/models/Small_Take4_32x32_T20.pth"
+model_path = "results/small/models/Sparse_Take44_32x32_T32.pth"
 sparse_model.load_state_dict(torch.load(model_path, map_location=device))
 sparse_model.eval()
 print("Model loaded successfully.")
@@ -257,6 +262,23 @@ def threshold_sweep_and_roc(results):
     plt.show()
     return optimal_threshold
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def route_and_evaluate(dataset_sparse, dataset_dense, sparse_model, dense_model, optimal_threshold, lz_values = None):
     print("\nRouting and evaluating with threshold:", optimal_threshold)
     correct_sparse = 0
@@ -266,17 +288,17 @@ def route_and_evaluate(dataset_sparse, dataset_dense, sparse_model, dense_model,
     if lz_values is None:
         lz_values = [compute_lzc_from_events(e) for e, _ in dataset_dense]
 
-    for i,(events_sparse, label_sparse), (events_dense, label_dense) in enumerate(zip(dataset_sparse, dataset_dense)):
+    for i, ((events_sparse, label_sparse), (events_dense, label_dense)) in enumerate(zip(dataset_sparse, dataset_dense)):
         lz_value = lz_values[i]
 
         if lz_value < optimal_threshold:
             route_counts['sparse'] += 1
-            pred = predict_sample(events_sparse, sparse_model)
+            pred, _ = predict_sample(events_sparse, sparse_model)
             if pred == label_sparse:
                 correct_sparse += 1
         else:
             route_counts['dense'] += 1
-            pred = predict_sample(events_dense, dense_model)
+            pred, _ = predict_sample(events_dense, dense_model)
             if pred == label_dense:
                 correct_dense += 1
     
@@ -297,11 +319,32 @@ def route_and_evaluate(dataset_sparse, dataset_dense, sparse_model, dense_model,
 
 
 
+
+
+
+
+
+
+
+
+
+
 print("\n")
 print ("---------------------------------- EVERYTHING LOADED SUCCESSFULLY ----------------------------------")
 print("\n") 
 print("starting evaluation")
 
+
+# LZCValues = []
+# for (events_dense, label_dense) in cached_test_dense:
+#     lz_value = compute_lzc_from_events(events_dense)
+#     LZCValues.append(lz_value)
+# plt.figure()
+# plt.hist(LZCValues, bins=30)   # adjust bins if needed
+# plt.xlabel("LZC Value")
+# plt.ylabel("Frequency")
+# plt.title("Histogram of LZC Values")
+# plt.show()
 
 results = evaluate_models_on_dataset(cached_test_sparse, cached_test_dense, sparse_model, dense_model)
 optimal_threshold = threshold_sweep_and_roc(results)
