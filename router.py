@@ -60,7 +60,7 @@ dense_model = nn.Sequential(
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
 ).to(device)
 
-model_path = "results/large/models/Non_Sparse_Take89_32x32_T32.pth"
+model_path = "results/large/models/Non_Sparse_Take6_32x32_T32.pth"
 dense_model.load_state_dict(torch.load(model_path, map_location=device))
 dense_model.eval()
 print("Model loaded successfully.")
@@ -125,7 +125,7 @@ sparse_model = nn.Sequential(
     snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
 ).to(device)
 
-model_path = "results/small/models/Sparse_Take44_32x32_T32.pth"
+model_path = "results/small/models/Sparse_Take47_32x32_T32.pth"
 sparse_model.load_state_dict(torch.load(model_path, map_location=device))
 sparse_model.eval()
 print("Model loaded successfully.")
