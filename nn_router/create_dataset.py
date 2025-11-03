@@ -3,70 +3,72 @@ import torch, torch.nn as nn
 import pandas as pd
 import matplotlib.pyplot as plt
 import snntorch as snn
+from snntorch import surrogate
+from snntorch import functional as SF
+from snntorch import utils
 import csv
 import tonic
 from lempel_ziv_complexity import lempel_ziv_complexity
 
+import sys
+sys.path.insert(0, "../.")
+from SNN_model import SNNModel
+from LoadDataset import load_dataset
+
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 print(f"Using device: {device}")
 
-grad = snn.surrogate.fast_sigmoid(slope=25)
-beta = 0.5
+width = 32
+height = 32
+n_frames = 32
 
-# -- LOAD LARGE SNN --
-w,h=64,64
-n_frames=100
-test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
-x = nn.Conv2d(2, 12, 5)(test_input)
-x = nn.MaxPool2d(2)(x)
-x = nn.Conv2d(12, 32, 5)(x)
-x = nn.MaxPool2d(2)(x)
-print("Output shape before flatten:", x.shape)
-print("Flattened size:", x.numel())
-flattenedSize = x.numel()
 
-net_l = nn.Sequential(
-    nn.Conv2d(2, 12, 5),
-    nn.MaxPool2d(2),
-    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
-    nn.Conv2d(12, 32, 5),
-    nn.MaxPool2d(2),
-    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
-    nn.Flatten(),
-    nn.Linear(flattenedSize, 11),   # make sure 800 matches flattenedSize
-    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
-).to(device)
+cached_train, cached_test, num_classes = load_dataset(
+    dataset_name="DVSGesture",  # or "ASLDVS"
+    dataset_path='/Users/q-bh/repos/CMPM118/data',
+    w=width,
+    h=height,
+    n_frames=n_frames
+)
 
-model_path = "../results/large/models/Large_Take4.pth"
-net_l.load_state_dict(torch.load(model_path, map_location=device))
-print("Large model loaded successfully.")
 
-# -- LOAD SMALL SNN --
-w,h=32,32
-n_frames=5
-test_input = torch.zeros((1, 2, w, h))  # 2 polarity channels
-x = nn.Conv2d(2, 8, 3)(test_input)
-x = nn.MaxPool2d(2)(x)
-print("Output shape before flatten:", x.shape)
-print("Flattened size:", x.numel())
-flattenedSize = x.numel()
+# -- LOAD DENSE SNN --
+dense_model = SNNModel(
+    w=width,
+    h=height,
+    n_frames=n_frames,
+    beta= 0.6,
+    spike_lam= 0,
+    slope= 25,
+    model_type="dense",
+    device=device
+)
 
-net_s = nn.Sequential(
-    nn.Conv2d(2, 8, 3), # in_channels, out_channels, kernel_size
-    nn.MaxPool2d(2),
-    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True),
-    nn.Flatten(),
-    nn.Linear(flattenedSize, 11),
-    snn.Leaky(beta=beta, spike_grad=grad, init_hidden=True, output=True)
-).to(device)
+model_path = "../results/large/models/Non_Sparse_Take91_32x32_T32_B0.6_SpkLam0_Epochs200.pth"
+dense_model.load_model(model_path)
 
-model_path = "../results/small/models/Small_Take2_32x32_T5.pth"
-net_s.load_state_dict(torch.load(model_path, map_location=device))
-print("Small model loaded successfully.")
+print("Dense model loaded successfully.")
+
+# -- LOAD SPARSE SNN --
+sparse_model = SNNModel(
+    w=width,
+    h=height,
+    n_frames=n_frames,
+    beta= 0.6,
+    spike_lam= 0,
+    slope= 25,
+    model_type="dense",
+    device=device
+)
+
+model_path = "../results/small/models/Sparse_Take47_32x32_T32.pth"
+sparse_model.load_model(model_path)
+
+print("Sparse model loaded successfully.")
 
 
 
-cache_root = f"../data/dvsgesture/{w}x{h}_T{n_frames}"
+cache_root = f"../data/dvsgesture/{width}x{height}_T{n_frames}"
 
 # -- WRITE DATA INTO data_train.csv --
 cached_train = tonic.DiskCachedDataset(None, cache_path=f"{cache_root}/train")
@@ -151,7 +153,7 @@ def predict_sample(net, frames):
 
 # -- WRITE DATA INTO data_nn.csv --
 print("Creating data_snn.csv...")
-
+"""
 with open("data_snn.csv", "w", newline="") as file:
     writer = csv.writer(file)
     writer.writerow(["use_small", "use_large"])
@@ -165,5 +167,5 @@ with open("data_train.csv", "a", newline="") as file:
 
         writer.writerow([None, None])
         break
-
+"""
 print("data_snn.csv has been created")
