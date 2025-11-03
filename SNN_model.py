@@ -121,7 +121,6 @@ class SNNModel:
             print_every: Print stats every N iterations
         """
         cnt = 0
-        
         for epoch in range(num_epochs):
             for batch, (data, targets) in enumerate(iter(train_loader)):
                 data = data.to(self.device)
