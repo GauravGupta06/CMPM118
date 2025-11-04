@@ -25,24 +25,23 @@ height = 32
 n_frames = 32
 
 
-# cached_train, cached_test, num_classes = load_dataset(
-#     dataset_name="DVSGesture",  # or "ASLDVS"
-#     dataset_path='data',
-#     w=width,
-#     h=height,
-#     n_frames=n_frames,
-#     loadCacheOnly= True
-# )
-
-
-
 cached_train, cached_test, num_classes = load_dataset(
-    dataset_name="ASLDVS",  # or "DVSGesture"
+    dataset_name="DVSGesture",  # or "ASLDVS"
     dataset_path='data',
     w=width,
     h=height,
-    n_frames=n_frames
+    n_frames=n_frames,
 )
+
+
+
+# cached_train, cached_test, num_classes = load_dataset(
+#     dataset_name="ASLDVS",  # or "DVSGesture"
+#     dataset_path='data',
+#     w=width,
+#     h=height,
+#     n_frames=n_frames
+# )
 
 
 # Create and load dense model
