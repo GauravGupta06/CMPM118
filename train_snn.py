@@ -25,13 +25,23 @@ height = 32
 n_frames = 32
 
 
+# cached_train, cached_test, num_classes = load_dataset(
+#     dataset_name="DVSGesture",  # or "ASLDVS"
+#     dataset_path='data',
+#     w=width,
+#     h=height,
+#     n_frames=n_frames,
+#     loadCacheOnly= True
+# )
+
+
+
 cached_train, cached_test, num_classes = load_dataset(
-    dataset_name="DVSGesture",  # or "ASLDVS"
+    dataset_name="ASLDVS",  # or "DVSGesture"
     dataset_path='data',
     w=width,
     h=height,
-    n_frames=n_frames,
-    loadCacheOnly= True
+    n_frames=n_frames
 )
 
 
@@ -52,16 +62,12 @@ num_epochs = 200
 active_cores = 4
 
 
-# cache_root = f"data/dvsgesture/{width}x{height}_T{n_frames}"
-# cached_test= tonic.DiskCachedDataset(None, cache_path=f"{cache_root}/test")
-# cached_train = tonic.DiskCachedDataset(None, cache_path=f"{cache_root}/train")
 
 train_loader = torch.utils.data.DataLoader(cached_train, batch_size=64, shuffle=True, num_workers = active_cores, drop_last=True, 
                                            collate_fn=tonic.collation.PadTensors(batch_first=False))
 test_loader = torch.utils.data.DataLoader(cached_test, batch_size=32, shuffle=True, num_workers = active_cores, drop_last=True, 
                                           collate_fn=tonic.collation.PadTensors(batch_first=False))
 
-# def train_model(self, train_loader, test_loader, num_epochs=150, print_every=15):
 
 
 print("starting training")

@@ -4,6 +4,7 @@ import torch.nn as nn
 import tonic.datasets
 
 
+
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 DATASET_CONFIGS = {
@@ -19,6 +20,12 @@ DATASET_CONFIGS = {
         "num_classes": 24,
         "has_train_test_split": False,
     },
+    "SHD": {
+        "class": tonic.datasets.hsd.SHD,
+        "sensor_size": (700, 1, 2),
+        "num_classes": 20,
+        "has_train_test_split": True,
+    },
 }
 
 
@@ -31,13 +38,22 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32, loadCacheO
     sensor_size = config["sensor_size"]
     num_classes = config["num_classes"]
     has_train_test_split = config["has_train_test_split"]
-    
-    # Setup transforms
-    transforms = tonic.transforms.Compose([
-        tonic.transforms.Denoise(filter_time=10000),
-        tonic.transforms.Downsample(sensor_size=sensor_size, target_size=(w, h)),
-        tonic.transforms.ToFrame(sensor_size=(w, h, 2), n_time_bins=n_frames),
-    ])
+
+
+
+
+
+
+    if dataset_name == "SHD":
+        transforms = tonic.transforms.Compose([
+            tonic.transforms.ToFrame(sensor_size=sensor_size, n_time_bins=n_frames),
+        ])
+    else:
+        transforms = tonic.transforms.Compose([
+            tonic.transforms.Denoise(filter_time=10000),
+            tonic.transforms.Downsample(sensor_size=sensor_size, target_size=(w, h)),
+            tonic.transforms.ToFrame(sensor_size=(w, h, 2), n_time_bins=n_frames),
+        ])
     
 
     # Download and load dataset (Tonic automatically checks if already downloaded)
@@ -60,22 +76,55 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32, loadCacheO
     
 
     # Cache the preprocessed data
-    cache_root = f"{dataset_path}/{dataset_name.lower()}/{w}x{h}_T{n_frames}"
+
+
+
+    if dataset_name == "SHD":
+        cache_root = f"{dataset_path}/{dataset_name.lower()}/700x1_T{n_frames}"
+    else:
+        cache_root = f"{dataset_path}/{dataset_name.lower()}/{w}x{h}_T{n_frames}"
+        
     cached_train = tonic.DiskCachedDataset(train_dataset, cache_path=f"{cache_root}/train")
     cached_test = tonic.DiskCachedDataset(test_dataset, cache_path=f"{cache_root}/test")
+
+    for _ in cached_train:
+        pass
+    for _ in cached_test:
+        pass
     
-    # print(f"Dataset: {dataset_name}")
-    # print(f"Train samples: {len(cached_train)}")
-    # print(f"Test samples: {len(cached_test)}")
-    # print(f"Number of classes: {num_classes}")
+    print(f"Dataset: {dataset_name}")
+    print(f"Train samples: {len(cached_train)}")
+    print(f"Test samples: {len(cached_test)}")
+    print(f"Number of classes: {num_classes}")
     
     return cached_train, cached_test, num_classes
 
 
 
 
+if __name__ == "__main__":
+    dataset_name = "SHD"
+    dataset_path = "/home/gauravgupta/CMPM118/data"  # change path if needed
+    w, h, n_frames = 700, 1, 100  # typical temporal bin count for SHD
 
+    cached_train, cached_test, num_classes = load_dataset(
+        dataset_name=dataset_name,
+        dataset_path=dataset_path,
+        w=w,
+        h=h,
+        n_frames=n_frames,
+        loadCacheOnly=False
+    )
 
+    print("✅ SHD dataset loaded successfully")
+    print(f"Classes: {num_classes}")
+
+    # print("Pre-caching full dataset (this can take a while)...")
+    # for i in range(len(cached_train)):
+    #     _ = cached_train[i]
+    # for i in range(len(cached_test)):
+    #     _ = cached_test[i]
+    # print("✅ All samples cached.")
 
 
 
