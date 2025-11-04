@@ -1,3 +1,2 @@
-/data/DVSGesture
-trash.py
-.venv   
+__pycache__/
+data/DVSGesture

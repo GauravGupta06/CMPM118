@@ -17,7 +17,7 @@ from LoadDataset import load_dataset
 
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-print(device)
+print("using " + str(device))
 
 
 width = 32
@@ -25,13 +25,14 @@ height = 32
 n_frames = 32
 
 
-# cached_train, cached_test, num_classes = load_dataset(
-#     dataset_name="DVSGesture",  # or "ASLDVS"
-#     dataset_path='/home/gauravgupta/CMPM118/data',
-#     w=width,
-#     h=height,
-#     n_frames=n_frames
-# )
+cached_train, cached_test, num_classes = load_dataset(
+    dataset_name="DVSGesture",  # or "ASLDVS"
+    dataset_path='data',
+    w=width,
+    h=height,
+    n_frames=n_frames,
+    loadCacheOnly= True
+)
 
 
 # Create and load dense model
@@ -51,9 +52,9 @@ num_epochs = 200
 active_cores = 4
 
 
-cache_root = f"data/dvsgesture/{width}x{height}_T{n_frames}"
-cached_test= tonic.DiskCachedDataset(None, cache_path=f"{cache_root}/test")
-cached_train = tonic.DiskCachedDataset(None, cache_path=f"{cache_root}/train")
+# cache_root = f"data/dvsgesture/{width}x{height}_T{n_frames}"
+# cached_test= tonic.DiskCachedDataset(None, cache_path=f"{cache_root}/test")
+# cached_train = tonic.DiskCachedDataset(None, cache_path=f"{cache_root}/train")
 
 train_loader = torch.utils.data.DataLoader(cached_train, batch_size=64, shuffle=True, num_workers = active_cores, drop_last=True, 
                                            collate_fn=tonic.collation.PadTensors(batch_first=False))
