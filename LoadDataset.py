@@ -2,6 +2,7 @@ import tonic
 import torch
 import torch.nn as nn
 import tonic.datasets
+import os
 
 
 
@@ -29,7 +30,7 @@ DATASET_CONFIGS = {
 }
 
 
-def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32, loadCacheOnly = False):
+def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32):
 
     
     # Get config for selected dataset
@@ -38,6 +39,15 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32, loadCacheO
     sensor_size = config["sensor_size"]
     num_classes = config["num_classes"]
     has_train_test_split = config["has_train_test_split"]
+
+
+
+    if dataset_name == "SHD":
+        cache_root = f"{dataset_path}/{dataset_name.lower()}/700x1_T{n_frames}"
+    else:
+        cache_root = f"{dataset_path}/{dataset_name.lower()}/{w}x{h}_T{n_frames}"
+
+    loadCacheOnly = cache_exists = os.path.exists(f"{cache_root}/train") and os.path.exists(f"{cache_root}/test")
 
 
 
@@ -79,33 +89,34 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32, loadCacheO
 
 
 
-    if dataset_name == "SHD":
-        cache_root = f"{dataset_path}/{dataset_name.lower()}/700x1_T{n_frames}"
-    else:
-        cache_root = f"{dataset_path}/{dataset_name.lower()}/{w}x{h}_T{n_frames}"
+    
         
     cached_train = tonic.DiskCachedDataset(train_dataset, cache_path=f"{cache_root}/train")
     cached_test = tonic.DiskCachedDataset(test_dataset, cache_path=f"{cache_root}/test")
 
-    for _ in cached_train:
-        pass
-    for _ in cached_test:
-        pass
+    if (not loadCacheOnly):
+        for _ in cached_train:
+            pass
+        for _ in cached_test:
+            pass
     
-    print(f"Dataset: {dataset_name}")
-    print(f"Train samples: {len(cached_train)}")
-    print(f"Test samples: {len(cached_test)}")
-    print(f"Number of classes: {num_classes}")
+    # print(f"Dataset: {dataset_name}")
+    # print(f"Train samples: {len(cached_train)}")
+    # print(f"Test samples: {len(cached_test)}")
+    # print(f"Number of classes: {num_classes}")
     
     return cached_train, cached_test, num_classes
 
 
 
 
+
+# The below code is to test out datasets, and to download/cache them. 
+
 if __name__ == "__main__":
     dataset_name = "SHD"
     dataset_path = "/home/gauravgupta/CMPM118/data"  # change path if needed
-    w, h, n_frames = 700, 1, 100  # typical temporal bin count for SHD
+    w, h, n_frames = 700, 1, 100 # typical temporal bin count for SHD
 
     cached_train, cached_test, num_classes = load_dataset(
         dataset_name=dataset_name,
@@ -113,18 +124,19 @@ if __name__ == "__main__":
         w=w,
         h=h,
         n_frames=n_frames,
-        loadCacheOnly=False
     )
 
-    print("✅ SHD dataset loaded successfully")
-    print(f"Classes: {num_classes}")
+    sample, label = cached_train[0]
+    print(sample.shape, label)
 
-    # print("Pre-caching full dataset (this can take a while)...")
-    # for i in range(len(cached_train)):
-    #     _ = cached_train[i]
-    # for i in range(len(cached_test)):
-    #     _ = cached_test[i]
-    # print("✅ All samples cached.")
+    import matplotlib.pyplot as plt
+    plt.imshow(sample.sum(1).squeeze().T, aspect='auto')
+    plt.title(f"Label: {label}")
+    plt.xlabel("Time bins")
+    plt.ylabel("Frequency channels")
+    plt.show()
+
+
 
 
 
