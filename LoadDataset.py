@@ -22,7 +22,7 @@ DATASET_CONFIGS = {
 }
 
 
-def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32):
+def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32, loadCacheOnly = False):
 
     
     # Get config for selected dataset
@@ -41,18 +41,22 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32):
     
 
     # Download and load dataset (Tonic automatically checks if already downloaded)
-    if has_train_test_split:
-        # DVSGesture has official train/test split
-        train_dataset = dataset_class(save_to=dataset_path, transform=transforms, train=True)
-        test_dataset = dataset_class(save_to=dataset_path, transform=transforms, train=False)
-    else:
-        # ASLDVS needs manual split
-        full_dataset = dataset_class(save_to=dataset_path, transform=transforms)
-        train_size = int(0.8 * len(full_dataset))
-        test_size = len(full_dataset) - train_size
-        train_dataset, test_dataset = torch.utils.data.random_split(
-            full_dataset, [train_size, test_size], generator=torch.Generator().manual_seed(42)
-        )
+
+    train_dataset = None
+    test_dataset = None
+    if (not loadCacheOnly):
+        if has_train_test_split:
+            # DVSGesture has official train/test split
+            train_dataset = dataset_class(save_to=dataset_path, transform=transforms, train=True)
+            test_dataset = dataset_class(save_to=dataset_path, transform=transforms, train=False)
+        else:
+            # ASLDVS needs manual split
+            full_dataset = dataset_class(save_to=dataset_path, transform=transforms)
+            train_size = int(0.8 * len(full_dataset))
+            test_size = len(full_dataset) - train_size
+            train_dataset, test_dataset = torch.utils.data.random_split(
+                full_dataset, [train_size, test_size], generator=torch.Generator().manual_seed(42)
+            )
     
 
     # Cache the preprocessed data
