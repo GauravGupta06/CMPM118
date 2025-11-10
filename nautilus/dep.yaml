@@ -46,6 +46,8 @@ spec:
         volumeMounts:
         - name: examplevol
           mountPath: /pvcvolume
+        - name: dshm
+          mountPath: /dev/shm   # ✅ shared memory mount
         command: ["/bin/bash"]
         args:
           - "-c"
@@ -58,4 +60,8 @@ spec:
       volumes:
       - name: examplevol
         persistentVolumeClaim:
-          claimName: cmpm118
+         claimName: cmpm118
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: "2Gi"   # ✅ increase this if you still run out (try 4Gi if needed)
