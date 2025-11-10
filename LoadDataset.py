@@ -47,7 +47,7 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32):
     else:
         cache_root = f"{dataset_path}/{dataset_name.lower()}/{w}x{h}_T{n_frames}"
 
-    loadCacheOnly = cache_exists = os.path.exists(f"{cache_root}/train") and os.path.exists(f"{cache_root}/test")
+    loadCacheOnly = os.path.exists(f"{cache_root}/train") and os.path.exists(f"{cache_root}/test")
 
 
 

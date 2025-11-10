@@ -12,17 +12,21 @@ from snntorch import utils
 from lempel_ziv_complexity import lempel_ziv_complexity
 
 
+
 from SNN_model import SNNModel
 from LoadDataset import load_dataset
+
 
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 print("using " + str(device))
 
 
+
 width = 32
 height = 32
 n_frames = 32
+
 
 
 cached_train, cached_test, num_classes = load_dataset(
@@ -72,7 +76,5 @@ test_loader = torch.utils.data.DataLoader(cached_test, batch_size=32, shuffle=Tr
 print("starting training")
 dense_model.train_model(train_loader, test_loader, num_epochs = num_epochs)
 dense_model.save_model()
-
-
 
 
