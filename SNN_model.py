@@ -211,7 +211,7 @@ class SNNModel:
 
     def predict_sample(self, frames):
         """Predict with spike counting."""
-        frames = torch.tensor(frames, dtype=torch.float)
+        frames = frames.detach().clone().float()
         with torch.no_grad():
             spk_rec, spike_count = self.forward_pass(frames.unsqueeze(1))
             counts = spk_rec.sum(0)

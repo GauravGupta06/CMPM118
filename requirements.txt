@@ -1,0 +1,6 @@
+%pip install numpy --quiet
+%pip install tonic --quiet
+%pip install matplotlib --quiet
+%pip install snntorch --quiet
+%pip install torch --quiet
+%pip install Lempel-Ziv-Complexity --quiet
