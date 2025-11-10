@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: laurena-dep1
+  name: laurena-dep2
   labels:
     app: any-gpu
 spec:

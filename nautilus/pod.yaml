@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: nginx
-    image: prattk/remidi:v2.0.3
+    image: nvidia/cuda:1.8.0-devel-ubuntu22.04 
     ports:
     - containerPort: 80
 
