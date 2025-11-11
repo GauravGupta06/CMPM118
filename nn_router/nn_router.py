@@ -45,6 +45,23 @@ Possible Approaches:
                    undersampling majority class samples. Also, use precision, recall, & F1-score to evaluate model results, not general accuracy.
 """
 
+class ANN_Router_Dataset(Dataset):
+    def __init__(self, feature_csv, label_csv):
+        self.features = pd.read_csv(feature_csv)
+        self.labels = pd.read_csv(label_csv)
+        self.length = len(self.features)
+
+    def __len__(self):
+        return self.length
+
+    def __getitem__(self, index):
+        input = self.features[index]
+        output = self.labels[index]
+        x = input[[1,2,3,4]]
+        y = output[[6]]
+
+        return x, y
+
 class ANN_Router(nn.Module):
     def __init__(self):
         super().__init__()
@@ -61,10 +78,18 @@ class ANN_Router(nn.Module):
     
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 print(f"Using device: {device}")
+
+#train = pd.read_csv("data_train.csv")
+
+train_dataset = ANN_Router_Dataset("data_train.csv", "data_train_snn.csv")
+train_dataloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+
+#test_dataset = ANN_Router_Dataset("data_test.csv", "data_test_snn.csv")
+#test_dataloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
     
 model = ANN_Router().to(device)
 
-loss_function = nn.CrossEntropyLoss()
+loss_function = nn.BCELoss()
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001) 
     
