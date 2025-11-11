@@ -47,7 +47,7 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32):
     else:
         cache_root = f"{dataset_path}/{dataset_name.lower()}/{w}x{h}_T{n_frames}"
 
-    loadCacheOnly = cache_exists = os.path.exists(f"{cache_root}/train") and os.path.exists(f"{cache_root}/test")
+    loadCacheOnly = os.path.exists(f"{cache_root}/train") and os.path.exists(f"{cache_root}/test")
 
 
 
@@ -100,10 +100,10 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32):
         for _ in cached_test:
             pass
     
-    # print(f"Dataset: {dataset_name}")
-    # print(f"Train samples: {len(cached_train)}")
-    # print(f"Test samples: {len(cached_test)}")
-    # print(f"Number of classes: {num_classes}")
+    print(f"Dataset: {dataset_name}")
+    print(f"Train samples: {len(cached_train)}")
+    print(f"Test samples: {len(cached_test)}")
+    print(f"Number of classes: {num_classes}")
     
     return cached_train, cached_test, num_classes
 
@@ -116,7 +116,11 @@ def load_dataset(dataset_name, dataset_path, w=32, h=32, n_frames=32):
 if __name__ == "__main__":
     dataset_name = "SHD"
     dataset_path = "/home/gauravgupta/CMPM118/data"  # change path if needed
-    w, h, n_frames = 700, 1, 100 # typical temporal bin count for SHD
+    
+    if dataset_name == "DVSGesture":
+        w, h, n_frames = 32, 32, 32 # typical temporal bin count for DVSGesture
+    if dataset_name == "SHD":
+        w, h, n_frames = 700, 1, 100 # typical temporal bin count for DVSGesture
 
     cached_train, cached_test, num_classes = load_dataset(
         dataset_name=dataset_name,
@@ -126,15 +130,15 @@ if __name__ == "__main__":
         n_frames=n_frames,
     )
 
-    sample, label = cached_train[0]
-    print(sample.shape, label)
+    # sample, label = cached_train[2]
+    # print(sample.shape, label)
 
-    import matplotlib.pyplot as plt
-    plt.imshow(sample.sum(1).squeeze().T, aspect='auto')
-    plt.title(f"Label: {label}")
-    plt.xlabel("Time bins")
-    plt.ylabel("Frequency channels")
-    plt.show()
+    # import matplotlib.pyplot as plt
+    # plt.imshow(sample.sum(1).squeeze().T, aspect='auto')
+    # plt.title(f"Label: {label}")
+    # plt.xlabel("Time bins")
+    # plt.ylabel("Frequency channels")
+    # plt.show()
 
 
 
