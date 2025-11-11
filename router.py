@@ -32,12 +32,23 @@ n_frames_small = 32
 # dataset_root = f"data/dvsgesture/{w_large}x{h_large}_T{n_frames_large}"
 # dataset = tonic.DiskCachedDataset(None, cache_path=f"{dataset_root}/test")
 
-cached_train, dataset, num_classes = load_dataset(
+cached_train, cached_test, num_classes = load_dataset(
     dataset_name="DVSGesture",  # or "ASLDVS"
     dataset_path='/home/gauravgupta/CMPM118/data',
     w=32,
     h=32,
     n_frames=32
+)
+
+
+active_cores = 4
+test_loader = torch.utils.data.DataLoader(
+    cached_test, 
+    batch_size=1,  # Process one sample at a time for routing
+    shuffle=False,  # Don't shuffle for consistent evaluation
+    num_workers=active_cores,  # Use multiple cores
+    drop_last=False,  # Keep all samples
+    collate_fn=tonic.collation.PadTensors(batch_first=False)
 )
 
 
@@ -70,6 +81,13 @@ sparse_model.load_model("results/small/models/Sparse_Take47_32x32_T32.pth")
 
 
 def compute_lzc_from_events(events):
+
+    # for events to be passed into the lempel_ziv_complexity() function, it needs to be a string. To do this, we convert events
+    # which is originally a tensor, into a numpy array, and then convert that into a string before passing it into lempel_ziv_complexity(). 
+    if torch.is_tensor(events):
+        events = events.cpu().numpy()
+
+
     spike_seq = (events).astype(int).flatten()
     spike_seq_string = ''.join(map(str, spike_seq.tolist()))
     lz_score = lempel_ziv_complexity(spike_seq_string)
@@ -109,9 +127,27 @@ def compute_isi_entropy_from_events(events, num_bins = 30):
 
     return isi_entropy
 
-def evaluate_models_on_dataset(dataset, sparse_model, dense_model, bin_size=0.005):
+def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, bin_size=0.005):
     results = []
-    for (events, label) in dataset:
+
+    for batch in dataLoader:
+        events, label = batch
+
+
+
+        # the events size has the a batch dimension as well. But because our batch size is just 1, we have to get rid of this deminsion
+        if events.dim() >= 4:
+            events = events.squeeze(1) # this will remove the dimension in index 1
+
+        # for the labels, we need it to be of type int. So we check to see if its a tensor or not, and if it is, then we convert it to int
+        if torch.is_tensor(label):
+            if label.dim() == 0:
+                label = label.item()
+            else:
+                label = label[0].item() if label.shape[0] == 1 else label.item()
+
+
+
         lz_value = compute_lzc_from_events(events)
         sparse_pred, spike_count_sparse = sparse_model.predict_sample(events)
         dense_pred, spike_count_dense = dense_model.predict_sample(events)
@@ -172,17 +208,33 @@ def threshold_sweep_and_roc(results):
     return optimal_threshold
 
 
-def route_and_evaluate(dataset, sparse_model, dense_model, optimal_threshold, results, lz_values=None):
+def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold, results):
     """Route samples to appropriate model and evaluate accuracy."""
     print("\nRouting and evaluating with threshold:", optimal_threshold, "\n")
     correct_sparse = 0
     correct_dense = 0
     route_counts = {'sparse': 0, 'dense': 0}
 
-    if lz_values is None:
-        lz_values = [compute_lzc_from_events(e) for e, _ in dataset]
+    lz_values = [r['lz_value'] for r in results]
 
-    for i, (events, label) in enumerate(dataset):
+    for i, batch in enumerate(dataLoader):
+        events, label = batch
+
+
+
+        # the events size has the a batch dimension as well. But because our batch size is just 1, we have to get rid of this deminsion
+        if events.dim() >= 4:
+            events = events.squeeze(1) # this will remove the dimension in index 1
+
+        # for the labels, we need it to be of type int. So we check to see if its a tensor or not, and if it is, then we convert it to int
+        if torch.is_tensor(label):
+            if label.dim() == 0:
+                label = label.item()
+            else:
+                label = label[0].item() if label.shape[0] == 1 else label.item()
+
+
+
         lz_value = lz_values[i]
 
         if lz_value < optimal_threshold:
@@ -259,8 +311,7 @@ print("starting evaluation")
 # plt.title("Histogram of LZC Values")
 # plt.show()
 
-results = evaluate_models_on_dataset(dataset, sparse_model, dense_model)
+results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
 optimal_threshold = threshold_sweep_and_roc(results)
 
-lz_values = [compute_lzc_from_events(e) for e, _ in dataset]
-route_and_evaluate(dataset, sparse_model, dense_model, optimal_threshold, results, lz_values)
+route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
