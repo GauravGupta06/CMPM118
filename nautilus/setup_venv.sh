@@ -1,9 +1,20 @@
 #!/bin/bash
-cd /root/CMPM118
+# setup_venv.sh — creates venv and installs dependencies
+
+# Go to project directory
+cd /root/CMPM118 || exit
+
+# Create and activate venv
 python3 -m venv .venv
 source .venv/bin/activate
+
+# Upgrade pip
 pip install --upgrade pip
-pip install -r requirements.txt
+
+# Install dependencies
+pip install numpy tonic matplotlib snntorch torch Lempel-Ziv-Complexity
+
+echo "Virtual environment ready. Run 'source .venv/bin/activate' next time to reactivate it."
 
 
 # TO RUN: bash setup_venv.sh
