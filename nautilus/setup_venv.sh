@@ -17,5 +17,5 @@ pip install numpy tonic matplotlib snntorch torch Lempel-Ziv-Complexity
 echo "Virtual environment ready. Run 'source .venv/bin/activate' next time to reactivate it."
 
 
-# TO RUN: bash setup_venv.sh
+# TO RUN: source /root/CMPM118/.venv/bin/activate
 
