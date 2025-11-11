@@ -1,11 +1,17 @@
+# ==========================
+# GPU Deployment
+# ==========================
+# This defines a GPU-enabled deployment that automatically creates
+# pods with your specified container image. Each replica runs one pod.
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: laurena-dep1
+  name: laurena-dep
   labels:
     app: any-gpu
 spec:
-  replicas: 1
+  replicas: 1                         
   revisionHistoryLimit: 2
   strategy:
     type: RollingUpdate
@@ -20,48 +26,52 @@ spec:
       labels:
         app: any-gpu
     spec:
+      restartPolicy: Always
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: nvidia.com/gpu.product
-                operator: In
-                values:
-                - NVIDIA-L4
-                - NVIDIA-A10
-                - NVIDIA-GeForce-RTX-3090
+              - matchExpressions:
+                  - key: nvidia.com/gpu.product
+                    operator: In
+                    values:
+                      - NVIDIA-L4
+                      - NVIDIA-A10
+                      - NVIDIA-GeForce-RTX-3090
+                      - NVIDIA-GeForce-GTX-1080-Ti
+              - matchExpressions:
+                  - key: topology.kubernetes.io/region
+                    operator: In
+                    values:
+                      - us-west
       containers:
-      - name: mypod
-        image: prattk/remidi:v2.0.3
-        resources:
-          limits:
-            memory: 32Gi
-            cpu: "2"
-            nvidia.com/gpu: "1"
-          requests:
-            memory: 32Gi
-            cpu: "2"
-            nvidia.com/gpu: "1"
-        volumeMounts:
-        - name: examplevol
-          mountPath: /pvcvolume
-        - name: dshm
-          mountPath: /dev/shm   # ✅ shared memory mount
-        command: ["/bin/bash"]
-        args:
-          - "-c"
-          - |
-            apt-get update && apt-get install -y byobu htop git
-            eval "$(/root/anaconda3/bin/conda shell.bash hook)" && conda activate pytorch3d_copy
-            echo "Waiting for termination signal..."
-            while [ ! -f over.txt ]; do sleep 10; done
-            echo "Termination signal received. Exiting."
+        - name: gpu-container
+          image: nvcr . io / nvidia / pytorch :22.06 - py3     
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              apt-get update && apt-get install -y byobu htop git
+              echo "Container ready. Sleeping indefinitely..."
+              sleep infinity
+          resources:
+            requests:
+              cpu: "16"
+              memory: "32Gi"
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "16"
+              memory: "32Gi"
+              nvidia.com/gpu: "1"
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: examplevol
+              mountPath: /examplevol
       volumes:
-      - name: examplevol
-        persistentVolumeClaim:
-         claimName: cmpm118
-      - name: dshm
-        emptyDir:
-          medium: Memory
-          sizeLimit: "2Gi"   # ✅ increase this if you still run out (try 4Gi if needed)
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: "16Gi"
+        - name: examplevol
+          persistentVolumeClaim:
+            claimName: cmpm118-rwx

@@ -1,0 +1,17 @@
+# ==========================
+# Persistent Volume Claim (PVC)
+# ==========================
+# This creates a persistent shared storage volume that can be mounted
+# by pods or deployments to save data between restarts.
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cmpm118-rwx
+spec:
+  storageClassName: rook-cephfs       # Dynamic storage provisioner
+  accessModes:
+    - ReadWriteMany                   # Allows multiple pods to mount
+  resources:
+    requests:
+      storage: 100Gi                  # Requested storage size

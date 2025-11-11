@@ -1,11 +1,26 @@
+# ==========================
+# Standalone Pod (for testing)
+# ==========================
+# This defines a single pod (not managed by a Deployment).
+# Useful for debugging or testing container images.
+
 apiVersion: v1
 kind: Pod
 metadata:
   name: laurena-pod
 spec:
   containers:
-  - name: nginx
-    image: nvidia/cuda:1.8.0-devel-ubuntu22.04 
-    ports:
-    - containerPort: 80
-
+    - name: gpu-test
+      image: prattk/remidi:v2.0.3 
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          echo "Standalone pod running. Sleeping..."
+          sleep infinity
+      resources:
+        requests:
+          cpu: "4"
+          memory: "8Gi"
+        limits:
+          cpu: "4"
+          memory: "8Gi"
