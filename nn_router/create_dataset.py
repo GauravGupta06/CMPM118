@@ -88,12 +88,12 @@ print("Creating data_train.csv...")
 
 with open("data_train.csv", "w", newline="") as file:
     writer = csv.writer(file)
-    writer.writerow(["lzc", "entropy", "std", "spike_count"])
+    writer.writerow(["idx", "lzc", "entropy", "std", "spike_count"])
 
 with open("data_train.csv", "a", newline="") as file:
     writer = csv.writer(file)
 
-    for frames, label in cached_train:
+    for i, (frames, label) in enumerate(cached_train):
         flat_seq = (frames > 0).astype(int).flatten()
         
         # LZC
@@ -112,7 +112,7 @@ with open("data_train.csv", "a", newline="") as file:
         # Spike Count
         spike_count = np.sum(flat_seq)
 
-        writer.writerow([lzc, entropy, std, spike_count])
+        writer.writerow([i, lzc, entropy, std, spike_count])
 
 print("data_train.csv has been created")
 """
@@ -127,12 +127,12 @@ print("Creating data_test.csv...")
 
 with open("data_test.csv", "w", newline="") as file:
     writer = csv.writer(file)
-    writer.writerow(["lzc", "entropy", "std", "spike_count"])
+    writer.writerow(["idx", "lzc", "entropy", "std", "spike_count"])
 
-with open("data_train.csv", "a", newline="") as file:
+with open("data_test.csv", "a", newline="") as file:
     writer = csv.writer(file)
 
-    for frames, label in cached_train:
+    for i, (frames, label) in enumerate(cached_test):
         flat_seq = (frames > 0).astype(int).flatten()
         
         # LZC
@@ -151,7 +151,7 @@ with open("data_train.csv", "a", newline="") as file:
         # Spike Count
         spike_count = np.sum(flat_seq)
 
-        writer.writerow([lzc, entropy, std, spike_count])
+        writer.writerow([i, lzc, entropy, std, spike_count])
         
 print("data_test.csv has been created")
 """
@@ -165,7 +165,7 @@ Truth Table:
 | correct_sparse | correct_dense | use_sparse | use_dense |
 +----------------+---------------+------------+-----------+
 |            1.0 |           1.0 | True       | False     |
-|            1.0 |           0.0 | True       | False     |
+|            1.0 |           0.0 | True       | False     | <- This will essentially never happen though
 |            0.0 |           1.0 | False      | True      |
 |            0.0 |           0.0 | False      | True      |
 +----------------+---------------+------------+-----------+
@@ -175,9 +175,8 @@ active_cores = 0
 
 
 # -- WRITE DATA INTO data_train_snn.csv --
-# Note to self: when I get back, I probably wanna change shuffle to = False
 """
-train_loader = torch.utils.data.DataLoader(cached_train, batch_size=1, shuffle=True, num_workers = active_cores, drop_last=True, 
+train_loader = torch.utils.data.DataLoader(cached_train, batch_size=1, num_workers = active_cores, drop_last=True, 
                                            collate_fn=tonic.collation.PadTensors(batch_first=False))
 
 print("Creating data_train_snn.csv...")
@@ -190,7 +189,7 @@ with open("data_train_snn.csv", "a", newline="") as file:
     writer = csv.writer(file)
 
     correct_dense, correct_sparse = 0, 0
-    for frames, label in train_loader:
+    for idx, (frames, label) in enumerate(train_loader):
         pred_dense, _ = dense_model.forward_pass(frames)
         pred_sparse, _ = sparse_model.forward_pass(frames)
 
@@ -204,14 +203,14 @@ with open("data_train_snn.csv", "a", newline="") as file:
             use_sparse = False
             use_dense = True
 
-        writer.writerow([correct_sparse, correct_dense, use_sparse, use_dense])
+        writer.writerow([idx, correct_sparse, correct_dense, use_sparse, use_dense])
 
 print("data_train_snn.csv has been created")
 """
 
 # -- WRITE DATA INTO data_test_snn.csv --
-# Note to self: when I get back, I probably wanna change shuffle to = False
-test_loader = torch.utils.data.DataLoader(cached_test, batch_size=1, shuffle=True, num_workers = active_cores, drop_last=True, 
+"""
+test_loader = torch.utils.data.DataLoader(cached_test, batch_size=1, num_workers = active_cores, drop_last=True, 
                                           collate_fn=tonic.collation.PadTensors(batch_first=False))
 
 print("Creating data_test_snn.csv...")
@@ -224,7 +223,7 @@ with open("data_test_snn.csv", "a", newline="") as file:
     writer = csv.writer(file)
 
     correct_dense, correct_sparse = 0, 0
-    for frames, label in test_loader:
+    for idx, (frames, label) in enumerate(test_loader):
         pred_dense, _ = dense_model.forward_pass(frames)
         pred_sparse, _ = sparse_model.forward_pass(frames)
 
@@ -238,6 +237,7 @@ with open("data_test_snn.csv", "a", newline="") as file:
             use_sparse = False
             use_dense = True
 
-        writer.writerow([correct_sparse, correct_dense, use_sparse, use_dense])
+        writer.writerow([idx, correct_sparse, correct_dense, use_sparse, use_dense])
 
 print("data_test_snn.csv has been created")
+"""
