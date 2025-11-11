@@ -183,7 +183,7 @@ print("Creating data_train_snn.csv...")
 
 with open("data_train_snn.csv", "w", newline="") as file:
     writer = csv.writer(file)
-    writer.writerow(["sparse_result", "dense_results", "use_sparse", "use_dense"])
+    writer.writerow(["idx", "sparse_result", "dense_results", "use_sparse", "use_dense"])
 
 with open("data_train_snn.csv", "a", newline="") as file:
     writer = csv.writer(file)
@@ -217,7 +217,7 @@ print("Creating data_test_snn.csv...")
 
 with open("data_test_snn.csv", "w", newline="") as file:
     writer = csv.writer(file)
-    writer.writerow(["sparse_result", "dense_results", "use_sparse", "use_dense"])
+    writer.writerow(["idx", "sparse_result", "dense_results", "use_sparse", "use_dense"])
 
 with open("data_test_snn.csv", "a", newline="") as file:
     writer = csv.writer(file)
