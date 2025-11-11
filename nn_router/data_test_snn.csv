@@ -1,4 +1,4 @@
-sparse_result,dense_results,use_sparse,use_dense
+idx,sparse_result,dense_results,use_sparse,use_dense
 0,1.0,1.0,True,False
 1,1.0,1.0,True,False
 2,0.0,1.0,False,True
