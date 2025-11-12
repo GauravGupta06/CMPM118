@@ -34,17 +34,25 @@ def compute_lzc_from_events(events):
     return lz_score
 
 def compute_shannon_entropy_from_events(events):
-    flattened = events.astype(int).flatten()
+    flattened = events.cpu().numpy().astype(int).flatten()
 
-    values,counts = np.unique(flattened, return_counts = True)
-    probs = counts/counts.sum()
+    values, counts = np.unique(flattened, return_counts=True)
+    probs = counts / counts.sum()
 
-    entropy_value = entropy(probs, base = 2)
+    entropy_value = entropy(probs, base=2)
 
     return entropy_value
 
 def compute_isi_entropy_from_events(events, num_bins = 30):
-    if isinstance(events, np.ndarray) and 't' in events.dtype.names:
+    # Handle PyTorch tensors
+    if hasattr(events, 'cpu'):  # Check if it's a PyTorch tensor
+        events_np = events.cpu().numpy()
+        if events_np.ndim > 1:
+            # If it's a multi-dimensional tensor, flatten it
+            timestamps = np.sort(events_np.flatten())
+        else:
+            timestamps = np.sort(events_np)
+    elif isinstance(events, np.ndarray) and 't' in events.dtype.names:
         timestamps = np.sort(events['t'])
     elif isinstance(events, (list, np.ndarray)):
         timestamps = np.sort(np.array(events))
@@ -55,10 +63,12 @@ def compute_isi_entropy_from_events(events, num_bins = 30):
     
     if len(timestamps) < 2:
         return 0.0  
+    
     isis = np.diff(timestamps)
 
     if np.all(isis == 0):
         return 0.0
+    
     hist, bin_edges = np.histogram(isis, bins=num_bins, density=True)
     hist = hist[hist > 0]  
     probs = hist / np.sum(hist)
