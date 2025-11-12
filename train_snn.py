@@ -61,6 +61,7 @@ dense_model = SNNModel(
 )
 
 
+
 num_epochs = 200
 active_cores = 4
 

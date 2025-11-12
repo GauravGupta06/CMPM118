@@ -18,7 +18,6 @@ class SNNModel:
         self.spike_lam = spike_lam
         self.epochs = None
         # Calculate flattened size
-        self.flattenedSize = self._calculate_flattened_size()
         
         # Build network
         self.grad = snn.surrogate.fast_sigmoid(slope=self.slope)
@@ -33,15 +32,16 @@ class SNNModel:
         self.acc_hist = []
         self.test_acc_hist = []
         
-    def _calculate_flattened_size(self):
+        
+    def _build_network(self):
+
         test_input = torch.zeros((1, 2, self.w, self.h))
+        test_input = test_input.to(self.device)
         x = nn.Conv2d(2, 12, 5)(test_input)
         x = nn.MaxPool2d(2)(x)
         x = nn.Conv2d(12, 32, 5)(x)
         x = nn.MaxPool2d(2)(x)
-        return x.numel()
     
-    def _build_network(self):
         net = nn.Sequential(
             nn.Conv2d(2, 12, 5),
             nn.MaxPool2d(2),
@@ -50,9 +50,10 @@ class SNNModel:
             nn.MaxPool2d(2),
             snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True),
             nn.Flatten(),
-            nn.Linear(self.flattenedSize, 11),
+            nn.Linear(x.numel(), 11),
             snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True, output=True)
         ).to(self.device)
+
         return net
     
     def forward_pass(self, data):
