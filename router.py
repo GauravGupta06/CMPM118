@@ -5,7 +5,7 @@ import torch
 from lempel_ziv_complexity import lempel_ziv_complexity
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
-
+from scipy.stats import entropy
 
 # user made imports
 from SNN_model import SNNModel
@@ -34,7 +34,49 @@ def compute_lzc_from_events(events):
     spike_seq_string = ''.join(map(str, spike_seq.tolist()))
     lz_score = lempel_ziv_complexity(spike_seq_string)
     return lz_score
+def compute_shannon_entropy_from_events(events):
+    flattened = events.cpu().numpy().astype(int).flatten()
 
+    values, counts = np.unique(flattened, return_counts=True)
+    probs = counts / counts.sum()
+
+    entropy_value = entropy(probs, base=2)
+
+    return entropy_value
+
+def compute_isi_entropy_from_events(events, num_bins = 30):
+    # Handle PyTorch tensors
+    if hasattr(events, 'cpu'):  # Check if it's a PyTorch tensor
+        events_np = events.cpu().numpy()
+        if events_np.ndim > 1:
+            # If it's a multi-dimensional tensor, flatten it
+            timestamps = np.sort(events_np.flatten())
+        else:
+            timestamps = np.sort(events_np)
+    elif isinstance(events, np.ndarray) and 't' in events.dtype.names:
+        timestamps = np.sort(events['t'])
+    elif isinstance(events, (list, np.ndarray)):
+        timestamps = np.sort(np.array(events))
+    elif isinstance(events, dict) and 't' in events:
+        timestamps = np.sort(np.array(events['t']))
+    else:
+        raise ValueError("ISI entropy expects event data with timestamps (events['t']).")
+    
+    if len(timestamps) < 2:
+        return 0.0  
+    
+    isis = np.diff(timestamps)
+
+    if np.all(isis == 0):
+        return 0.0
+    
+    hist, bin_edges = np.histogram(isis, bins=num_bins, density=True)
+    hist = hist[hist > 0]  
+    probs = hist / np.sum(hist)
+
+    isi_entropy = entropy(probs, base=2)
+
+    return isi_entropy
 
 def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, bin_size=0.005):
     results = []
