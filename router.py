@@ -11,11 +11,7 @@ from scipy.stats import entropy
 from SNN_model import SNNModel
 from LoadDataset import load_dataset
 
-# Setup device
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-print(device)
-
-# Model hyperparameters
+ # Model hyperparameters
 w_large = 32
 h_large = 32
 n_frames_large = 32
@@ -23,62 +19,6 @@ n_frames_large = 32
 w_small = 32
 h_small = 32
 n_frames_small = 32
-
-
-
-
-
-# Load in the preprocessed dataset
-# dataset_root = f"data/dvsgesture/{w_large}x{h_large}_T{n_frames_large}"
-# dataset = tonic.DiskCachedDataset(None, cache_path=f"{dataset_root}/test")
-
-cached_train, cached_test, num_classes = load_dataset(
-    dataset_name="DVSGesture",  # or "ASLDVS"
-    dataset_path='/home/gauravgupta/CMPM118/data',
-    w=32,
-    h=32,
-    n_frames=32
-)
-
-
-active_cores = 4
-test_loader = torch.utils.data.DataLoader(
-    cached_test, 
-    batch_size=1,  # Process one sample at a time for routing
-    shuffle=False,  # Don't shuffle for consistent evaluation
-    num_workers=active_cores,  # Use multiple cores
-    drop_last=False,  # Keep all samples
-    collate_fn=tonic.collation.PadTensors(batch_first=False)
-)
-
-
-
-# Create and load dense model
-dense_model = SNNModel(
-    w=w_large,
-    h=h_large,
-    n_frames=n_frames_large,
-    beta=0.8,
-    spike_lam= 0,
-    slope=25,
-    model_type="dense",
-    device=device
-)
-dense_model.load_model("results/large/models/Non_Sparse_Take6_32x32_T32.pth")
-
-# Create and load sparse model
-sparse_model = SNNModel(
-    w=w_small,
-    h=h_small,
-    n_frames=n_frames_small,
-    beta=0.4,
-    spike_lam= 1e-7,
-    slope=25,
-    model_type="sparse",
-    device=device
-)
-sparse_model.load_model("results/small/models/Sparse_Take47_32x32_T32.pth")
-
 
 def compute_lzc_from_events(events):
 
@@ -292,12 +232,72 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 
     return total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts
 
+def main():
+    # Setup device
+    #device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+    print(device)
 
-# Main execution
-print("\n")
-print("---------------------------------- EVERYTHING LOADED SUCCESSFULLY ----------------------------------")
-print("\n")
-print("starting evaluation")
+
+
+    # Load in the preprocessed dataset
+    # dataset_root = f"data/dvsgesture/{w_large}x{h_large}_T{n_frames_large}"
+    # dataset = tonic.DiskCachedDataset(None, cache_path=f"{dataset_root}/test")
+
+    cached_train, cached_test, num_classes = load_dataset(
+        dataset_name="DVSGesture",  # or "ASLDVS"
+        dataset_path = "./data",
+        #dataset_path='/home/gauravgupta/CMPM118/data',
+        w=32,
+        h=32,
+        n_frames=32
+    )
+
+
+    active_cores = 1
+    test_loader = torch.utils.data.DataLoader(
+        cached_test, 
+        batch_size=1,  # Process one sample at a time for routing
+        shuffle=False,  # Don't shuffle for consistent evaluation
+        num_workers=active_cores,  # Use multiple cores
+        drop_last=False,  # Keep all samples
+        collate_fn=tonic.collation.PadTensors(batch_first=False)
+    )
+
+
+
+    # Create and load dense model
+    dense_model = SNNModel(
+        w=w_large,
+        h=h_large,
+        n_frames=n_frames_large,
+        beta=0.8,
+        spike_lam= 0,
+        slope=25,
+        model_type="dense",
+        device=device
+    )
+    dense_model.load_model("results/large/models/Non_Sparse_Take6_32x32_T32.pth")
+
+    # Create and load sparse model
+    sparse_model = SNNModel(
+        w=w_small,
+        h=h_small,
+        n_frames=n_frames_small,
+        beta=0.4,
+        spike_lam= 1e-7,
+        slope=25,
+        model_type="sparse",
+        device=device
+    )
+    sparse_model.load_model("results/small/models/Sparse_Take47_32x32_T32.pth")
+
+
+    # Main execution
+    print("\n")
+    print("---------------------------------- EVERYTHING LOADED SUCCESSFULLY ----------------------------------")
+    print("\n")
+    print("starting evaluation")
 
 # Optional: Histogram of LZC values
 # LZCValues = []
@@ -311,7 +311,12 @@ print("starting evaluation")
 # plt.title("Histogram of LZC Values")
 # plt.show()
 
-results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
-optimal_threshold = threshold_sweep_and_roc(results)
+    results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
+    optimal_threshold = threshold_sweep_and_roc(results)
 
-route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
+    route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
+
+if __name__ == "__main__":
+    import torch.multiprocessing
+    torch.multiprocessing.set_start_method('spawn', force=True)
+    main()
