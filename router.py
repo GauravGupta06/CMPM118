@@ -1,4 +1,8 @@
 # make sure to have do "pip install PyQT6" otherwise the plt graph for the ROC curve might not show up. 
+import argparse
+import json
+import os
+
 import numpy as np
 import tonic
 import torch
@@ -10,6 +14,12 @@ from scipy.stats import entropy
 # user made imports
 from SNN_model_inheritance import DVSGestureSNN
 from LoadDataset import load_dataset
+from neuromorphic.energy_profiler import (
+    NeuromorphicHardwareConfig,
+    NullEnergyProfiler,
+    RouterEnergyProfiler,
+    XyloEnergyProfiler,
+)
 
  # Model hyperparameters
 w_large = 32
@@ -77,7 +87,13 @@ def compute_isi_entropy_from_events(events, num_bins = 30):
 
     return isi_entropy
 
-def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, bin_size=0.005):
+def evaluate_models_on_dataset(
+    dataLoader,
+    sparse_model,
+    dense_model,
+    router_energy_profiler: RouterEnergyProfiler,
+    bin_size=0.005,
+):
     results = []
 
     for batch in dataLoader:
@@ -99,8 +115,9 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, bin_size=0
 
 
         lz_value = compute_lzc_from_events(events)
-        sparse_pred, spike_count_sparse = sparse_model.predict_sample(events)
-        dense_pred, spike_count_dense = dense_model.predict_sample(events)
+        router_energy = router_energy_profiler.record()
+        sparse_pred, spike_count_sparse, sparse_energy = sparse_model.predict_sample(events)
+        dense_pred, spike_count_dense, dense_energy = dense_model.predict_sample(events)
         
         # Set as complex IF dense_pred matches label and sparse_pred does NOT
         if dense_pred == label and sparse_pred != label:
@@ -115,9 +132,20 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, bin_size=0
             'dense_pred': dense_pred,
             'true_complex': true_complex,
             'dense_spikes': spike_count_dense,
-            'sparse_spikes': spike_count_sparse
+            'sparse_spikes': spike_count_sparse,
+            'dense_energy': dense_energy,
+            'sparse_energy': sparse_energy,
+            'router_energy': router_energy,
         })
     return results
+
+
+def format_energy(energy_j: float) -> str:
+    if energy_j >= 1e-3:
+        return f"{energy_j * 1e3:.4f} mJ"
+    if energy_j >= 1e-6:
+        return f"{energy_j * 1e6:.2f} µJ"
+    return f"{energy_j * 1e9:.2f} nJ"
 
 
 def threshold_sweep_and_roc(results):
@@ -133,9 +161,19 @@ def threshold_sweep_and_roc(results):
 
     average_spike_dense = np.mean([r['dense_spikes'] for r in results])
     average_spike_sparse = np.mean([r['sparse_spikes'] for r in results])
+    avg_router_energy = np.mean([r['router_energy'] for r in results])
+    avg_dense_energy = np.mean([r['dense_energy'] for r in results])
+    avg_sparse_energy = np.mean([r['sparse_energy'] for r in results])
+    avg_total_dense_path = np.mean([r['router_energy'] + r['dense_energy'] for r in results])
+    avg_total_sparse_path = np.mean([r['router_energy'] + r['sparse_energy'] for r in results])
 
     print(f"average spike dense: {average_spike_dense:.2f}")
     print(f"average spike sparse: {average_spike_sparse:.2f}")
+    print(f"Average router energy per sample: {format_energy(avg_router_energy)}")
+    print(f"Average dense-model energy per sample: {format_energy(avg_dense_energy)}")
+    print(f"Average sparse-model energy per sample: {format_energy(avg_sparse_energy)}")
+    print(f"Average total energy if always dense: {format_energy(avg_total_dense_path)}")
+    print(f"Average total energy if always sparse: {format_energy(avg_total_sparse_path)}")
 
     print(f"Optimal LZC threshold: {optimal_threshold:.4f} (G-mean={gmean[idx]:.4f}) (AUC={roc_auc:.4f})")
     
@@ -158,7 +196,14 @@ def threshold_sweep_and_roc(results):
     return optimal_threshold
 
 
-def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold, results):
+def route_and_evaluate(
+    dataLoader,
+    sparse_model,
+    dense_model,
+    optimal_threshold,
+    results,
+    energy_metrics_path: str = None,
+):
     """Route samples to appropriate model and evaluate accuracy."""
     print("\nRouting and evaluating with threshold:", optimal_threshold, "\n")
     correct_sparse = 0
@@ -166,6 +211,8 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
     route_counts = {'sparse': 0, 'dense': 0}
 
     lz_values = [r['lz_value'] for r in results]
+    total_energy_consumption = 0.0
+    energy_totals = {'router': 0.0, 'dense': 0.0, 'sparse': 0.0}
 
     for i, batch in enumerate(dataLoader):
         events, label = batch
@@ -186,15 +233,21 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 
 
         lz_value = lz_values[i]
+        sample_result = results[i]
+        energy_totals['router'] += sample_result['router_energy']
 
         if lz_value < optimal_threshold:
             route_counts['sparse'] += 1
-            pred, _ = sparse_model.predict_sample(events)
+            pred, _, _ = sparse_model.predict_sample(events)
+            energy_totals['sparse'] += sample_result['sparse_energy']
+            total_energy_consumption += sample_result['router_energy'] + sample_result['sparse_energy']
             if pred == label:
                 correct_sparse += 1
         else:
             route_counts['dense'] += 1
-            pred, _ = dense_model.predict_sample(events)
+            pred, _, _ = dense_model.predict_sample(events)
+            energy_totals['dense'] += sample_result['dense_energy']
+            total_energy_consumption += sample_result['router_energy'] + sample_result['dense_energy']
             if pred == label:
                 correct_dense += 1
     
@@ -202,8 +255,18 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
     accuracy_sparse_routed = correct_sparse / route_counts['sparse'] if route_counts['sparse'] > 0 else 0
 
     total_correct = correct_dense + correct_sparse
-    total_samples = route_counts['sparse'] + route_counts['dense']
-    total_accuracy = total_correct / total_samples
+    total_routed_samples = route_counts['sparse'] + route_counts['dense']
+    total_accuracy = total_correct / total_routed_samples
+    avg_energy_per_inference = (
+        total_energy_consumption / total_routed_samples if total_routed_samples else 0.0
+    )
+    always_dense_energy = sum(r['router_energy'] + r['dense_energy'] for r in results)
+    always_sparse_energy = sum(r['router_energy'] + r['sparse_energy'] for r in results)
+    energy_savings_vs_dense = (
+        1 - (total_energy_consumption / always_dense_energy)
+        if always_dense_energy
+        else 0.0
+    )
 
 
 
@@ -211,15 +274,15 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 
 
     # getting the accuracy on each model based for the entire dataset. 
-    total_samples = len(results)
-        
+    dataset_samples = len(results)
+
     # Sparse model accuracy
     sparse_correct = sum(1 for r in results if r['sparse_pred'] == r['label'])
-    sparse_accuracy_overall = sparse_correct / total_samples
-    
+    sparse_accuracy_overall = sparse_correct / dataset_samples
+
     # Dense model accuracy
     dense_correct = sum(1 for r in results if r['dense_pred'] == r['label'])
-    dense_accuracy_overall = dense_correct / total_samples
+    dense_accuracy_overall = dense_correct / dataset_samples
 
     sparse_accuracy_improvement = accuracy_sparse_routed/sparse_accuracy_overall - 1
     dense_accuracy_improvement = accuracy_dense_routed/dense_accuracy_overall - 1
@@ -232,17 +295,91 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
     print(f"Dense model accuracy on entire dataset: {dense_accuracy_overall*100: .2f}%")
     print(f"Dense model accuracy AFTER routing: {accuracy_dense_routed*100: .2f}%")
     print(f"Dense model accuracy improvement: {dense_accuracy_improvement*100: .2f}%")
-    print(f"Samples routed to sparse model: {route_counts['dense']}\n")
+    print(f"Samples routed to dense model: {route_counts['dense']}\n")
 
 
 
 
     print(f"Overall Accuracy after routing: {total_accuracy*100: .2f}%")
-    print(f"Total Samples: {total_samples}")
+    print(f"Total Samples: {dataset_samples}")
+    print(f"Average energy per inference (router + model): {format_energy(avg_energy_per_inference)}")
+    print(f"Energy savings vs always running dense model: {energy_savings_vs_dense * 100: .2f}%")
 
-    return total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts
+    energy_summary = {
+        'avg_energy_per_inference_j': avg_energy_per_inference,
+        'total_energy_consumption_j': total_energy_consumption,
+        'avg_router_energy_j': energy_totals['router'] / dataset_samples if dataset_samples else 0.0,
+        'avg_sparse_energy_j': (
+            energy_totals['sparse'] / route_counts['sparse'] if route_counts['sparse'] else 0.0
+        ),
+        'avg_dense_energy_j': (
+            energy_totals['dense'] / route_counts['dense'] if route_counts['dense'] else 0.0
+        ),
+        'always_dense_energy_j': always_dense_energy,
+        'always_sparse_energy_j': always_sparse_energy,
+        'energy_savings_vs_dense_pct': energy_savings_vs_dense * 100,
+    }
 
-def main():
+    if energy_metrics_path:
+        os.makedirs(os.path.dirname(energy_metrics_path) or '.', exist_ok=True)
+        with open(energy_metrics_path, 'w', encoding='utf-8') as f:
+            json.dump(energy_summary, f, indent=2)
+        print(f"Energy metrics saved to {energy_metrics_path}")
+
+    return (
+        total_accuracy,
+        accuracy_dense_routed,
+        accuracy_sparse_routed,
+        route_counts,
+        energy_summary,
+    )
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="SNN router with energy profiling")
+    parser.add_argument(
+        '--hardware-backend',
+        choices=['xylo', 'none'],
+        default='xylo',
+        help='Neuromorphic backend used for energy estimation.',
+    )
+    parser.add_argument('--spike-energy-pj', type=float, default=23.6)
+    parser.add_argument('--synaptic-event-energy-pj', type=float, default=4.1)
+    parser.add_argument('--neuron-leak-energy-pj', type=float, default=0.5)
+    parser.add_argument('--static-energy-pj', type=float, default=0.0)
+    parser.add_argument('--router-energy-pj', type=float, default=9.2)
+    parser.add_argument('--synaptic-scaling', type=float, default=4.0)
+    parser.add_argument('--calibration-factor', type=float, default=1.0)
+    parser.add_argument(
+        '--energy-metrics-path',
+        type=str,
+        default='results/energy_metrics.json',
+        help='Where to store aggregated energy statistics.',
+    )
+    return parser.parse_args()
+
+
+def build_model_profiler(args):
+    if args.hardware_backend == 'none':
+        return NullEnergyProfiler()
+
+    config = NeuromorphicHardwareConfig(
+        name=args.hardware_backend,
+        spike_energy_pj=args.spike_energy_pj,
+        synaptic_event_energy_pj=args.synaptic_event_energy_pj,
+        neuron_leak_energy_pj=args.neuron_leak_energy_pj,
+        router_energy_pj=args.router_energy_pj,
+        static_energy_pj=args.static_energy_pj,
+    )
+    return XyloEnergyProfiler(
+        config=config,
+        synaptic_scaling=args.synaptic_scaling,
+        calibration_factor=args.calibration_factor,
+    )
+
+def main(args=None):
+    if args is None:
+        args = parse_args()
     # Setup device
     #device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
@@ -276,6 +413,10 @@ def main():
 
 
 
+    dense_energy_profiler = build_model_profiler(args)
+    sparse_energy_profiler = build_model_profiler(args)
+    router_energy_profiler = RouterEnergyProfiler(router_energy_pj=args.router_energy_pj)
+
     # Create and load dense model
     dense_model = DVSGestureSNN(
         w=w_large,
@@ -285,7 +426,8 @@ def main():
         spike_lam=0,
         slope=25,
         model_type="dense",
-        device=device
+        device=device,
+        energy_profiler=dense_energy_profiler,
     )
     dense_model.load_model("results/large/models/Non_Sparse_Take6_32x32_T32.pth")
 
@@ -298,7 +440,8 @@ def main():
         spike_lam=1e-7,
         slope=25,
         model_type="sparse",
-        device=device
+        device=device,
+        energy_profiler=sparse_energy_profiler,
     )
     sparse_model.load_model("results/small/models/Sparse_Take47_32x32_T32.pth")
 
@@ -321,10 +464,22 @@ def main():
 # plt.title("Histogram of LZC Values")
 # plt.show()
 
-    results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
+    results = evaluate_models_on_dataset(
+        test_loader,
+        sparse_model,
+        dense_model,
+        router_energy_profiler,
+    )
     optimal_threshold = threshold_sweep_and_roc(results)
 
-    route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
+    route_and_evaluate(
+        test_loader,
+        sparse_model,
+        dense_model,
+        optimal_threshold,
+        results,
+        energy_metrics_path=args.energy_metrics_path,
+    )
 
 if __name__ == "__main__":
     import torch.multiprocessing
