@@ -12,7 +12,7 @@ from lempel_ziv_complexity import lempel_ziv_complexity
 
 import sys
 sys.path.insert(0, "../.")
-from SNN_model import SNNModel
+from SNN_model_inheritance import DVSGestureSNN
 from LoadDataset import load_dataset
 
 device = "cuda" if torch.cuda.is_available() else 'cpu'
@@ -43,7 +43,7 @@ cached_train, cached_test, num_classes = load_dataset(
 
 
 # -- LOAD DENSE SNN --
-dense_model = SNNModel(
+dense_model = DVSGestureSNN(
     w=w_large,
     h=h_large,
     n_frames=n_frames_large,
@@ -60,7 +60,7 @@ dense_model.load_model(model_path)
 print("Dense model loaded successfully.")
 
 # -- LOAD SPARSE SNN --
-sparse_model = SNNModel(
+sparse_model = DVSGestureSNN(
     w=w_small,
     h=h_small,
     n_frames=n_frames_small,
