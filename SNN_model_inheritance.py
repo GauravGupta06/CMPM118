@@ -9,8 +9,8 @@ from abc import ABC, abstractmethod
 
 class BaseSNNModel(ABC):
     """Base class for SNN models with common functionality."""
-    
-    def __init__(self, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None):
+
+    def __init__(self, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None, num_classes=None):
         self.n_frames = n_frames
         self.beta = beta
         self.slope = slope
@@ -18,6 +18,7 @@ class BaseSNNModel(ABC):
         self.device = device if device else (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
         self.spike_lam = spike_lam
         self.epochs = None
+        self.num_classes = num_classes
         
         # Build network
         self.grad = snn.surrogate.fast_sigmoid(slope=self.slope)
@@ -37,32 +38,59 @@ class BaseSNNModel(ABC):
         """Build the neural network architecture. Must be implemented by child classes."""
         pass
     
-    @abstractmethod
     def forward_pass(self, data):
-        """
-        Forward pass through the network. Must be implemented by child classes.
-        
-        Args:
-            data: Input tensor
-            
-        Returns:
-            spk_rec: Stacked spike recordings
-            spike_count: Total spike count
-        """
-        pass
-    
-    @abstractmethod
+        """Dataset-agnostic forward pass through the network."""
+        utils.reset(self.net)
+        spk_rec = []
+        spike_count = torch.tensor(0.0, device=self.device)
+
+        for t in range(data.size(0)):
+            x = data[t].to(self.device)
+
+            for layer in self.net:
+                x = layer(x)
+                if isinstance(layer, snn.Leaky):
+                    if isinstance(x, tuple):
+                        spikes, mem = x
+                    else:
+                        spikes = x
+                    spike_count = spike_count + spikes.sum()
+                    x = spikes
+
+            spk_rec.append(x)
+
+        return torch.stack(spk_rec), spike_count
+
     def train_model(self, train_loader, test_loader, num_epochs=150, print_every=15):
-        """
-        Train the model. Must be implemented by child classes.
-        
-        Args:
-            train_loader: DataLoader for training data
-            test_loader: DataLoader for test data
-            num_epochs: Number of training epochs
-            print_every: Print stats every N iterations
-        """
-        pass
+        """Train the model using dataset-agnostic training loop."""
+        self.epochs = num_epochs
+        cnt = 0
+        for epoch in range(num_epochs):
+            for batch, (data, targets) in enumerate(iter(train_loader)):
+                data = data.to(self.device)
+                targets = targets.to(self.device)
+
+                self.net.train()
+
+                spk_rec, spike_count = self.forward_pass(data)
+                loss = self.loss_fn(spk_rec, targets) + self.spike_regularizer(spike_count, lam=self.spike_lam)
+
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+
+                self.loss_hist.append(loss.item())
+                acc = SF.accuracy_rate(spk_rec, targets)
+                self.acc_hist.append(acc)
+
+                if cnt % print_every == 0:
+                    print(f"Epoch {epoch}, Iteration {batch} \nTrain Loss: {loss.item():.2f}")
+                    print(f"Train Accuracy: {acc * 100:.2f}%")
+                    test_acc = self.validate_model(test_loader)
+                    self.test_acc_hist.append(test_acc)
+                    print(f"Test Accuracy: {test_acc * 100:.2f}%\n")
+
+                cnt += 1
     
     def spike_regularizer(self, spike_count, lam=1e-4):
         """Apply spiking penalty."""
@@ -161,12 +189,12 @@ class BaseSNNModel(ABC):
 
 class DVSGestureSNN(BaseSNNModel):
     """SNN model for DVS Gesture dataset."""
-    
-    def __init__(self, w, h, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None):
+
+    def __init__(self, w, h, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None, num_classes=11):
         self.w = w
         self.h = h
-        super().__init__(n_frames, beta, spike_lam, slope, model_type, device)
-    
+        super().__init__(n_frames, beta, spike_lam, slope, model_type, device, num_classes=num_classes)
+
     def _build_network(self):
         test_input = torch.zeros((1, 2, self.w, self.h))
         test_input = test_input.to(self.device)
@@ -174,7 +202,7 @@ class DVSGestureSNN(BaseSNNModel):
         x = nn.MaxPool2d(2)(x)
         x = nn.Conv2d(12, 32, 5)(x)
         x = nn.MaxPool2d(2)(x)
-    
+
         net = nn.Sequential(
             nn.Conv2d(2, 12, 5),
             nn.MaxPool2d(2),
@@ -183,111 +211,54 @@ class DVSGestureSNN(BaseSNNModel):
             nn.MaxPool2d(2),
             snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True),
             nn.Flatten(),
-            nn.Linear(x.numel(), 11),
+            nn.Linear(x.numel(), self.num_classes),
             snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True, output=True)
         ).to(self.device)
 
         return net
-    
-    def forward_pass(self, data):
-        """
-        Forward pass through the network.
-        
-        Args:
-            data: Input tensor of shape [T, batch, 2, H, W] or [T, 2, H, W]
-            
-        Returns:
-            spk_rec: Stacked spike recordings
-            spike_count: Total spike count
-        """
-        utils.reset(self.net)
-        spk_rec = []
-        spike_count = torch.tensor(0., device=self.device)
-        
-        for t in range(data.size(0)):
-            x = data[t].to(self.device)
-            
-            for layer in self.net:
-                x = layer(x)
-                if isinstance(layer, snn.Leaky):
-                    if isinstance(x, tuple):
-                        spikes, mem = x
-                    else:
-                        spikes = x
-                    spike_count = spike_count + spikes.sum()
-                    x = spikes
-            
-            spk_rec.append(x)
-        
-        return torch.stack(spk_rec), spike_count
-    
-    def train_model(self, train_loader, test_loader, num_epochs=150, print_every=15):
-        self.epochs = num_epochs
-        """
-        Args:
-            train_loader: DataLoader for training data
-            test_loader: DataLoader for test data
-            num_epochs: Number of training epochs
-            print_every: Print stats every N iterations
-        """
-        cnt = 0
-        for epoch in range(num_epochs):
-            for batch, (data, targets) in enumerate(iter(train_loader)):
-                data = data.to(self.device)
-                targets = targets.to(self.device)
-                
-                self.net.train()
-                
-                # Forward pass
-                spk_rec, spike_count = self.forward_pass(data)
-                loss = self.loss_fn(spk_rec, targets) + self.spike_regularizer(spike_count, lam = self.spike_lam)
-                
-                # Backward pass
-                self.optimizer.zero_grad()
-                loss.backward()
-                self.optimizer.step()
-                
-                # Store history
-                self.loss_hist.append(loss.item())
-                acc = SF.accuracy_rate(spk_rec, targets)
-                self.acc_hist.append(acc)
-                
-                # Print and validate
-                if cnt % print_every == 0:
-                    print(f"Epoch {epoch}, Iteration {batch} \nTrain Loss: {loss.item():.2f}")
-                    print(f"Train Accuracy: {acc * 100:.2f}%")
-                    test_acc = self.validate_model(test_loader)
-                    self.test_acc_hist.append(test_acc)
-                    print(f"Test Accuracy: {test_acc * 100:.2f}%\n")
-                
-                cnt += 1
-    
+
     def _get_save_params(self):
         return f"{self.w}x{self.h}_T{self.n_frames}_B{self.beta}_SpkLam{self.spike_lam}"
 
 
 class SHDSNN(BaseSNNModel):
     """SNN model for Spiking Heidelberg Digits (SHD) dataset."""
-    
-    def __init__(self, n_inputs, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None):
-        self.n_inputs = n_inputs
-        super().__init__(n_frames, beta, spike_lam, slope, model_type, device)
-    
+
+    def __init__(self, freq_bins, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None, num_classes=20):
+        self.freq_bins = freq_bins
+        super().__init__(n_frames, beta, spike_lam, slope, model_type, device, num_classes=num_classes)
+
     def _build_network(self):
-        """Build network architecture for SHD."""
-        # Implement your SHD architecture here
-        pass
-    
-    def forward_pass(self, data):
-        """Forward pass for SHD data."""
-        # Implement your SHD forward pass here
-        pass
-    
-    def train_model(self, train_loader, test_loader, num_epochs=150, print_every=15):
-        """Train model on SHD data."""
-        # Implement your SHD training loop here
-        # Will likely be similar to DVS but may have dataset-specific differences
-        pass
-    
+        """Build a 1D convolutional network tailored to SHD's 700 frequency bins."""
+        test_input = torch.zeros((1, 2, 1, self.freq_bins), device=self.device)
+
+        # Determine flattened dimension after the temporal convolutions/pooling.
+        with torch.no_grad():
+            x = torch.flatten(test_input, start_dim=2)
+            x = nn.Conv1d(2, 32, kernel_size=5, padding=2).to(self.device)(x)
+            x = nn.MaxPool1d(kernel_size=2)(x)
+            x = nn.Conv1d(32, 64, kernel_size=5, padding=2).to(self.device)(x)
+            x = nn.MaxPool1d(kernel_size=2)(x)
+            x = nn.Conv1d(64, 64, kernel_size=3, padding=1).to(self.device)(x)
+            x = torch.flatten(x, start_dim=1)
+            linear_in_features = x.shape[-1]
+
+        net = nn.Sequential(
+            nn.Flatten(start_dim=2),
+            nn.Conv1d(2, 32, kernel_size=5, padding=2),
+            nn.MaxPool1d(kernel_size=2),
+            snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True),
+            nn.Conv1d(32, 64, kernel_size=5, padding=2),
+            nn.MaxPool1d(kernel_size=2),
+            snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True),
+            nn.Conv1d(64, 64, kernel_size=3, padding=1),
+            snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True),
+            nn.Flatten(),
+            nn.Linear(linear_in_features, self.num_classes),
+            snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True, output=True),
+        ).to(self.device)
+
+        return net
+
     def _get_save_params(self):
-        return f"Inputs{self.n_inputs}_T{self.n_frames}_B{self.beta}_SpkLam{self.spike_lam}"
+        return f"Freq{self.freq_bins}_T{self.n_frames}_B{self.beta}_SpkLam{self.spike_lam}"
