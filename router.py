@@ -7,6 +7,8 @@ from lempel_ziv_complexity import lempel_ziv_complexity
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 from scipy.stats import entropy
+import json
+from datetime import datetime
 
 # user made imports
 from SNN_model_inheritance import DVSGestureSNN
@@ -121,7 +123,7 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, bin_size=0
     return results
 
 
-def threshold_sweep_and_roc(results):
+def threshold_sweep_and_roc(results, plotting_only=False):
     """Threshold sweep, ROC-AUC curve, and optimal LZC threshold."""
     # Ground truth: 1 if dense model was needed, 0 if sparse sufficed
     y_true = np.array([r['true_complex'] for r in results])
@@ -134,6 +136,14 @@ def threshold_sweep_and_roc(results):
 
     average_spike_dense = np.mean([r['dense_spikes'] for r in results])
     average_spike_sparse = np.mean([r['sparse_spikes'] for r in results])
+
+    if plotting_only:
+        return (
+            optimal_threshold,
+            roc_auc,
+            average_spike_dense,
+            average_spike_sparse
+        )
 
     print(f"average spike dense: {average_spike_dense:.2f}")
     print(f"average spike sparse: {average_spike_sparse:.2f}")
@@ -156,7 +166,8 @@ def threshold_sweep_and_roc(results):
     plt.savefig(graph_save_path)
     plt.show()
     
-    return optimal_threshold
+    return optimal_threshold, roc_auc, average_spike_dense, average_spike_sparse
+
 
 
 def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold, results):
@@ -247,7 +258,7 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 
 def lzc_vs_accuracy_plot(results):
     print("\nLZC vs. Accuracy Analysis:")
-    lz_values = [r['lz_value'] for r in results]
+    lz_values = np.array([r['lz_value'] for r in results])
     total_samples = len(results)
     accuracy_at_threshold = []
     threshold_range = np.linspace(lz_values.min(), lz_values.max(), 50)
@@ -271,9 +282,11 @@ def lzc_vs_accuracy_plot(results):
         accuracy = correct_total / total_samples
         accuracy_at_threshold.append(accuracy)
 
-    optimal_threshold = threshold_sweep_and_roc(results, plotting_only=True)
-    best_acc_idx = np.searchsorted(threshold_range, optimal_threshold)
-    best_accuracy = accuracy_at_threshold[np.clip(best_acc_idx, 0, len(threshold_range) - 1)]
+    optimal_threshold, _, _, _ = threshold_sweep_and_roc(results, plotting_only=True)
+    optimal_threshold = float(optimal_threshold)
+    best_acc_idx = int(np.searchsorted(threshold_range, optimal_threshold))
+    best_acc_idx = np.clip(best_acc_idx, 0, len(threshold_range) - 1)
+    best_accuracy = accuracy_at_threshold[best_acc_idx]
     
     plt.figure(figsize=(10, 7))
     plt.plot(threshold_range, accuracy_at_threshold, marker='o', linestyle='-', markersize=4, label='Routed Model Accuracy')
@@ -296,7 +309,55 @@ def lzc_vs_accuracy_plot(results):
     plt.show()
     print("Saved LZC vs. Accuracy graph to:", graph_save_path)
     
-    
+def save_run_to_json(
+    results,
+    optimal_threshold,
+    roc_auc,
+    route_counts,
+    accuracy_dense_routed,
+    accuracy_sparse_routed,
+    total_accuracy,
+    average_spike_dense,
+    average_spike_sparse
+):
+    os.makedirs("results/run_logs", exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    save_path = f"results/run_logs/run_{w_small}x{h_small}_T{n_frames_small}_large_{w_large}x{h_large}_T{n_frames_large}_{timestamp}.json"
+
+    output = {
+        "metadata": {
+            "timestamp": timestamp,
+            "small_model": {
+                "w": w_small,
+                "h": h_small,
+                "T": n_frames_small
+            },
+            "large_model": {
+                "w": w_large,
+                "h": h_large,
+                "T": n_frames_large
+            },
+        },
+        "roc_results": {
+            "optimal_threshold": float(optimal_threshold),
+            "roc_auc": float(roc_auc)
+        },
+        "routing_metrics": {
+            "overall_accuracy": float(total_accuracy),
+            "dense_routed_accuracy": float(accuracy_dense_routed),
+            "sparse_routed_accuracy": float(accuracy_sparse_routed),
+            "route_counts": route_counts,
+            "avg_dense_spikes": float(average_spike_dense),
+            "avg_sparse_spikes": float(average_spike_sparse)
+        },
+        "per_sample_results": results
+    }
+
+    with open(save_path, "w") as f:
+        json.dump(output, f, indent=4)
+
+    print(f"\nSaved run results to: {save_path}\n")
 
 
 
@@ -382,10 +443,27 @@ def main():
 # plt.show()
 
     results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
-    lzc_vs_accuracy_plot(results) # Plot LZC vs. Accuracy
-    optimal_threshold = threshold_sweep_and_roc(results)
 
-    route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
+    lzc_vs_accuracy_plot(results)
+
+    optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = threshold_sweep_and_roc(results)
+
+    total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts = route_and_evaluate(
+        test_loader, sparse_model, dense_model, optimal_threshold, results
+    )
+
+    save_run_to_json(
+    results=results,
+    optimal_threshold=optimal_threshold,
+    roc_auc=roc_auc,
+    route_counts=route_counts,
+    accuracy_dense_routed=accuracy_dense_routed,
+    accuracy_sparse_routed=accuracy_sparse_routed,
+    total_accuracy=total_accuracy,
+    average_spike_dense=avg_dense_spikes,
+    average_spike_sparse=avg_sparse_spikes
+    )
+
 
 if __name__ == "__main__":
     import torch.multiprocessing
