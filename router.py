@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import entropy
 
 # user made imports
-from SNN_model import SNNModel
+from SNN_model_inheritance import DVSGestureSNN
 from LoadDataset import load_dataset
 
  # Model hyperparameters
@@ -277,12 +277,12 @@ def main():
 
 
     # Create and load dense model
-    dense_model = SNNModel(
+    dense_model = DVSGestureSNN(
         w=w_large,
         h=h_large,
         n_frames=n_frames_large,
         beta=0.8,
-        spike_lam= 0,
+        spike_lam=0,
         slope=25,
         model_type="dense",
         device=device
@@ -290,12 +290,12 @@ def main():
     dense_model.load_model("results/large/models/Non_Sparse_Take6_32x32_T32.pth")
 
     # Create and load sparse model
-    sparse_model = SNNModel(
+    sparse_model = DVSGestureSNN(
         w=w_small,
         h=h_small,
         n_frames=n_frames_small,
         beta=0.4,
-        spike_lam= 1e-7,
+        spike_lam=1e-7,
         slope=25,
         model_type="sparse",
         device=device
