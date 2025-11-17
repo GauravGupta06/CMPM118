@@ -5,12 +5,25 @@ from snntorch import surrogate
 from snntorch import functional as SF
 from snntorch import utils
 from abc import ABC, abstractmethod
+from typing import Optional
+
+from neuromorphic.energy_profiler import EnergyProfiler, NullEnergyProfiler
 
 
 class BaseSNNModel(ABC):
     """Base class for SNN models with common functionality."""
 
-    def __init__(self, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None, num_classes=None):
+    def __init__(
+        self,
+        n_frames,
+        beta,
+        spike_lam,
+        slope=25,
+        model_type="sparse",
+        device=None,
+        num_classes=None,
+        energy_profiler: Optional[EnergyProfiler] = None,
+    ):
         self.n_frames = n_frames
         self.beta = beta
         self.slope = slope
@@ -19,6 +32,7 @@ class BaseSNNModel(ABC):
         self.spike_lam = spike_lam
         self.epochs = None
         self.num_classes = num_classes
+        self.energy_profiler: EnergyProfiler = energy_profiler or NullEnergyProfiler()
         
         # Build network
         self.grad = snn.surrogate.fast_sigmoid(slope=self.slope)
@@ -179,21 +193,45 @@ class BaseSNNModel(ABC):
         print(f"Model loaded from: {model_path}")
 
     def predict_sample(self, frames):
-        """Predict with spike counting."""
+        """Predict with spike counting and optional energy estimation."""
         frames = frames.detach().clone().float()
         with torch.no_grad():
             spk_rec, spike_count = self.forward_pass(frames.unsqueeze(1))
             counts = spk_rec.sum(0)
-            return counts.argmax(1).item(), spike_count.item()
+            energy_joules = self.energy_profiler.estimate_inference(
+                spike_count.item(), model_tag=self.model_type
+            )
+            return counts.argmax(1).item(), spike_count.item(), energy_joules
 
 
 class DVSGestureSNN(BaseSNNModel):
     """SNN model for DVS Gesture dataset."""
 
-    def __init__(self, w, h, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None, num_classes=11):
+    def __init__(
+        self,
+        w,
+        h,
+        n_frames,
+        beta,
+        spike_lam,
+        slope=25,
+        model_type="sparse",
+        device=None,
+        num_classes=11,
+        energy_profiler: Optional[EnergyProfiler] = None,
+    ):
         self.w = w
         self.h = h
-        super().__init__(n_frames, beta, spike_lam, slope, model_type, device, num_classes=num_classes)
+        super().__init__(
+            n_frames,
+            beta,
+            spike_lam,
+            slope,
+            model_type,
+            device,
+            num_classes=num_classes,
+            energy_profiler=energy_profiler,
+        )
 
     def _build_network(self):
         test_input = torch.zeros((1, 2, self.w, self.h))
@@ -224,9 +262,29 @@ class DVSGestureSNN(BaseSNNModel):
 class SHDSNN(BaseSNNModel):
     """SNN model for Spiking Heidelberg Digits (SHD) dataset."""
 
-    def __init__(self, freq_bins, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None, num_classes=20):
+    def __init__(
+        self,
+        freq_bins,
+        n_frames,
+        beta,
+        spike_lam,
+        slope=25,
+        model_type="sparse",
+        device=None,
+        num_classes=20,
+        energy_profiler: Optional[EnergyProfiler] = None,
+    ):
         self.freq_bins = freq_bins
-        super().__init__(n_frames, beta, spike_lam, slope, model_type, device, num_classes=num_classes)
+        super().__init__(
+            n_frames,
+            beta,
+            spike_lam,
+            slope,
+            model_type,
+            device,
+            num_classes=num_classes,
+            energy_profiler=energy_profiler,
+        )
 
     def _build_network(self):
         """Build a 1D convolutional network tailored to SHD's 700 frequency bins."""
