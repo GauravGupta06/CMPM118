@@ -6,13 +6,13 @@ from lempel_ziv_complexity import lempel_ziv_complexity
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 from scipy.stats import entropy
+import os
 
 # user made imports
-from SNN_model import SNNModel
+from SNN_model_inheritance import DVSGestureSNN
 from LoadDataset import load_dataset
 
-
-
+ # Model hyperparameters
 w_large = 32
 h_large = 32
 n_frames_large = 32
@@ -20,7 +20,6 @@ n_frames_large = 32
 w_small = 32
 h_small = 32
 n_frames_small = 32
-
 
 def compute_lzc_from_events(events):
 
@@ -34,6 +33,7 @@ def compute_lzc_from_events(events):
     spike_seq_string = ''.join(map(str, spike_seq.tolist()))
     lz_score = lempel_ziv_complexity(spike_seq_string)
     return lz_score
+
 def compute_shannon_entropy_from_events(events):
     flattened = events.cpu().numpy().astype(int).flatten()
 
@@ -243,22 +243,70 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 
     return total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts
 
+
+
+def lzc_vs_accuracy_plot(results):
+    print("\nLZC vs. Accuracy Analysis:")
+    lz_values = [r['lz_value'] for r in results]
+    total_samples = len(results)
+    accuracy_at_threshold = []
+    threshold_range = np.linspace(lz_values.min(), lz_values.max(), 50)
+    sparse_accuracy_overall = sum(1 for r in results if r['sparse_pred'] == r['label']) / total_samples
+    dense_accuracy_overall = sum(1 for r in results if r['dense_pred'] == r['label']) / total_samples
+
+    for threshold in threshold_range:
+        correct_total = 0
+        
+        for r in results:
+            lz_value = r['lz_value']
+            
+            if lz_value < threshold:
+                pred = r['sparse_pred']
+            else:
+                pred = r['dense_pred']
+            
+            if pred == r['label']:
+                correct_total += 1
+                
+        accuracy = correct_total / total_samples
+        accuracy_at_threshold.append(accuracy)
+
+    optimal_threshold = threshold_sweep_and_roc(results, plotting_only=True)
+    best_acc_idx = np.searchsorted(threshold_range, optimal_threshold)
+    best_accuracy = accuracy_at_threshold[np.clip(best_acc_idx, 0, len(threshold_range) - 1)]
+    
+    plt.figure(figsize=(10, 7))
+    plt.plot(threshold_range, accuracy_at_threshold, marker='o', linestyle='-', markersize=4, label='Routed Model Accuracy')
+    
+    plt.axhline(y=sparse_accuracy_overall, color='r', linestyle='--', label=f'Sparse Only ({sparse_accuracy_overall:.4f})')
+    plt.axhline(y=dense_accuracy_overall, color='g', linestyle='--', label=f'Dense Only ({dense_accuracy_overall:.4f})')
+    
+    plt.scatter(optimal_threshold, best_accuracy, color='k', s=100, zorder=5, label=f'ROC Optimal Threshold ({optimal_threshold:.4f})')
+    
+    plt.xlabel('LZC Threshold for Routing')
+    plt.ylabel('Overall Model Accuracy')
+    plt.title('Overall Accuracy vs. LZC Routing Threshold')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    
+    os.makedirs('results', exist_ok=True)
+    graph_save_path = f"results/LZC_vs_Accuracy:{w_small}x{h_small}_T{n_frames_small}_Large:{w_large}x{h_large}_T{n_frames_large}.png"
+    plt.savefig(graph_save_path)
+    plt.show()
+    print("Saved LZC vs. Accuracy graph to:", graph_save_path)
+    
+    
+
+
+
+
+
 def main():
     # Setup device
-    # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    #device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
     print(device)
-
-    # Model hyperparameters
-    w_large = 32
-    h_large = 32
-    n_frames_large = 32
-
-    w_small = 32
-    h_small = 32
-    n_frames_small = 32
-
-
 
 
 
@@ -268,7 +316,8 @@ def main():
 
     cached_train, cached_test, num_classes = load_dataset(
         dataset_name="DVSGesture",  # or "ASLDVS"
-        dataset_path='./data',
+        dataset_path = "./data",
+        #dataset_path='/home/gauravgupta/CMPM118/data',
         w=32,
         h=32,
         n_frames=32
@@ -288,12 +337,12 @@ def main():
 
 
     # Create and load dense model
-    dense_model = SNNModel(
+    dense_model = DVSGestureSNN(
         w=w_large,
         h=h_large,
         n_frames=n_frames_large,
         beta=0.8,
-        spike_lam= 0,
+        spike_lam=0,
         slope=25,
         model_type="dense",
         device=device
@@ -301,17 +350,18 @@ def main():
     dense_model.load_model("results/large/models/Non_Sparse_Take6_32x32_T32.pth")
 
     # Create and load sparse model
-    sparse_model = SNNModel(
-     w=w_small,
-     h=h_small,
-     n_frames=n_frames_small,
-     beta=0.4,
-     spike_lam= 1e-7,
-      slope=25,
-     model_type="sparse",
-     device=device
+    sparse_model = DVSGestureSNN(
+        w=w_small,
+        h=h_small,
+        n_frames=n_frames_small,
+        beta=0.4,
+        spike_lam=1e-7,
+        slope=25,
+        model_type="sparse",
+        device=device
     )
     sparse_model.load_model("results/small/models/Sparse_Take47_32x32_T32.pth")
+
 
     # Main execution
     print("\n")
@@ -331,13 +381,11 @@ def main():
 # plt.title("Histogram of LZC Values")
 # plt.show()
 
-
-
     results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
+    lzc_vs_accuracy_plot(results)
     optimal_threshold = threshold_sweep_and_roc(results)
+
     route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
-
-
 
 if __name__ == "__main__":
     import torch.multiprocessing
