@@ -198,9 +198,9 @@ class DVSGestureSNN(BaseSNNModel):
     def _build_network(self):
         test_input = torch.zeros((1, 2, self.w, self.h))
         test_input = test_input.to(self.device)
-        x = nn.Conv2d(2, 12, 5)(test_input)
+        x = nn.Conv2d(2, 12, 5).to(self.device)(test_input)
         x = nn.MaxPool2d(2)(x)
-        x = nn.Conv2d(12, 32, 5)(x)
+        x = nn.Conv2d(12, 32, 5).to(self.device)(x)
         x = nn.MaxPool2d(2)(x)
 
         net = nn.Sequential(
