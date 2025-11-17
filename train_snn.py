@@ -13,7 +13,7 @@ from lempel_ziv_complexity import lempel_ziv_complexity
 
 
 
-from SNN_model import SNNModel
+from SNN_model_inheritance import DVSGestureSNN
 from LoadDataset import load_dataset
 
 
@@ -49,7 +49,7 @@ cached_train, cached_test, num_classes = load_dataset(
 
 
 # Create and load dense model
-dense_model = SNNModel(
+dense_model = DVSGestureSNN(
     w=width,
     h=height,
     n_frames=n_frames,
