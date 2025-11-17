@@ -1,5 +1,6 @@
 # make sure to have do "pip install PyQT6" otherwise the plt graph for the ROC curve might not show up. 
 import numpy as np
+import os
 import tonic
 import torch
 from lempel_ziv_complexity import lempel_ziv_complexity
@@ -242,6 +243,65 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 
     return total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts
 
+
+
+def lzc_vs_accuracy_plot(results):
+    print("\nLZC vs. Accuracy Analysis:")
+    lz_values = [r['lz_value'] for r in results]
+    total_samples = len(results)
+    accuracy_at_threshold = []
+    threshold_range = np.linspace(lz_values.min(), lz_values.max(), 50)
+    sparse_accuracy_overall = sum(1 for r in results if r['sparse_pred'] == r['label']) / total_samples
+    dense_accuracy_overall = sum(1 for r in results if r['dense_pred'] == r['label']) / total_samples
+
+    for threshold in threshold_range:
+        correct_total = 0
+        
+        for r in results:
+            lz_value = r['lz_value']
+            
+            if lz_value < threshold:
+                pred = r['sparse_pred']
+            else:
+                pred = r['dense_pred']
+            
+            if pred == r['label']:
+                correct_total += 1
+                
+        accuracy = correct_total / total_samples
+        accuracy_at_threshold.append(accuracy)
+
+    optimal_threshold = threshold_sweep_and_roc(results, plotting_only=True)
+    best_acc_idx = np.searchsorted(threshold_range, optimal_threshold)
+    best_accuracy = accuracy_at_threshold[np.clip(best_acc_idx, 0, len(threshold_range) - 1)]
+    
+    plt.figure(figsize=(10, 7))
+    plt.plot(threshold_range, accuracy_at_threshold, marker='o', linestyle='-', markersize=4, label='Routed Model Accuracy')
+    
+    plt.axhline(y=sparse_accuracy_overall, color='r', linestyle='--', label=f'Sparse Only ({sparse_accuracy_overall:.4f})')
+    plt.axhline(y=dense_accuracy_overall, color='g', linestyle='--', label=f'Dense Only ({dense_accuracy_overall:.4f})')
+    
+    plt.scatter(optimal_threshold, best_accuracy, color='k', s=100, zorder=5, label=f'ROC Optimal Threshold ({optimal_threshold:.4f})')
+    
+    plt.xlabel('LZC Threshold for Routing')
+    plt.ylabel('Overall Model Accuracy')
+    plt.title('Overall Accuracy vs. LZC Routing Threshold')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    
+    os.makedirs('results', exist_ok=True)
+    graph_save_path = f"results/LZC_vs_Accuracy:{w_small}x{h_small}_T{n_frames_small}_Large:{w_large}x{h_large}_T{n_frames_large}.png"
+    plt.savefig(graph_save_path)
+    plt.show()
+    print("Saved LZC vs. Accuracy graph to:", graph_save_path)
+    
+    
+
+
+
+
+
 def main():
     # Setup device
     #device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -322,6 +382,7 @@ def main():
 # plt.show()
 
     results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
+    lzc_vs_accuracy_plot(results) # Plot LZC vs. Accuracy
     optimal_threshold = threshold_sweep_and_roc(results)
 
     route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
