@@ -13,7 +13,7 @@ from lempel_ziv_complexity import lempel_ziv_complexity
 
 
 
-from SNN_model_inheritance import DVSGestureSNN
+from SNN_model_inheritance import SHDSNN
 from LoadDataset import load_dataset
 
 
@@ -23,16 +23,16 @@ print("using " + str(device))
 
 
 
-width = 32
-height = 32
-n_frames = 32
+freq_bins = 700
+height = 1
+n_frames = 100
 
 
 
 cached_train, cached_test, num_classes = load_dataset(
-    dataset_name="DVSGesture",  # or "ASLDVS"
+    dataset_name="SHD",
     dataset_path='data',
-    w=width,
+    w=freq_bins,
     h=height,
     n_frames=n_frames,
 )
@@ -49,15 +49,15 @@ cached_train, cached_test, num_classes = load_dataset(
 
 
 # Create and load dense model
-dense_model = DVSGestureSNN(
-    w=width,
-    h=height,
+dense_model = SHDSNN(
+    freq_bins=freq_bins,
     n_frames=n_frames,
     beta= 0.6,
     spike_lam= 0,
     slope= 25,
     model_type="dense",
-    device=device
+    device=device,
+    num_classes=num_classes,
 )
 
 
