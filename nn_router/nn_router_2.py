@@ -7,6 +7,27 @@ gotten everything I wanted out of it and have transferred any new code back to `
 The conclusion is that the features aren't descriptive enough, which makes sense. They don't capture any temporal aspects of
 the data. I will see if I can keep the ANN as an ANN and not a CNN, so I'll try to create new features.
 
+Gathered statistics (after validation loop and completed training):
+
+VAL AUC: 0.5663
+
+Confusion Matrix:
+ [[ 52 114]     [[ TP FN]
+ [  9  41]]     [  FP TN]]
+
+Correlation with label:
+spikes_per_lzc   -0.186185
+log_spikes       -0.207274
+std              -0.223759
+entropy          -0.233131
+entropy_std      -0.249172
+spike_count      -0.253289
+lzc              -0.267106
+dtype: float64
+
+^^^ This apparently can be interpreted as 7% of the label variability being explained by the features, and 93% as noise
+    or something not captured. Therefore, features have to change. We might need to move this to the next quarter if
+    no progress is made
 """
 
 
