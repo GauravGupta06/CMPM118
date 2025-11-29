@@ -89,30 +89,31 @@ validation_len = full_dataset.length - train_len
 
 train_dataset, validation_dataset = random_split(full_dataset, [train_len, validation_len])
 
+target_pos_frac = 0.35
 
-"vv CHATGPT GENERATED CODE vv"
 train_indices = train_dataset.indices  
-train_labels = full_dataset.labels[train_indices]
+train_labels = full_dataset.labels[train_indices].astype(int)
+n_train = len(train_labels)
+n_pos = train_labels.sum()
+n_neg = n_train - n_pos
 
-# Compute weights based on training subset
-class_counts = np.bincount(train_labels.astype(int))
-class_weights = 1. / class_counts
-sample_weights = class_weights[train_labels.astype(int)]
+desired_pos = int(target_pos_frac * n_train)
+desired_neg = n_train - desired_pos
 
-# Apply undersampling factor to majority class (optional)
-undersample_factor = 0.5  # keep ~50% of majority
-sample_weights[train_labels == 0] *= undersample_factor
+class_counts = np.bincount(train_labels)
+class_weights = 1.0 / class_counts
+sample_weights = class_weights[train_labels]
+
+pos_scale = (desired_pos / n_pos) if n_pos > 0 else 1.0
+neg_scale = (desired_neg / n_neg) if n_neg > 0 else 1.0
+sample_weights *= np.where(train_labels == 1, pos_scale, neg_scale)
 
 sampler = WeightedRandomSampler(
     weights=sample_weights,
     num_samples=len(sample_weights),
     replacement=True
 )
-
 train_dataloader = DataLoader(train_dataset, batch_size=16, sampler=sampler)
-"^^ END CHATGPT GENERATED CODE ^^"
-# Yes it does work, but the model is still struggling to learn well
-# Current issues: Recall is too high; keeps marking everything as 1.0 aka use_dense
 
 
 #train_dataloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
@@ -120,21 +121,27 @@ validation_dataloader = DataLoader(validation_dataset, batch_size=16)
 
 model = ANN_Router().to(device)
 
+"""
 # In data_train_snn.csv, use_dense has 829 False, 248 True samples
 weights = torch.tensor([1.0, 829/248], dtype=torch.float32).to(device)
 loss_function = nn.BCEWithLogitsLoss(pos_weight=weights[1])
+"""
+loss_function = nn.BCEWithLogitsLoss()
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001) 
 
 NUM_EPOCHS = 1000
+current_threshold = 0.8
 
 for i in range(NUM_EPOCHS):
     model.train()
 
+    """
     # For printing average
     total_loss = 0
     total_pred = 0
     correct_pred = 0
+    """
 
     all_labels = []
     all_decisions = []
@@ -149,12 +156,12 @@ for i in range(NUM_EPOCHS):
         # SCORE
         loss = loss_function(pred, y.float().unsqueeze(1))
 
-        total_loss += loss.item() * y.size(0)
-        total_pred += y.size(0)
+        #total_loss += loss.item() * y.size(0)
+        #total_pred += y.size(0)
         
         prob = torch.sigmoid(pred)
-        decision = (prob > 0.5).long()
-        correct_pred += (decision == y).sum().item()
+        decision = (prob > 0.6).long()
+        #correct_pred += (decision == y).sum().item()
 
         all_labels.append(y.cpu())
         all_decisions.append(decision.cpu())
@@ -165,12 +172,20 @@ for i in range(NUM_EPOCHS):
         optimizer.zero_grad()
 
 
-    """
+    
     # VALIDATION LOOP
     model.eval()
+
+    """
     val_loss = 0.0
     val_correct_pred = 0
     val_total_pred = 0
+    """
+
+    val_labels = []
+    val_labels_2 = []
+    val_probs = []
+    val_decisions = []
 
     with torch.no_grad():
         for x, y in validation_dataloader:
@@ -184,13 +199,18 @@ for i in range(NUM_EPOCHS):
             # SCORE
             loss = loss_function(pred, y.float().unsqueeze(1))
 
-            val_loss += loss.item() * y.size(0)
-            val_total_pred += y.size(0)
+            #val_loss += loss.item() * y.size(0)
+            #val_total_pred += y.size(0)
                 
             prob = torch.sigmoid(pred)
-            decision = (prob > 0.5).long()
-            val_correct_pred += (decision == y).sum().item()
-    """
+            decision = (prob > 0.6).long()
+            #val_correct_pred += (decision == y).sum().item()
+
+            val_labels.append(y.cpu().numpy().ravel())
+            val_labels_2.append(y.cpu())
+            val_probs.append(prob.cpu().numpy().ravel())
+            val_decisions.append(decision.cpu())
+    
     """
     avg_loss = total_loss / total_pred
     accuracy = correct_pred / total_pred
@@ -204,7 +224,7 @@ for i in range(NUM_EPOCHS):
     recall = recall_score(y_true, y_pred)        # More recall    -> less false negatives
     f1 = f1_score(y_true, y_pred)                # More f1        -> more balance between precision & recall
 
-    print(f"TRAIN Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
+    print(f"TRAINING Epoch: {i+1} Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
 
     """
     # Average loss and accuracy calculation after one epoch on validation
@@ -213,29 +233,31 @@ for i in range(NUM_EPOCHS):
     print(f"VALIDATION Epoch {i+1} - Average Loss: {avg_val_loss:.4f}, Accuracy: {accuracy_val:.4f}\n")
     """
 
+    val_true = torch.cat(val_labels_2).numpy()
+    val_pred = torch.cat(val_decisions).numpy()
 
-model.eval()
+    val_precision = precision_score(val_true, val_pred)  # More precision -> less false positives
+    val_recall = recall_score(val_true, val_pred)        # More recall    -> less false negatives
+    val_f1 = f1_score(val_true, val_pred)                # More f1        -> more balance between precision & recall
 
-# TESTING LOOP
-"""
-with torch.no_grad():
-    
-    # For printing average
-    total_loss = 0
-    num_batches = 0
+    print(f"VALIDATION Epoch: {i+1} Precision: {val_precision:.4f}, Recall: {val_recall:.4f}, F1: {val_f1:.4f}")
 
-    for x, y in test_dataloader:
-        # PREDICT
-        pred = model(x)
+    # Searching for the best threshold
+    val_probs = np.concatenate(val_probs)
+    val_labels = np.concatenate(val_labels)
 
-        # SCORE
-        loss = loss_function(pred, y)
+    thresholds = np.linspace(0.05, 0.95, 19)
+    best_threshold = 0.5
+    best_f1 = 0.0
+    for t in thresholds:
+        preds = (val_probs > t).astype(int)
+        curr_f1 = f1_score(val_labels, preds)
+        if curr_f1 > best_f1:
+            best_f1 = curr_f1
+            best_threshold = t
+            current_threshold = t
 
-        total_loss += loss.item()
-        num_batches += 1
-
-    print(f"TEST LOOP / Loss Average: {total_loss / num_batches}")
-"""
+    print(f"Best value for F1: {best_f1:.4f} at threshold {best_threshold:.2f}\n")
 
 # PLOT
 """
