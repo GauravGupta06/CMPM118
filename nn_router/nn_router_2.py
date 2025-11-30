@@ -1,4 +1,5 @@
 """
+11/28
 
 This file exists as a result of me following ChatGPT and letting it describe what could be the problem with the ANN router.
 Not a lot of strong changes have been added. It'll exist just to be in the GitHub history, and then I'll delete the file once I've
@@ -7,7 +8,7 @@ gotten everything I wanted out of it and have transferred any new code back to `
 The conclusion is that the features aren't descriptive enough, which makes sense. They don't capture any temporal aspects of
 the data. I will see if I can keep the ANN as an ANN and not a CNN, so I'll try to create new features.
 
-Gathered statistics (after validation loop and completed training):
+Gathered sample (after validation loop and completed training):
 
 VAL AUC: 0.5663
 
@@ -28,46 +29,116 @@ dtype: float64
 ^^^ This apparently can be interpreted as 7% of the label variability being explained by the features, and 93% as noise
     or something not captured. Therefore, features have to change. We might need to move this to the next quarter if
     no progress is made
-"""
 
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/29
 
+Continuing to let ChatGPT take the wheel, I've added new features, which can be found in `create_dataset.py`.
 
-"""
-Possible Approaches:
+It's still messy and I'm still trying to review what it all means. I'll be spending the rest of the night trying to understand what the
+features mean & playing with the model.
 
-1. --Architecture--
-- ANN: Simple, fast, easy to implement. But if fed some form of images/frames, it may ignore correlations that a CNN would pick up.
-       Will need some input to work.
-- CNN: Can detect visual patterns in frames. But may be more computationally expensive.
+It works, but it seems like the features could still be better. This might indicate that an ANN might not be the best idea for a router,
+and that a CNN or something else more energy-costly would be better. Or, I just need to find the right features to put in. I'll see what
+I can do tomorrow
 
-2. --ANN Inputs--
-- LZC: Alone is too simple. It'd likely be better to use a threshold. So, this must be combined with something else
-- Entropy: Maybe just use LZC instead? https://direct.mit.edu/neco/article/16/4/717/6821/Estimating-the-Entropy-Rate-of-Spike-Trains-via
-- Standard Deviation
-- The actual spike inputs (converting events into frames)
-- Spike count
-- (Average) Firing rate
-- Perhaps, the most appealing idea is to combine most or all of these possible inputs, and feed all of it into the ANN. This would be complex,
-  but it would make our ANN as accurate as possible
+Gathered sample (after validation loop and completed training):
 
-3. --ANN Outputs--
-- Two choices: either "use small SNN" or "use large SNN". Simple enough
-- Perhaps include confidence/probability
+VAL AUC: 0.5219
 
-4. --Training Methods--
-- Supervised learning: Label each input with which SNN would achieve better accuracy. This seems like it might take a while though, but we can automate it
-                       by running the entire dataset through both SNNs, noting which SNN gets it right (if the small SNN gets it right, label "use the small
-                       SNN", else "use large SNN"). Maybe we save it onto a CSV I dunno.
-- Reinforced learning: nah let's just do supervised learning
-- Make sure we reward the model for saving energy. If our SNNs are built for classification, then I think this isn't as much of an issue, since all we need
-  to do is make sure the ANN picks the small SNN whenever the small SNN could get an input right. In our loss function, we do need to add loss if the ANN
-  picks the large SNN when the small SNN would've worked.
+Confusion:
+ [[139  27]
+ [ 38  12]]
 
-5. --Things to Look Out For--
-- Class imbalance: As Jason mentioned. Essentially, if most problems can be correctly handled using only one of the SNNs, then our dataset is imbalanced (it
-                   probably will be), and our SNN may just always pick that one SNN for everything. We can mitigate this issue by: assigning higher weight
-                   to the minority class samples in the loss function, oversampling minority class samples (perhaps with repeated/augmented examples) and
-                   undersampling majority class samples. Also, use precision, recall, & F1-score to evaluate model results, not general accuracy.
+feat_16    0.090929
+feat_24    0.088710
+feat_1     0.085855
+feat_0     0.085855
+feat_2     0.084535
+feat_18    0.083834
+feat_22    0.083699
+feat_14    0.081359
+feat_20    0.080341
+feat_12    0.078725
+feat_9     0.078322
+feat_10    0.076270
+feat_3     0.059119
+feat_4     0.054655
+feat_41    0.051706
+feat_29    0.043629
+feat_8     0.039591
+feat_36    0.018746
+feat_33    0.017931
+feat_40    0.011487
+idx        0.008910
+feat_28    0.006866
+feat_34    0.002571
+feat_26   -0.000923
+feat_7    -0.004777
+feat_32   -0.009698
+feat_39   -0.010147
+feat_30   -0.013166
+feat_35   -0.017950
+feat_37   -0.023533
+feat_38   -0.035839
+feat_27   -0.052472
+feat_31   -0.056064
+feat_5    -0.078400
+feat_6    -0.080755
+feat_11         NaN
+feat_13         NaN
+feat_15         NaN
+feat_17         NaN
+feat_19         NaN
+feat_21         NaN
+feat_23         NaN
+feat_25         NaN
+dtype: float64
+
+Feature 0: MI=0.0370
+Feature 1: MI=0.0405
+Feature 2: MI=0.0000
+Feature 3: MI=0.0000
+Feature 4: MI=0.0000
+Feature 5: MI=0.0145
+Feature 6: MI=0.0151
+Feature 7: MI=0.0079
+Feature 8: MI=0.0014
+Feature 9: MI=0.0471
+Feature 10: MI=0.0000
+Feature 11: MI=0.0000
+Feature 12: MI=0.0480
+Feature 13: MI=0.0000
+Feature 14: MI=0.0000
+Feature 15: MI=0.0000
+Feature 16: MI=0.0000
+Feature 17: MI=0.0071
+Feature 18: MI=0.0000
+Feature 19: MI=0.0000
+Feature 20: MI=0.0347
+Feature 21: MI=0.0000
+Feature 22: MI=0.0215
+Feature 23: MI=0.0213
+Feature 24: MI=0.0291
+Feature 25: MI=0.0000
+Feature 26: MI=0.0000
+Feature 27: MI=0.0836
+Feature 28: MI=0.0199
+Feature 29: MI=0.0000
+Feature 30: MI=0.0000
+Feature 31: MI=0.0000
+Feature 32: MI=0.0000
+Feature 33: MI=0.0000
+Feature 34: MI=0.0809
+Feature 35: MI=0.0000
+Feature 36: MI=0.0000
+Feature 37: MI=0.0400
+Feature 38: MI=0.0000
+Feature 39: MI=0.0000
+Feature 40: MI=0.0462
+Feature 41: MI=0.0114
+
+Basically this is pretty bad
 """
 
 import numpy as np
@@ -82,26 +153,16 @@ from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-features_df = pd.read_csv("data_train.csv")
+features_df = pd.read_csv("data_train_v2.csv")
+x = features_df.drop(columns=["idx"]).values.astype(np.float32)
+
 labels_df = pd.read_csv("data_train_snn.csv")
-
-lzc          = features_df.iloc[:,1].values.astype(np.float32)
-entropy      = features_df.iloc[:,2].values.astype(np.float32)
-std          = features_df.iloc[:,3].values.astype(np.float32)
-spike_count  = features_df.iloc[:,4].values.astype(np.float32)
-
-# Bonus features
-log_spikes = np.log1p(spike_count)
-spikes_per_lzc = spike_count / (lzc + 1e-6)
-entropy_std = entropy * std
-
-x = np.column_stack([lzc, entropy, std, spike_count, log_spikes, spikes_per_lzc, entropy_std]).astype(np.float32)
 y = labels_df["use_dense"].map({True: 1.0, False: 0.0}).values.astype(np.float32)
 
 train_idx, val_idx = train_test_split(np.arange(len(x)), test_size=0.2, stratify=y, random_state=42)
 
 scaler = StandardScaler().fit(x[train_idx])
-x_scaled = scaler.transform(x)
+x_scaled = scaler.transform(x).astype(np.float32)
 
 class ArrayDataset(Dataset):
     def __init__(self, x_arr, y_arr, indices):
@@ -122,14 +183,15 @@ validation_dataset = ArrayDataset(x_scaled, y, val_idx)
 class ANN_Router(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layer1 = nn.Linear(7, 16)
-        self.layer2 = nn.Linear(16, 8)
-        self.layer3 = nn.Linear(8, 1)
+        self.layer1 = nn.Linear(42, 8)
+        self.layer2 = nn.Linear(8, 4)
+        self.layer3 = nn.Linear(4, 1)
         self.activation = nn.ReLU()
+        self.dropout = nn.Dropout(p=0.3)
 
     def forward(self, input):
-        partial = self.activation(self.layer1(input))
-        partial = self.activation(self.layer2(partial))
+        partial = self.dropout(self.activation(self.layer1(input)))
+        partial = self.dropout(self.activation(self.layer2(partial)))
         output = self.layer3(partial)
         return output
     
@@ -141,7 +203,7 @@ n_train = len(train_labels)
 n_pos = train_labels.sum()
 n_neg = n_train - n_pos
 
-target_pos_frac = 0.40   # Tune 0.35-0.5
+target_pos_frac = 0.45  # Tune 0.35-0.5
 desired_pos = int(target_pos_frac * n_train)
 desired_neg = n_train - desired_pos
 
@@ -154,17 +216,25 @@ neg_scale = (desired_neg / n_neg) if n_neg > 0 else 1.0
 sample_weights = sample_weights * np.where(train_labels == 1, pos_scale, neg_scale)
 
 sampler = WeightedRandomSampler(weights=sample_weights, num_samples=len(sample_weights), replacement=True)
+
 train_dataloader = DataLoader(train_dataset, batch_size=16, sampler=sampler)
+
+#train_dataloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+
 validation_dataloader = DataLoader(validation_dataset, batch_size=32, shuffle=False)
 
 model = ANN_Router().to(device)
 
+# In data_train_snn.csv, use_dense has 829 False, 248 True samples
+#weights = torch.tensor([1.0, 829/248], dtype=torch.float32).to(device)
+#loss_function = nn.BCEWithLogitsLoss(pos_weight=weights[1])
 loss_function = nn.BCEWithLogitsLoss()
 
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001) 
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-3) 
 
 NUM_EPOCHS = 1000
 current_threshold = 0.8
+temporary_threshold = 0.8
 
 for i in range(NUM_EPOCHS):
     model.train()
@@ -193,7 +263,7 @@ for i in range(NUM_EPOCHS):
         #total_pred += y.size(0)
         
         prob = torch.sigmoid(pred)
-        decision = (prob > 0.6).long()
+        decision = (prob > temporary_threshold).long()
         #correct_pred += (decision == y).sum().item()
 
         all_labels.append(y.cpu())
@@ -236,19 +306,13 @@ for i in range(NUM_EPOCHS):
             #val_total_pred += y.size(0)
                 
             prob = torch.sigmoid(pred)
-            decision = (prob > 0.6).long()
+            decision = (prob > temporary_threshold).long()
             #val_correct_pred += (decision == y).sum().item()
 
             val_labels.append(y.cpu().numpy().ravel())
             val_labels_2.append(y.cpu())
             val_probs.append(prob.cpu().numpy().ravel())
             val_decisions.append(decision.cpu())
-    
-    """
-    avg_loss = total_loss / total_pred
-    accuracy = correct_pred / total_pred
-    print(f"TRAINING Epoch: {i+1} - Average Loss: {avg_loss:.4f}, Accuracy: {accuracy:.4f}")
-    """
 
     y_true = torch.cat(all_labels).numpy()
     y_pred = torch.cat(all_decisions).numpy()
@@ -259,12 +323,7 @@ for i in range(NUM_EPOCHS):
 
     print(f"TRAINING Epoch: {i+1} Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
 
-    """
-    # Average loss and accuracy calculation after one epoch on validation
-    avg_val_loss = val_loss / val_total_pred
-    accuracy_val = val_correct_pred / val_total_pred
-    print(f"VALIDATION Epoch {i+1} - Average Loss: {avg_val_loss:.4f}, Accuracy: {accuracy_val:.4f}\n")
-    """
+
 
     val_true = torch.cat(val_labels_2).numpy()
     val_pred = torch.cat(val_decisions).numpy()
@@ -292,74 +351,20 @@ for i in range(NUM_EPOCHS):
 
     print(f"Best value for F1: {best_f1:.4f} at threshold {best_threshold:.2f}\n")
 
-
-
-
 from sklearn.metrics import roc_auc_score, confusion_matrix
 auc = roc_auc_score(val_labels, val_probs)
 print("VAL AUC:", round(auc,4))
 
-# histogram (inspect visually in notebook or save plot)
-import matplotlib.pyplot as plt
-plt.hist(val_probs[val_labels==0], bins=25, alpha=0.6, label='neg')
-plt.hist(val_probs[val_labels==1], bins=25, alpha=0.6, label='pos')
-plt.legend(); plt.title("Validation prob distributions"); plt.show()
-
-# confusion with your best threshold
-th = current_threshold
+th = temporary_threshold
 preds = (val_probs > th).astype(int)
 print("Confusion:\n", confusion_matrix(val_labels, preds))
 
-# PLOT
 """
-fig, axs = plt.subplots(2, 1)
-linear = np.linspace(0, NUM_EPOCHS, 680)
-avg_linear = np.linspace(0, NUM_EPOCHS, NUM_EPOCHS)
-axs[0].plot(linear, all_losses)
-axs[0].set_title('All Losses')
-axs[1].plot(avg_linear, average)
-axs[1].set_title('Average')
-plt.show()
+corr = features_df.corrwith(labels_df['use_dense'].astype(int))
+print(corr.sort_values(ascending=False))
+
+from sklearn.feature_selection import mutual_info_classif
+mi = mutual_info_classif(x, y)
+for i, score in enumerate(mi):
+    print(f"Feature {i}: MI={score:.4f}")
 """
-
-feature_names = [
-    "lzc",
-    "entropy",
-    "std",
-    "spike_count",
-    "log_spikes",
-    "spikes_per_lzc",
-    "entropy_std"
-]
-
-x_df = pd.DataFrame(x, columns=feature_names)
-y_series = pd.Series(y, name="label")
-
-for feat in feature_names:
-    plt.figure(figsize=(6,4))
-    plt.title(f"{feat} by label")
-    plt.boxplot(
-        [x_df[feat][y_series == 0], x_df[feat][y_series == 1]],
-        labels=["neg (0)", "pos (1)"]
-    )
-    plt.ylabel(feat)
-    plt.show()
-
-corrs = x_df.corrwith(y_series)
-print("\nCorrelation with label:")
-print(corrs.sort_values(ascending=False))
-
-import itertools
-
-pairs = list(itertools.combinations(range(len(feature_names)), 2))
-
-for i, j in pairs:
-    plt.figure(figsize=(5,5))
-    plt.scatter(
-        x[:, i], x[:, j],
-        c=y, alpha=0.4, s=10, cmap="coolwarm"
-    )
-    plt.xlabel(feature_names[i])
-    plt.ylabel(feature_names[j])
-    plt.title(f"{feature_names[i]} vs {feature_names[j]}")
-    plt.show()
