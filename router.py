@@ -360,7 +360,36 @@ def save_run_to_json(
     print(f"\nSaved run results to: {save_path}\n")
 
 
+def print_latex_table(total_accuracy,
+                      accuracy_dense_routed,
+                      accuracy_sparse_routed,
+                      avg_dense_spikes,
+                      avg_sparse_spikes,
+                      route_counts,
+                      roc_auc,
+                      optimal_threshold):
 
+    print("\n\n===================== LATEX TABLE =====================\n")
+    print(r"\begin{table}[t]")
+    print(r"\centering")
+    print(r"\begin{tabular}{l c}")
+    print(r"\hline")
+    print(r"Metric & Value \\")
+    print(r"\hline")
+    print(fr"Optimal threshold & {optimal_threshold:.2f} \\")
+    print(fr"ROC-AUC & {roc_auc:.3f} \\")
+    print(fr"Total accuracy & {total_accuracy:.3f} \\")
+    print(fr"Dense-route accuracy & {accuracy_dense_routed:.3f} \\")
+    print(fr"Sparse-route accuracy & {accuracy_sparse_routed:.3f} \\")
+    print(fr"Avg dense spikes & {avg_dense_spikes:.1f} \\")
+    print(fr"Avg sparse spikes & {avg_sparse_spikes:.1f} \\")
+    print(fr"Samples to dense & {route_counts['dense']} \\")
+    print(fr"Samples to sparse & {route_counts['sparse']} \\")
+    print(r"\hline")
+    print(r"\end{tabular}")
+    print(r"\caption{Routing performance and spike activity.}")
+    print(r"\end{table}")
+    print("\n=======================================================\n")
 
 
 def main():
@@ -464,6 +493,16 @@ def main():
     average_spike_sparse=avg_sparse_spikes
     )
 
+    print_latex_table(
+    total_accuracy,
+    accuracy_dense_routed,
+    accuracy_sparse_routed,
+    avg_dense_spikes,
+    avg_sparse_spikes,
+    route_counts,
+    roc_auc,
+    optimal_threshold
+    )
 
 if __name__ == "__main__":
     import torch.multiprocessing
