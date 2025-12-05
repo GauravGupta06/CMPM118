@@ -1,0 +1,10 @@
+{
+  "avg_energy_per_inference_j": 6.988618212121211e-07,
+  "total_energy_consumption_j": 0.00018449952079999996,
+  "avg_router_energy_j": 9.199999999999959e-12,
+  "avg_sparse_energy_j": 9.987279813664601e-08,
+  "avg_dense_energy_j": 1.6351220533980588e-06,
+  "always_dense_energy_j": 0.0003296852808,
+  "always_sparse_energy_j": 2.7106800799999982e-05,
+  "energy_savings_vs_dense_pct": 44.037683346887235
+}
