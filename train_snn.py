@@ -62,8 +62,8 @@ dense_model = SHDSNN(
 
 
 
-num_epochs = 200
-active_cores = 4
+num_epochs = 100
+active_cores = 5
 
 
 
