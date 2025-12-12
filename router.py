@@ -431,7 +431,7 @@ def main():
         w=w_large,
         h=h_large,
         n_frames=n_frames_large,
-        beta=0.8,
+        beta=0.9,
         spike_lam=0,
         slope=25,
         model_type="dense",
@@ -444,7 +444,7 @@ def main():
         w=w_small,
         h=h_small,
         n_frames=n_frames_small,
-        beta=0.4,
+        beta=0.1,
         spike_lam=1e-7,
         slope=25,
         model_type="sparse",
@@ -481,28 +481,28 @@ def main():
         test_loader, sparse_model, dense_model, optimal_threshold, results
     )
 
-    save_run_to_json(
-    results=results,
-    optimal_threshold=optimal_threshold,
-    roc_auc=roc_auc,
-    route_counts=route_counts,
-    accuracy_dense_routed=accuracy_dense_routed,
-    accuracy_sparse_routed=accuracy_sparse_routed,
-    total_accuracy=total_accuracy,
-    average_spike_dense=avg_dense_spikes,
-    average_spike_sparse=avg_sparse_spikes
-    )
+    # save_run_to_json(
+    # results=results,
+    # optimal_threshold=optimal_threshold,
+    # roc_auc=roc_auc,
+    # route_counts=route_counts,
+    # accuracy_dense_routed=accuracy_dense_routed,
+    # accuracy_sparse_routed=accuracy_sparse_routed,
+    # total_accuracy=total_accuracy,
+    # average_spike_dense=avg_dense_spikes,
+    # average_spike_sparse=avg_sparse_spikes
+    # )
 
-    print_latex_table(
-    total_accuracy,
-    accuracy_dense_routed,
-    accuracy_sparse_routed,
-    avg_dense_spikes,
-    avg_sparse_spikes,
-    route_counts,
-    roc_auc,
-    optimal_threshold
-    )
+    # print_latex_table(
+    # total_accuracy,
+    # accuracy_dense_routed,
+    # accuracy_sparse_routed,
+    # avg_dense_spikes,
+    # avg_sparse_spikes,
+    # route_counts,
+    # roc_auc,
+    # optimal_threshold
+    # )
 
 if __name__ == "__main__":
     import torch.multiprocessing
