@@ -1,8 +1,9 @@
 import torch
 import tonic
+import torch_directml as tdm
 
 from LoadDataset import load_dataset
-from SNN_model_inheritance import DVSGestureSNN
+from SNN_model import *
 
 # Model hyperparameters
 w_large = 32
@@ -37,7 +38,8 @@ def evaluate_model_on_test(model, test_loader, device):
 
 def main():
 	# Setup device
-	device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+	device = tdm.device() if tdm.is_available() else torch.device("cpu")
+	print("Using device:", device)
 	print(device)
 
 	# Load in the preprocessed dataset
@@ -49,7 +51,7 @@ def main():
 		n_frames=32
 	)
 
-	active_cores = 1
+	active_cores = 7
 	test_loader = torch.utils.data.DataLoader(
 		cached_test,
 		batch_size=1,
@@ -60,17 +62,17 @@ def main():
 	)
 
 	# Create and load model
-	model = DVSGestureSNN(
+	model = DVSGestureSNN_FC(
 		w=w_small,
 		h=h_small,
 		n_frames=n_frames_small,
 		beta=0.4,
 		spike_lam=1e-7,
 		slope=25,
-		model_type="sparse",
+		model_type="dense",
 		device=device
 	)
-	model.load_model("results/small/models/Sparse_Take47_32x32_T32.pth")
+	model.load_model("results/large/models/Non_Sparse_Take93_32x32_T32_FC_Epochs150.pth")
 
 	# Evaluate
 	accuracy, avg_spikes = evaluate_model_on_test(model, test_loader, device)

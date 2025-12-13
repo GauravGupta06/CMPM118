@@ -1,81 +1,62 @@
 # All imports go here
-import numpy as np
-import numpy.lib.recfunctions as rf
 import tonic
-import matplotlib.pyplot as plt
 import torch
-import torch.nn as nn
-import snntorch as snn
-from snntorch import surrogate
-from snntorch import functional as SF
-from snntorch import utils
-from lempel_ziv_complexity import lempel_ziv_complexity
-
-
-
-from SNN_model_inheritance import SHDSNN
+from SNN_model import *
 from LoadDataset import load_dataset
+import torch_directml as tdm
 
 
-
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+# Set device
+device = tdm.device() if tdm.is_available() else torch.device("cpu")
 print("using " + str(device))
 
 
 
-freq_bins = 700
-height = 1
-n_frames = 100
-
-
-
+# Load the dataset
 cached_train, cached_test, num_classes = load_dataset(
-    dataset_name="SHD",
-    dataset_path='data',
-    w=freq_bins,
-    h=height,
-    n_frames=n_frames,
+    dataset_name="DVSGesture",
+    dataset_path='./data',
+    w=32,
+    h=32,
+    n_frames=32,
 )
 
 
-
-# cached_train, cached_test, num_classes = load_dataset(
-#     dataset_name="ASLDVS",  # or "DVSGesture"
-#     dataset_path='data',
-#     w=width,
-#     h=height,
-#     n_frames=n_frames
-# )
-
-
-# Create and load dense model
-dense_model = SHDSNN(
-    freq_bins=freq_bins,
-    n_frames=n_frames,
-    beta= 0.6,
-    spike_lam= 0,
-    slope= 25,
+# Define the dense model
+dense_fc = DVSGestureSNN_FC(
+    w=32, h=32, n_frames=32,
+    beta=0.8,
+    spike_lam=0,  # No spike penalty for dense
     model_type="dense",
-    device=device,
-    num_classes=num_classes,
+    device=device
+)
+
+
+# Define the sparse model
+sparse_fc = DVSGestureSNN_FC(
+    w=32, h=32, n_frames=32,
+    beta=0.4,
+    spike_lam=0,  # Spike penalty for sparse
+    model_type="sparse",
+    device=device
 )
 
 
 
-num_epochs = 100
-active_cores = 5
-
-
-
-train_loader = torch.utils.data.DataLoader(cached_train, batch_size=64, shuffle=True, num_workers = active_cores, drop_last=True, 
+# Define data loaders
+train_loader = torch.utils.data.DataLoader(cached_train, batch_size=256, shuffle=False, num_workers = 7, drop_last=True, 
                                            collate_fn=tonic.collation.PadTensors(batch_first=False))
-test_loader = torch.utils.data.DataLoader(cached_test, batch_size=32, shuffle=True, num_workers = active_cores, drop_last=True, 
+test_loader = torch.utils.data.DataLoader(cached_test, batch_size=64, shuffle=False, num_workers = 7, drop_last=True, 
                                           collate_fn=tonic.collation.PadTensors(batch_first=False))
 
 
+# # Train the model
+# print("starting training dense model")
+# dense_fc.train_model(train_loader, test_loader, num_epochs = 150)
+# dense_fc.save_model()
 
-print("starting training")
-dense_model.train_model(train_loader, test_loader, num_epochs = num_epochs)
-dense_model.save_model()
+print("starting training sparse model")
+sparse_fc.train_model(train_loader, test_loader, num_epochs = 250)
+sparse_fc.save_model()
 
 
