@@ -4,3 +4,7 @@ matplotlib
 snntorch
 torch
 Lempel-Ziv-Complexity
+rockpool
+samna
+scikit-learn          
+scipy              

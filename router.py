@@ -11,7 +11,7 @@ import json
 from datetime import datetime
 
 # user made imports
-from SNN_model_inheritance import DVSGestureSNN
+from SNN_model import DVSGestureSNN
 from LoadDataset import load_dataset
 
  # Model hyperparameters
@@ -360,6 +360,7 @@ def save_run_to_json(
     print(f"\nSaved run results to: {save_path}\n")
 
 
+
 def print_latex_table(total_accuracy,
                       accuracy_dense_routed,
                       accuracy_sparse_routed,
@@ -431,7 +432,7 @@ def main():
         w=w_large,
         h=h_large,
         n_frames=n_frames_large,
-        beta=0.9,
+        beta=0.8,
         spike_lam=0,
         slope=25,
         model_type="dense",
@@ -444,7 +445,7 @@ def main():
         w=w_small,
         h=h_small,
         n_frames=n_frames_small,
-        beta=0.1,
+        beta=0.4,
         spike_lam=1e-7,
         slope=25,
         model_type="sparse",

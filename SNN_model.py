@@ -174,7 +174,7 @@ class BaseSNNModel(ABC):
         pass
     
     def load_model(self, model_path):
-        self.net.load_state_dict(torch.load(model_path, map_location=self.device))
+        self.net.load_state_dict(torch.load(model_path, map_location="cpu"))
         self.net.eval()
         print(f"Model loaded from: {model_path}")
 
@@ -185,6 +185,16 @@ class BaseSNNModel(ABC):
             spk_rec, spike_count = self.forward_pass(frames.unsqueeze(1))
             counts = spk_rec.sum(0)
             return counts.argmax(1).item(), spike_count.item()
+
+
+
+
+
+
+
+
+
+
 
 
 class DVSGestureSNN(BaseSNNModel):
@@ -221,7 +231,132 @@ class DVSGestureSNN(BaseSNNModel):
         return f"{self.w}x{self.h}_T{self.n_frames}_B{self.beta}_SpkLam{self.spike_lam}"
 
 
+
+
+
+
+
+
+
+
+
+
+
+# Add this to SNN_model_inheritance.py (replace old DVSGestureSNN_FC)
+
+class DVSGestureSNN_FC(BaseSNNModel):
+    """
+    Fully-connected SNN for DVSGesture, optimized for Xylo deployment.
+    Uses smaller hidden layers (128→64) to reduce overfitting.
+    """
+
+    def __init__(self, w, h, n_frames, beta, spike_lam, slope=25, 
+                 model_type="sparse", device=None, num_classes=11):
+        self.w = w
+        self.h = h
+        self.input_size = w * h * 2  # 32*32*2 = 2048
+        super().__init__(n_frames, beta, spike_lam, slope, model_type, device, num_classes)
+
+    def _build_network(self):
+        """
+        Optimized FC architecture: 2048 → 128 → 64 → 11
+        Total params: ~270k (less overfitting risk)
+        """
+        net = nn.Sequential(
+            nn.Flatten(start_dim=1),  # [Batch, 2, 32, 32] → [Batch, 2048]
+            nn.Linear(self.input_size, 128),  # 2048 → 128
+            snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True),
+            nn.Linear(128, 64),  # 128 → 64
+            snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True),
+            nn.Linear(64, self.num_classes),  # 64 → 11
+            snn.Leaky(beta=self.beta, spike_grad=self.grad, init_hidden=True, output=True)
+        ).to(self.device)
+        return net
+
+    def _get_save_params(self):
+        return f"{self.w}x{self.h}_T{self.n_frames}_FC"
+
+    def to_xylo_compatible(self):
+        """
+        Convert trained FC model to Xylo format.
+        Returns XyloSim object with energy tracking.
+        """
+        import numpy as np
+        from rockpool.devices.xylo import XyloSim
+        
+        # Extract linear layers
+        linear_layers = [layer for layer in self.net if isinstance(layer, nn.Linear)]
+        
+        if len(linear_layers) != 3:
+            raise ValueError(f"Expected 3 Linear layers, found {len(linear_layers)}")
+        
+        # Extract weights (transpose for Xylo: [in, out])
+        w_in = linear_layers[0].weight.data.T.cpu().numpy()   # [2048, 128]
+        w_rec = linear_layers[1].weight.data.T.cpu().numpy()  # [128, 64]
+        w_out = linear_layers[2].weight.data.T.cpu().numpy()  # [64, 11]
+        
+        # Quantize to 8-bit integers
+        def quantize(w):
+            """Quantize float weights to 8-bit range [-128, 127]"""
+            w_min, w_max = w.min(), w.max()
+            scale = 127.0 / max(abs(w_min), abs(w_max))
+            quantized = np.round(w * scale).clip(-128, 127).astype(np.int8)
+            return quantized, scale
+        
+        w_in_q, scale_in = quantize(w_in)
+        w_rec_q, scale_rec = quantize(w_rec)
+        w_out_q, scale_out = quantize(w_out)
+        
+        # Convert beta to tau (membrane time constant)
+        dt = 0.001  # 1ms timestep
+        tau_mem = -dt / np.log(self.beta) if 0 < self.beta < 1 else 0.02
+        
+        # Create Xylo configuration
+        config = {
+            'weights_in': w_in_q.astype(float) / scale_in,
+            'weights_rec': w_rec_q.astype(float) / scale_rec,
+            'weights_out': w_out_q.astype(float) / scale_out,
+            'dash_mem': np.ones(128 + 64) * tau_mem,  # Hidden neurons (128+64)
+            'dash_mem_out': np.ones(self.num_classes) * tau_mem,  # Output neurons
+            'threshold': np.ones(128 + 64) * 1.0,
+            'threshold_out': np.ones(self.num_classes) * 1.0,
+            'weight_shift_in': 0,
+            'weight_shift_rec': 0,
+            'weight_shift_out': 0,
+        }
+        
+        # Create XyloSim instance
+        xylo_model = XyloSim.from_config(**config)
+        
+        metadata = {
+            'quantization_scales': {
+                'input': float(scale_in),
+                'recurrent': float(scale_rec),
+                'output': float(scale_out)
+            },
+            'architecture': f"{self.input_size}→128→64→{self.num_classes}",
+            'original_beta': float(self.beta),
+            'tau_mem': float(tau_mem),
+            'total_params': int(self.input_size * 128 + 128 * 64 + 64 * self.num_classes)
+        }
+        
+        return xylo_model, metadata
+
+
+
+
+
+
+
+
+
+
+
+
+
 class SHDSNN(BaseSNNModel):
+
+
     """SNN model for Spiking Heidelberg Digits (SHD) dataset."""
 
     def __init__(self, freq_bins, n_frames, beta, spike_lam, slope=25, model_type="sparse", device=None, num_classes=20):
