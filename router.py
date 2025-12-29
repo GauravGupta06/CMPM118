@@ -396,7 +396,7 @@ def print_latex_table(total_accuracy,
 def main():
     # Setup device
     #device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-    device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     print(device)
 
 
@@ -413,6 +413,7 @@ def main():
         h=32,
         n_frames=32
     )
+
 
 
     active_cores = 1

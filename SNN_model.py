@@ -160,8 +160,12 @@ class BaseSNNModel(ABC):
         model_params = self._get_save_params()
         model_save_path = f"{base_path}/{subdir}/models/{model_name}_Take{num}_{model_params}_Epochs{self.epochs}.pth"
         graph_save_path = f"{base_path}/{subdir}/graphs/{model_name}_Take{num}_{model_params}_Epochs{self.epochs}.png"
-        
+        pvc_save_path = f"/workspace/models/{model_name}_Take{num}_{model_params}_Epochs{self.epochs}.pth"
+
         torch.save(self.net.state_dict(), model_save_path)
+        torch.save(self.net.state_dict(), pvc_save_path)
+
+        
         plt.savefig(graph_save_path)
         plt.show()
         
@@ -242,7 +246,6 @@ class DVSGestureSNN(BaseSNNModel):
 
 
 
-# Add this to SNN_model_inheritance.py (replace old DVSGestureSNN_FC)
 
 class DVSGestureSNN_FC(BaseSNNModel):
     """

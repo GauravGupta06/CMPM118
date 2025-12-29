@@ -3,12 +3,11 @@ import tonic
 import torch
 from SNN_model import *
 from LoadDataset import load_dataset
-import torch_directml as tdm
 
 
 # Set device
-device = tdm.device() if tdm.is_available() else torch.device("cpu")
-print("using " + str(device))
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+print(device)
 
 
 
@@ -44,9 +43,9 @@ sparse_fc = DVSGestureSNN_FC(
 
 
 # Define data loaders
-train_loader = torch.utils.data.DataLoader(cached_train, batch_size=256, shuffle=False, num_workers = 7, drop_last=True, 
+train_loader = torch.utils.data.DataLoader(cached_train, batch_size=1028, shuffle=False, num_workers = 17, drop_last=True, 
                                            collate_fn=tonic.collation.PadTensors(batch_first=False))
-test_loader = torch.utils.data.DataLoader(cached_test, batch_size=64, shuffle=False, num_workers = 7, drop_last=True, 
+test_loader = torch.utils.data.DataLoader(cached_test, batch_size=64, shuffle=False, num_workers = 17, drop_last=True, 
                                           collate_fn=tonic.collation.PadTensors(batch_first=False))
 
 
