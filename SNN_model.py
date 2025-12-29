@@ -92,7 +92,7 @@ class BaseSNNModel(ABC):
 
                 cnt += 1
     
-    def spike_regularizer(self, spike_count, lam=1e-4):
+    def spike_regularizer(self, spike_count, lam):
         """Apply spiking penalty."""
         return lam * spike_count
     
@@ -233,7 +233,6 @@ class DVSGestureSNN(BaseSNNModel):
 
     def _get_save_params(self):
         return f"{self.w}x{self.h}_T{self.n_frames}_B{self.beta}_SpkLam{self.spike_lam}"
-
 
 
 
