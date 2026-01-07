@@ -1,4 +1,8 @@
 __pycache__/
 data/DVSGesture
 data/SHD
+rockpoolDevelopment/data/SHD
 .venv/
+MNIST/*.Zone.Identifier
+
+

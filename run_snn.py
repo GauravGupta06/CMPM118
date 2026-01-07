@@ -38,7 +38,7 @@ def evaluate_model_on_test(model, test_loader, device):
 
 def main():
 	# Setup device
-	device = tdm.device() if tdm.is_available() else torch.device("cpu")
+	device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 	print("Using device:", device)
 	print(device)
 
