@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaurav-training
+  labels:
+    app: gpu-app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: gpu-app
+  template:
+    metadata:
+      labels:
+        app: gpu-app
+    spec:
+      imagePullSecrets:
+      - name: gitlab-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.product
+                operator: In
+                values:
+                - NVIDIA-L4
+                - NVIDIA-A10
+                - NVIDIA-GeForce-RTX-4090
+      containers:
+      - name: gpu-container
+        image: registry.gitlab.com/gauravgupta07/gauravgupta07-snn/train-snn:latest
+        command: ["sleep", "infinity"]
+        resources:
+          limits:
+            memory: 64Gi
+            cpu: "18"
+            nvidia.com/gpu: "1"
+          requests:
+            memory: 64Gi
+            cpu: "18"
+            nvidia.com/gpu: "1"
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /workspace  # PVC mounted here - use /workspace to save models/results
+          name: storage
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: "48Gi"
+      - name: storage
+        persistentVolumeClaim:
+          claimName: gaurav-storage
