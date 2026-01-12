@@ -106,16 +106,6 @@ python train.py \
   --dataset_path ./data
 ```
 
-### Training with 16-bin Frequency Reduction (Xylo-compatible)
-```bash
-python train.py \
-  --model_type sparse \
-  --reduce_to_16 \
-  --epochs 200 \
-  --output_path /workspace \
-  --dataset_path ./data
-```
-
 ## Step 6: Verify Models are Saved to PVC
 
 After training completes, check that models were saved:

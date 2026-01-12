@@ -118,6 +118,10 @@ class BaseSNNModel(ABC):
                 # Sum spikes over time: [T, B, num_classes] -> [B, num_classes]
                 spike_counts = spk_rec.sum(0)
 
+                # Debug: show spike output info at first iteration
+                if cnt == 0:
+                    print(f"DEBUG: spk_rec per-timestep max={spk_rec.max().item():.1f}, spike_counts range=[{spike_counts.min().item():.0f}, {spike_counts.max().item():.0f}]")
+
                 loss = self.loss_fn(spike_counts, targets) + self.spike_regularizer(spike_count, lam=self.spike_lam)
 
                 self.optimizer.zero_grad()

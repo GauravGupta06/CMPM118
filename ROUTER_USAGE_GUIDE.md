@@ -22,19 +22,7 @@ python router.py \
 
 ---
 
-### Example 2: Using 16-Bin Models (For Xylo Hardware)
-```bash
-python router.py \
-  --sparse_model_path ./results/small/models/Sparse_16bin_Take1.pth \
-  --dense_model_path ./results/large/models/Dense_16bin_Take1.pth \
-  --input_size 16 \
-  --reduce_to_16
-```
-**What this does:** Uses models trained with 16 frequency bins instead of 700
-
----
-
-### Example 3: Custom Hyperparameters
+### Example 2: Custom Hyperparameters
 ```bash
 python router.py \
   --sparse_model_path ./results/small/models/Sparse_Custom.pth \
@@ -48,7 +36,7 @@ python router.py \
 
 ---
 
-### Example 4: Different Dataset Path
+### Example 3: Different Dataset Path
 ```bash
 python router.py \
   --sparse_model_path ./results/small/models/Sparse.pth \
@@ -59,7 +47,7 @@ python router.py \
 
 ---
 
-### Example 5: See All Options and Help
+### Example 4: See All Options and Help
 ```bash
 python router.py --help
 ```
@@ -126,9 +114,8 @@ python router.py --sparse_model_path ./results/small/models/Sparse.pth --dense_m
 | Argument | Type | Default | Description |
 |----------|------|---------|-------------|
 | `--dataset_path` | string | `./data` | Directory where SHD dataset is cached |
-| `--input_size` | int | 700 | Number of frequency bins (700 or 16) |
+| `--input_size` | int | 700 | Number of frequency bins |
 | `--n_frames` | int | 100 | Number of temporal bins |
-| `--reduce_to_16` | flag | False | Enable 16-bin frequency reduction |
 
 ### Model Hyperparameter Arguments
 
@@ -179,24 +166,15 @@ Usage: `--dataset_path /my/path`
 
 **Integer argument:**
 ```python
-parser.add_argument('--input_size', type=int, default=700, choices=[700, 16])
+parser.add_argument('--input_size', type=int, default=700)
 ```
 Usage: `--input_size 700`
-The `choices` parameter means only 700 or 16 are valid values.
 
 **Float argument:**
 ```python
 parser.add_argument('--tau_mem_sparse', type=float, default=0.01)
 ```
 Usage: `--tau_mem_sparse 0.015`
-
-**Boolean flag (special!):**
-```python
-parser.add_argument('--reduce_to_16', action='store_true')
-```
-Usage: Just `--reduce_to_16` (no value needed)
-- If you include `--reduce_to_16`, it becomes `True`
-- If you DON'T include it, it's `False`
 
 #### Step 3: Parse the Arguments
 ```python
@@ -227,7 +205,7 @@ sparse_model = SHDSNN_FC(
 
 Let's trace what happens when you run:
 ```bash
-python router.py --sparse_model_path models/sparse.pth --dense_model_path models/dense.pth --input_size 16
+python router.py --sparse_model_path models/sparse.pth --dense_model_path models/dense.pth --n_frames 100
 ```
 
 1. **Python starts router.py**
@@ -235,9 +213,8 @@ python router.py --sparse_model_path models/sparse.pth --dense_model_path models
 3. **Calls `args = parser.parse_args()`**
    - Sees `--sparse_model_path models/sparse.pth` → `args.sparse_model_path = "models/sparse.pth"`
    - Sees `--dense_model_path models/dense.pth` → `args.dense_model_path = "models/dense.pth"`
-   - Sees `--input_size 16` → `args.input_size = 16`
-   - Doesn't see `--n_frames`, so uses default → `args.n_frames = 100`
-   - Doesn't see `--reduce_to_16` flag → `args.reduce_to_16 = False`
+   - Sees `--n_frames 100` → `args.n_frames = 100`
+   - Doesn't see `--input_size`, so uses default → `args.input_size = 700`
 4. **Your code uses these values:**
    ```python
    sparse_model.load_model(args.sparse_model_path)  # Uses "models/sparse.pth"

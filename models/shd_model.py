@@ -29,7 +29,7 @@ class SHDSNN_FC(BaseSNNModel):
                  model_type="dense", device=None, num_classes=20, lr=0.001):
         """
         Args:
-            input_size: Number of frequency bins (700 or 16). Total input features = input_size * 2
+            input_size: Number of frequency bins (700 for SHD). Total input features = input_size * 2
             n_frames: Number of time steps
             tau_mem: Membrane time constant in seconds (0.01 for sparse, 0.02 for dense)
             spike_lam: Spike regularization (1e-6 for sparse, 1e-8 for dense)
@@ -50,13 +50,16 @@ class SHDSNN_FC(BaseSNNModel):
         # SHD has 2 channels, so actual input features = input_size * 2
         actual_input_size = self.input_size * 2
 
+        # Higher threshold makes it harder to spike, resulting in sparser/binary output
+        threshold = 1
+
         net = Sequential(
             LinearTorch((actual_input_size, 256), has_bias=True),
-            LIFTorch(256, tau_mem=self.tau_mem, dt=self.dt),
+            LIFTorch(256, tau_mem=self.tau_mem, threshold=threshold, dt=self.dt),
             LinearTorch((256, 128), has_bias=True),
-            LIFTorch(128, tau_mem=self.tau_mem, dt=self.dt),
+            LIFTorch(128, tau_mem=self.tau_mem, threshold=threshold, dt=self.dt),
             LinearTorch((128, self.num_classes), has_bias=True),
-            LIFTorch(self.num_classes, tau_mem=self.tau_mem, dt=self.dt),
+            LIFTorch(self.num_classes, tau_mem=self.tau_mem, threshold=threshold, dt=self.dt),
         )
 
         return net.to(self.device)
@@ -64,13 +67,17 @@ class SHDSNN_FC(BaseSNNModel):
     def _prepare_input(self, data):
         """
         Prepare SHD input for Rockpool.
-        Input: [T, B, C, 1, freq_bins] from tonic
-        Output: [B, T, C*freq_bins] for Rockpool
+        Input: [T, B, C, 1, freq_bins] from tonic (spike counts per bin)
+        Output: [B, T, C*freq_bins] for Rockpool (binary spikes)
         """
         T, B = data.size(0), data.size(1)
         x = data.transpose(0, 1)  # [B, T, C, 1, freq_bins]
         x = x.squeeze(3)           # [B, T, C, freq_bins]
         x = x.flatten(2)           # [B, T, C*freq_bins]
+
+        # Convert spike counts to binary (spike happened or not)
+        
+
         return x
 
     def _get_save_params(self):

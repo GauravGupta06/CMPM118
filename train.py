@@ -17,8 +17,6 @@ def main():
     parser = argparse.ArgumentParser(description="Train Rockpool SNN on SHD")
     parser.add_argument('--model_type', type=str, default='dense', choices=['sparse', 'dense'],
                         help='Model type: sparse (fewer spikes) or dense (more spikes)')
-    parser.add_argument('--reduce_to_16', action='store_true',
-                        help='Reduce 700 → 16 features (Xylo-compatible)')
     parser.add_argument('--n_frames', type=int, default=100,
                         help='Number of time steps')
     parser.add_argument('--epochs', type=int, default=200,
@@ -43,11 +41,10 @@ def main():
     print("=" * 60)
 
     # Load dataset
-    print(f"\nLoading SHD dataset (reduce_to_16={args.reduce_to_16})...")
+    print(f"\nLoading SHD dataset...")
     cached_train, cached_test, num_classes = load_shd(
         dataset_path=args.dataset_path,
-        n_frames=args.n_frames,
-        reduce_to_16=args.reduce_to_16
+        n_frames=args.n_frames
     )
     print(f"Dataset loaded: {num_classes} classes")
 
@@ -59,9 +56,6 @@ def main():
         batch_size=args.batch_size,
         shuffle=True,
         num_workers=args.num_workers,
-        drop_last=True,
-        pin_memory=use_cuda,
-        persistent_workers=args.num_workers > 0,
         collate_fn=tonic.collation.PadTensors(batch_first=False)
     )
 
@@ -70,29 +64,26 @@ def main():
         batch_size=args.batch_size,
         shuffle=False,
         num_workers=args.num_workers,
-        drop_last=False,
-        pin_memory=use_cuda,
-        persistent_workers=args.num_workers > 0,
         collate_fn=tonic.collation.PadTensors(batch_first=False)
     )
 
     # Model hyperparameters (sparse vs dense)
     # NOTE: spike_lam=0 for now to maximize accuracy
     if args.model_type == 'sparse':
-        tau_mem = 0.02
+        tau_mem = 0.1
         spike_lam = 0.0
         print(f"\nTraining SPARSE model:")
         print(f"   - tau_mem: {tau_mem}")
         print(f"   - spike_lam: {spike_lam} (disabled)")
     else:  # dense
-        tau_mem = 0.02
+        tau_mem = 0.1
         spike_lam = 0.0
         print(f"\nTraining DENSE model:")
         print(f"   - tau_mem: {tau_mem}")
         print(f"   - spike_lam: {spike_lam} (disabled)")
 
-    # Input size depends on binning
-    input_size = 16 if args.reduce_to_16 else 700
+    # Input size for SHD dataset (700 frequency bins)
+    input_size = 700
     print(f"   - input_size: {input_size}")
 
     # Create model
