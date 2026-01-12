@@ -45,8 +45,6 @@ def main():
                         help='Path to trained model file (.pth)')
     parser.add_argument('--model_type', type=str, default='dense', choices=['sparse', 'dense'],
                         help='Model type: sparse or dense')
-    parser.add_argument('--reduce_to_16', action='store_true',
-                        help='Reduce 700 → 16 features')
     parser.add_argument('--n_frames', type=int, default=100,
                         help='Number of time steps')
     parser.add_argument('--dataset_path', type=str, default='./data',
@@ -60,11 +58,10 @@ def main():
     print("=" * 60)
 
     # Load dataset
-    print(f"\nLoading SHD dataset (reduce_to_16={args.reduce_to_16})...")
+    print(f"\nLoading SHD dataset...")
     cached_train, cached_test, num_classes = load_shd(
         dataset_path=args.dataset_path,
-        n_frames=args.n_frames,
-        reduce_to_16=args.reduce_to_16
+        n_frames=args.n_frames
     )
     print(f"Dataset loaded: {num_classes} classes")
 
@@ -78,7 +75,7 @@ def main():
     )
 
     # Model hyperparameters
-    input_size = 16 if args.reduce_to_16 else 700
+    input_size = 700
     tau_mem = 0.01 if args.model_type == 'sparse' else 0.02
     spike_lam = 1e-6 if args.model_type == 'sparse' else 1e-8
 
