@@ -1,14 +1,3 @@
-import numpy as np
-import torch, torch.nn as nn
-from torch.utils.data import Dataset, DataLoader, Subset, random_split, WeightedRandomSampler
-import torchvision.datasets as datasets
-from torchvision.transforms import v2
-import pandas as pd
-import matplotlib.pyplot as plt
-import snntorch as snn
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import precision_score, recall_score, f1_score
-
 """
 Possible Approaches:
 
@@ -46,6 +35,18 @@ Possible Approaches:
                    to the minority class samples in the loss function, oversampling minority class samples (perhaps with repeated/augmented examples) and
                    undersampling majority class samples. Also, use precision, recall, & F1-score to evaluate model results, not general accuracy.
 """
+
+import numpy as np
+import torch, torch.nn as nn
+from torch.utils.data import Dataset, DataLoader, Subset, random_split, WeightedRandomSampler
+import torchvision.datasets as datasets
+from torchvision.transforms import v2
+import pandas as pd
+import matplotlib.pyplot as plt
+import snntorch as snn
+from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 class ANN_Router_Dataset(Dataset):
     def __init__(self, feature_csv, label_csv):

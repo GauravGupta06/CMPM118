@@ -138,7 +138,7 @@ Feature 39: MI=0.0000
 Feature 40: MI=0.0462
 Feature 41: MI=0.0114
 
-Basically this is pretty bad
+Basically this is pretty bad. For the one directly above me, 0.0 essentially means the feature adds nothing
 """
 
 import numpy as np
@@ -183,9 +183,9 @@ validation_dataset = ArrayDataset(x_scaled, y, val_idx)
 class ANN_Router(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layer1 = nn.Linear(42, 8)
-        self.layer2 = nn.Linear(8, 4)
-        self.layer3 = nn.Linear(4, 1)
+        self.layer1 = nn.Linear(42, 12) # Tune sizes here
+        self.layer2 = nn.Linear(12, 6)
+        self.layer3 = nn.Linear(6, 1)
         self.activation = nn.ReLU()
         self.dropout = nn.Dropout(p=0.3)
 
@@ -232,9 +232,9 @@ loss_function = nn.BCEWithLogitsLoss()
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-3) 
 
-NUM_EPOCHS = 1000
+NUM_EPOCHS = 750          # Tune
 current_threshold = 0.8
-temporary_threshold = 0.8
+temporary_threshold = 0.8 # Tune
 
 for i in range(NUM_EPOCHS):
     model.train()
@@ -351,13 +351,31 @@ for i in range(NUM_EPOCHS):
 
     print(f"Best value for F1: {best_f1:.4f} at threshold {best_threshold:.2f}\n")
 
-from sklearn.metrics import roc_auc_score, confusion_matrix
+from sklearn.metrics import roc_curve, roc_auc_score, confusion_matrix
 auc = roc_auc_score(val_labels, val_probs)
 print("VAL AUC:", round(auc,4))
 
 th = temporary_threshold
 preds = (val_probs > th).astype(int)
 print("Confusion:\n", confusion_matrix(val_labels, preds))
+
+# val_labels: true labels (0/1)
+# val_probs: predicted probabilities for the positive class
+
+# Compute ROC curve points
+fpr, tpr, thresholds = roc_curve(val_labels, val_probs)
+
+# Plot ROC curve
+plt.figure()
+plt.plot(fpr, tpr, label=f"ROC curve (AUC = {auc:.2f})")
+plt.plot([0, 1], [0, 1], linestyle='--', label="Random")
+
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve for ANN Routing")
+plt.legend(loc="lower right")
+plt.grid(True)
+plt.show()
 
 """
 corr = features_df.corrwith(labels_df['use_dense'].astype(int))
