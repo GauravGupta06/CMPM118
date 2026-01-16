@@ -77,8 +77,13 @@ class BaseSNNModel(ABC):
         output, state_dict, recording_dict = self.net(x)
 
         # Count spikes from all LIF layers
-        spike_count = self._count_spikes(output)
-
+        if output.dim() == 3:
+            spike_count = output.sum()
+            spk_rec = output.transpose(0, 1)  # [T, B, C]
+            return spk_rec, spike_count
+        elif output.dim() == 2:
+            spike_count = torch.tensor(0.0, device=self.device)
+            return output, spike_count
         # Reshape output back to [T, B, num_classes] for compatibility
         spk_rec = output.transpose(0, 1)  # [T, B, num_classes]
 
@@ -114,9 +119,10 @@ class BaseSNNModel(ABC):
 
                 spk_rec, spike_count = self.forward_pass(data)
 
-                # Use spike counts over time for classification
-                # Sum spikes over time: [T, B, num_classes] -> [B, num_classes]
-                spike_counts = spk_rec.sum(0)
+                if spk_rec.dim() == 3:
+                    spike_counts = spk_rec.sum(dim=1)  # sum over T → [B, C]
+                else:
+                    spike_counts = spk_rec  # [B, C]
 
                 # Debug: show spike output info at first iteration
                 if cnt == 0:
@@ -167,7 +173,11 @@ class BaseSNNModel(ABC):
                 spk_rec, _ = self.forward_pass(data)
 
                 # Sum spikes over time for classification
-                spike_counts = spk_rec.sum(0)
+                if spk_rec.dim() == 3:
+                    spike_counts = spk_rec.sum(dim=1)  # sum over time → [B, C]
+                else:
+                    spike_counts = spk_rec  # already [B, C]
+
                 predicted = spike_counts.argmax(1)
 
                 correct += (predicted == targets).sum().item()
