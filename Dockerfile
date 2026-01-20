@@ -12,9 +12,10 @@ COPY models/ ./models/
 COPY results/ ./results/
 
 # Copy training and evaluation scripts
-COPY train.py .
+COPY train_shd.py .
 COPY evaluate.py .
 COPY router.py .
+COPY train_shd_new.py .
 
 # Copy data directory (for dataset caching)
 COPY data/ ./data/
@@ -22,7 +23,5 @@ COPY data/ ./data/
 # Copy requirements for reference
 COPY requirements.txt .
 
-# Copy documentation
-COPY ROUTER_USAGE_GUIDE.md .
 
 CMD ["sleep", "infinity"]

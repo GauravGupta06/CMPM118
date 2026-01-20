@@ -12,7 +12,7 @@ from rockpool.nn.combinators import Sequential
 class BaseSNNModel(ABC):
     """Base class for Rockpool SNN models with common functionality."""
 
-    def __init__(self, n_frames, tau_mem, spike_lam, model_type="sparse", device=None, num_classes=None, lr=0.001):
+    def __init__(self, n_frames, tau_mem, spike_lam, model_type="sparse", device=None, num_classes=None, lr=0.001, dt=0.001, threshold=1.0, has_bias=True):
         """
         Args:
             n_frames: Number of time steps
@@ -23,15 +23,18 @@ class BaseSNNModel(ABC):
             num_classes: Number of output classes
             lr: Learning rate (default 0.001)
         """
+        self.device = device if device else (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
+
         self.n_frames = n_frames
         self.tau_mem = tau_mem
         self.model_type = model_type
-        self.device = device if device else (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
         self.spike_lam = spike_lam
         self.epochs = None
         self.num_classes = num_classes
-        self.dt = 0.001  # 1ms timestep for Xylo compatibility
+        self.dt = dt
         self.lr = lr
+        self.threshold = threshold
+        self.has_bias = has_bias
 
         # Build network
         self.net = self._build_network()
@@ -41,6 +44,12 @@ class BaseSNNModel(ABC):
         torch_params = [p for name, p in self.net.named_parameters()]
         self.optimizer = torch.optim.Adam(torch_params, lr=self.lr, betas=(0.9, 0.999))
         self.loss_fn = nn.CrossEntropyLoss()
+        
+        # Learning rate scheduler - reduces lr by factor of 0.5 when test accuracy plateaus
+        # patience=10 means wait 10 evaluations before reducing lr (more stable for recurrent nets)
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            self.optimizer, mode='max', factor=0.5, patience=10, verbose=True, min_lr=1e-6
+        )
 
         # History tracking
         self.loss_hist = []
@@ -102,45 +111,52 @@ class BaseSNNModel(ABC):
 
     def train_model(self, train_loader, test_loader, num_epochs=150, print_every=15):
         """Train the model using dataset-agnostic training loop."""
+        print("starting training")
         self.epochs = num_epochs
         cnt = 0
 
         for epoch in range(num_epochs):
             for batch, (data, targets) in enumerate(iter(train_loader)):
-                data = data.to(self.device)
+                data = data.to(self.device).float()
                 targets = targets.to(self.device)
 
                 self.net.train()
 
-                spk_rec, spike_count = self.forward_pass(data)
-
-                # Use spike counts over time for classification
-                # Sum spikes over time: [T, B, num_classes] -> [B, num_classes]
-                spike_counts = spk_rec.sum(0)
-
-                # Debug: show spike output info at first iteration
-                if cnt == 0:
-                    print(f"DEBUG: spk_rec per-timestep max={spk_rec.max().item():.1f}, spike_counts range=[{spike_counts.min().item():.0f}, {spike_counts.max().item():.0f}]")
-
-                loss = self.loss_fn(spike_counts, targets) + self.spike_regularizer(spike_count, lam=self.spike_lam)
-
                 self.optimizer.zero_grad()
+                output, _, _ = self.net(data)
+
+                # Use MEAN over time instead of cumsum - much more stable for recurrent networks
+                # This prevents exploding values regardless of spike cascade magnitude
+                logits = output.mean(dim=1)  # [B, num_classes] - average activity per class
+                
+                loss = self.loss_fn(logits, targets)
+
                 loss.backward()
+                
+                # Gradient clipping to prevent exploding gradients with recurrence
+                torch.nn.utils.clip_grad_norm_(
+                    [p for _, p in self.net.named_parameters()], max_norm=1.0
+                )
+                
                 self.optimizer.step()
 
                 self.loss_hist.append(loss.item())
 
                 # Calculate accuracy
-                predicted = spike_counts.argmax(1)
-                acc = (predicted == targets).float().mean()
-                self.acc_hist.append(acc.item())
+                acc = ((logits.argmax(1) == targets).sum().item()) / targets.size(0)
+                self.acc_hist.append(acc)
 
                 if cnt % print_every == 0:
                     print(f"Epoch {epoch}, Iteration {batch} \nTrain Loss: {loss.item():.2f}")
-                    print(f"Train Accuracy: {acc.item() * 100:.2f}%")
+                    print(f"Train Accuracy: {acc * 100:.2f}%")
                     test_acc = self.validate_model(test_loader)
                     self.test_acc_hist.append(test_acc)
-                    print(f"Test Accuracy: {test_acc * 100:.2f}%\n")
+                    print(f"Test Accuracy: {test_acc * 100:.2f}%")
+                    
+                    # Step the learning rate scheduler based on test accuracy
+                    self.scheduler.step(test_acc)
+                    current_lr = self.optimizer.param_groups[0]['lr']
+                    print(f"Current LR: {current_lr:.6f}\n")
 
                 cnt += 1
 
@@ -163,14 +179,11 @@ class BaseSNNModel(ABC):
 
         with torch.no_grad():
             for (data, targets) in test_loader:
-                data, targets = data.to(self.device), targets.to(self.device)
-                spk_rec, _ = self.forward_pass(data)
-
-                # Sum spikes over time for classification
-                spike_counts = spk_rec.sum(0)
-                predicted = spike_counts.argmax(1)
-
-                correct += (predicted == targets).sum().item()
+                data, targets = data.to(self.device).float(), targets.to(self.device)
+                output, _, _ = self.net(data)
+                # Use mean over time - same as training
+                logits = output.mean(dim=1)
+                correct += (logits.argmax(1) == targets).sum().item()
                 total += targets.size(0)
 
         return correct / total if total > 0 else 0.0
