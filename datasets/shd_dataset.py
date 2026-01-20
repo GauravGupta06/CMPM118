@@ -78,7 +78,7 @@ class SHDDataset(NeuromorphicDataset):
     def _get_transforms(self):
         """Create tonic transforms for SHD dataset."""
         transform = transforms.Compose([
-            transforms.Downsample(time_factor=1e-6 / self.net_dt, spatial_factor=1.0),
+            transforms.Downsample(time_factor= (1e-6/self.net_dt), spatial_factor=1.0),
             ToRaster(self.NUM_CHANNELS, self.NUM_POLARITIES, self.n_frames),
             torch.tensor,
         ])

@@ -17,7 +17,7 @@ from core.base_model import BaseSNNModel
 class SHDSNN_FC(BaseSNNModel):
     """
     Fully-connected SNN for SHD dataset using Rockpool.
-    Architecture: (input_size*2) → 256 → 128 → 20
+    Architecture: (input_size*2) → 128 → 64 → 32 → 20 (with recurrent connections)
     Note: SHD has 2 channels (polarity), so total input = input_size * 2
     Xylo-compatible (no Conv layers).
 
@@ -49,27 +49,43 @@ class SHDSNN_FC(BaseSNNModel):
 
     def _build_network(self):
         """
-        Build FC architecture: (input_size*2) → 256 → 128 → 20
+        Build FC architecture with recurrence: (input_size*2) → 128 → 64 → 32 → 20
         Note: input_size is multiplied by 2 because SHD has 2 channels (polarity)
-        Uses Rockpool's Sequential + LinearTorch + LIFTorch
+        Uses Rockpool's Sequential + LinearTorch + LIFTorch with recurrent connections
         """
         # SHD has 2 channels, so actual input features = input_size * 2
         actual_input_size = self.input_size * 2
 
         # Use Constant() to keep LIF parameters fixed during training (only train weights)
+        # has_rec=True enables recurrent connections within each LIF layer (good for temporal data)
         net = Sequential(
-            LinearTorch((actual_input_size, 256), has_bias=self.has_bias),
-            LIFTorch(256, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn), 
-                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=False),
-            LinearTorch((256, 128), has_bias=self.has_bias),
-            LIFTorch(128, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn),
-                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=False),
-            LinearTorch((128, self.num_classes), has_bias=self.has_bias),
+            LinearTorch((actual_input_size, 128), has_bias=self.has_bias),
+            LIFTorch(128, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn), 
+                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=True),
+            LinearTorch((128, 64), has_bias=self.has_bias),
+            LIFTorch(64, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn),
+                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=True),
+            LinearTorch((64, 32), has_bias=self.has_bias),
+            LIFTorch(32, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn),
+                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=True),
+            LinearTorch((32, self.num_classes), has_bias=self.has_bias),
             # ExpSynTorch output layer: produces smooth synaptic current instead of spikes
             ExpSynTorch(self.num_classes, dt=self.dt, tau=Constant(5e-3)),
-        )
+        ).to(self.device)
 
-        return net.to(self.device)
+        # Initialize recurrent weights to be SMALL to prevent cascade explosions
+        self._init_small_recurrent_weights(net)
+        
+        return net
+    
+    def _init_small_recurrent_weights(self, net):
+        """Scale down recurrent weights to prevent spike cascades."""
+        with torch.no_grad():
+            for name, param in net.named_parameters():
+                if 'w_rec' in name.lower() or 'rec' in name.lower():
+                    # Scale recurrent weights to 1% of original
+                    param.data *= 0.01
+                    print(f"Scaled {name} by 0.01 for stability")
 
     def _prepare_input(self, data):
         """

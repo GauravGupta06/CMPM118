@@ -44,6 +44,12 @@ class BaseSNNModel(ABC):
         torch_params = [p for name, p in self.net.named_parameters()]
         self.optimizer = torch.optim.Adam(torch_params, lr=self.lr, betas=(0.9, 0.999))
         self.loss_fn = nn.CrossEntropyLoss()
+        
+        # Learning rate scheduler - reduces lr by factor of 0.5 when test accuracy plateaus
+        # patience=10 means wait 10 evaluations before reducing lr (more stable for recurrent nets)
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            self.optimizer, mode='max', factor=0.5, patience=10, verbose=True, min_lr=1e-6
+        )
 
         # History tracking
         self.loss_hist = []
@@ -119,20 +125,25 @@ class BaseSNNModel(ABC):
                 self.optimizer.zero_grad()
                 output, _, _ = self.net(data)
 
-
-                spike_counts = torch.cumsum(output, dim=1)[:, -1, :]
+                # Use MEAN over time instead of cumsum - much more stable for recurrent networks
+                # This prevents exploding values regardless of spike cascade magnitude
+                logits = output.mean(dim=1)  # [B, num_classes] - average activity per class
                 
-                # loss = self.loss_fn(spike_counts, targets) + self.spike_regularizer(output, lam=self.spike_lam)
-                loss = self.loss_fn(spike_counts, targets)
+                loss = self.loss_fn(logits, targets)
 
-                self.optimizer.zero_grad()
                 loss.backward()
+                
+                # Gradient clipping to prevent exploding gradients with recurrence
+                torch.nn.utils.clip_grad_norm_(
+                    [p for _, p in self.net.named_parameters()], max_norm=1.0
+                )
+                
                 self.optimizer.step()
 
                 self.loss_hist.append(loss.item())
 
                 # Calculate accuracy
-                acc = ((spike_counts.argmax(1) == targets).sum().item()) / targets.size(0)
+                acc = ((logits.argmax(1) == targets).sum().item()) / targets.size(0)
                 self.acc_hist.append(acc)
 
                 if cnt % print_every == 0:
@@ -140,7 +151,12 @@ class BaseSNNModel(ABC):
                     print(f"Train Accuracy: {acc * 100:.2f}%")
                     test_acc = self.validate_model(test_loader)
                     self.test_acc_hist.append(test_acc)
-                    print(f"Test Accuracy: {test_acc * 100:.2f}%\n")
+                    print(f"Test Accuracy: {test_acc * 100:.2f}%")
+                    
+                    # Step the learning rate scheduler based on test accuracy
+                    self.scheduler.step(test_acc)
+                    current_lr = self.optimizer.param_groups[0]['lr']
+                    print(f"Current LR: {current_lr:.6f}\n")
 
                 cnt += 1
 
@@ -165,8 +181,9 @@ class BaseSNNModel(ABC):
             for (data, targets) in test_loader:
                 data, targets = data.to(self.device).float(), targets.to(self.device)
                 output, _, _ = self.net(data)
-                output_spikes = torch.cumsum(output, dim=1)[:, -1, :]
-                correct += (output_spikes.argmax(1) == targets).sum().item()
+                # Use mean over time - same as training
+                logits = output.mean(dim=1)
+                correct += (logits.argmax(1) == targets).sum().item()
                 total += targets.size(0)
 
         return correct / total if total > 0 else 0.0

@@ -23,7 +23,5 @@ COPY data/ ./data/
 # Copy requirements for reference
 COPY requirements.txt .
 
-# Copy documentation
-COPY ROUTER_USAGE_GUIDE.md .
 
 CMD ["sleep", "infinity"]
