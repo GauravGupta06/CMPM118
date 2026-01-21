@@ -47,8 +47,17 @@ class BaseSNNModel(ABC):
         
         # Learning rate scheduler - reduces lr by factor of 0.5 when test accuracy plateaus
         # patience=10 means wait 10 evaluations before reducing lr (more stable for recurrent nets)
+
+        """
+        Kevin:
+        Removed `verbose=True` from the below line. I don't know if this
+        is something that anyone else needs, but in case it is, I'll leave
+        this comment here so you know what changed.
+
+        For me, I couldn't run my code unless I removed it.
+        """
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optimizer, mode='max', factor=0.5, patience=10, verbose=True, min_lr=1e-6
+            self.optimizer, mode='max', factor=0.5, patience=10, min_lr=1e-6
         )
 
         # History tracking

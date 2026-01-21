@@ -12,12 +12,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from core.base_model import BaseSNNModel
 
-
 class DVSGestureSNN_FC(BaseSNNModel):
     """
     Fully-connected SNN for DVSGesture dataset using Rockpool.
-    Architecture: (input_size*2) → 256 → 128 → 11
-    Note: SHD has 2 channels (polarity), so total input = input_size * 2
+    Architecture: input_size → 256 → 128 → num_classes (For DVSGesture, input_size=(w, h, 2), num_classes=11)
     Xylo-compatible (no Conv layers).
 
     Sparse vs Dense differentiation via hyperparameters:
@@ -26,10 +24,10 @@ class DVSGestureSNN_FC(BaseSNNModel):
     """
 
     def __init__(self, input_size, n_frames, tau_mem=0.02, spike_lam=1e-7,
-                 model_type="dense", device=None, num_classes=20, lr=0.001):
+                 model_type="dense", device=None, num_classes=11, lr=0.001):
         """
         Args:
-            input_size: Number of frequency bins (128 for DVSGesture). Total input features = input_size * 2
+            input_size: Number of input features per time step, or (HxWxC)
             n_frames: Number of time steps
             tau_mem: Membrane time constant in seconds (0.01 for sparse, 0.02 for dense)
             spike_lam: Spike regularization (1e-6 for sparse, 1e-8 for dense)
@@ -43,12 +41,9 @@ class DVSGestureSNN_FC(BaseSNNModel):
 
     def _build_network(self):
         """
-        Build FC architecture: (input_size*2) → 256 → 128 → 11
-        Note: input_size is multiplied by 2 because SHD has 2 channels (polarity)
+        Build FC architecture: input_size → 256 → 128 → num_classes
         Uses Rockpool's Sequential + LinearTorch + LIFTorch
         """
-        # SHD has 2 channels, so actual input features = input_size * 2
-        # actual_input_size = self.input_size * 2
 
         # Higher threshold makes it harder to spike, resulting in sparser/binary output
         threshold = 1
@@ -71,13 +66,13 @@ class DVSGestureSNN_FC(BaseSNNModel):
         Output: [B, T, C*freq_bins] for Rockpool (binary spikes)
         """
         T, B = data.size(0), data.size(1)
-        x = data.transpose(0, 1)  # [B, T, C, 1, freq_bins]
+        x = data.transpose(0, 1)   # [B, T, C, 1, freq_bins]
         x = x.squeeze(3)           # [B, T, C, freq_bins]
         x = x.flatten(2)           # [B, T, C*freq_bins]
 
         # Convert spike counts to binary (spike happened or not)
+        x = (x > 0).float()
         
-
         return x
 
     def _get_save_params(self):
