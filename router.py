@@ -7,8 +7,8 @@ Usage:
 
 Example:
     python router.py \
-        --sparse_model_path ./results/large/models/Non_Sparse_Take92_Freq700_T100_B0.6_SpkLam0_Epochs100.pth \
-        --dense_model_path ./results/large/models/Non_Sparse_Take92_Freq700_T100_B0.6_SpkLam0_Epochs100.pth \
+        --sparse_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take2_Input700_T100_LIF_256x128x64_Attn_Epochs50_Best70.9.pth \
+        --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take2_Input700_T100_LIF_256x128x64_Attn_Epochs50_Best70.9.pth \
         --input_size 700 \
         --n_frames 100
 """
@@ -26,14 +26,36 @@ from datetime import datetime
 import argparse
 import sys
 
-# Add current directory for imports
-sys.path.insert(0, os.path.dirname(__file__))
 
-from datasets import load_shd
-from models import SHDSNN_FC
+
+from datasets.shd_dataset import SHDDataset
+from models.shd_model import SHDSNN_FC
+from torch.utils.data import DataLoader
 
 
 # ========== COMPLEXITY METRICS ==========
+
+def count_spikes_from_recording(recording_dict):
+    """
+    Count total spikes from model recording dictionary.
+    Works with any spiking neuron type (LIF, Izhikevich, etc.).
+    
+    Args:
+        recording_dict: Recording dictionary from model forward pass with record=True
+    
+    Returns:
+        int: Total number of spikes across all layers and timesteps
+    """
+    total_spikes = 0
+    
+    for layer_name, layer_data in recording_dict.items():
+        # Count spikes from ANY layer that has spike data
+        if 'spikes' in layer_data:
+            spikes = layer_data['spikes']  # Shape: (B, T, neurons)
+            total_spikes += spikes.sum().item()
+    
+    return int(total_spikes)
+
 
 def compute_lzc_from_events(events):
     """
@@ -128,7 +150,7 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
     Args:
         dataLoader: Test data loader
         sparse_model: Sparse SNN model
-        dense_model: Dense SNN model
+        dense_model: Dense SNN model`
 
     Returns:
         list: Results with per-sample metrics
@@ -137,24 +159,33 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
 
     for batch in dataLoader:
         events, label = batch
+        # batch size should be 1 for this function. 
+        # events shape will be different based on the dataset. 
 
-        # Remove batch dimension (batch size is 1)
-        if events.dim() >= 4:
-            events = events.squeeze(1)
 
-        # Extract label as int
-        if torch.is_tensor(label):
-            if label.dim() == 0:
-                label = label.item()
-            else:
-                label = label[0].item() if label.shape[0] == 1 else label.item()
+    
+        label = label.item()
+        # convert label from tensor to int. 
 
         # Compute complexity
         lz_value = compute_lzc_from_events(events)
 
-        # Get predictions and spike counts
-        sparse_pred, spike_count_sparse = sparse_model.predict_sample(events)
-        dense_pred, spike_count_dense = dense_model.predict_sample(events)
+        # Get predictions and spike counts with recording enabled
+        # events already in [B, T, features] format from batch_first=True
+        with torch.no_grad():
+            sparse_output, _, sparse_recording = sparse_model.net(events, record=True)
+            dense_output, _, dense_recording = dense_model.net(events, record=True)
+
+        # Count ALL spikes from ALL spiking layers
+        spike_count_sparse = count_spikes_from_recording(sparse_recording)
+        spike_count_dense = count_spikes_from_recording(dense_recording)
+
+        # Get predictions
+        sparse_logits = sparse_output.mean(dim=1)
+        dense_logits = dense_output.mean(dim=1)
+
+        sparse_pred = sparse_logits.argmax(1).item()
+        dense_pred = dense_logits.argmax(1).item()
 
         # Set as complex IF dense_pred matches label and sparse_pred does NOT
         if dense_pred == label and sparse_pred != label:
@@ -260,29 +291,26 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
     for i, batch in enumerate(dataLoader):
         events, label = batch
 
-        # Remove batch dimension
-        if events.dim() >= 4:
-            events = events.squeeze(1)
-
         # Extract label as int
-        if torch.is_tensor(label):
-            if label.dim() == 0:
-                label = label.item()
-            else:
-                label = label[0].item() if label.shape[0] == 1 else label.item()
+        label = label.item()
 
         lz_value = lz_values[i]
 
-        if lz_value < optimal_threshold:
-            route_counts['sparse'] += 1
-            pred, _ = sparse_model.predict_sample(events)
-            if pred == label:
-                correct_sparse += 1
-        else:
-            route_counts['dense'] += 1
-            pred, _ = dense_model.predict_sample(events)
-            if pred == label:
-                correct_dense += 1
+        with torch.no_grad():
+            if lz_value < optimal_threshold:
+                route_counts['sparse'] += 1
+                sparse_output, _, _ = sparse_model.net(events, record=False)
+                sparse_logits = sparse_output.mean(dim=1)
+                pred = sparse_logits.argmax(1).item()
+                if pred == label:
+                    correct_sparse += 1
+            else:
+                route_counts['dense'] += 1
+                dense_output, _, _ = dense_model.net(events, record=False)
+                dense_logits = dense_output.mean(dim=1)
+                pred = dense_logits.argmax(1).item()
+                if pred == label:
+                    correct_dense += 1
 
     accuracy_dense_routed = correct_dense / route_counts['dense'] if route_counts['dense'] > 0 else 0
     accuracy_sparse_routed = correct_sparse / route_counts['sparse'] if route_counts['sparse'] > 0 else 0
@@ -559,12 +587,28 @@ Examples:
                        help='Spike regularization for sparse model (default: 1e-6)')
     parser.add_argument('--spike_lam_dense', type=float, default=1e-8,
                        help='Spike regularization for dense model (default: 1e-8)')
+    
+    # Additional arguments (matching train_shd.py)
+    parser.add_argument('--NUM_CHANNELS', type=int, default=700,
+                       help='Number of frequency channels (default: 700)')
+    parser.add_argument('--NUM_POLARITIES', type=int, default=2,
+                       help='Number of polarities (default: 2)')
+    parser.add_argument('--net_dt', type=float, default=10e-3,
+                       help='Simulation time step in seconds (default: 10e-3)')
+    parser.add_argument('--batch_size', type=int, default=1,
+                       help='Batch size for evaluation (default: 1 for routing)')
+    parser.add_argument('--num_workers', type=int, default=4,
+                       help='DataLoader workers (default: 4)')
+    parser.add_argument('--model_type', type=str, default='dense',
+                       help='Model type for both models (default: dense)')
+    parser.add_argument('--lr', type=float, default=0.001,
+                       help='Learning rate (default: 0.001)')
 
     # Parse arguments
     args = parser.parse_args()
 
     # Setup device
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
     print(f"Using device: {device}")
 
     # Print configuration
@@ -584,43 +628,53 @@ Examples:
 
     # Load dataset
     print("Loading SHD dataset...")
-    _, cached_test, num_classes = load_shd(
+    data = SHDDataset(
         dataset_path=args.dataset_path,
-        n_frames=args.n_frames
+        NUM_CHANNELS=args.NUM_CHANNELS, 
+        NUM_POLARITIES=args.NUM_POLARITIES,
+        n_frames=args.n_frames,
+        net_dt=args.net_dt
     )
+    
+    _, cached_test = data.load_shd()
 
     # Create test dataloader
-    test_loader = torch.utils.data.DataLoader(
-        cached_test,
-        batch_size=1,  # Process one sample at a time for routing
-        shuffle=False,  # Don't shuffle for consistent evaluation
-        num_workers=1,
-        drop_last=False,
-        collate_fn=tonic.collation.PadTensors(batch_first=False)
+    test_loader = DataLoader(
+        cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
+        num_workers=args.num_workers, pin_memory=True,
+        collate_fn=tonic.collation.PadTensors(batch_first=True)
     )
 
     # Create sparse model
     print("\nCreating sparse model...")
     sparse_model = SHDSNN_FC(
-        input_size=args.input_size,
+        input_size=args.NUM_CHANNELS,
         n_frames=args.n_frames,
-        tau_mem=args.tau_mem_sparse,
-        spike_lam=args.spike_lam_sparse,
-        model_type="sparse",
+        tau_mem=0.1,
+        spike_lam=0,
+        model_type=args.model_type,
         device=device,
-        num_classes=num_classes
+        num_classes=20,
+        lr=args.lr,
+        dt=args.net_dt,
+        threshold=1.0,
+        has_bias=True
     )
 
     # Create dense model
     print("Creating dense model...")
     dense_model = SHDSNN_FC(
-        input_size=args.input_size,
+        input_size=args.NUM_CHANNELS,
         n_frames=args.n_frames,
-        tau_mem=args.tau_mem_dense,
-        spike_lam=args.spike_lam_dense,
-        model_type="dense",
+        tau_mem=0.1,
+        spike_lam=0,
+        model_type=args.model_type,
         device=device,
-        num_classes=num_classes
+        num_classes=20,
+        lr=args.lr,
+        dt=args.net_dt,
+        threshold=1.0,
+        has_bias=True
     )
 
     # Load pre-trained weights
