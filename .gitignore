@@ -3,6 +3,7 @@ data/DVSGesture
 data/SHD
 rockpoolDevelopment/data/SHD
 .venv/
+.venv311/
 MNIST/*.Zone.Identifier
 
 
