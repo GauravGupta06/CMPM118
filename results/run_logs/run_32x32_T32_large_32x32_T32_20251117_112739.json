@@ -1,0 +1,2408 @@
+{
+    "metadata": {
+        "timestamp": "20251117_112739",
+        "small_model": {
+            "w": 32,
+            "h": 32,
+            "T": 32
+        },
+        "large_model": {
+            "w": 32,
+            "h": 32,
+            "T": 32
+        }
+    },
+    "roc_results": {
+        "optimal_threshold": 6094.0,
+        "roc_auc": 0.5846911534566879
+    },
+    "routing_metrics": {
+        "overall_accuracy": 0.7840909090909091,
+        "dense_routed_accuracy": 0.8932038834951457,
+        "sparse_routed_accuracy": 0.7142857142857143,
+        "route_counts": {
+            "sparse": 161,
+            "dense": 103
+        },
+        "avg_dense_spikes": 31219.954545454544,
+        "avg_sparse_spikes": 2566.689393939394
+    },
+    "per_sample_results": [
+        {
+            "label": 5,
+            "lz_value": 6822,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 42407.0,
+            "sparse_spikes": 2182.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2597,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 16991.0,
+            "sparse_spikes": 1551.0
+        },
+        {
+            "label": 4,
+            "lz_value": 6445,
+            "sparse_pred": 3,
+            "dense_pred": 4,
+            "true_complex": 1,
+            "dense_spikes": 40807.0,
+            "sparse_spikes": 2264.0
+        },
+        {
+            "label": 3,
+            "lz_value": 8416,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 44514.0,
+            "sparse_spikes": 2472.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4189,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 21442.0,
+            "sparse_spikes": 1179.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5607,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 37869.0,
+            "sparse_spikes": 1858.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5238,
+            "sparse_pred": 5,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 30945.0,
+            "sparse_spikes": 2834.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4116,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 23788.0,
+            "sparse_spikes": 2009.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4196,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 23216.0,
+            "sparse_spikes": 1585.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4019,
+            "sparse_pred": 7,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 28296.0,
+            "sparse_spikes": 2078.0
+        },
+        {
+            "label": 10,
+            "lz_value": 7507,
+            "sparse_pred": 2,
+            "dense_pred": 10,
+            "true_complex": 1,
+            "dense_spikes": 45387.0,
+            "sparse_spikes": 3870.0
+        },
+        {
+            "label": 5,
+            "lz_value": 8943,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 41461.0,
+            "sparse_spikes": 2502.0
+        },
+        {
+            "label": 0,
+            "lz_value": 4301,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 20980.0,
+            "sparse_spikes": 1821.0
+        },
+        {
+            "label": 4,
+            "lz_value": 9829,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 41252.0,
+            "sparse_spikes": 1729.0
+        },
+        {
+            "label": 3,
+            "lz_value": 10282,
+            "sparse_pred": 4,
+            "dense_pred": 3,
+            "true_complex": 1,
+            "dense_spikes": 40141.0,
+            "sparse_spikes": 2046.0
+        },
+        {
+            "label": 2,
+            "lz_value": 7353,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 36728.0,
+            "sparse_spikes": 2929.0
+        },
+        {
+            "label": 6,
+            "lz_value": 9878,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 42414.0,
+            "sparse_spikes": 2651.0
+        },
+        {
+            "label": 7,
+            "lz_value": 6560,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 27729.0,
+            "sparse_spikes": 3084.0
+        },
+        {
+            "label": 8,
+            "lz_value": 6275,
+            "sparse_pred": 7,
+            "dense_pred": 8,
+            "true_complex": 1,
+            "dense_spikes": 28696.0,
+            "sparse_spikes": 3093.0
+        },
+        {
+            "label": 1,
+            "lz_value": 6890,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 32403.0,
+            "sparse_spikes": 2337.0
+        },
+        {
+            "label": 9,
+            "lz_value": 10238,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 44746.0,
+            "sparse_spikes": 5403.0
+        },
+        {
+            "label": 10,
+            "lz_value": 7629,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 40664.0,
+            "sparse_spikes": 3877.0
+        },
+        {
+            "label": 5,
+            "lz_value": 8558,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 40111.0,
+            "sparse_spikes": 2602.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3704,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 23333.0,
+            "sparse_spikes": 3672.0
+        },
+        {
+            "label": 4,
+            "lz_value": 8222,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 39780.0,
+            "sparse_spikes": 1939.0
+        },
+        {
+            "label": 3,
+            "lz_value": 9186,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 41902.0,
+            "sparse_spikes": 2233.0
+        },
+        {
+            "label": 2,
+            "lz_value": 3467,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 22779.0,
+            "sparse_spikes": 2749.0
+        },
+        {
+            "label": 6,
+            "lz_value": 8224,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 41386.0,
+            "sparse_spikes": 2677.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5248,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 26685.0,
+            "sparse_spikes": 4051.0
+        },
+        {
+            "label": 8,
+            "lz_value": 6100,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 29893.0,
+            "sparse_spikes": 4886.0
+        },
+        {
+            "label": 1,
+            "lz_value": 3484,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 19381.0,
+            "sparse_spikes": 2425.0
+        },
+        {
+            "label": 9,
+            "lz_value": 5336,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 27301.0,
+            "sparse_spikes": 3212.0
+        },
+        {
+            "label": 10,
+            "lz_value": 6446,
+            "sparse_pred": 9,
+            "dense_pred": 10,
+            "true_complex": 1,
+            "dense_spikes": 36927.0,
+            "sparse_spikes": 3870.0
+        },
+        {
+            "label": 5,
+            "lz_value": 10569,
+            "sparse_pred": 3,
+            "dense_pred": 5,
+            "true_complex": 1,
+            "dense_spikes": 47482.0,
+            "sparse_spikes": 2197.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3110,
+            "sparse_pred": 8,
+            "dense_pred": 0,
+            "true_complex": 1,
+            "dense_spikes": 20097.0,
+            "sparse_spikes": 1803.0
+        },
+        {
+            "label": 4,
+            "lz_value": 9444,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 41138.0,
+            "sparse_spikes": 1583.0
+        },
+        {
+            "label": 3,
+            "lz_value": 9812,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 40134.0,
+            "sparse_spikes": 1991.0
+        },
+        {
+            "label": 2,
+            "lz_value": 3845,
+            "sparse_pred": 10,
+            "dense_pred": 2,
+            "true_complex": 1,
+            "dense_spikes": 23584.0,
+            "sparse_spikes": 1809.0
+        },
+        {
+            "label": 6,
+            "lz_value": 9316,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 46626.0,
+            "sparse_spikes": 2448.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5064,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 27543.0,
+            "sparse_spikes": 1973.0
+        },
+        {
+            "label": 8,
+            "lz_value": 5264,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 29886.0,
+            "sparse_spikes": 2832.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4068,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 24412.0,
+            "sparse_spikes": 2283.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4049,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 25697.0,
+            "sparse_spikes": 2282.0
+        },
+        {
+            "label": 10,
+            "lz_value": 8041,
+            "sparse_pred": 3,
+            "dense_pred": 10,
+            "true_complex": 1,
+            "dense_spikes": 45511.0,
+            "sparse_spikes": 3231.0
+        },
+        {
+            "label": 5,
+            "lz_value": 6574,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 37895.0,
+            "sparse_spikes": 2734.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3386,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 23204.0,
+            "sparse_spikes": 3027.0
+        },
+        {
+            "label": 4,
+            "lz_value": 6633,
+            "sparse_pred": 3,
+            "dense_pred": 4,
+            "true_complex": 1,
+            "dense_spikes": 36914.0,
+            "sparse_spikes": 2739.0
+        },
+        {
+            "label": 3,
+            "lz_value": 6821,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 40832.0,
+            "sparse_spikes": 2980.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4198,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 23850.0,
+            "sparse_spikes": 2611.0
+        },
+        {
+            "label": 6,
+            "lz_value": 6419,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 38439.0,
+            "sparse_spikes": 2434.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4812,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 27449.0,
+            "sparse_spikes": 3137.0
+        },
+        {
+            "label": 8,
+            "lz_value": 3652,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 22302.0,
+            "sparse_spikes": 2853.0
+        },
+        {
+            "label": 1,
+            "lz_value": 3882,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 22273.0,
+            "sparse_spikes": 3621.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4088,
+            "sparse_pred": 10,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 29255.0,
+            "sparse_spikes": 4615.0
+        },
+        {
+            "label": 10,
+            "lz_value": 7579,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 47769.0,
+            "sparse_spikes": 4749.0
+        },
+        {
+            "label": 5,
+            "lz_value": 6755,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 41761.0,
+            "sparse_spikes": 2299.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2449,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 16080.0,
+            "sparse_spikes": 1889.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7321,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 43753.0,
+            "sparse_spikes": 2408.0
+        },
+        {
+            "label": 3,
+            "lz_value": 8013,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 45021.0,
+            "sparse_spikes": 2697.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4699,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 23279.0,
+            "sparse_spikes": 1269.0
+        },
+        {
+            "label": 6,
+            "lz_value": 6373,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 41608.0,
+            "sparse_spikes": 1855.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5000,
+            "sparse_pred": 0,
+            "dense_pred": 7,
+            "true_complex": 1,
+            "dense_spikes": 29380.0,
+            "sparse_spikes": 2740.0
+        },
+        {
+            "label": 8,
+            "lz_value": 5227,
+            "sparse_pred": 7,
+            "dense_pred": 8,
+            "true_complex": 1,
+            "dense_spikes": 30962.0,
+            "sparse_spikes": 2325.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4986,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 26155.0,
+            "sparse_spikes": 1690.0
+        },
+        {
+            "label": 9,
+            "lz_value": 3834,
+            "sparse_pred": 0,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 25934.0,
+            "sparse_spikes": 1730.0
+        },
+        {
+            "label": 10,
+            "lz_value": 6606,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 42030.0,
+            "sparse_spikes": 4016.0
+        },
+        {
+            "label": 5,
+            "lz_value": 8738,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 42834.0,
+            "sparse_spikes": 2018.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3882,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 23674.0,
+            "sparse_spikes": 2579.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7325,
+            "sparse_pred": 3,
+            "dense_pred": 4,
+            "true_complex": 1,
+            "dense_spikes": 38617.0,
+            "sparse_spikes": 1923.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7826,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 39316.0,
+            "sparse_spikes": 2012.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4437,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 24439.0,
+            "sparse_spikes": 2080.0
+        },
+        {
+            "label": 6,
+            "lz_value": 7868,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 41385.0,
+            "sparse_spikes": 2059.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4776,
+            "sparse_pred": 0,
+            "dense_pred": 7,
+            "true_complex": 1,
+            "dense_spikes": 26616.0,
+            "sparse_spikes": 2452.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4766,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 26638.0,
+            "sparse_spikes": 3028.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4145,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 23491.0,
+            "sparse_spikes": 3148.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4532,
+            "sparse_pred": 7,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 28107.0,
+            "sparse_spikes": 2683.0
+        },
+        {
+            "label": 10,
+            "lz_value": 8635,
+            "sparse_pred": 10,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 48229.0,
+            "sparse_spikes": 2703.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5476,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 35787.0,
+            "sparse_spikes": 1546.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2969,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 17737.0,
+            "sparse_spikes": 1379.0
+        },
+        {
+            "label": 4,
+            "lz_value": 6620,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 37657.0,
+            "sparse_spikes": 1703.0
+        },
+        {
+            "label": 3,
+            "lz_value": 6044,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 34123.0,
+            "sparse_spikes": 1875.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4081,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 19584.0,
+            "sparse_spikes": 1627.0
+        },
+        {
+            "label": 6,
+            "lz_value": 6083,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 38839.0,
+            "sparse_spikes": 1601.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5339,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 24274.0,
+            "sparse_spikes": 2677.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4565,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 21872.0,
+            "sparse_spikes": 2531.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4019,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 17745.0,
+            "sparse_spikes": 1557.0
+        },
+        {
+            "label": 9,
+            "lz_value": 8472,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 47040.0,
+            "sparse_spikes": 5590.0
+        },
+        {
+            "label": 10,
+            "lz_value": 3127,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 20087.0,
+            "sparse_spikes": 2055.0
+        },
+        {
+            "label": 5,
+            "lz_value": 10682,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 46963.0,
+            "sparse_spikes": 3136.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3186,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 22106.0,
+            "sparse_spikes": 3079.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7805,
+            "sparse_pred": 3,
+            "dense_pred": 4,
+            "true_complex": 1,
+            "dense_spikes": 38620.0,
+            "sparse_spikes": 2747.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7478,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 40129.0,
+            "sparse_spikes": 3218.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4635,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 26925.0,
+            "sparse_spikes": 3335.0
+        },
+        {
+            "label": 6,
+            "lz_value": 9107,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 44689.0,
+            "sparse_spikes": 2881.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5551,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 27494.0,
+            "sparse_spikes": 3452.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4828,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 26302.0,
+            "sparse_spikes": 3581.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4285,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 22721.0,
+            "sparse_spikes": 3171.0
+        },
+        {
+            "label": 9,
+            "lz_value": 5459,
+            "sparse_pred": 10,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 32890.0,
+            "sparse_spikes": 5341.0
+        },
+        {
+            "label": 10,
+            "lz_value": 9925,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 49385.0,
+            "sparse_spikes": 4135.0
+        },
+        {
+            "label": 5,
+            "lz_value": 6122,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 32127.0,
+            "sparse_spikes": 1405.0
+        },
+        {
+            "label": 0,
+            "lz_value": 4232,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 22901.0,
+            "sparse_spikes": 3171.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7667,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 39148.0,
+            "sparse_spikes": 1391.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7640,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 39668.0,
+            "sparse_spikes": 1501.0
+        },
+        {
+            "label": 2,
+            "lz_value": 2199,
+            "sparse_pred": 5,
+            "dense_pred": 2,
+            "true_complex": 1,
+            "dense_spikes": 12040.0,
+            "sparse_spikes": 560.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5713,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 31928.0,
+            "sparse_spikes": 1483.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4951,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 25573.0,
+            "sparse_spikes": 2949.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4951,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 26199.0,
+            "sparse_spikes": 3412.0
+        },
+        {
+            "label": 1,
+            "lz_value": 2456,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 13863.0,
+            "sparse_spikes": 2202.0
+        },
+        {
+            "label": 9,
+            "lz_value": 3980,
+            "sparse_pred": 0,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 20594.0,
+            "sparse_spikes": 2319.0
+        },
+        {
+            "label": 10,
+            "lz_value": 4560,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 30604.0,
+            "sparse_spikes": 2585.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5575,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 33978.0,
+            "sparse_spikes": 1189.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3373,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 19541.0,
+            "sparse_spikes": 1737.0
+        },
+        {
+            "label": 4,
+            "lz_value": 6412,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 34202.0,
+            "sparse_spikes": 1359.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7209,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 37678.0,
+            "sparse_spikes": 1607.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4729,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 25252.0,
+            "sparse_spikes": 1479.0
+        },
+        {
+            "label": 6,
+            "lz_value": 6094,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 37437.0,
+            "sparse_spikes": 1163.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5203,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 23771.0,
+            "sparse_spikes": 1793.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4483,
+            "sparse_pred": 8,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 20641.0,
+            "sparse_spikes": 2534.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4821,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 21353.0,
+            "sparse_spikes": 1567.0
+        },
+        {
+            "label": 9,
+            "lz_value": 7773,
+            "sparse_pred": 5,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 41515.0,
+            "sparse_spikes": 3091.0
+        },
+        {
+            "label": 10,
+            "lz_value": 5223,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 30761.0,
+            "sparse_spikes": 1983.0
+        },
+        {
+            "label": 5,
+            "lz_value": 7281,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 40914.0,
+            "sparse_spikes": 2485.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3178,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 21353.0,
+            "sparse_spikes": 2606.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7389,
+            "sparse_pred": 3,
+            "dense_pred": 4,
+            "true_complex": 1,
+            "dense_spikes": 38153.0,
+            "sparse_spikes": 2443.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7493,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 41113.0,
+            "sparse_spikes": 2799.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4812,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 26302.0,
+            "sparse_spikes": 2600.0
+        },
+        {
+            "label": 6,
+            "lz_value": 7356,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 41396.0,
+            "sparse_spikes": 2542.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5061,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 28025.0,
+            "sparse_spikes": 3301.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4290,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 24440.0,
+            "sparse_spikes": 3101.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4210,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 24174.0,
+            "sparse_spikes": 3779.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4297,
+            "sparse_pred": 2,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 29406.0,
+            "sparse_spikes": 4211.0
+        },
+        {
+            "label": 10,
+            "lz_value": 8594,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 50348.0,
+            "sparse_spikes": 3788.0
+        },
+        {
+            "label": 5,
+            "lz_value": 6992,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 43630.0,
+            "sparse_spikes": 3145.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2667,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 16986.0,
+            "sparse_spikes": 1972.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7762,
+            "sparse_pred": 10,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 44303.0,
+            "sparse_spikes": 2948.0
+        },
+        {
+            "label": 3,
+            "lz_value": 8177,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 45175.0,
+            "sparse_spikes": 3150.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4952,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 24788.0,
+            "sparse_spikes": 2057.0
+        },
+        {
+            "label": 6,
+            "lz_value": 6466,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 41208.0,
+            "sparse_spikes": 2573.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5525,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 30753.0,
+            "sparse_spikes": 4167.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4511,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 24977.0,
+            "sparse_spikes": 2917.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4624,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 25106.0,
+            "sparse_spikes": 2112.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4272,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 28312.0,
+            "sparse_spikes": 3432.0
+        },
+        {
+            "label": 10,
+            "lz_value": 8429,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 46887.0,
+            "sparse_spikes": 5203.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5869,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 32998.0,
+            "sparse_spikes": 1528.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3444,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 20880.0,
+            "sparse_spikes": 3981.0
+        },
+        {
+            "label": 4,
+            "lz_value": 6919,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 38913.0,
+            "sparse_spikes": 1525.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7756,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 41097.0,
+            "sparse_spikes": 1794.0
+        },
+        {
+            "label": 2,
+            "lz_value": 3628,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 19784.0,
+            "sparse_spikes": 1825.0
+        },
+        {
+            "label": 6,
+            "lz_value": 6355,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 37922.0,
+            "sparse_spikes": 1928.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4785,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 24871.0,
+            "sparse_spikes": 3552.0
+        },
+        {
+            "label": 8,
+            "lz_value": 5162,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 24650.0,
+            "sparse_spikes": 3724.0
+        },
+        {
+            "label": 1,
+            "lz_value": 3292,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 17054.0,
+            "sparse_spikes": 2612.0
+        },
+        {
+            "label": 9,
+            "lz_value": 3638,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 16009.0,
+            "sparse_spikes": 2469.0
+        },
+        {
+            "label": 10,
+            "lz_value": 3715,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 25889.0,
+            "sparse_spikes": 2787.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5564,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 35384.0,
+            "sparse_spikes": 1681.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3049,
+            "sparse_pred": 7,
+            "dense_pred": 0,
+            "true_complex": 1,
+            "dense_spikes": 18703.0,
+            "sparse_spikes": 1640.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7239,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 39428.0,
+            "sparse_spikes": 1707.0
+        },
+        {
+            "label": 3,
+            "lz_value": 6372,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 37457.0,
+            "sparse_spikes": 2065.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4109,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 22677.0,
+            "sparse_spikes": 2109.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5702,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 36349.0,
+            "sparse_spikes": 1556.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4775,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 23454.0,
+            "sparse_spikes": 3027.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4556,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 20109.0,
+            "sparse_spikes": 2161.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4381,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 20042.0,
+            "sparse_spikes": 1825.0
+        },
+        {
+            "label": 9,
+            "lz_value": 7254,
+            "sparse_pred": 9,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 43398.0,
+            "sparse_spikes": 5256.0
+        },
+        {
+            "label": 10,
+            "lz_value": 4050,
+            "sparse_pred": 2,
+            "dense_pred": 10,
+            "true_complex": 1,
+            "dense_spikes": 27480.0,
+            "sparse_spikes": 2722.0
+        },
+        {
+            "label": 5,
+            "lz_value": 7514,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 40499.0,
+            "sparse_spikes": 1879.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3087,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 20390.0,
+            "sparse_spikes": 2307.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7268,
+            "sparse_pred": 3,
+            "dense_pred": 4,
+            "true_complex": 1,
+            "dense_spikes": 37156.0,
+            "sparse_spikes": 1987.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7381,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 39494.0,
+            "sparse_spikes": 2485.0
+        },
+        {
+            "label": 2,
+            "lz_value": 5468,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 28936.0,
+            "sparse_spikes": 2135.0
+        },
+        {
+            "label": 6,
+            "lz_value": 7307,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 39805.0,
+            "sparse_spikes": 2067.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4877,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 27462.0,
+            "sparse_spikes": 2608.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4136,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 24463.0,
+            "sparse_spikes": 2958.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4021,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 23381.0,
+            "sparse_spikes": 3441.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4919,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 31958.0,
+            "sparse_spikes": 3399.0
+        },
+        {
+            "label": 10,
+            "lz_value": 9900,
+            "sparse_pred": 10,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 51348.0,
+            "sparse_spikes": 2865.0
+        },
+        {
+            "label": 5,
+            "lz_value": 9679,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 45977.0,
+            "sparse_spikes": 3142.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2907,
+            "sparse_pred": 9,
+            "dense_pred": 0,
+            "true_complex": 1,
+            "dense_spikes": 17908.0,
+            "sparse_spikes": 1661.0
+        },
+        {
+            "label": 4,
+            "lz_value": 8989,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 38691.0,
+            "sparse_spikes": 2134.0
+        },
+        {
+            "label": 3,
+            "lz_value": 8871,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 40184.0,
+            "sparse_spikes": 2196.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4181,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 25723.0,
+            "sparse_spikes": 2548.0
+        },
+        {
+            "label": 6,
+            "lz_value": 9633,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 45168.0,
+            "sparse_spikes": 2771.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5160,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 28420.0,
+            "sparse_spikes": 3045.0
+        },
+        {
+            "label": 8,
+            "lz_value": 3531,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 21674.0,
+            "sparse_spikes": 2118.0
+        },
+        {
+            "label": 1,
+            "lz_value": 5162,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 30250.0,
+            "sparse_spikes": 2738.0
+        },
+        {
+            "label": 9,
+            "lz_value": 3954,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 23555.0,
+            "sparse_spikes": 2333.0
+        },
+        {
+            "label": 10,
+            "lz_value": 8868,
+            "sparse_pred": 3,
+            "dense_pred": 10,
+            "true_complex": 1,
+            "dense_spikes": 46758.0,
+            "sparse_spikes": 3739.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5859,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 33808.0,
+            "sparse_spikes": 1434.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3854,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 21044.0,
+            "sparse_spikes": 3236.0
+        },
+        {
+            "label": 4,
+            "lz_value": 6739,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 38857.0,
+            "sparse_spikes": 1580.0
+        },
+        {
+            "label": 3,
+            "lz_value": 8504,
+            "sparse_pred": 6,
+            "dense_pred": 3,
+            "true_complex": 1,
+            "dense_spikes": 43582.0,
+            "sparse_spikes": 1885.0
+        },
+        {
+            "label": 2,
+            "lz_value": 2286,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 13177.0,
+            "sparse_spikes": 1256.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5561,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 34349.0,
+            "sparse_spikes": 1676.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4326,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 22601.0,
+            "sparse_spikes": 3337.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4649,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 23296.0,
+            "sparse_spikes": 3326.0
+        },
+        {
+            "label": 1,
+            "lz_value": 2748,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 14509.0,
+            "sparse_spikes": 2280.0
+        },
+        {
+            "label": 9,
+            "lz_value": 3738,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 17701.0,
+            "sparse_spikes": 2278.0
+        },
+        {
+            "label": 10,
+            "lz_value": 3263,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 20396.0,
+            "sparse_spikes": 1806.0
+        },
+        {
+            "label": 5,
+            "lz_value": 9630,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 45915.0,
+            "sparse_spikes": 2901.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2791,
+            "sparse_pred": 9,
+            "dense_pred": 0,
+            "true_complex": 1,
+            "dense_spikes": 16592.0,
+            "sparse_spikes": 1411.0
+        },
+        {
+            "label": 4,
+            "lz_value": 9515,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 41664.0,
+            "sparse_spikes": 2073.0
+        },
+        {
+            "label": 3,
+            "lz_value": 9767,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 41403.0,
+            "sparse_spikes": 2257.0
+        },
+        {
+            "label": 2,
+            "lz_value": 3598,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 21239.0,
+            "sparse_spikes": 2178.0
+        },
+        {
+            "label": 6,
+            "lz_value": 10078,
+            "sparse_pred": 5,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 45495.0,
+            "sparse_spikes": 2742.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5062,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 26865.0,
+            "sparse_spikes": 2724.0
+        },
+        {
+            "label": 8,
+            "lz_value": 6787,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 34941.0,
+            "sparse_spikes": 4277.0
+        },
+        {
+            "label": 1,
+            "lz_value": 5053,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 31379.0,
+            "sparse_spikes": 2911.0
+        },
+        {
+            "label": 9,
+            "lz_value": 5743,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 33401.0,
+            "sparse_spikes": 3700.0
+        },
+        {
+            "label": 10,
+            "lz_value": 11567,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 49066.0,
+            "sparse_spikes": 3035.0
+        },
+        {
+            "label": 5,
+            "lz_value": 6191,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 34300.0,
+            "sparse_spikes": 1441.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2870,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 17455.0,
+            "sparse_spikes": 1803.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7667,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 34693.0,
+            "sparse_spikes": 1169.0
+        },
+        {
+            "label": 3,
+            "lz_value": 8306,
+            "sparse_pred": 6,
+            "dense_pred": 3,
+            "true_complex": 1,
+            "dense_spikes": 40097.0,
+            "sparse_spikes": 1449.0
+        },
+        {
+            "label": 2,
+            "lz_value": 2432,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 14446.0,
+            "sparse_spikes": 1178.0
+        },
+        {
+            "label": 6,
+            "lz_value": 6818,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 37232.0,
+            "sparse_spikes": 1536.0
+        },
+        {
+            "label": 7,
+            "lz_value": 5159,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 26269.0,
+            "sparse_spikes": 2737.0
+        },
+        {
+            "label": 8,
+            "lz_value": 5009,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 25137.0,
+            "sparse_spikes": 3078.0
+        },
+        {
+            "label": 1,
+            "lz_value": 3085,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 16817.0,
+            "sparse_spikes": 2422.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4429,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 24193.0,
+            "sparse_spikes": 2547.0
+        },
+        {
+            "label": 10,
+            "lz_value": 3551,
+            "sparse_pred": 10,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 21578.0,
+            "sparse_spikes": 1672.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5951,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 40716.0,
+            "sparse_spikes": 3309.0
+        },
+        {
+            "label": 0,
+            "lz_value": 2242,
+            "sparse_pred": 0,
+            "dense_pred": 0,
+            "true_complex": 0,
+            "dense_spikes": 13724.0,
+            "sparse_spikes": 1753.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7131,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 42832.0,
+            "sparse_spikes": 2809.0
+        },
+        {
+            "label": 3,
+            "lz_value": 7465,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 43187.0,
+            "sparse_spikes": 2946.0
+        },
+        {
+            "label": 2,
+            "lz_value": 4317,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 22027.0,
+            "sparse_spikes": 1887.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5953,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 40824.0,
+            "sparse_spikes": 3082.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4979,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 28857.0,
+            "sparse_spikes": 3999.0
+        },
+        {
+            "label": 8,
+            "lz_value": 4390,
+            "sparse_pred": 7,
+            "dense_pred": 8,
+            "true_complex": 1,
+            "dense_spikes": 25956.0,
+            "sparse_spikes": 2980.0
+        },
+        {
+            "label": 1,
+            "lz_value": 4071,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 21993.0,
+            "sparse_spikes": 1822.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4256,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 28534.0,
+            "sparse_spikes": 3394.0
+        },
+        {
+            "label": 10,
+            "lz_value": 6386,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 41425.0,
+            "sparse_spikes": 4557.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5806,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 33984.0,
+            "sparse_spikes": 3067.0
+        },
+        {
+            "label": 0,
+            "lz_value": 4739,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 27993.0,
+            "sparse_spikes": 3413.0
+        },
+        {
+            "label": 4,
+            "lz_value": 5085,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 28279.0,
+            "sparse_spikes": 2853.0
+        },
+        {
+            "label": 3,
+            "lz_value": 5732,
+            "sparse_pred": 3,
+            "dense_pred": 3,
+            "true_complex": 0,
+            "dense_spikes": 30635.0,
+            "sparse_spikes": 2797.0
+        },
+        {
+            "label": 2,
+            "lz_value": 3486,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 20915.0,
+            "sparse_spikes": 2487.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5750,
+            "sparse_pred": 2,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 34678.0,
+            "sparse_spikes": 3799.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4627,
+            "sparse_pred": 0,
+            "dense_pred": 7,
+            "true_complex": 1,
+            "dense_spikes": 25749.0,
+            "sparse_spikes": 2704.0
+        },
+        {
+            "label": 8,
+            "lz_value": 7375,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 34635.0,
+            "sparse_spikes": 4171.0
+        },
+        {
+            "label": 1,
+            "lz_value": 2927,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 17090.0,
+            "sparse_spikes": 2138.0
+        },
+        {
+            "label": 9,
+            "lz_value": 5511,
+            "sparse_pred": 8,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 30323.0,
+            "sparse_spikes": 4938.0
+        },
+        {
+            "label": 10,
+            "lz_value": 7419,
+            "sparse_pred": 8,
+            "dense_pred": 10,
+            "true_complex": 1,
+            "dense_spikes": 38810.0,
+            "sparse_spikes": 5370.0
+        },
+        {
+            "label": 5,
+            "lz_value": 6486,
+            "sparse_pred": 5,
+            "dense_pred": 5,
+            "true_complex": 0,
+            "dense_spikes": 39130.0,
+            "sparse_spikes": 1203.0
+        },
+        {
+            "label": 0,
+            "lz_value": 3345,
+            "sparse_pred": 7,
+            "dense_pred": 0,
+            "true_complex": 1,
+            "dense_spikes": 20769.0,
+            "sparse_spikes": 2104.0
+        },
+        {
+            "label": 4,
+            "lz_value": 7393,
+            "sparse_pred": 4,
+            "dense_pred": 4,
+            "true_complex": 0,
+            "dense_spikes": 37980.0,
+            "sparse_spikes": 1120.0
+        },
+        {
+            "label": 3,
+            "lz_value": 8361,
+            "sparse_pred": 0,
+            "dense_pred": 3,
+            "true_complex": 1,
+            "dense_spikes": 41182.0,
+            "sparse_spikes": 1287.0
+        },
+        {
+            "label": 2,
+            "lz_value": 2693,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 14055.0,
+            "sparse_spikes": 1197.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5690,
+            "sparse_pred": 6,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 33330.0,
+            "sparse_spikes": 1323.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4952,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 23221.0,
+            "sparse_spikes": 1901.0
+        },
+        {
+            "label": 8,
+            "lz_value": 6053,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 26816.0,
+            "sparse_spikes": 2281.0
+        },
+        {
+            "label": 1,
+            "lz_value": 3157,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 14005.0,
+            "sparse_spikes": 1670.0
+        },
+        {
+            "label": 9,
+            "lz_value": 6973,
+            "sparse_pred": 9,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 41508.0,
+            "sparse_spikes": 3816.0
+        },
+        {
+            "label": 10,
+            "lz_value": 5182,
+            "sparse_pred": 4,
+            "dense_pred": 10,
+            "true_complex": 1,
+            "dense_spikes": 32903.0,
+            "sparse_spikes": 2284.0
+        },
+        {
+            "label": 5,
+            "lz_value": 5394,
+            "sparse_pred": 2,
+            "dense_pred": 6,
+            "true_complex": 0,
+            "dense_spikes": 33185.0,
+            "sparse_spikes": 2296.0
+        },
+        {
+            "label": 0,
+            "lz_value": 4347,
+            "sparse_pred": 8,
+            "dense_pred": 9,
+            "true_complex": 0,
+            "dense_spikes": 27629.0,
+            "sparse_spikes": 2995.0
+        },
+        {
+            "label": 4,
+            "lz_value": 5069,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 29510.0,
+            "sparse_spikes": 2334.0
+        },
+        {
+            "label": 3,
+            "lz_value": 5661,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 31961.0,
+            "sparse_spikes": 2673.0
+        },
+        {
+            "label": 2,
+            "lz_value": 3358,
+            "sparse_pred": 2,
+            "dense_pred": 2,
+            "true_complex": 0,
+            "dense_spikes": 20813.0,
+            "sparse_spikes": 2023.0
+        },
+        {
+            "label": 6,
+            "lz_value": 5449,
+            "sparse_pred": 2,
+            "dense_pred": 6,
+            "true_complex": 1,
+            "dense_spikes": 33332.0,
+            "sparse_spikes": 2507.0
+        },
+        {
+            "label": 7,
+            "lz_value": 4442,
+            "sparse_pred": 7,
+            "dense_pred": 7,
+            "true_complex": 0,
+            "dense_spikes": 26824.0,
+            "sparse_spikes": 2277.0
+        },
+        {
+            "label": 8,
+            "lz_value": 6640,
+            "sparse_pred": 8,
+            "dense_pred": 8,
+            "true_complex": 0,
+            "dense_spikes": 33873.0,
+            "sparse_spikes": 3051.0
+        },
+        {
+            "label": 1,
+            "lz_value": 2573,
+            "sparse_pred": 1,
+            "dense_pred": 1,
+            "true_complex": 0,
+            "dense_spikes": 16243.0,
+            "sparse_spikes": 1741.0
+        },
+        {
+            "label": 9,
+            "lz_value": 4818,
+            "sparse_pred": 8,
+            "dense_pred": 9,
+            "true_complex": 1,
+            "dense_spikes": 28632.0,
+            "sparse_spikes": 2970.0
+        },
+        {
+            "label": 10,
+            "lz_value": 9238,
+            "sparse_pred": 10,
+            "dense_pred": 10,
+            "true_complex": 0,
+            "dense_spikes": 39309.0,
+            "sparse_spikes": 3680.0
+        }
+    ]
+}

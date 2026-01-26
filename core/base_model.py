@@ -70,7 +70,37 @@ class BaseSNNModel(ABC):
         """Build the neural network architecture. Must be implemented by child classes."""
         pass
 
-    def forward_pass(self, data):
+    @abstractmethod
+    def _get_save_params(self):
+        """Get dataset-specific parameters for save filename."""
+        pass
+
+    # -----------------------------
+    # Input preparation
+    # -----------------------------
+    def _prepare_input(self, data: torch.Tensor) -> torch.Tensor:
+        """
+        Prepare input data for Rockpool format.
+
+        DEFAULT behavior:
+        - expects batch-first input: [B, T, ...]
+        - flattens everything after time into features -> [B, T, F]
+
+        Child classes SHOULD override this when they need custom shaping, e.g.:
+        - SHD: [B,T,C,1,freq] -> squeeze -> flatten -> binarize
+        - HAR: [B,T,C] -> (optionally normalize/clamp) -> return
+        """
+        # data: [B, T, ...]
+        if data.dim() < 3:
+            raise ValueError(f"Expected data with at least 3 dims [B,T,...], got shape {tuple(data.shape)}")
+
+        x = data.flatten(2)  # [B, T, F]
+        return x
+
+    # -----------------------------
+    # Forward helper (optional)
+    # -----------------------------
+    def forward_pass(self, data: torch.Tensor):
         """
         Dataset-agnostic forward pass through the network.
 
@@ -188,10 +218,19 @@ class BaseSNNModel(ABC):
 
         with torch.no_grad():
             for (data, targets) in test_loader:
-                data, targets = data.to(self.device).float(), targets.to(self.device)
-                output, _, _ = self.net(data)
-                # Use mean over time - same as training
-                logits = output.mean(dim=1)
+                data = data.to(self.device).float()
+                targets = targets.to(self.device)
+
+                # IMPORTANT FIX: always prepare input for Rockpool
+                x = self._prepare_input(data)      # [B, T, F]
+                output, _, _ = self.net(x)
+
+                # Rockpool may return either [B, T, C] or [T, B, C] depending on module versions.
+                # Make it batch-first: [B, T, C]
+                if output.dim() == 3 and output.shape[0] != targets.shape[0] and output.shape[1] == targets.shape[0]:
+                    output = output.transpose(0, 1)
+
+                logits = output.mean(dim=1)        # [B, num_classes]
                 correct += (logits.argmax(1) == targets).sum().item()
                 total += targets.size(0)
 
