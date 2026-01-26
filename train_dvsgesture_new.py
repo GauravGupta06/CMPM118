@@ -141,9 +141,8 @@ def main():
     print("\nLoading DVSGesture dataset...")
 
     transform = transforms.Compose([
-    transforms.Downsample(spatial_factor=(args.w / 128, args.h / 128)),
-    ToRaster(width=args.w, height=args.h, num_polarities=2,
-                       sample_T=args.sample_T, dt_seconds=NET_DT),
+        transforms.Downsample(time_factor=1e-6 / NET_DT, spatial_factor=(args.w / 128, args.h / 128)),
+        ToRaster(width=args.w, height=args.h, num_polarities=2, sample_T=args.sample_T, dt_seconds=NET_DT),
     ])
 
     # The downsample multiplies each time step by 1e-6 / NET_DT. 
@@ -192,15 +191,14 @@ def main():
 
     net = Sequential(
         LinearTorch((INPUT_SIZE, args.hidden1), has_bias=True),
-        LIFTorch(args.hidden1, tau_mem=tau_mem, tau_syn=tau_syn,
-                 threshold=threshold, bias=bias, dt=NET_DT, has_rec=False),
+        LIFTorch(args.hidden1, tau_mem=tau_mem, tau_syn=tau_syn, threshold=threshold, bias=bias, dt=NET_DT, has_rec=False),
         LinearTorch((args.hidden1, args.hidden2), has_bias=True),
-        LIFTorch(args.hidden2, tau_mem=tau_mem, tau_syn=tau_syn,
-                 threshold=threshold, bias=bias, dt=NET_DT, has_rec=False),
+        LIFTorch(args.hidden2, tau_mem=tau_mem, tau_syn=tau_syn, threshold=threshold, bias=bias, dt=NET_DT, has_rec=False),
         LinearTorch((args.hidden2, NUM_CLASSES), has_bias=True),
         ExpSynTorch(NUM_CLASSES, dt=NET_DT, tau=Constant(5e-3))
     ).to(device)
 
+    # Normalize parameters to start off around 0
     for p in net.parameters().astorch():
         if p.dim() > 1:
             p.data.normal_(0, 0.01)
@@ -211,6 +209,7 @@ def main():
     # ==========================================================================
     # Training Setup
     # ==========================================================================
+    
     optimizer = torch.optim.Adam(net.parameters().astorch(), lr=args.lr, weight_decay=1e-6)
     loss_fn = nn.CrossEntropyLoss()
 
