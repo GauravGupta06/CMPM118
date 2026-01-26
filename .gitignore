@@ -8,6 +8,7 @@ MNIST/*.Zone.Identifier
 other/
 legacy/
 .claude/
+.cursor/
 .vscode/
 
 
