@@ -31,7 +31,7 @@ class NeuromorphicDataset(ABC):
     def create_datasets(self):
         """
         Create train/test datasets with caching.
-        Returns: (cached_train, cached_test, num_classes)
+        Returns: (cached_train, cached_test)
         """
         cache_root = self._get_cache_path()
         cache_exists = os.path.exists(f"{cache_root}/train") and \
@@ -58,7 +58,7 @@ class NeuromorphicDataset(ABC):
                 pass
             print("Caching complete!")
 
-        return cached_train, cached_test, self.get_num_classes()
+        return cached_train, cached_test
 
     @abstractmethod
     def get_num_classes(self):

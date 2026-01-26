@@ -1,7 +1,6 @@
 """Unified training script for Rockpool SNN models on UCI HAR dataset."""
 
 import torch
-import tonic
 import argparse
 import sys
 import os
@@ -9,110 +8,112 @@ import os
 # Add current directory to path for imports
 sys.path.insert(0, os.path.dirname(__file__))
 
-from datasets.uci_har import load_uci_har
-from models.uci_har_model import UCIHARSNN
+from datasets.uci_har import UCIHARDataset
+from models.uci_har_model import UCIHARSNN_FC
+from torch.utils.data import DataLoader
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train Rockpool SNN on UCIHAR")
-    parser.add_argument('--model_type', type=str, default='dense',
-                        choices=['sparse', 'dense'])
-    parser.add_argument('--n_frames', type=int, default=128)
-    parser.add_argument('--epochs', type=int, default=150)
-    parser.add_argument('--batch_size', type=int, default=32)
-    parser.add_argument('--num_workers', type=int, default=4)
-    parser.add_argument('--lr', type=float, default=0.001)
-    parser.add_argument('--dataset_path', type=str, default='./data')
-    parser.add_argument('--output_path', type=str, default='./results')
+    parser = argparse.ArgumentParser(description="Train Rockpool SNN on UCI HAR")
+
+    parser.add_argument('--model_type', type=str, default='dense', choices=['sparse', 'dense'],
+                        help='Model type: sparse (fewer spikes) or dense (more spikes)')
+
+    parser.add_argument('--n_frames', type=int, default=128,
+                        help='Number of time steps (UCI HAR windows are typically 128)')
+
+    parser.add_argument('--epochs', type=int, default=100,
+                        help='Number of training epochs')
+
+    parser.add_argument('--batch_size', type=int, default=64,
+                        help='Batch size for training')
+
+    parser.add_argument('--num_workers', type=int, default=4,
+                        help='DataLoader workers')
+
+    parser.add_argument('--lr', type=float, default=0.001,
+                        help='Learning rate (default 0.001)')
+
+    parser.add_argument('--dataset_path', type=str, default='./data',
+                        help='Path to dataset directory (should contain "UCI HAR Dataset/")')
+
+    parser.add_argument('--output_path', type=str, default='./results',
+                        help='Path to save the trained model')
+
+    # UCI HAR specifics
+    parser.add_argument('--NUM_CHANNELS', type=int, default=9,
+                        help='Number of input channels (UCI HAR has 9 inertial channels)')
+
+    parser.add_argument('--net_dt', type=float, default=0.02,
+                        help='Time step in seconds (UCI HAR is ~50Hz => dt=0.02)')
+
+    parser.add_argument('--normalize', action='store_true',
+                        help='Apply per-sample z-score normalization (recommended)')
 
     args = parser.parse_args()
 
     # Device setup
-    if torch.backends.mps.is_available():
-        device = torch.device("mps")
-    elif torch.cuda.is_available():
-        device = torch.device("cuda")
-    else:
-        device = torch.device("cpu")
-
-    print("=" * 60)
-    print(f"Using device: {device}")
-    print("=" * 60)
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
     # Load dataset
-    print("\nLoading UCI HAR dataset...")
-    train_ds, test_ds, num_classes = load_uci_har(
+    data = UCIHARDataset(
         dataset_path=args.dataset_path,
-        n_frames=args.n_frames
+        n_frames=args.n_frames,
+        time_first=True,       # keep [T, C] internally
+        normalize=args.normalize
     )
 
-    print(f"Dataset loaded: {num_classes} classes")
+    cached_train, cached_test = data.load_uci_har()
 
-    # Create dataloaders with GPU optimizations
-    use_cuda = device.type == 'cuda'
-    print(f"\nCreating dataloaders (num_workers={args.num_workers}, pin_memory={use_cuda})...")
-    train_loader = torch.utils.data.DataLoader(
-        train_ds,
+    # DataLoaders
+    # NOTE:
+    # - Unlike SHD, UCI HAR samples are fixed length (usually 128), so no tonic padding collation needed.
+    # - We still stack to match BaseSNNModel expectation of [T, B, C] later in training.
+    train_loader = DataLoader(
+        cached_train,
         batch_size=args.batch_size,
         shuffle=True,
-        num_workers=args.num_workers,
         drop_last=True,
-        pin_memory=use_cuda
+        num_workers=args.num_workers,
+        pin_memory=(device.type == "cuda"),
     )
 
-    test_loader = torch.utils.data.DataLoader(
-        test_ds,
+    test_loader = DataLoader(
+        cached_test,
         batch_size=args.batch_size,
         shuffle=False,
+        drop_last=True,
         num_workers=args.num_workers,
-        pin_memory=use_cuda
+        pin_memory=(device.type == "cuda"),
     )
 
-    # Model hyperparameters (sparse vs dense)
-    # NOTE: spike_lam=0 for now to maximize accuracy
+    # Hyperparameters (sparse vs dense)
+    # With continuous input, sparsity is mainly controlled by tau_mem / threshold / spike_lam
     if args.model_type == 'sparse':
-        tau_mem = 0.02
-        spike_lam = 1e-4
-        hidden_size = 64
-        print(f"\nTraining SPARSE model:")
-        print(f"   - tau_mem: {tau_mem}")
-        print(f"   - spike_lam: {spike_lam} (disabled)")
+        tau_mem = 0.05
+        spike_lam = 0.0
     else:  # dense
         tau_mem = 0.1
         spike_lam = 0.0
-        hidden_size = 128
-        print(f"\nTraining DENSE model:")
-        print(f"   - tau_mem: {tau_mem}")
         print(f"   - spike_lam: {spike_lam} (disabled)")
 
-    # Input size for SHD dataset (700 frequency bins)
-    input_size = 700
-    print(f"   - input_size: {input_size}")
-
     # Create model
-    print(f"\nCreating UCIHARSNN model...")
-    print(f"   - learning_rate: {args.lr}")
-
-    model = UCIHARSNN(
-    input_size=9,
-    hidden_size=64 if args.model_type == "sparse" else 128,
-    n_frames=args.n_frames,
-    tau_mem=tau_mem,
-    spike_lam=spike_lam,
-    model_type=args.model_type,
-    device=device,
-    num_classes=6,
-    lr=args.lr
+    model = UCIHARSNN_FC(
+        input_size=args.NUM_CHANNELS,
+        n_frames=args.n_frames,
+        tau_mem=tau_mem,
+        tau_syn=0.05,
+        spike_lam=spike_lam,
+        model_type=args.model_type,
+        device=device,
+        num_classes=6,
+        lr=args.lr,
+        dt=args.net_dt,
+        threshold=1.0,
+        has_bias=True
     )
 
-    print(f"\nModel architecture:")
-    print(model.net)
-
     # Train
-    print("\n" + "="*60)
-    print(f"Training {args.model_type} model for {args.epochs} epochs...")
-    print("="*60)
-
     model.train_model(
         train_loader=train_loader,
         test_loader=test_loader,
