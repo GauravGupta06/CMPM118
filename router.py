@@ -7,10 +7,8 @@ Usage:
 
 Example:
     python router.py \
-        --sparse_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take2_Input700_T100_LIF_256x128x64_Attn_Epochs50_Best70.9.pth \
-        --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take2_Input700_T100_LIF_256x128x64_Attn_Epochs50_Best70.9.pth \
-        --input_size 700 \
-        --n_frames 100
+        --sparse_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take3_SHD_Input700_T100_FC_Rockpool_Epochs10.pth \
+        --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take3_SHD_Input700_T100_FC_Rockpool_Epochs10.pth
 """
 
 import numpy as np
@@ -38,22 +36,29 @@ from torch.utils.data import DataLoader
 def count_spikes_from_recording(recording_dict):
     """
     Count total spikes from model recording dictionary.
-    Works with any spiking neuron type (LIF, Izhikevich, etc.).
-    
+    Works with Rockpool's Sequential recording format for ANY spiking neuron type.
+
     Args:
         recording_dict: Recording dictionary from model forward pass with record=True
-    
+
     Returns:
         int: Total number of spikes across all layers and timesteps
     """
     total_spikes = 0
-    
+
     for layer_name, layer_data in recording_dict.items():
-        # Count spikes from ANY layer that has spike data
-        if 'spikes' in layer_data:
-            spikes = layer_data['spikes']  # Shape: (B, T, neurons)
+        if torch.is_tensor(layer_data):
+            # Check if this tensor contains spike data (binary: only 0s and 1s)
+            # Spikes are always binary regardless of neuron type (LIF, Izhikevich, AdEx, etc.)
+            unique_vals = torch.unique(layer_data)
+            is_binary = len(unique_vals) <= 2 and torch.all((unique_vals >= 0) & (unique_vals <= 1))
+            if is_binary and layer_data.numel() > 0:
+                total_spikes += layer_data.sum().item()
+        elif isinstance(layer_data, dict) and 'spikes' in layer_data:
+            # Fallback for other recording formats
+            spikes = layer_data['spikes']
             total_spikes += spikes.sum().item()
-    
+
     return int(total_spikes)
 
 

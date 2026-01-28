@@ -115,12 +115,12 @@ def main():
     parser.add_argument('--h', type=int, default=32)
     parser.add_argument('--epochs', type=int, default=100)
     parser.add_argument('--batch_size', type=int, default=32)
-    parser.add_argument('--lr', type=float, default=1e-5)
-    parser.add_argument('--hidden1', type=int, default=256)
-    parser.add_argument('--hidden2', type=int, default=128)
+    parser.add_argument('--lr', type=float, default=1e-5)    # Default: 1e-5
+    parser.add_argument('--hidden1', type=int, default=256)  # Default: 256
+    parser.add_argument('--hidden2', type=int, default=128)  # Default: 128
     parser.add_argument('--sample_T', type=int, default=32)
     parser.add_argument('--data_path', type=str, default='./data')
-    parser.add_argument('--output_path', type=str, default='./results')
+    parser.add_argument('--output_path', type=str, default='./results/large/models')
     parser.add_argument('--num_workers', type=int, default=0)
     args = parser.parse_args()
 
@@ -182,13 +182,20 @@ def main():
     # ==========================================================================
     # Build Network
     # ==========================================================================
-    print(f"\nBuilding network: {INPUT_SIZE} → {args.hidden1} → {args.hidden2} → {NUM_CLASSES}")
+    print(f"\nBuilding network: {INPUT_SIZE} → {args.hidden1} → {args.hidden2} → {NUM_CLASSES}") # 2048 -> 256 -> 128 -> 11
 
     tau_mem = Constant(0.1)
     tau_syn = Constant(0.1)
     threshold = Constant(1.0)
     bias = Constant(0.01)
 
+    # TO TRY: Rework model architecture to have more layers but (preferably) same parameters, ex: 2048->1024->256->64->11
+    """
+    Notes:
+    - Increasing hidden layer sizes made the model perform the same and overfit more
+    - Decreasing hidden layer sizes (128 -> 32) made the model take longer to get to the usual accuracy, but with slightly less overfitting
+    - 2048 -> 1024 -> 256 -> 64 -> 11 w/ 1e-6 LR is unsuccessful
+    """
     net = Sequential(
         LinearTorch((INPUT_SIZE, args.hidden1), has_bias=True),
         LIFTorch(args.hidden1, tau_mem=tau_mem, tau_syn=tau_syn, threshold=threshold, bias=bias, dt=NET_DT, has_rec=False),
@@ -271,8 +278,8 @@ def main():
 
         if test_acc > best_test_acc:
             best_test_acc = test_acc
-            #os.makedirs(args.output_path, exist_ok=True)
-            #torch.save(net.state_dict(), f"{args.output_path}/best_model.pth")
+            os.makedirs(args.output_path, exist_ok=True)
+            torch.save(net.state_dict(), f"{args.output_path}/Rockpool_Non_Sparse_Take103_DVSGesture_Input1024_T32_FC_Rockpool_Epochs100.pth")
 
         acc_hist.append(train_acc)
         test_acc_hist.append(test_acc)
@@ -307,6 +314,7 @@ def main():
     axes[2].set_ylim(0,100)
     axes[2].set_yticks([0, 20, 40, 60, 80, 100])
 
+    plt.savefig("./results/large/graphs/Rockpool_Non_Sparse_Take103_DVSGesture_Input1024_T32_FC_Rockpool_Epochs100")
     plt.show()
 
 
