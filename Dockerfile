@@ -15,7 +15,6 @@ COPY results/ ./results/
 COPY train_shd.py .
 COPY evaluate.py .
 COPY router.py .
-COPY train_shd_new.py .
 
 # Copy data directory (for dataset caching)
 COPY data/ ./data/

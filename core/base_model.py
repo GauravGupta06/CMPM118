@@ -236,7 +236,7 @@ class BaseSNNModel(ABC):
 
         return correct / total if total > 0 else 0.0
 
-    def save_model(self, base_path="results", counter_file="experiment_counter.txt"):
+    def save_model(self, base_path="./results", counter_file="experiment_counter.txt"):
         """
         Args:
             base_path: Base directory path (should contain 'small' or 'large' subdirs)
