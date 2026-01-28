@@ -25,9 +25,20 @@ import argparse
 import sys
 
 
-
+# SHD
 from datasets.shd_dataset import SHDDataset
 from models.shd_model import SHDSNN_FC
+
+# DVSGesture
+from datasets.dvsgesture_dataset import DVSGestureDataset
+from models.dvsgesture_model import DVSGestureSNN_FC
+
+# UCI HAR
+from datasets.uci_har import UCIHARDataset
+from models.uci_har_model import UCIHARSNN_FC
+
+
+from core.base_model import BaseSNNModel
 from torch.utils.data import DataLoader
 
 
@@ -631,56 +642,163 @@ Examples:
     print(f"Spike lam (dense): {args.spike_lam_dense}")
     print("="*80 + "\n")
 
-    # Load dataset
+    # ==================== DATASET LOADING ====================
+    # Uncomment ONE of the following dataset sections:
+
+    # ----- SHD Dataset -----
     print("Loading SHD dataset...")
     data = SHDDataset(
         dataset_path=args.dataset_path,
-        NUM_CHANNELS=args.NUM_CHANNELS, 
+        NUM_CHANNELS=args.NUM_CHANNELS,
         NUM_POLARITIES=args.NUM_POLARITIES,
         n_frames=args.n_frames,
         net_dt=args.net_dt
     )
-    
     _, cached_test = data.load_shd()
-
-    # Create test dataloader
     test_loader = DataLoader(
         cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
         num_workers=args.num_workers, pin_memory=True,
         collate_fn=tonic.collation.PadTensors(batch_first=True)
     )
 
-    # Create sparse model
+    # ----- UCI-HAR Dataset -----
+    # print("Loading UCI-HAR dataset...")
+    # data = UCIHARDataset(
+    #     dataset_path=args.dataset_path,
+    #     n_frames=128,
+    #     time_first=True,
+    #     normalize=True
+    # )
+    # _, cached_test = data.load_uci_har()
+    # test_loader = DataLoader(
+    #     cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
+    #     num_workers=args.num_workers, pin_memory=True
+    # )
+
+    # ----- DVSGesture Dataset -----
+    # print("Loading DVSGesture dataset...")
+    # data = DVSGestureDataset(
+    #     dataset_path=args.dataset_path,
+    #     NUM_CHANNELS=args.NUM_CHANNELS,
+    #     NUM_POLARITIES=args.NUM_POLARITIES,
+    #     n_frames=args.n_frames,
+    #     net_dt=args.net_dt
+    # )
+    # _, cached_test = data.load_dvsgesture()
+    # test_loader = DataLoader(
+    #     cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
+    #     num_workers=args.num_workers, pin_memory=True,
+    #     collate_fn=tonic.collation.PadTensors(batch_first=True)
+    # )
+
+    # ==================== END DATASET LOADING ====================
+
+
+
+    
+
+    # Load hyperparameters from checkpoint files
+    print("\nLoading hyperparameters from checkpoints...")
+    sparse_hp = BaseSNNModel.load_hyperparams(args.sparse_model_path)
+    dense_hp = BaseSNNModel.load_hyperparams(args.dense_model_path)
+
+    print(f"Sparse model: tau_mem={sparse_hp['tau_mem']}, tau_syn={sparse_hp['tau_syn']}, spike_lam={sparse_hp['spike_lam']}")
+    print(f"Dense model:  tau_mem={dense_hp['tau_mem']}, tau_syn={dense_hp['tau_syn']}, spike_lam={dense_hp['spike_lam']}")
+
+    # ==================== MODEL CREATION ====================
+    # Uncomment ONE of the following model sections (must match dataset above):
+
+    # ----- SHD Models -----
     print("\nCreating sparse model...")
     sparse_model = SHDSNN_FC(
-        input_size=args.NUM_CHANNELS,
-        n_frames=args.n_frames,
-        tau_mem=0.1,
-        spike_lam=0,
-        model_type=args.model_type,
+        input_size=sparse_hp['input_size'],
+        n_frames=sparse_hp['n_frames'],
+        tau_mem=sparse_hp['tau_mem'],
+        tau_syn=sparse_hp['tau_syn'],
+        spike_lam=sparse_hp['spike_lam'],
+        model_type=sparse_hp['model_type'],
         device=device,
-        num_classes=20,
-        lr=args.lr,
-        dt=args.net_dt,
-        threshold=1.0,
-        has_bias=True
+        num_classes=sparse_hp['num_classes'],
+        dt=sparse_hp['dt'],
+        threshold=sparse_hp['threshold'],
+        has_bias=sparse_hp['has_bias']
     )
-
-    # Create dense model
     print("Creating dense model...")
     dense_model = SHDSNN_FC(
-        input_size=args.NUM_CHANNELS,
-        n_frames=args.n_frames,
-        tau_mem=0.1,
-        spike_lam=0,
-        model_type=args.model_type,
+        input_size=dense_hp['input_size'],
+        n_frames=dense_hp['n_frames'],
+        tau_mem=dense_hp['tau_mem'],
+        tau_syn=dense_hp['tau_syn'],
+        spike_lam=dense_hp['spike_lam'],
+        model_type=dense_hp['model_type'],
         device=device,
-        num_classes=20,
-        lr=args.lr,
-        dt=args.net_dt,
-        threshold=1.0,
-        has_bias=True
+        num_classes=dense_hp['num_classes'],
+        dt=dense_hp['dt'],
+        threshold=dense_hp['threshold'],
+        has_bias=dense_hp['has_bias']
     )
+
+    # ----- UCI-HAR Models -----
+    # print("\nCreating sparse model...")
+    # sparse_model = UCIHARSNN_FC(
+    #     input_size=sparse_hp['input_size'],
+    #     n_frames=sparse_hp['n_frames'],
+    #     tau_mem=sparse_hp['tau_mem'],
+    #     tau_syn=sparse_hp['tau_syn'],
+    #     spike_lam=sparse_hp['spike_lam'],
+    #     model_type=sparse_hp['model_type'],
+    #     device=device,
+    #     num_classes=sparse_hp['num_classes'],
+    #     dt=sparse_hp['dt'],
+    #     threshold=sparse_hp['threshold'],
+    #     has_bias=sparse_hp['has_bias']
+    # )
+    # print("Creating dense model...")
+    # dense_model = UCIHARSNN_FC(
+    #     input_size=dense_hp['input_size'],
+    #     n_frames=dense_hp['n_frames'],
+    #     tau_mem=dense_hp['tau_mem'],
+    #     tau_syn=dense_hp['tau_syn'],
+    #     spike_lam=dense_hp['spike_lam'],
+    #     model_type=dense_hp['model_type'],
+    #     device=device,
+    #     num_classes=dense_hp['num_classes'],
+    #     dt=dense_hp['dt'],
+    #     threshold=dense_hp['threshold'],
+    #     has_bias=dense_hp['has_bias']
+    # )
+
+    # ----- DVSGesture Models -----
+    # print("\nCreating sparse model...")
+    # sparse_model = DVSGestureSNN_FC(
+    #     input_size=sparse_hp['input_size'],
+    #     n_frames=sparse_hp['n_frames'],
+    #     tau_mem=sparse_hp['tau_mem'],
+    #     tau_syn=sparse_hp['tau_syn'],
+    #     spike_lam=sparse_hp['spike_lam'],
+    #     model_type=sparse_hp['model_type'],
+    #     device=device,
+    #     num_classes=sparse_hp['num_classes'],
+    #     dt=sparse_hp['dt'],
+    #     threshold=sparse_hp['threshold'],
+    #     has_bias=sparse_hp['has_bias']
+    # )
+    # print("Creating dense model...")
+    # dense_model = DVSGestureSNN_FC(
+    #     input_size=dense_hp['input_size'],
+    #     n_frames=dense_hp['n_frames'],
+    #     tau_mem=dense_hp['tau_mem'],
+    #     tau_syn=dense_hp['tau_syn'],
+    #     spike_lam=dense_hp['spike_lam'],
+    #     model_type=dense_hp['model_type'],
+    #     device=device,
+    #     num_classes=dense_hp['num_classes'],
+    #     dt=dense_hp['dt'],
+    #     threshold=dense_hp['threshold'],
+    #     has_bias=dense_hp['has_bias']
+    # )
+
+    # ==================== END MODEL CREATION ====================
 
     # Load pre-trained weights
     print(f"\nLoading sparse model from: {args.sparse_model_path}")

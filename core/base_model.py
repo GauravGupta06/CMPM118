@@ -296,8 +296,23 @@ class BaseSNNModel(ABC):
         model_save_path = f"{base_path}/{subdir}/models/{model_name}_Take{num}_{model_params}_Epochs{self.epochs}.pth"
         graph_save_path = f"{base_path}/{subdir}/graphs/{model_name}_Take{num}_{model_params}_Epochs{self.epochs}.png"
 
-        # Save Rockpool model state
-        torch.save(self.net.state_dict(), model_save_path)
+        # Save Rockpool model state with hyperparameters
+        checkpoint = {
+            'state_dict': self.net.state_dict(),
+            'hyperparams': {
+                'input_size': getattr(self, 'input_size', None),
+                'n_frames': self.n_frames,
+                'tau_mem': self.tau_mem,
+                'tau_syn': getattr(self, 'tau_syn', 0.1),
+                'spike_lam': self.spike_lam,
+                'model_type': self.model_type,
+                'num_classes': self.num_classes,
+                'dt': self.dt,
+                'threshold': self.threshold,
+                'has_bias': self.has_bias,
+            }
+        }
+        torch.save(checkpoint, model_save_path)
 
         plt.savefig(graph_save_path)
         plt.show()
@@ -312,9 +327,24 @@ class BaseSNNModel(ABC):
 
     def load_model(self, model_path):
         """Load model weights from file."""
-        self.net.load_state_dict(torch.load(model_path, map_location=self.device))
+        checkpoint = torch.load(model_path, map_location=self.device, weights_only=False)
+        # Handle both new format (dict with 'state_dict') and old format (just state_dict)
+        if isinstance(checkpoint, dict) and 'state_dict' in checkpoint:
+            self.net.load_state_dict(checkpoint['state_dict'])
+        else:
+            self.net.load_state_dict(checkpoint)
         self.net.eval()
         print(f"Model loaded from: {model_path}")
+
+    @staticmethod
+    def load_hyperparams(model_path, device='cpu'):
+        """Load hyperparameters from checkpoint file without instantiating model."""
+        checkpoint = torch.load(model_path, map_location=device, weights_only=False)
+        if isinstance(checkpoint, dict) and 'hyperparams' in checkpoint:
+            return checkpoint['hyperparams']
+        else:
+            raise ValueError(f"Checkpoint at {model_path} does not contain hyperparams. "
+                           "Was it saved with an older version?")
 
     def predict_sample(self, frames):
         """Predict with spike counting."""
