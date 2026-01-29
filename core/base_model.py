@@ -91,11 +91,12 @@ class BaseSNNModel(ABC):
         - HAR: [B,T,C] -> (optionally normalize/clamp) -> return
         """
         # data: [B, T, ...]
-        if data.dim() < 3:
-            raise ValueError(f"Expected data with at least 3 dims [B,T,...], got shape {tuple(data.shape)}")
+        # if data.dim() < 3:
+        #     raise ValueError(f"Expected data with at least 3 dims [B,T,...], got shape {tuple(data.shape)}")
 
-        x = data.flatten(2)  # [B, T, F]
-        return x
+        # x = data.flatten(2)  # [B, T, F]
+        # return x
+        pass
 
     # -----------------------------
     # Forward helper (optional)
@@ -132,16 +133,16 @@ class BaseSNNModel(ABC):
 
         return spk_rec, spike_count
 
-    def _prepare_input(self, data):
-        """
-        Prepare input data for Rockpool format.
-        Override in child classes if needed.
-        """
-        # Default: flatten spatial dimensions and transpose to [B, T, features]
-        T, B = data.size(0), data.size(1)
-        x = data.transpose(0, 1)  # [B, T, ...]
-        x = x.flatten(2)  # [B, T, features]
-        return x
+    # def _prepare_input(self, data):
+    #     """
+    #     Prepare input data for Rockpool format.
+    #     Override in child classes if needed.
+    #     """
+    #     # Default: flatten spatial dimensions and transpose to [B, T, features]
+    #     T, B = data.size(0), data.size(1)
+    #     x = data.transpose(0, 1)  # [B, T, ...]
+    #     x = x.flatten(2)  # [B, T, features]
+    #     return x
 
     def _count_spikes(self, output):
         """Count total spikes from output."""

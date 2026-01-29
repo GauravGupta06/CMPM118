@@ -74,15 +74,16 @@ class DVSGestureSNN_FC(BaseSNNModel):
         Input: [T, B, C, 1, freq_bins] from tonic (spike counts per bin)
         Output: [B, T, C*freq_bins] for Rockpool (binary spikes)
         """
-        T, B = data.size(0), data.size(1)
-        x = data.transpose(0, 1)   # [B, T, C, 1, freq_bins]
-        x = x.squeeze(3)           # [B, T, C, freq_bins]
-        x = x.flatten(2)           # [B, T, C*freq_bins]
+        # T, B = data.size(0), data.size(1)
+        # x = data.transpose(0, 1)   # [B, T, C, 1, freq_bins]
+        # x = x.squeeze(3)           # [B, T, C, freq_bins]
+        # x = x.flatten(2)           # [B, T, C*freq_bins]
 
-        # Convert spike counts to binary (spike happened or not)
-        x = (x > 0).float()
+        # # Convert spike counts to binary (spike happened or not)
+        # x = (x > 0).float()
         
-        return x
+        # return x
+        return data
 
     def _get_save_params(self):
         """Get parameters for save filename."""
