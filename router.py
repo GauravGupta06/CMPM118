@@ -7,8 +7,8 @@ Usage:
 
 Example:
     python router.py \
-        --sparse_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take3_SHD_Input700_T100_FC_Rockpool_Epochs10.pth \
-        --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take3_SHD_Input700_T100_FC_Rockpool_Epochs10.pth
+        --sparse_model_path ./results/large/models/Rockpool_Non_Sparse_Take102_HAR_Input9_T128_FC_Rockpool_Epochs100.pth \
+        --dense_model_path ./results/large/models/Rockpool_Non_Sparse_Take102_HAR_Input9_T128_FC_Rockpool_Epochs100.pth
 """
 
 import numpy as np
@@ -175,11 +175,12 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
 
     for batch in dataLoader:
         events, label = batch
-        # batch size should be 1 for this function. 
-        # events shape will be different based on the dataset. 
+        # batch size should be 1 for this function.
+        # events shape will be different based on the dataset.
 
+        # Move data to same device as model
+        events = events.to(sparse_model.device)
 
-    
         label = label.item()
         # convert label from tensor to int. 
 
@@ -646,34 +647,34 @@ Examples:
     # Uncomment ONE of the following dataset sections:
 
     # ----- SHD Dataset -----
-    print("Loading SHD dataset...")
-    data = SHDDataset(
-        dataset_path=args.dataset_path,
-        NUM_CHANNELS=args.NUM_CHANNELS,
-        NUM_POLARITIES=args.NUM_POLARITIES,
-        n_frames=args.n_frames,
-        net_dt=args.net_dt
-    )
-    _, cached_test = data.load_shd()
-    test_loader = DataLoader(
-        cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
-        num_workers=args.num_workers, pin_memory=True,
-        collate_fn=tonic.collation.PadTensors(batch_first=True)
-    )
-
-    # ----- UCI-HAR Dataset -----
-    # print("Loading UCI-HAR dataset...")
-    # data = UCIHARDataset(
+    # print("Loading SHD dataset...")
+    # data = SHDDataset(
     #     dataset_path=args.dataset_path,
-    #     n_frames=128,
-    #     time_first=True,
-    #     normalize=True
+    #     NUM_CHANNELS=args.NUM_CHANNELS,
+    #     NUM_POLARITIES=args.NUM_POLARITIES,
+    #     n_frames=args.n_frames,
+    #     net_dt=args.net_dt
     # )
-    # _, cached_test = data.load_uci_har()
+    # _, cached_test = data.load_shd()
     # test_loader = DataLoader(
     #     cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
-    #     num_workers=args.num_workers, pin_memory=True
+    #     num_workers=args.num_workers, pin_memory=True,
+    #     collate_fn=tonic.collation.PadTensors(batch_first=True)
     # )
+
+    # ----- UCI-HAR Dataset -----
+    print("Loading UCI-HAR dataset...")
+    data = UCIHARDataset(
+        dataset_path=args.dataset_path,
+        n_frames=128,
+        time_first=True,
+        normalize=True
+    )
+    _, cached_test = data.load_uci_har()
+    test_loader = DataLoader(
+        cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
+        num_workers=args.num_workers, pin_memory=True
+    )
 
     # ----- DVSGesture Dataset -----
     # print("Loading DVSGesture dataset...")
@@ -709,38 +710,8 @@ Examples:
     # Uncomment ONE of the following model sections (must match dataset above):
 
     # ----- SHD Models -----
-    print("\nCreating sparse model...")
-    sparse_model = SHDSNN_FC(
-        input_size=sparse_hp['input_size'],
-        n_frames=sparse_hp['n_frames'],
-        tau_mem=sparse_hp['tau_mem'],
-        tau_syn=sparse_hp['tau_syn'],
-        spike_lam=sparse_hp['spike_lam'],
-        model_type=sparse_hp['model_type'],
-        device=device,
-        num_classes=sparse_hp['num_classes'],
-        dt=sparse_hp['dt'],
-        threshold=sparse_hp['threshold'],
-        has_bias=sparse_hp['has_bias']
-    )
-    print("Creating dense model...")
-    dense_model = SHDSNN_FC(
-        input_size=dense_hp['input_size'],
-        n_frames=dense_hp['n_frames'],
-        tau_mem=dense_hp['tau_mem'],
-        tau_syn=dense_hp['tau_syn'],
-        spike_lam=dense_hp['spike_lam'],
-        model_type=dense_hp['model_type'],
-        device=device,
-        num_classes=dense_hp['num_classes'],
-        dt=dense_hp['dt'],
-        threshold=dense_hp['threshold'],
-        has_bias=dense_hp['has_bias']
-    )
-
-    # ----- UCI-HAR Models -----
-    # print("\nCreating sparse model...")
-    # sparse_model = UCIHARSNN_FC(
+    # print("\nCreating SHD sparse model...")
+    # sparse_model = SHDSNN_FC(
     #     input_size=sparse_hp['input_size'],
     #     n_frames=sparse_hp['n_frames'],
     #     tau_mem=sparse_hp['tau_mem'],
@@ -753,8 +724,8 @@ Examples:
     #     threshold=sparse_hp['threshold'],
     #     has_bias=sparse_hp['has_bias']
     # )
-    # print("Creating dense model...")
-    # dense_model = UCIHARSNN_FC(
+    # print("Creating SHD dense model...")
+    # dense_model = SHDSNN_FC(
     #     input_size=dense_hp['input_size'],
     #     n_frames=dense_hp['n_frames'],
     #     tau_mem=dense_hp['tau_mem'],
@@ -768,8 +739,38 @@ Examples:
     #     has_bias=dense_hp['has_bias']
     # )
 
+    # ----- UCI-HAR Models -----
+    print("\nCreating UCI-HAR sparse model...")
+    sparse_model = UCIHARSNN_FC(
+        input_size=sparse_hp['input_size'],
+        n_frames=sparse_hp['n_frames'],
+        tau_mem=sparse_hp['tau_mem'],
+        tau_syn=sparse_hp['tau_syn'],
+        spike_lam=sparse_hp['spike_lam'],
+        model_type=sparse_hp['model_type'],
+        device=device,
+        num_classes=sparse_hp['num_classes'],
+        dt=sparse_hp['dt'],
+        threshold=sparse_hp['threshold'],
+        has_bias=sparse_hp['has_bias']
+    )
+    print("Creating UCI-HAR dense model...")
+    dense_model = UCIHARSNN_FC(
+        input_size=dense_hp['input_size'],
+        n_frames=dense_hp['n_frames'],
+        tau_mem=dense_hp['tau_mem'],
+        tau_syn=dense_hp['tau_syn'],
+        spike_lam=dense_hp['spike_lam'],
+        model_type=dense_hp['model_type'],
+        device=device,
+        num_classes=dense_hp['num_classes'],
+        dt=dense_hp['dt'],
+        threshold=dense_hp['threshold'],
+        has_bias=dense_hp['has_bias']
+    )
+
     # ----- DVSGesture Models -----
-    # print("\nCreating sparse model...")
+    # print("\nCreating DVSGesture sparse model...")
     # sparse_model = DVSGestureSNN_FC(
     #     input_size=sparse_hp['input_size'],
     #     n_frames=sparse_hp['n_frames'],
@@ -783,7 +784,7 @@ Examples:
     #     threshold=sparse_hp['threshold'],
     #     has_bias=sparse_hp['has_bias']
     # )
-    # print("Creating dense model...")
+    # print("Creating DVSGesture dense model...")
     # dense_model = DVSGestureSNN_FC(
     #     input_size=dense_hp['input_size'],
     #     n_frames=dense_hp['n_frames'],

@@ -13,8 +13,12 @@ COPY results/ ./results/
 
 # Copy training and evaluation scripts
 COPY train_shd.py .
+COPY train_UCI_HAR.py .
+COPY train_dvsgesture.py .
+
 COPY evaluate.py .
 COPY router.py .
+
 
 # Copy data directory (for dataset caching)
 COPY data/ ./data/
