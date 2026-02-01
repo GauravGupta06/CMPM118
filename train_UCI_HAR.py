@@ -31,7 +31,7 @@ def main():
     parser.add_argument('--num_workers', type=int, default=4,
                         help='DataLoader workers')
 
-    parser.add_argument('--lr', type=float, default=0.001,
+    parser.add_argument('--lr', type=float, default=1e-4,
                         help='Learning rate (default 0.001)')
 
     parser.add_argument('--dataset_path', type=str, default='./data',
@@ -53,7 +53,12 @@ def main():
     args = parser.parse_args()
 
     # Device setup
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")      
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")     
+    else:
+        device = torch.device("cpu")
 
     # Load dataset
     data = UCIHARDataset(
@@ -90,8 +95,8 @@ def main():
     # Hyperparameters (sparse vs dense)
     # With continuous input, sparsity is mainly controlled by tau_mem / threshold / spike_lam
     if args.model_type == 'sparse':
-        tau_mem = 0.05
-        spike_lam = 0.0
+        tau_mem = 0.08
+        spike_lam = 5e-4
     else:  # dense
         tau_mem = 0.1
         spike_lam = 0.0
@@ -102,14 +107,14 @@ def main():
         input_size=args.NUM_CHANNELS,
         n_frames=args.n_frames,
         tau_mem=tau_mem,
-        tau_syn=0.05,
+        tau_syn=0.07, #changed from 0.05 to 0.07
         spike_lam=spike_lam,
         model_type=args.model_type,
         device=device,
         num_classes=6,
         lr=args.lr,
         dt=args.net_dt,
-        threshold=1.0,
+        threshold=0.9, #changed from 1.0 to 0.9
         has_bias=True
     )
 
@@ -123,10 +128,11 @@ def main():
 
     # Save
     print("\nSaving model...")
-    model.save_model(base_path=args.output_path)
+    save_dir = os.path.join(args.output_path, args.model_type)
+    model.save_model(base_path=save_dir)
 
     # Final evaluation
-    final_acc = model.validate_model(test_loader)
+    final_acc = model.validate_model(test_loader) 
     print(f"\n{'='*60}")
     print(f"Final Test Accuracy: {final_acc * 100:.2f}%")
     print(f"{'='*60}")
