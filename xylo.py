@@ -133,7 +133,7 @@ loader = UCIHARDataset(
 
 train_ds, test_ds = loader.load_uci_har()   # returns (cached_train, cached_test)
 
-sample_spikes, label = train_ds[0]
+sample_spikes, label = train_ds[88]
 sample_spikes = np.asarray(sample_spikes)
 
 # Simple rate encoding
@@ -164,6 +164,10 @@ modSim = xa3.XyloSim.from_config(config)
 
 # Run inference
 output, _, recorded = modSim(sample_spikes, record=True)
+
+prediction = np.argmax(np.sum(output, axis=0))
+print("and the prediction for the sample is: ", prediction)
+print("and the true label is: ", label)
 
 print("\n" + "="*60)
 print("Below is the error-prone section")

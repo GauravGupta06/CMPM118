@@ -7,8 +7,8 @@ Usage:
 
 Example:
     python router.py \
-        --sparse_model_path ./results/large/models/Rockpool_Non_Sparse_Take102_HAR_Input9_T128_FC_Rockpool_Epochs100.pth \
-        --dense_model_path ./results/large/models/Rockpool_Non_Sparse_Take102_HAR_Input9_T128_FC_Rockpool_Epochs100.pth
+        --sparse_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take1_HAR_Input9_T128_FC_Rockpool_Epochs1.pth \
+        --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take1_HAR_Input9_T128_FC_Rockpool_Epochs1.pth
 """
 
 import numpy as np
@@ -307,6 +307,9 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 
     for i, batch in enumerate(dataLoader):
         events, label = batch
+
+        # Move data to same device as model
+        events = events.to(sparse_model.device)
 
         # Extract label as int
         label = label.item()
