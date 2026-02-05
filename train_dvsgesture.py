@@ -130,7 +130,7 @@ def main():
 
     # Save
     print("\nSaving model...")
-    #model.save_model(base_path=args.output_path)
+    model.save_model(base_path=args.output_path)
 
     # Final evaluation
     final_acc = model.validate_model(test_loader)

@@ -119,8 +119,15 @@ class UCIHARSNN_FC(BaseSNNModel):
 
             LinearTorch((32, self.num_classes), has_bias=self.has_bias),
 
-            # non-spiking readout
-            ExpSynTorch(self.num_classes, dt=self.dt, tau=Constant(5e-3)),
+            LIFTorch(
+                self.num_classes,
+                tau_mem=Constant(self.tau_mem),
+                tau_syn=Constant(self.tau_syn),
+                threshold=Constant(self.threshold),
+                bias=Constant(0.0),
+                dt=self.dt,
+                has_rec=True,
+            )
         ).to(self.device)
 
         self._init_small_recurrent_weights(net)
