@@ -7,7 +7,9 @@ from rockpool.nn.combinators import Sequential
 from rockpool.parameters import Constant
 from rockpool.transform import quantize_methods as q
 import samna
+import tonic
 import torch
+from torch.utils.data import DataLoader
 
 import sys
 import os
@@ -75,10 +77,10 @@ net = Sequential(
     ),
 ).to(device)
 
-checkpoint = torch.load("./results/large/models//Rockpool_Non_Sparse_Take102_HAR_Input9_T128_FC_Rockpool_Epochs100.pth", map_location='cpu')
+checkpoint = torch.load("./results/dense/large/models/Rockpool_Non_Sparse_Take2_HAR_Input9_T128_FC_Rockpool_Epochs1.pth", map_location='cpu')
 
 """
-Can't use as_graph() @ line 76 with ExpSynTorch, so strict=False says to ignore the removed ExpSynTorch layer
+Can't use as_graph() below with ExpSynTorch, so strict=False says to ignore the removed ExpSynTorch layer
 """
 net.load_state_dict(checkpoint, strict=False)
 
@@ -159,6 +161,7 @@ print("Output neurons:", len(config.readout.weights))
 if not is_valid:
     raise ValueError(f"Invalid configuration: {msg}")
 
+"""
 # Create simulator
 modSim = xa3.XyloSim.from_config(config)
 
@@ -172,6 +175,7 @@ print("and the true label is: ", label)
 print("\n" + "="*60)
 print("Below is the error-prone section")
 print("="*60)
+"""
 
 # Connect to HDK
 hdk_nodes, support_modules, versions = find_xylo_hdks()
@@ -199,31 +203,63 @@ modSamna = xa3.XyloSamna(hdk, config, dt=dt, power_frequency=20.)
 
 # Run inference
 """
-From what I have tried, the line below always crashes my Python and produces an error:
+IMPORTANT: In order for inference to not immediately crash on you, you must:
+    1) Go to venv/lib/python3.13/site-packages/rockpool/devices/xylo/syns65302/xa3_devkit_utils.py
+    2) Locate the `get_current_timestep()` function (line 164)
+    3) Change the `timeout` variable (line 167) to anything greater than 20
 
-"TimeoutError: Timeout after 5.0s when reading current timestep."
-
-From DeepSeek:
-
-"Power is the most likely issue - USB-C to USB-A adapters on MacBooks often don't provide enough power for the HDK"
-
-"This is a known issue with Xylo HDK. Try these steps:
-    1. UNPLUG the HDK from USB
-    2. Wait 10 seconds
-    3. PLUG it back in
-    4. Wait 5 seconds for device enumeration
-    5. Run this script again
-
-If that doesn't work:
-    1. Restart your computer
-    2. Try a different USB port
-    3. Check if other processes are using the HDK
-
-If all else fails, fall back to simulation results only."
-
-Unplugging and restarting hasn't worked for me. I can only
-assume we might need a non-Mac laptop to run it? I have no
-clue and I've been at this for >2.5 hours by now
+Now, inference will work. Though, sometimes, it will crash anyways. But at least we get the metrics
 """
-output, state, recorded = modSamna(sample_spikes, record=True)
+output, state, recorded = modSamna(sample_spikes, record=True, record_power=True)
+prediction = np.argmax(np.sum(output, axis=0))
+print("and the prediction for the sample is: ", prediction)
+print("and the true label is: ", label)
+#print(recorded)
 
+print("\n" + "="*60)
+print("Energy Metrics")
+print("="*60 + "\n")
+
+"""
+`recorded` keys are:
+['Vmem', 'Isyn', 'Isyn2', 'Spikes', 'Vmem_out', 'Isyn_out', 'times', 'inf_duration', 'io_power', 'analog_power', 'digital_power']
+
+The class of these keys are:
+Vmem <class 'numpy.ndarray'>, Isyn <class 'numpy.ndarray'>, Isyn2 <class 'numpy.ndarray'>, Spikes <class 'numpy.ndarray'>,
+Vmem_out <class 'numpy.ndarray'>, Isyn_out <class 'numpy.ndarray'>, times <class 'numpy.ndarray'>, inf_duration <class 'float'>,
+io_power <class 'numpy.ndarray'>, analog_power <class 'numpy.ndarray'>, digital_power <class 'numpy.ndarray'>, 
+
+Here are the shapes of some of them:
+analog_power (172,) float64
+digital_power (172,) float64
+io_power (172,) float64
+times (128,) float64
+"""
+
+analog = recorded['analog_power']
+digital = recorded['digital_power']
+io = recorded['io_power']
+
+total_power = analog + digital + io
+
+# infer dt from inference duration
+power_dt = recorded['inf_duration'] / len(total_power)
+energy_joules = np.sum(total_power) * power_dt
+print(f"Total energy: {energy_joules:.6e} J")
+
+n_output_spikes = np.sum(recorded['Spikes'])
+if n_output_spikes > 0:
+    print("Energy per output spike:", energy_joules / n_output_spikes)
+    
+n_input_spikes = np.sum(sample_spikes)
+if n_input_spikes > 0:
+    print("Energy per input spike:", energy_joules / n_input_spikes)
+
+inf_time = recorded['inf_duration']
+print(f"Inference time: {inf_time:.6f} s")
+
+mean_power = np.mean(total_power)
+print(f"Mean power: {mean_power:.6e} W")
+
+peak_power = np.max(total_power)
+print(f"Peak power: {peak_power:.6e} W")
