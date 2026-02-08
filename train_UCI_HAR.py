@@ -9,7 +9,7 @@ import os
 sys.path.insert(0, os.path.dirname(__file__))
 
 from datasets.uci_har import UCIHARDataset
-from models.uci_har_model import UCIHARSNN_FC
+from models.uci_har_model import UCIHARSNN
 from torch.utils.data import DataLoader
 
 
@@ -103,7 +103,7 @@ def main():
         print(f"   - spike_lam: {spike_lam} (disabled)")
 
     # Create model
-    model = UCIHARSNN_FC(
+    model = UCIHARSNN(
         input_size=args.NUM_CHANNELS,
         n_frames=args.n_frames,
         tau_mem=tau_mem,
@@ -128,15 +128,13 @@ def main():
 
     # Save
     print("\nSaving model...")
-    save_dir = os.path.join(args.output_path, args.model_type)
-    model.save_model(base_path=save_dir)
+    model.save_model(base_path=args.output_path)
 
     # Final evaluation
     final_acc = model.validate_model(test_loader) 
     print(f"\n{'='*60}")
     print(f"Final Test Accuracy: {final_acc * 100:.2f}%")
     print(f"{'='*60}")
-
 
 if __name__ == "__main__":
     torch.multiprocessing.set_start_method('spawn', force=True)

@@ -2,56 +2,53 @@
 
 import os
 import tonic
-import torch
 import numpy as np
-from core.base_dataset import NeuromorphicDataset
 
-class DVSGestureDataset(NeuromorphicDataset):
+
+class DVSGestureDataset:
     """DVSGesture dataset loader."""
 
     def __init__(self, dataset_path, w=32, h=32, n_frames=32):
-        """
-        Args:
-            dataset_path: Root path for dataset storage
-            w: Width of samples
-            h: Height of samples
-            n_frames: Number of temporal bins
-        """
-        super().__init__(dataset_path, n_frames)
-
-        self.sensor_size = tonic.datasets.DVSGesture.sensor_size # (128, 128, 2)
-        
+        self.dataset_path = dataset_path
         self.w = w
         self.h = h
+        self.n_frames = n_frames
         self.num_classes = 11
-
-    def _get_transforms(self):
-        """Create tonic transforms for DVSGesture dataset."""
-        transforms_list = [
-            # Downsamples/rescales events from 128x128 to wxh
-            tonic.transforms.Downsample(spatial_factor=(self.w/self.sensor_size[1], self.h/self.sensor_size[0])),
-            tonic.transforms.ToFrame(
-                sensor_size=(self.w, self.h, 2),
-                n_time_bins=self.n_frames
-            ),
-        ]
-
-        return tonic.transforms.Compose(transforms_list)
-
-    def _load_raw_dataset(self, train=True):
-        """Load DVSGesture dataset from tonic."""
-        return tonic.datasets.DVSGesture(save_to=self.dataset_path, transform=self._get_transforms(), train=train)
-
-    def _get_cache_path(self):
-        """Generate cache path based on configuration."""
-        return f"{self.dataset_path}/DVSGesture/{self.w}x{self.h}_T{self.n_frames}"
-
-    def get_num_classes(self):
-        """Return number of classes for DVSGesture."""
-        return self.num_classes
+        self.sensor_size = tonic.datasets.DVSGesture.sensor_size  # (128, 128, 2)
 
     def load_dvsgesture(self):
-        """
-        Load DVSGesture dataset.
-        """
-        return self.create_datasets()
+        """Load DVSGesture dataset with caching."""
+        cache_path = f"{self.dataset_path}/dvsgesture/{self.w}x{self.h}_T{self.n_frames}"
+        cache_exists = os.path.exists(f"{cache_path}/train") and os.path.exists(f"{cache_path}/test")
+
+        # Create transforms - output shape: [T, C*H*W] = [n_frames, w*h*2]
+        transform = tonic.transforms.Compose([
+            tonic.transforms.Downsample(spatial_factor=(self.w/self.sensor_size[1], self.h/self.sensor_size[0])),
+            tonic.transforms.ToFrame(sensor_size=(self.w, self.h, 2), n_time_bins=self.n_frames),
+            lambda x: (x > 0).astype(np.float32),  # Binarize: counts → 0/1
+            lambda x: x.reshape(x.shape[0], -1),   # Flatten: [T, C, H, W] → [T, C*H*W]
+        ])
+
+        # Load raw datasets only if cache doesn't exist
+        train_dataset = None if cache_exists else tonic.datasets.DVSGesture(save_to=self.dataset_path, transform=transform, train=True)
+        test_dataset = None if cache_exists else tonic.datasets.DVSGesture(save_to=self.dataset_path, transform=transform, train=False)
+
+        # Create cached datasets
+        cached_train = tonic.DiskCachedDataset(train_dataset, cache_path=f"{cache_path}/train")
+        cached_test = tonic.DiskCachedDataset(test_dataset, cache_path=f"{cache_path}/test")
+
+        # Populate cache on first load
+        if not cache_exists:
+            print(f"Caching dataset to {cache_path}...")
+            print("Caching training data...")
+            for _ in cached_train:
+                pass
+            print("Caching test data...")
+            for _ in cached_test:
+                pass
+            print("Caching complete!")
+
+        return cached_train, cached_test
+
+    def get_num_classes(self):
+        return self.num_classes

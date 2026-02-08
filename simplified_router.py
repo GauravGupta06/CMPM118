@@ -3,12 +3,12 @@ Router for Rockpool SNN models.
 Analyzes complexity of samples and routes between sparse and dense models for energy efficiency.
 
 Usage:
-    python router.py --sparse_model_path <path> --dense_model_path <path> [options]
+    python simplified_router.py --sparse_model_path <path> --dense_model_path <path> [options]
 
 Example:
-    python router.py \
-        --sparse_model_path ./workspace/small/models/Rockpool_Sparse_Take1_HAR_Input9_T128_FC_Rockpool_Epochs100.pth \
-        --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take1_HAR_Input9_T128_FC_Rockpool_Epochs1.pth
+    python simplified_router.py \
+        --sparse_model_path /workspace/sparse/small/models/Rockpool_Sparse_Take2_HAR_Input9_T128_FC_Rockpool_Epochs30.pth \
+        --dense_model_path  /workspace/dense/large/models/Rockpool_Non_Sparse_Take4_HAR_Input9_T128_FC_Rockpool_Epochs30.pth
 """
 
 import numpy as np
@@ -25,20 +25,21 @@ import argparse
 import sys
 
 
+
 # SHD
 from datasets.shd_dataset import SHDDataset
-from models.shd_model import SHDSNN_FC
+from models.shd_model import SHDSNN
 
 # DVSGesture
 from datasets.dvsgesture_dataset import DVSGestureDataset
-from models.dvsgesture_model import DVSGestureSNN_FC
+from models.dvsgesture_model import DVSGestureSNN
 
 # UCI HAR
 from datasets.uci_har import UCIHARDataset
-from models.uci_har_model import UCIHARSNN_FC
+from models.uci_har_model import UCIHARSNN
 
 
-from core.base_model import BaseSNNModel
+
 from torch.utils.data import DataLoader
 
 
@@ -477,8 +478,8 @@ Examples:
 
     # Load hyperparameters from checkpoint files
     print("\nLoading hyperparameters from checkpoints...")
-    sparse_hp = BaseSNNModel.load_hyperparams(args.sparse_model_path)
-    dense_hp = BaseSNNModel.load_hyperparams(args.dense_model_path)
+    sparse_hp = UCIHARSNN.load_hyperparams(args.sparse_model_path)
+    dense_hp = UCIHARSNN.load_hyperparams(args.dense_model_path)
 
     print(f"Sparse model: tau_mem={sparse_hp['tau_mem']}, tau_syn={sparse_hp['tau_syn']}, spike_lam={sparse_hp['spike_lam']}")
     print(f"Dense model:  tau_mem={dense_hp['tau_mem']}, tau_syn={dense_hp['tau_syn']}, spike_lam={dense_hp['spike_lam']}")
@@ -518,7 +519,7 @@ Examples:
 
     # ----- UCI-HAR Models -----
     print("\nCreating UCI-HAR sparse model...")
-    sparse_model = UCIHARSNN_FC(
+    sparse_model = UCIHARSNN(
         input_size=sparse_hp['input_size'],
         n_frames=sparse_hp['n_frames'],
         tau_mem=sparse_hp['tau_mem'],
@@ -532,7 +533,7 @@ Examples:
         has_bias=sparse_hp['has_bias']
     )
     print("Creating UCI-HAR dense model...")
-    dense_model = UCIHARSNN_FC(
+    dense_model = UCIHARSNN(
         input_size=dense_hp['input_size'],
         n_frames=dense_hp['n_frames'],
         tau_mem=dense_hp['tau_mem'],

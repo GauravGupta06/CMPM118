@@ -2,103 +2,73 @@
 
 import os
 import tonic
-from tonic import transforms
-import torch
 import numpy as np
-from core.base_dataset import NeuromorphicDataset
 
 
+class SHDDataset:
+    """SHD dataset loader."""
 
-class ToRaster:
-    """Convert SHD events to raster with full channels and polarity."""
+    def __init__(self, dataset_path, NUM_CHANNELS=700, NUM_POLARITIES=2, n_frames=100, net_dt=10e-3):
+        self.dataset_path = dataset_path
+        self.NUM_CHANNELS = NUM_CHANNELS
+        self.NUM_POLARITIES = NUM_POLARITIES
+        self.n_frames = n_frames
+        self.net_dt = net_dt
+        self.num_classes = 20
+        self.total_features = NUM_CHANNELS * NUM_POLARITIES  # 1400
 
-    def __init__(self, num_channels=700, num_polarities=2, sample_T=100):
-        self.num_channels = num_channels
-        self.num_polarities = num_polarities
-        self.sample_T = sample_T
-        self.total_features = num_channels * num_polarities  # 1400
-
-    def __call__(self, events):
+    def _to_raster(self, events):
+        """Convert SHD events to raster with full channels and polarity."""
         max_t = int(events["t"].max()) + 1
         raster = np.zeros((max_t, self.total_features), dtype=np.float32)
 
         times = events["t"].astype(int)
-        channels = events["x"].astype(int) * self.num_polarities + events["p"].astype(int) 
-        # by multiplying with num_polarities, scale the values from 0-700 to 0-1400 for the index.
-        # this allows us to index into the raster array. 
-        # we then add the polarity to get which of the two possible indexes for the raster we add the event to. 
-        # Note that every event is a spike, regardless of polarity. The reason we have the + polarity is to 
-        # allow us find the specific column for that specific channel (becuase each channel has 2 columns). 
+        channels = events["x"].astype(int) * self.NUM_POLARITIES + events["p"].astype(int)
 
         valid = (channels < self.total_features)
         np.add.at(raster, (times[valid], channels[valid]), 1)
 
-        # Pad or truncate to sample_T
-        if raster.shape[0] < self.sample_T:
-            pad = np.zeros((self.sample_T - raster.shape[0], self.total_features), dtype=np.float32)
+        # Pad or truncate to n_frames
+        if raster.shape[0] < self.n_frames:
+            pad = np.zeros((self.n_frames - raster.shape[0], self.total_features), dtype=np.float32)
             raster = np.concatenate([raster, pad], axis=0)
         else:
-            raster = raster[:self.sample_T, :]
-        # the reason we are doing the code above is becuase the input data is a variable length.
-        # some audio samples are longer than others, so we need to pad or truncate to a fixed length.
-        # we are padding with 0s if the sample is shorter than the fixed length.
-        # we are truncating if the sample is longer than the fixed length.
-        
-        # Its important to keep the data size the exact same even though it doesn't come in the same size. 
-        # This is because the model is going to be trained on batches of data, and if the data size is different
-        # for each batch, the model will not be able to learn effectively. Also, the model will not be able to 
-        # make predictions on new data if the data size is different. 
-
+            raster = raster[:self.n_frames, :]
 
         # Binarize
         return (raster > 0).astype(np.float32)
 
+    def load_shd(self):
+        """Load SHD dataset with caching."""
+        cache_path = f"{self.dataset_path}/shd/{self.NUM_CHANNELS}x{self.NUM_POLARITIES}_T{self.n_frames}"
+        cache_exists = os.path.exists(f"{cache_path}/train") and os.path.exists(f"{cache_path}/test")
 
-
-
-
-
-class SHDDataset(NeuromorphicDataset):
-    """SHD dataset loader."""
-
-    def __init__(self, dataset_path, NUM_CHANNELS=700, NUM_POLARITIES=2, n_frames=100, net_dt=10e-3):
-        """
-        Args:
-            dataset_path: Root path for dataset storage
-            n_frames: Number of temporal bins
-        """
-        super().__init__(dataset_path, n_frames)
-        self.num_classes = 20
-        self.NUM_CHANNELS = NUM_CHANNELS
-        self.NUM_POLARITIES = NUM_POLARITIES
-        self.net_dt = net_dt
-        self.sensor_size = (self.NUM_CHANNELS, 1, self.NUM_POLARITIES)
-
-
-    def _get_transforms(self):
-        """Create tonic transforms for SHD dataset."""
-        transform = transforms.Compose([
-            transforms.Downsample(time_factor= (1e-6/self.net_dt), spatial_factor=1.0),
-            ToRaster(self.NUM_CHANNELS, self.NUM_POLARITIES, self.n_frames),
-            torch.tensor,
+        # Create transform - output shape: [T, features] = [n_frames, NUM_CHANNELS * NUM_POLARITIES]
+        transform = tonic.transforms.Compose([
+            tonic.transforms.Downsample(time_factor=(1e-6/self.net_dt), spatial_factor=1.0),
+            self._to_raster,
         ])
 
-        return transform
+        # Load raw datasets only if cache doesn't exist
+        train_dataset = None if cache_exists else tonic.datasets.SHD(save_to=self.dataset_path, transform=transform, train=True)
+        test_dataset = None if cache_exists else tonic.datasets.SHD(save_to=self.dataset_path, transform=transform, train=False)
 
-    def _load_raw_dataset(self, train=True):
-        """Load SHD dataset from tonic."""
-        return tonic.datasets.SHD(save_to=self.dataset_path, transform=self._get_transforms(), train=train)
+        # Create cached datasets
+        cached_train = tonic.DiskCachedDataset(train_dataset, cache_path=f"{cache_path}/train")
+        cached_test = tonic.DiskCachedDataset(test_dataset, cache_path=f"{cache_path}/test")
 
-    def _get_cache_path(self):
-        """Generate cache path based on configuration."""
-        return f"{self.dataset_path}/shd/700x1_T{self.n_frames}"
+        # Populate cache on first load
+        if not cache_exists:
+            print(f"Caching dataset to {cache_path}...")
+            print("Caching training data...")
+            for _ in cached_train:
+                pass
+            print("Caching test data...")
+            for _ in cached_test:
+                pass
+            print("Caching complete!")
+
+        return cached_train, cached_test
 
     def get_num_classes(self):
-        """Return number of classes for SHD."""
         return self.num_classes
-    def load_shd(self):
-        """Load SHD dataset."""
-        return self.create_datasets()
-
-
-

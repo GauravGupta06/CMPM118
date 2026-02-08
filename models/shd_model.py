@@ -2,110 +2,218 @@
 
 import torch
 import torch.nn as nn
-import numpy as np
 from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
 from rockpool.nn.combinators import Sequential
 from rockpool.parameters import Constant
 
-import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from core.base_model import BaseSNNModel
-
-
-class SHDSNN_FC(BaseSNNModel):
+class SHDSNN:
     """
-    Fully-connected SNN for SHD dataset using Rockpool.
-    Architecture: (input_size*2) → 128 → 64 → 32 → 20 (with recurrent connections)
+    Fully-connected SNN for SHD dataset.
+    Architecture: (input_size*2) → 128 → 64 → 32 → 20
     Note: SHD has 2 channels (polarity), so total input = input_size * 2
-    Xylo-compatible (no Conv layers).
-
-    Sparse vs Dense differentiation via hyperparameters:
-    - Sparse: tau_mem=0.01, spike_lam=1e-6 → fewer spikes
-    - Dense: tau_mem=0.02, spike_lam=1e-8 → more spikes
     """
 
     def __init__(self, input_size, n_frames, tau_mem=0.1, tau_syn=0.1, spike_lam=0.0,
                  model_type="dense", device=None, num_classes=20, lr=0.001, dt=10e-3, threshold=1.0, has_bias=True):
-        """
-        Args:
-            input_size: Number of frequency bins (700 for SHD). Total input features = input_size * 2
-            n_frames: Number of time steps
-            tau_mem: Membrane time constant in seconds (default 0.1 = 100ms like Rockpool tutorial)
-            tau_syn: Synaptic time constant in seconds (default 0.1 = 100ms)
-            spike_lam: Spike regularization (default 0.0 = disabled)
-            model_type: "sparse" or "dense" (for tracking/saving)
-            device: torch device
-            num_classes: Number of output classes (20 for SHD)
-            lr: Learning rate
-        """
+        
+        self.device = device or (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
+        self.input_size = input_size
+        self.n_frames = n_frames
+        self.tau_mem = tau_mem
+        self.tau_syn = tau_syn
+        self.spike_lam = spike_lam
+        self.model_type = model_type
+        self.num_classes = num_classes
+        self.lr = lr
         self.dt = dt
         self.threshold = threshold
         self.has_bias = has_bias
-        self.input_size = input_size
-        self.tau_syn = tau_syn
-        super().__init__(n_frames, tau_mem, spike_lam, model_type, device, num_classes, lr=lr, dt=self.dt, threshold=threshold, has_bias=has_bias)
+        self.epochs = None
 
-    def _build_network(self):
-        """
-        Build FC architecture with recurrence: (input_size*2) → 128 → 64 → 32 → 20
-        Note: input_size is multiplied by 2 because SHD has 2 channels (polarity)
-        Uses Rockpool's Sequential + LinearTorch + LIFTorch with recurrent connections
-        """
         # SHD has 2 channels, so actual input features = input_size * 2
-        actual_input_size = self.input_size * 2
+        actual_input_size = input_size * 2
 
-        # Use Constant() to keep LIF parameters fixed during training (only train weights)
-        # has_rec=True enables recurrent connections within each LIF layer (good for temporal data)
-        net = Sequential(
-            LinearTorch((actual_input_size, 128), has_bias=self.has_bias),
-            LIFTorch(128, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn), 
-                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=True),
-            LinearTorch((128, 64), has_bias=self.has_bias),
-            LIFTorch(64, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn),
-                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=True),
-            LinearTorch((64, 32), has_bias=self.has_bias),
-            LIFTorch(32, tau_mem=Constant(self.tau_mem), tau_syn=Constant(self.tau_syn),
-                     threshold=Constant(1.0), bias=Constant(0.), dt=self.dt, has_rec=True),
-            LinearTorch((32, self.num_classes), has_bias=self.has_bias),
+        # Build network: (input_size*2) → 128 → 64 → 32 → 20
+        self.net = Sequential(
+            LinearTorch((actual_input_size, 128), has_bias=has_bias),
+            LIFTorch(128, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn), 
+                     threshold=Constant(1.0), bias=Constant(0.), dt=dt, has_rec=True),
+            LinearTorch((128, 64), has_bias=has_bias),
+            LIFTorch(64, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn),
+                     threshold=Constant(1.0), bias=Constant(0.), dt=dt, has_rec=True),
+            LinearTorch((64, 32), has_bias=has_bias),
+            LIFTorch(32, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn),
+                     threshold=Constant(1.0), bias=Constant(0.), dt=dt, has_rec=True),
+            LinearTorch((32, num_classes), has_bias=has_bias),
             # ExpSynTorch output layer: produces smooth synaptic current instead of spikes
-            ExpSynTorch(self.num_classes, dt=self.dt, tau=Constant(5e-3)),
+            ExpSynTorch(num_classes, dt=dt, tau=Constant(5e-3)),
         ).to(self.device)
 
-        # Initialize recurrent weights to be SMALL to prevent cascade explosions
-        self._init_small_recurrent_weights(net)
-        
-        return net
-    
-    def _init_small_recurrent_weights(self, net):
-        """Scale down recurrent weights to prevent spike cascades."""
+        # Scale down recurrent weights to prevent spike cascades
         with torch.no_grad():
-            for name, param in net.named_parameters():
+            for name, param in self.net.named_parameters():
                 if 'w_rec' in name.lower() or 'rec' in name.lower():
-                    # Scale recurrent weights to 1% of original
                     param.data *= 0.01
                     print(f"Scaled {name} by 0.01 for stability")
 
-    def _prepare_input(self, data):
-        """
-        Prepare SHD input for Rockpool.
-        Input: [T, B, C, 1, freq_bins] from tonic (spike counts per bin)
-        Output: [B, T, C*freq_bins] for Rockpool (binary spikes)
-        """
-        # old code below that expects the data to not be in the format the model expects. 
-        # T, B = data.size(0), data.size(1)
-        # x = data.transpose(0, 1)  # [B, T, C, 1, freq_bins]
-        # x = x.squeeze(3)           # [B, T, C, freq_bins]
-        # x = x.flatten(2)           # [B, T, C*freq_bins]
+        # Training components
+        self.optimizer = torch.optim.Adam(
+            [p for _, p in self.net.named_parameters()], lr=lr, betas=(0.9, 0.999)
+        )
 
-        # # Convert spike counts to binary (spike happened or not)
-        # x = (x > 0).float()
+        self.loss_fn = nn.CrossEntropyLoss()
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            self.optimizer, mode='max', factor=0.5, patience=10, min_lr=1e-6
+        )
 
-        # return x
+        # History tracking
+        self.loss_hist = []
+        self.acc_hist = []
+        self.test_acc_hist = []
 
-        return data
+    def train_model(self, train_loader, test_loader, num_epochs=150, print_every=15):
+        """Train the model."""
+        print("starting training")
+        self.epochs = num_epochs
+        cnt = 0
 
-    def _get_save_params(self):
-        """Get parameters for save filename."""
-        return f"SHD_Input{self.input_size}_T{self.n_frames}_FC_Rockpool"
+        for epoch in range(num_epochs):
+            for batch, (data, targets) in enumerate(train_loader):
+                data = data.to(self.device).float()
+                targets = targets.to(self.device)
+
+                self.net.train()
+                self.optimizer.zero_grad()
+                
+                output, _, recording = self.net(data, record=True)
+                logits = output.mean(dim=1)
+                
+                # Count spikes from LIF layers only (not ExpSynTorch output)
+                spike_count = sum(
+                    tensor.sum()
+                    for key, tensor in recording.items()
+                    if isinstance(self.net[int(key)], LIFTorch)
+                )
+
+                loss = self.loss_fn(logits, targets) + spike_count * self.spike_lam
+
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_([p for _, p in self.net.named_parameters()], max_norm=1.0)
+                self.optimizer.step()
+
+                self.loss_hist.append(loss.item())
+                acc = ((logits.argmax(1) == targets).sum().item()) / targets.size(0)
+                self.acc_hist.append(acc)
+
+                if cnt % print_every == 0:
+                    print(f"Epoch {epoch}, Iter {batch} | Loss: {loss.item():.2f} | Train Acc: {acc*100:.2f}%")
+                    test_acc = self.validate_model(test_loader)
+                    self.test_acc_hist.append(test_acc)
+                    print(f"Test Acc: {test_acc*100:.2f}% | LR: {self.optimizer.param_groups[0]['lr']:.6f}\n")
+                    self.scheduler.step(test_acc)
+
+                cnt += 1
+
+    def validate_model(self, test_loader):
+        """Validate the model on test data."""
+        self.net.eval()
+        correct, total = 0, 0
+
+        with torch.no_grad():
+            for data, targets in test_loader:
+                data = data.to(self.device).float()
+                targets = targets.to(self.device)
+
+                output, _, _ = self.net(data)
+                logits = output.mean(dim=1)
+                correct += (logits.argmax(1) == targets).sum().item()
+                total += targets.size(0)
+
+        return correct / total if total > 0 else 0.0
+
+    def save_model(self, base_path="./results", counter_file="experiment_counter.txt"):
+        """Save model and training graphs."""
+        import matplotlib.pyplot as plt
+        import os
+
+        os.makedirs(f"{base_path}/shd/{self.model_type}/models", exist_ok=True)
+        os.makedirs(f"{base_path}/shd/{self.model_type}/graphs", exist_ok=True)
+
+        # Counter file
+        counter_path = f"{base_path}/shd/{self.model_type}/{counter_file}"
+        if not os.path.exists(counter_path):
+            os.makedirs(os.path.dirname(counter_path), exist_ok=True)
+            with open(counter_path, "w") as f:
+                f.write("0")
+
+        # Create plots
+        fig, axes = plt.subplots(1, 3, figsize=(18, 4))
+
+        axes[0].plot(self.acc_hist)
+        axes[0].set_title("Train Set Accuracy")
+        axes[0].set_xlabel("Iteration")
+        axes[0].set_ylabel("Accuracy")
+
+        axes[1].plot(self.test_acc_hist)
+        axes[1].set_title("Test Set Accuracy")
+        axes[1].set_xlabel("Iteration")
+        axes[1].set_ylabel("Accuracy")
+
+        axes[2].plot(self.loss_hist)
+        axes[2].set_title("Loss History")
+        axes[2].set_xlabel("Iteration")
+        axes[2].set_ylabel("Loss")
+
+        # Read and increment counter
+        with open(counter_path, "r") as f:
+            num = int(f.read().strip()) + 1
+        with open(counter_path, "w") as f:
+            f.write(str(num))
+
+        # Save paths
+        model_path = f"{base_path}/shd/{self.model_type}/models/Take{num}_T{self.n_frames}_Epochs{self.epochs}.pth"
+        graph_path = f"{base_path}/shd/{self.model_type}/graphs/Take{num}_T{self.n_frames}_Epochs{self.epochs}.png"
+
+        # Save checkpoint
+        torch.save({
+            'state_dict': self.net.state_dict(),
+            'hyperparams': {
+                'input_size': self.input_size,
+                'n_frames': self.n_frames,
+                'tau_mem': self.tau_mem,
+                'tau_syn': self.tau_syn,
+                'spike_lam': self.spike_lam,
+                'model_type': self.model_type,
+                'num_classes': self.num_classes,
+                'dt': self.dt,
+                'threshold': self.threshold,
+                'has_bias': self.has_bias,
+            }
+        }, model_path)
+
+        plt.savefig(graph_path)
+        plt.show()
+
+        print(f"Model saved to: {model_path}")
+        print(f"Graph saved to: {graph_path}")
+
+    def load_model(self, model_path):
+        """Load model weights from file."""
+        checkpoint = torch.load(model_path, map_location=self.device, weights_only=False)
+        if isinstance(checkpoint, dict) and 'state_dict' in checkpoint:
+            self.net.load_state_dict(checkpoint['state_dict'])
+        else:
+            self.net.load_state_dict(checkpoint)
+        self.net.eval()
+        print(f"Model loaded from: {model_path}")
+
+    @staticmethod
+    def load_hyperparams(model_path, device='cpu'):
+        """Load hyperparameters from checkpoint file."""
+        checkpoint = torch.load(model_path, map_location=device, weights_only=False)
+        if isinstance(checkpoint, dict) and 'hyperparams' in checkpoint:
+            return checkpoint['hyperparams']
+        else:
+            raise ValueError(f"Checkpoint at {model_path} does not contain hyperparams. "
+                           "Was it saved with an older version?")
