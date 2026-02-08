@@ -90,11 +90,14 @@ class SHDSNN:
                 logits = output.mean(dim=1)
                 
                 # Count spikes from LIF layers only (not ExpSynTorch output)
-                spike_count = sum(
-                    tensor.sum()
-                    for key, tensor in recording.items()
-                    if isinstance(self.net[int(key)], LIFTorch)
-                )
+                spike_count = torch.tensor(0.0, device=self.device)
+                for key, value in recording.items():
+                    layer_idx = int(key.split('_')[0])
+                    if isinstance(self.net[layer_idx], LIFTorch):
+                        if isinstance(value, dict):
+                            spike_count += value.get('spk', torch.tensor(0)).sum()
+                        else:
+                            spike_count += value.sum()
 
                 loss = self.loss_fn(logits, targets) + spike_count * self.spike_lam
 
