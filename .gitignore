@@ -9,10 +9,7 @@ data/DVSGesture
 data/SHD
 data/UCI_HAR_Dataset
 
-# Cache data is NOT ignored - it gets pushed
-# data/dvsgesture  <- pushed
-# data/shd         <- pushed
-# data/uci_har     <- pushed
+
 
 # Other
 rockpoolDevelopment/data/SHD
