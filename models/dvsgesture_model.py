@@ -2,7 +2,7 @@
 
 import torch
 import torch.nn as nn
-from rockpool.nn.modules import LIFTorch, LinearTorch
+from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
 from rockpool.nn.combinators import Sequential
 from rockpool.parameters import Constant
 
@@ -33,12 +33,17 @@ class DVSGestureSNN:
         # Build network
         self.net = Sequential(
             LinearTorch((input_size, 256), has_bias=has_bias),
-            LIFTorch(256, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn), threshold=Constant(threshold), dt=dt),
+            LIFTorch(256, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn), threshold=Constant(threshold), bias=Constant(0.01), dt=dt),
             LinearTorch((256, 128), has_bias=has_bias),
-            LIFTorch(128, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn), threshold=Constant(threshold), dt=dt),
+            LIFTorch(128, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn), threshold=Constant(threshold), bias=Constant(0.01), dt=dt),
             LinearTorch((128, num_classes), has_bias=has_bias),
-            LIFTorch(num_classes, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn), threshold=Constant(threshold), dt=dt),
+            ExpSynTorch(num_classes, dt=dt, tau=Constant(5e-3)),
         ).to(self.device)
+
+        # Initialize weights to small normal values
+        for p in self.net.parameters().astorch():
+            if p.dim() > 1:
+                p.data.normal_(0, 0.01)
 
         # Training components
         self.optimizer = torch.optim.Adam(
@@ -71,7 +76,7 @@ class DVSGestureSNN:
                 self.optimizer.zero_grad()
                 
                 output, _, recording = self.net(data, record=True)
-                logits = output.mean(dim=1)
+                logits = output[:, -1, :]
                 
                 # Count spikes from LIF layers only
                 spike_count = torch.tensor(0.0, device=self.device)
@@ -117,7 +122,7 @@ class DVSGestureSNN:
                 targets = targets.to(self.device)
 
                 output, _, _ = self.net(data)
-                logits = output.mean(dim=1)
+                logits = output[:, -1, :]
                 correct += (logits.argmax(1) == targets).sum().item()
                 total += targets.size(0)
 

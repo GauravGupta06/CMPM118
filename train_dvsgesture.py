@@ -62,11 +62,13 @@ def main():
         input_size=args.w * args.h * 2,
         n_frames=args.n_frames,
         tau_mem=tau_mem,
+        tau_syn=0.1,
         spike_lam=spike_lam,
         model_type=args.model_type,
         device=device,
         num_classes=data.get_num_classes(),
-        lr=args.lr,
+        lr=1e-5,
+        dt=0.01,
     )
 
     # Train
