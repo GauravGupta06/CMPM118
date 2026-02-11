@@ -9,7 +9,7 @@ import os
 sys.path.insert(0, os.path.dirname(__file__))
 
 from datasets.shd_dataset import SHDDataset
-from models.shd_model import SHDSNN_FC
+from models.shd_model import SHDSNN
 from torch.utils.data import DataLoader
 
 
@@ -83,7 +83,7 @@ def main():
         print(f"   - spike_lam: {spike_lam} (disabled)")
 
     # Create model
-    model = SHDSNN_FC(
+    model = SHDSNN(
         input_size=args.NUM_CHANNELS,
         n_frames=args.n_frames,
         tau_mem=tau_mem,

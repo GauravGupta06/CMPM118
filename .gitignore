@@ -1,16 +1,18 @@
 __pycache__/
-data/DVSGesture
-data/SHD
-data/ASLDVS
-rockpoolDevelopment/data/SHD
 .venv/
-MNIST/*.Zone.Identifier
-other/
-legacy/
 .claude/
 .cursor/
 .vscode/
 
+# Raw data ONLY (large, not pushed)
+data/DVSGesture
+data/SHD
+data/UCI_HAR_Dataset
 
 
 
+# Other
+rockpoolDevelopment/data/SHD
+MNIST/*.Zone.Identifier
+other/
+legacy/
