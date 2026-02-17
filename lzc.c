@@ -1,97 +1,130 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
-int lzcomplexity(char *ss){
-  int ii = 0, kk = 1, el = 1, kmax = 1, cc = 1, nn;
-  nn = strlen(ss);
-  while (1){
-    if (ss[ii + kk - 1] == ss[el + kk - 1]){
-      kk++;
-      if ((el + kk) > nn){
-        ++cc;
-        break;
-      }
-    } else {
-      if ( kk > kmax ){
-        kmax = kk;
-      }
-      ++ii;
-      if (ii == el){
-        ++cc;
-        el += kmax;
-        if ((el + 1) > nn){
-          break;
-        }
-        ii = 0;
-        kk = 1;
-        kmax = 1;
-      } else {
-        kk = 1;
-      }
-    }
-  }
-  return cc;
+
+static inline uint64_t read_cycles() {
+    uint64_t c;
+    asm volatile("mrs %0, cntvct_el0" : "=r"(c));
+    return c;
 }
 
-int compute_lzc_from_events(const int *events, int num_events)
-{
-    /* allocate string: one char per event + null terminator */
+int lzcomplexity(char *ss) {
+    int ii = 0, kk = 1, el = 1, kmax = 1, cc = 1, nn;
+    nn = strlen(ss);
+
+    while (1) {
+        if (ss[ii + kk - 1] == ss[el + kk - 1]) {
+            kk++;
+            if ((el + kk) > nn) {
+                ++cc;
+                break;
+            }
+        } else {
+            if (kk > kmax) {
+                kmax = kk;
+            }
+            ++ii;
+            if (ii == el) {
+                ++cc;
+                el += kmax;
+                if ((el + 1) > nn) {
+                    break;
+                }
+                ii = 0;
+                kk = 1;
+                kmax = 1;
+            } else {
+                kk = 1;
+            }
+        }
+    }
+    return cc;
+}
+
+int compute_lzc_from_events(const int *events, int num_events) {
     char *spike_seq_string = (char *)malloc(num_events + 1);
     if (!spike_seq_string) {
-        return -1;  /* allocation failure */
+        return -1;
     }
 
-    /* equivalent to: ''.join(map(str, spike_seq.tolist())) */
     for (int i = 0; i < num_events; i++) {
         spike_seq_string[i] = events[i] ? '1' : '0';
     }
     spike_seq_string[num_events] = '\0';
 
-    /* equivalent to: lempel_ziv_complexity(spike_seq_string) */
     int lz_score = lzcomplexity(spike_seq_string);
-
     free(spike_seq_string);
     return lz_score;
 }
 
-int test(){
-  char data[256] = "1001111011000010\0";
-  printf("lzc=%d\n", lzcomplexity(data));
-  return 0;
-}
 
-int main(int argc, char **argv){
-  FILE * input;
-  char * buffer;
-  int size;
-  int length;
-  if (argc < 2){
-    printf("Require an input file. Usage %s filename\n", argv[0]);
-    return -1;
-  } 
-  input = fopen(argv[1], "rb");
-  fseek(input, 0L, SEEK_END);
-  size = ftell(input);
-  printf("File size: %d\n", size);
-  fclose(input);
-  input = fopen(argv[1], "r");
-  buffer = (char*) calloc(size+1, sizeof(char));
-  fgets(buffer, size, input);  
-  fclose(input);
-  printf("Read %s\n", buffer);  
-  length = strlen(buffer);
-  printf("Length of string including terminal new line: %d\n", length);
-  if (buffer[length - 1] == '\n'){
-    buffer[length - 1] = '\0';
-    length--;
-  }
-  printf("Length of string without terminal new line: %d\n", length);
-  printf("Lempel-Ziv complexity of this string of length %d is %d\n", length, lzcomplexity(buffer));    
+#define MAX_LINE_LEN 16384
+
+/*
+ * Usage:
+ *   ./lzc_qemu input.txt metrics.txt
+ *
+ * input.txt   : one binary string per line (000101010...)
+ * metrics.txt : one line per sample: "<cycles> <lzc_value>"
+ */
+int main(int argc, char **argv) {
+
+    if (argc < 3) {
+        fprintf(stderr,
+            "Usage: %s input.txt metrics.txt\n", argv[0]);
+        return 1;
+    }
+
+    FILE *fin  = fopen(argv[1], "r");
+    FILE *fout = fopen(argv[2], "w");
+
+    if (!fin || !fout) {
+        perror("File open failed");
+        return 1;
+    }
+
+    char line[MAX_LINE_LEN];
+
+    /*
+     * Iterate through dataset in FIXED order:
+     * one sample per line
+     */
+    while (fgets(line, MAX_LINE_LEN, fin)) {
+
+        int len = strlen(line);
+        if (len > 0 && line[len - 1] == '\n') {
+            line[len - 1] = '\0';
+            len--;
+        }
+
+        /*
+         * Convert '0'/'1' characters into int events[]
+         * This matches compute_lzc_from_events()
+         */
+        int *events = (int *)malloc(len * sizeof(int));
+        for (int i = 0; i < len; i++) {
+            events[i] = (line[i] == '1') ? 1 : 0;
+        }
+
+        uint64_t start_cycles = read_cycles();
+        int lzc = compute_lzc_from_events(events, len);
+        uint64_t end_cycles = read_cycles();
+
+        uint64_t cycles = end_cycles - start_cycles;
+
+        /*
+         * Write ONE metrics line per sample.
+         * Python will convert cycles -> Joules.
+         */
+        fprintf(fout, "%llu %d\n", cycles, lzc);
+
+        free(events);
+    }
+
+    fclose(fin);
+    fclose(fout);
     return 0;
 }
-            
-        
 
-
-/* lzcomplexity.c ends here */
