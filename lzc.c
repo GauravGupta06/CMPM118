@@ -59,6 +59,20 @@ int compute_lzc_from_events(const int *events, int num_events) {
     return lz_score;
 }
 
+/*
+ * transition_count: count how many times the spike train changes value.
+ * every 0->1 or 1->0 flip is one transition.
+ *
+ * silent (0000) and always-firing (1111) both score 0.
+ * alternating (0101) scores the maximum (n-1).
+ * more transitions = more complex temporal pattern.
+ */
+int transition_count(const int *events, int n) {
+    int count = 0;
+    for (int i = 1; i < n; i++) count += (events[i] != events[i-1]);
+    return count;
+}
+
 
 #define MAX_LINE_LEN 16384
 
@@ -112,13 +126,18 @@ int main(int argc, char **argv) {
         int lzc = compute_lzc_from_events(events, len);
         uint64_t end_cycles = read_cycles();
 
-        uint64_t cycles = end_cycles - start_cycles;
+        uint64_t lzc_start = read_cycles();
+        int tc = transition_count(events, len);
+        uint64_t lzc_end = read_cycles();
 
         /*
-         * Write ONE metrics line per sample.
+         * Write ONE metrics line per sample:
+         * "<lzc_cycles> <lzc> <tc_cycles> <tc>"
          * Python will convert cycles -> Joules.
          */
-        fprintf(fout, "%llu %d\n", cycles, lzc);
+        fprintf(fout, "%llu %d %llu %d\n",
+                end_cycles - start_cycles, lzc,
+                lzc_end - lzc_start, tc);
 
         free(events);
     }
