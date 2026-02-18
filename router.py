@@ -77,8 +77,11 @@ def compute_lzc_from_events(events):
     """
     Compute Lempel-Ziv Complexity from spike events.
 
+    Expects pre-binarized input (0s and 1s). For UCI HAR, use binarize=True
+    in UCIHARDataset. Flattens in time-major order for [T, C] inputs.
+
     Args:
-        events: Spike tensor
+        events: Spike tensor of shape [B, T, C] or [T, C], already binarized
 
     Returns:
         float: LZC score
@@ -86,7 +89,8 @@ def compute_lzc_from_events(events):
     if torch.is_tensor(events):
         events = events.cpu().numpy()
 
-    spike_seq = (events).astype(int).flatten()
+    # Data should already be binary (0s and 1s)
+    spike_seq = events.astype(int).flatten()
     spike_seq_string = ''.join(map(str, spike_seq.tolist()))
     lz_score = lempel_ziv_complexity(spike_seq_string)
     return lz_score
@@ -702,7 +706,8 @@ Examples:
         dataset_path=args.dataset_path,
         n_frames=128,
         time_first=True,
-        normalize=True
+        normalize=True,
+        binarize=True  # Binarize for LZC and Xylo compatibility
     )
     _, cached_test = data.load_uci_har()
     test_loader = DataLoader(

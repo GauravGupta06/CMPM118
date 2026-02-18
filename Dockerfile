@@ -6,7 +6,6 @@ WORKDIR /app
 RUN pip install tonic matplotlib snntorch Lempel-Ziv-Complexity rockpool samna scikit-learn
 
 # Copy core infrastructure
-COPY core/ ./core/
 COPY datasets/ ./datasets/
 COPY models/ ./models/
 COPY results/ ./results/
@@ -15,8 +14,8 @@ COPY results/ ./results/
 COPY train_shd.py .
 COPY train_UCI_HAR.py .
 COPY train_dvsgesture.py .
+COPY hyperparam_search.py .
 
-COPY evaluate.py .
 COPY router.py .
 
 

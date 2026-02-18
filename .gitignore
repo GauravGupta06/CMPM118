@@ -4,10 +4,21 @@ __pycache__/
 .cursor/
 .vscode/
 
-# Raw data ONLY (large, not pushed)
+# Raw data (large, not pushed)
 data/DVSGesture
 data/SHD
 data/UCI_HAR_Dataset
+# To download UCI_HAR_Dataset:
+cd data
+# wget https://archive.ics.uci.edu/ml/machine-learning-databases/00240/UCI%20HAR%20Dataset.zip
+# unzip "UCI HAR Dataset.zip"
+# mv "UCI HAR Dataset" UCI_HAR_Dataset
+# rm "UCI HAR Dataset.zip"
+
+# Cached/generated data
+data/uci_har/
+data/shd/
+data/dvsgesture/
 
 
 

@@ -130,16 +130,15 @@ loader = UCIHARDataset(
     dataset_path=dataset_path,
     n_frames=128,
     time_first=True,
-    normalize=True
+    normalize=True,
+    binarize=True  # Rate encoding: values > 0 become 1, else 0
 )
 
 train_ds, test_ds = loader.load_uci_har()   # returns (cached_train, cached_test)
 
 sample_spikes, label = train_ds[88]
-sample_spikes = np.asarray(sample_spikes)
-
-# Simple rate encoding
-sample_spikes = (sample_spikes > 0).astype(np.int32)
+sample_spikes = np.asarray(sample_spikes).astype(np.int32)
+# Binarization now handled by dataset loader
 
 # Save whichever you choose
 np.save('sample_spikes.npy', sample_spikes)

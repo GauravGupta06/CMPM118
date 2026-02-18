@@ -7,6 +7,18 @@ from torch.utils.data import Dataset
 import tonic
 
 
+class Compose:
+    """Compose multiple transforms together (picklable for multiprocessing)."""
+
+    def __init__(self, transforms):
+        self.transforms = transforms
+
+    def __call__(self, x):
+        for t in self.transforms:
+            x = t(x)
+        return x
+
+
 class Normalize:
     """Per-sample z-score normalization across time for each channel."""
 
@@ -22,6 +34,20 @@ class Normalize:
             mean = x.mean(axis=1, keepdims=True)
             std = x.std(axis=1, keepdims=True)
         return (x - mean) / (std + self.eps)
+
+
+class Binarize:
+    """Binarize values using >0 threshold (rate encoding for SNNs).
+
+    Converts normalized continuous values to binary spikes:
+    - Values > 0 become 1
+    - Values <= 0 become 0
+
+    This is consistent with Xylo hardware rate encoding.
+    """
+
+    def __call__(self, x):
+        return (x > 0).astype(np.float32)
 
 
 class ToTensor:
@@ -120,21 +146,27 @@ class _PadTruncWrapper(Dataset):
 class UCIHARDataset:
     """UCI HAR dataset loader."""
 
-    def __init__(self, dataset_path, n_frames=128, time_first=True, normalize=True):
+    def __init__(self, dataset_path, n_frames=128, time_first=True, normalize=True, binarize=False):
         self.dataset_path = dataset_path
         self.n_frames = n_frames
         self.time_first = time_first
         self.normalize = normalize
+        self.binarize = binarize
         self.num_classes = 6
         self.NUM_CHANNELS = 9
 
     def _get_transforms(self):
-        """Create transforms for UCI HAR."""
+        """Create transforms for UCI HAR.
+
+        Transform order: Normalize -> Binarize -> ToTensor
+        """
         ops = []
         if self.normalize:
             ops.append(Normalize(time_first=self.time_first))
+        if self.binarize:
+            ops.append(Binarize())
         ops.append(ToTensor())
-        return lambda x: ops[-1](ops[0](x)) if len(ops) == 2 else ops[0](x)
+        return Compose(ops)
 
     def _load_raw_dataset(self, train=True):
         """Load UCI HAR dataset from local extracted files."""
@@ -153,7 +185,8 @@ class UCIHARDataset:
         """Load UCI HAR dataset with caching."""
         fmt = "Tfirst" if self.time_first else "Cfirst"
         norm = "norm" if self.normalize else "nonorm"
-        cache_path = f"{self.dataset_path}/uci_har/{fmt}_{norm}_T{self.n_frames}"
+        binar = "bin" if self.binarize else "nobin"
+        cache_path = f"{self.dataset_path}/uci_har/{fmt}_{norm}_{binar}_T{self.n_frames}"
         cache_exists = os.path.exists(f"{cache_path}/train") and os.path.exists(f"{cache_path}/test")
 
         # Load raw datasets only if cache doesn't exist
