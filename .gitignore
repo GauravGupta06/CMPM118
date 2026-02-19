@@ -27,3 +27,4 @@ rockpoolDevelopment/data/SHD
 MNIST/*.Zone.Identifier
 other/
 legacy/
+data/uci_har/
