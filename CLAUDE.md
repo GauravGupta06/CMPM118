@@ -10,6 +10,12 @@ SNN Router is a spiking neural network system that dynamically routes inputs bet
 
 ## Common Commands
 
+### Setup
+
+```bash
+pip install -r requirements.txt
+```
+
 ### Training Models
 
 ```bash
@@ -61,6 +67,11 @@ All models in `models/` use Rockpool's `Sequential` with:
 - `ExpSynTorch` for output layer (critical for gradient stability)
 - Forward pass uses `record=True` to capture layer-wise spike recordings
 
+**Model architectures:**
+- **UCIHARSNN**: 9 → 256 (LIF) → 6 (ExpSyn)
+- **DVSGestureSNN**: 2048 → 256 (LIF) → 128 (LIF) → 11 (ExpSyn)
+- **SHDSNN**: 1400 → 128 (LIF-REC) → 64 (LIF-REC) → 32 (LIF-REC) → 20 (ExpSyn)
+
 **Sparse vs Dense distinction:**
 - Sparse: Lower tau_mem, higher threshold, spike_lam > 0 → fewer spikes
 - Dense: Higher tau_mem, lower threshold, spike_lam = 0 → more spikes, higher accuracy
@@ -69,12 +80,18 @@ All models in `models/` use Rockpool's `Sequential` with:
 
 Computes Lempel-Ziv Complexity on input spike patterns to estimate input difficulty. Uses ROC curve analysis to find optimal threshold for routing decisions.
 
+Key functions: `compute_lzc_from_events()`, `count_spikes_from_recording()`, `evaluate_models_on_dataset()`, `threshold_sweep_and_roc()`.
+
 ### Datasets (`datasets/`)
 
 Each dataset module provides `get_dataloaders()` returning train/test DataLoaders:
-- **uci_har.py**: 9 sensor channels → 6 activity classes
-- **dvsgesture_dataset.py**: 32x32 DVS frames → 11 gesture classes
-- **shd_dataset.py**: 700 frequency channels → 20 audio classes
+- **uci_har.py**: 9 sensor channels → 6 activity classes, output shape [T=128, C=9]
+- **dvsgesture_dataset.py**: 32x32 DVS frames → 11 gesture classes, output shape [T=32, C=2048]
+- **shd_dataset.py**: 700 frequency channels × 2 polarity → 20 audio classes, output shape [T=100, C=1400]
+
+### Hardware Integration (`xylo.py`)
+
+Maps trained Rockpool networks to XyloAudio3 neuromorphic hardware with weight quantization and threshold conversion.
 
 ## Key Hyperparameters
 
@@ -91,3 +108,5 @@ Each dataset module provides `get_dataloaders()` returning train/test DataLoader
 - DVSGesture training requires very low learning rate (~1e-5) with weight downscaling
 - Models save hyperparameters in checkpoint dict for reproducibility
 - Use `model.reset_state()` between batches for proper temporal processing
+- SHD model uses recurrent LIF layers (has_rec=True) with weights scaled by 0.01 to prevent spike cascades
+- Binarization: use binarize=False during training, binarize=True for LZC measurement and hardware deployment
