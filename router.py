@@ -3,12 +3,12 @@ Router for Rockpool SNN models.
 Analyzes complexity of samples and routes between sparse and dense models for energy efficiency.
 
 Usage:
-    python router.py --sparse_model_path <path> --dense_model_path <path> [options]
+    python simplified_router.py --sparse_model_path <path> --dense_model_path <path> [options]
 
 Example:
-    python router.py \
-        --sparse_model_path ./workspace/small/models/Rockpool_Sparse_Take1_HAR_Input9_T128_FC_Rockpool_Epochs100.pth \
-        --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take1_HAR_Input9_T128_FC_Rockpool_Epochs1.pth
+    python simplified_router.py \
+        --sparse_model_path /workspace/sparse/small/models/Rockpool_Sparse_Take2_HAR_Input9_T128_FC_Rockpool_Epochs30.pth \
+        --dense_model_path  /workspace/dense/large/models/Rockpool_Non_Sparse_Take4_HAR_Input9_T128_FC_Rockpool_Epochs30.pth
 """
 
 import numpy as np
@@ -23,6 +23,7 @@ import json
 from datetime import datetime
 import argparse
 import sys
+
 
 
 # SHD
@@ -77,11 +78,8 @@ def compute_lzc_from_events(events):
     """
     Compute Lempel-Ziv Complexity from spike events.
 
-    Expects pre-binarized input (0s and 1s). For UCI HAR, use binarize=True
-    in UCIHARDataset. Flattens in time-major order for [T, C] inputs.
-
     Args:
-        events: Spike tensor of shape [B, T, C] or [T, C], already binarized
+        events: Spike tensor
 
     Returns:
         float: LZC score
@@ -89,79 +87,11 @@ def compute_lzc_from_events(events):
     if torch.is_tensor(events):
         events = events.cpu().numpy()
 
-    # Data should already be binary (0s and 1s)
-    spike_seq = events.astype(int).flatten()
+    spike_seq = (events).astype(int).flatten()
     spike_seq_string = ''.join(map(str, spike_seq.tolist()))
     lz_score = lempel_ziv_complexity(spike_seq_string)
     return lz_score
 
-
-# def compute_shannon_entropy_from_events(events):
-#     """
-#     Compute Shannon entropy from spike events.
-
-#     Args:
-#         events: Spike tensor
-
-#     Returns:
-#         float: Shannon entropy value
-#     """
-#     flattened = events.cpu().numpy().astype(int).flatten()
-
-#     values, counts = np.unique(flattened, return_counts=True)
-#     probs = counts / counts.sum()
-
-#     entropy_value = entropy(probs, base=2)
-
-#     return entropy_value
-
-
-# def compute_isi_entropy_from_events(events, num_bins=30):
-#     """
-#     Compute Inter-Spike Interval (ISI) entropy from spike events.
-
-#     Args:
-#         events: Spike tensor
-#         num_bins: Number of bins for histogram
-
-#     Returns:
-#         float: ISI entropy value
-#     """
-#     # Handle PyTorch tensors
-#     if hasattr(events, 'cpu'):  # Check if it's a PyTorch tensor
-#         events_np = events.cpu().numpy()
-#         if events_np.ndim > 1:
-#             # If it's a multi-dimensional tensor, flatten it
-#             timestamps = np.sort(events_np.flatten())
-#         else:
-#             timestamps = np.sort(events_np)
-#     elif isinstance(events, np.ndarray) and 't' in events.dtype.names:
-#         timestamps = np.sort(events['t'])
-#     elif isinstance(events, (list, np.ndarray)):
-#         timestamps = np.sort(np.array(events))
-#     elif isinstance(events, dict) and 't' in events:
-#         timestamps = np.sort(np.array(events['t']))
-#     else:
-#         raise ValueError("ISI entropy expects event data with timestamps (events['t']).")
-
-#     if len(timestamps) < 2:
-#         return 0.0
-
-#     isis = np.diff(timestamps)
-
-#     if np.all(isis == 0):
-#         return 0.0
-
-#     hist, bin_edges = np.histogram(isis, bins=num_bins, density=True)
-#     hist = hist[hist > 0]
-#     probs = hist / np.sum(hist)
-
-#     isi_entropy = entropy(probs, base=2)
-
-#     return isi_entropy
-
-
-# ========== CORE FUNCTIONS ==========
 
 def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
     """
@@ -235,14 +165,12 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
     return results
 
 
-def threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="unknown", plotting_only=False):
+def threshold_sweep_and_roc(results, dataset_name="unknown", plotting_only=False):
     """
     Perform threshold sweep, compute ROC-AUC curve, and find optimal LZC threshold.
 
     Args:
         results: Per-sample results from evaluate_models_on_dataset
-        sparse_model: Sparse model (for extracting parameters)
-        dense_model: Dense model (for extracting parameters)
         dataset_name: Name of the dataset ("shd", "dvsgesture", "uci_har")
         plotting_only: If True, only return values without printing/plotting
 
@@ -404,198 +332,6 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
     return total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts
 
 
-def lzc_vs_accuracy_plot(results, sparse_model, dense_model):
-    """
-    Plot overall accuracy vs LZC routing threshold.
-
-    Args:
-        results: Per-sample results
-        sparse_model: Sparse model (for extracting parameters)
-        dense_model: Dense model (for extracting parameters)
-    """
-    print("\nLZC vs. Accuracy Analysis:")
-    lz_values = np.array([r['lz_value'] for r in results])
-    total_samples = len(results)
-    accuracy_at_threshold = []
-    threshold_range = np.linspace(lz_values.min(), lz_values.max(), 50)
-    sparse_accuracy_overall = sum(1 for r in results if r['sparse_pred'] == r['label']) / total_samples
-    dense_accuracy_overall = sum(1 for r in results if r['dense_pred'] == r['label']) / total_samples
-
-    for threshold in threshold_range:
-        correct_total = 0
-
-        for r in results:
-            lz_value = r['lz_value']
-
-            if lz_value < threshold:
-                pred = r['sparse_pred']
-            else:
-                pred = r['dense_pred']
-
-            if pred == r['label']:
-                correct_total += 1
-
-        accuracy = correct_total / total_samples
-        accuracy_at_threshold.append(accuracy)
-
-    optimal_threshold, _, _, _ = threshold_sweep_and_roc(results, sparse_model, dense_model, plotting_only=True)
-    optimal_threshold = float(optimal_threshold)
-    best_acc_idx = int(np.searchsorted(threshold_range, optimal_threshold))
-    best_acc_idx = np.clip(best_acc_idx, 0, len(threshold_range) - 1)
-    best_accuracy = accuracy_at_threshold[best_acc_idx]
-
-    # Extract parameters from model
-    input_size = sparse_model.input_size
-    n_frames = sparse_model.n_frames
-
-    plt.figure(figsize=(10, 7))
-    plt.plot(threshold_range, accuracy_at_threshold, marker='o', linestyle='-', markersize=4, label='Routed Model Accuracy')
-
-    plt.axhline(y=sparse_accuracy_overall, color='r', linestyle='--', label=f'Sparse Only ({sparse_accuracy_overall:.4f})')
-    plt.axhline(y=dense_accuracy_overall, color='g', linestyle='--', label=f'Dense Only ({dense_accuracy_overall:.4f})')
-
-    plt.scatter(optimal_threshold, best_accuracy, color='k', s=100, zorder=5, label=f'ROC Optimal Threshold ({optimal_threshold:.4f})')
-
-    plt.xlabel('LZC Threshold for Routing')
-    plt.ylabel('Overall Model Accuracy')
-    plt.title('Overall Accuracy vs. LZC Routing Threshold')
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-
-    os.makedirs('results/LZC_vs_Accuracy', exist_ok=True)
-    graph_save_path = f"results/LZC_vs_Accuracy/Input{input_size}_T{n_frames}_Rockpool.png"
-    plt.savefig(graph_save_path)
-    plt.show()
-    print("Saved LZC vs. Accuracy graph to:", graph_save_path)
-
-
-def save_run_to_json(
-    results,
-    optimal_threshold,
-    roc_auc,
-    route_counts,
-    accuracy_dense_routed,
-    accuracy_sparse_routed,
-    total_accuracy,
-    average_spike_dense,
-    average_spike_sparse,
-    sparse_model,
-    dense_model
-):
-    """
-    Save run results to JSON file.
-
-    Args:
-        results: Per-sample results
-        optimal_threshold: Optimal LZC threshold
-        roc_auc: ROC AUC score
-        route_counts: Dictionary with routing counts
-        accuracy_dense_routed: Accuracy on dense-routed samples
-        accuracy_sparse_routed: Accuracy on sparse-routed samples
-        total_accuracy: Overall routed accuracy
-        average_spike_dense: Average spikes for dense model
-        average_spike_sparse: Average spikes for sparse model
-        sparse_model: Sparse model (for extracting parameters)
-        dense_model: Dense model (for extracting parameters)
-    """
-    os.makedirs("results/run_logs", exist_ok=True)
-
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-    # Extract parameters from models
-    input_size = sparse_model.input_size
-    n_frames = sparse_model.n_frames
-    tau_mem_sparse = sparse_model.tau_mem
-    tau_mem_dense = dense_model.tau_mem
-    spike_lam_sparse = sparse_model.spike_lam
-    spike_lam_dense = dense_model.spike_lam
-
-    save_path = f"results/run_logs/run_Input{input_size}_T{n_frames}_{timestamp}.json"
-
-    output = {
-        "metadata": {
-            "timestamp": timestamp,
-            "sparse_model": {
-                "input_size": input_size,
-                "n_frames": n_frames,
-                "tau_mem": tau_mem_sparse,
-                "spike_lam": spike_lam_sparse,
-                "model_type": "sparse"
-            },
-            "dense_model": {
-                "input_size": input_size,
-                "n_frames": n_frames,
-                "tau_mem": tau_mem_dense,
-                "spike_lam": spike_lam_dense,
-                "model_type": "dense"
-            },
-        },
-        "roc_results": {
-            "optimal_threshold": float(optimal_threshold),
-            "roc_auc": float(roc_auc)
-        },
-        "routing_metrics": {
-            "overall_accuracy": float(total_accuracy),
-            "dense_routed_accuracy": float(accuracy_dense_routed),
-            "sparse_routed_accuracy": float(accuracy_sparse_routed),
-            "route_counts": route_counts,
-            "avg_dense_spikes": float(average_spike_dense),
-            "avg_sparse_spikes": float(average_spike_sparse)
-        },
-        "per_sample_results": results
-    }
-
-    with open(save_path, "w") as f:
-        json.dump(output, f, indent=4)
-
-    print(f"\nSaved run results to: {save_path}\n")
-
-
-def print_latex_table(total_accuracy,
-                      accuracy_dense_routed,
-                      accuracy_sparse_routed,
-                      avg_dense_spikes,
-                      avg_sparse_spikes,
-                      route_counts,
-                      roc_auc,
-                      optimal_threshold):
-    """
-    Print LaTeX table with routing performance metrics.
-
-    Args:
-        total_accuracy: Overall routed accuracy
-        accuracy_dense_routed: Accuracy on dense-routed samples
-        accuracy_sparse_routed: Accuracy on sparse-routed samples
-        avg_dense_spikes: Average spikes for dense model
-        avg_sparse_spikes: Average spikes for sparse model
-        route_counts: Dictionary with routing counts
-        roc_auc: ROC AUC score
-        optimal_threshold: Optimal LZC threshold
-    """
-    print("\n\n===================== LATEX TABLE =====================\n")
-    print(r"\begin{table}[t]")
-    print(r"\centering")
-    print(r"\begin{tabular}{l c}")
-    print(r"\hline")
-    print(r"Metric & Value \\")
-    print(r"\hline")
-    print(fr"Optimal threshold & {optimal_threshold:.2f} \\")
-    print(fr"ROC-AUC & {roc_auc:.3f} \\")
-    print(fr"Total accuracy & {total_accuracy:.3f} \\")
-    print(fr"Dense-route accuracy & {accuracy_dense_routed:.3f} \\")
-    print(fr"Sparse-route accuracy & {accuracy_sparse_routed:.3f} \\")
-    print(fr"Avg dense spikes & {avg_dense_spikes:.1f} \\")
-    print(fr"Avg sparse spikes & {avg_sparse_spikes:.1f} \\")
-    print(fr"Samples to dense & {route_counts['dense']} \\")
-    print(fr"Samples to sparse & {route_counts['sparse']} \\")
-    print(r"\hline")
-    print(r"\end{tabular}")
-    print(r"\caption{Routing performance and spike activity.}")
-    print(r"\end{table}")
-    print("\n=======================================================\n")
-
-
 # ========== MAIN ==========
 
 def main():
@@ -650,7 +386,7 @@ Examples:
                        help='Number of polarities (default: 2)')
     parser.add_argument('--net_dt', type=float, default=10e-3,
                        help='Simulation time step in seconds (default: 10e-3)')
-    parser.add_argument('--batch_size', type=int, default=1,
+    parser.add_argument('--batch_size', type=int, default=32,
                        help='Batch size for evaluation (default: 1 for routing)')
     parser.add_argument('--num_workers', type=int, default=4,
                        help='DataLoader workers (default: 4)')
@@ -706,8 +442,7 @@ Examples:
         dataset_path=args.dataset_path,
         n_frames=128,
         time_first=True,
-        normalize=True,
-        binarize=True  # Binarize for LZC and Xylo compatibility
+        normalize=True
     )
     _, cached_test = data.load_uci_har()
     test_loader = DataLoader(
@@ -860,41 +595,12 @@ Examples:
     # 1. Evaluate both models on all test samples
     results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
 
-    # # 2. Plot LZC vs accuracy sweep
-    # lzc_vs_accuracy_plot(results, sparse_model, dense_model)
-
-    # 3. Find optimal threshold via ROC analysis
-    # Uncomment ONE of the following to match your dataset:
-    
-    # ----- SHD -----
-    # optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = \
-    #     threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="shd")
-    
     # ----- UCI-HAR -----
-    optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="uci_har")
+    optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = threshold_sweep_and_roc(results, dataset_name="uci_har")
     
-    # ----- DVSGesture -----
-    # optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = \
-    #     threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="dvsgesture")
-
     # 4. Route samples and evaluate
     total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts = \
         route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
-
-    # # 5. Save results to JSON
-    # save_run_to_json(
-    #     results, optimal_threshold, roc_auc, route_counts,
-    #     accuracy_dense_routed, accuracy_sparse_routed, total_accuracy,
-    #     avg_dense_spikes, avg_sparse_spikes,
-    #     sparse_model, dense_model
-    # )
-
-    # # 6. Print LaTeX table
-    # print_latex_table(
-    #     total_accuracy, accuracy_dense_routed, accuracy_sparse_routed,
-    #     avg_dense_spikes, avg_sparse_spikes, route_counts,
-    #     roc_auc, optimal_threshold
-    # )
 
 
 if __name__ == "__main__":

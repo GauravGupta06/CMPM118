@@ -1,11 +1,14 @@
 """
 measure_lzc_energy.py — LZC Energy Measurement Pipeline
 
-Loads UCI HAR test data (binarized), sends each sample to the STM32 board
-over USB serial, collects hardware DWT cycle counts + LZC scores, converts
-cycles to energy (Joules), and writes results to an output file.
+Sends spike data to the STM32 board over USB serial, collects hardware
+DWT cycle counts + LZC scores, converts cycles to energy (Joules),
+and writes results to an output file.
 
-Usage (on Windows, with board connected):
+Usage (with pre-generated input file):
+    python measure_lzc_energy.py --port COM3 --input lzc_input_SHD.txt --output lzc_energy_SHD.txt
+
+Usage (generate input from UCI HAR, then measure):
     python measure_lzc_energy.py --port COM3
 
 Dry-run (no board needed, just generates input file):
@@ -58,13 +61,13 @@ def write_input_file(test_dataset):
     print(f"  → {INPUT_FILE} written ({n} lines, {len(line)} chars each)")
 
 
-def run_board(port, baud=115200, timeout=10):
-    """Send each line of lzc_input.txt to STM32 over serial, collect results."""
+def run_board(port, input_file, baud=115200, timeout=10):
+    """Send each line of input file to STM32 over serial, collect results."""
     import serial
     from time import sleep
 
     # Read input lines
-    with open(INPUT_FILE) as f:
+    with open(input_file) as f:
         lines = [l.strip() for l in f if l.strip()]
 
     n = len(lines)
@@ -115,30 +118,34 @@ def run_board(port, baud=115200, timeout=10):
     return results
 
 
-def write_energy_table(results, energy_per_cycle):
+def write_energy_table(results, energy_per_cycle, output_file):
     """Convert cycles to Joules and write output file."""
     n = len(results)
-    print(f"Writing {n} results to {ENERGY_TABLE}...")
+    print(f"Writing {n} results to {output_file}...")
 
-    with open(ENERGY_TABLE, "w") as f:
+    with open(output_file, "w") as f:
         for cycles, lzc in results:
             energy = cycles * energy_per_cycle  # Joules
-            f.write(f"{energy} {lzc}\n")
+            f.write(f"{energy} {cycles} {lzc}\n")
 
     # Summary statistics
     energies = [cycles * energy_per_cycle for cycles, lzc in results if cycles > 0]
     if energies:
         print(f"  Energy range: {min(energies):.2e} — {max(energies):.2e} J")
         print(f"  Mean energy:  {np.mean(energies):.2e} J")
-        print(f"  → {ENERGY_TABLE} written")
+        print(f"  → {output_file} written")
 
 
 def main():
     parser = argparse.ArgumentParser(description="LZC Energy Measurement via STM32")
     parser.add_argument("--port", type=str, default="COM3",
                         help="Serial port for STM32 (e.g. COM3 on Windows)")
+    parser.add_argument("--input", type=str, default=None,
+                        help="Pre-generated input file (skips dataset loading)")
+    parser.add_argument("--output", type=str, default=None,
+                        help="Output energy table file")
     parser.add_argument("--dataset_path", type=str, default="./data",
-                        help="Path to UCI HAR dataset")
+                        help="Path to UCI HAR dataset (only used if --input not set)")
     parser.add_argument("--n_frames", type=int, default=128,
                         help="Number of time steps per sample")
     parser.add_argument("--energy_per_cycle", type=float, default=ENERGY_PER_CYCLE,
@@ -147,24 +154,35 @@ def main():
                         help="Only generate input file, don't communicate with board")
     args = parser.parse_args()
 
-    # Step 1: Load dataset
-    print("Loading UCI HAR test dataset (binarized)...")
-    test_dataset = load_test_data(args.dataset_path, args.n_frames)
-    print(f"  → {len(test_dataset)} test samples loaded")
+    # Determine input/output filenames
+    input_file = args.input if args.input else INPUT_FILE
+    if args.output:
+        output_file = args.output
+    else:
+        # Derive from input filename: lzc_input_X.txt → lzc_energy_X.txt
+        base = os.path.basename(input_file).replace("lzc_input", "lzc_energy")
+        output_file = base if base != os.path.basename(input_file) else ENERGY_TABLE
 
-    # Step 2: Write input file
-    write_input_file(test_dataset)
+    if args.input:
+        # Input file already provided — skip dataset loading
+        print(f"Using pre-generated input file: {input_file}")
+    else:
+        # Generate input from UCI HAR
+        print("Loading UCI HAR test dataset (binarized)...")
+        test_dataset = load_test_data(args.dataset_path, args.n_frames)
+        print(f"  → {len(test_dataset)} test samples loaded")
+        write_input_file(test_dataset)
 
     if args.dry_run:
         print("\nDry-run mode: stopping before board communication.")
-        print(f"Verify {INPUT_FILE} has the expected content.")
+        print(f"Verify {input_file} has the expected content.")
         return
 
-    # Step 3: Send to board, collect results
-    results = run_board(args.port)
+    # Send to board, collect results
+    results = run_board(args.port, input_file)
 
-    # Step 4: Write energy table
-    write_energy_table(results, args.energy_per_cycle)
+    # Write energy table
+    write_energy_table(results, args.energy_per_cycle, output_file)
 
     print("\nDone!")
 

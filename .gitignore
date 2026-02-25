@@ -20,11 +20,13 @@ data/uci_har/
 data/shd/
 data/dvsgesture/
 
+# LZC input files and output files
+LZC_Energy/lzc_input_UCI_HAR.txt
+LZC_Energy/lzc_input_SHD.txt
+LZC_Energy/lzc_input_dvs_gesture.txt
 
 
 # Other
 rockpoolDevelopment/data/SHD
 MNIST/*.Zone.Identifier
-other/
-legacy/
 data/uci_har/

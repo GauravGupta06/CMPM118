@@ -88,6 +88,8 @@ int lzcomplexity(char *ss) {
     return cc;
 }
 
+
+
 int compute_lzc_from_events(const int *events, int num_events) {
     char *spike_seq_string = (char *)malloc(num_events + 1);
     if (!spike_seq_string) return -1;
