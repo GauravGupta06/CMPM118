@@ -34,9 +34,6 @@ from models.shd_model import SHDSNN
 from datasets.dvsgesture_dataset import DVSGestureDataset
 from models.dvsgesture_model import DVSGestureSNN
 
-# UCI HAR
-from datasets.uci_har import UCIHARDataset
-from models.uci_har_model import UCIHARSNN
 
 
 
@@ -93,60 +90,64 @@ def compute_lzc_from_events(events):
     return lz_score
 
 
-def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
-    """
-    Evaluate both sparse and dense models on entire dataset.
-    Supports batched forward passes for efficiency.
+# ========== PRECOMPUTED LZC LOADING ==========
 
-    Args:
-        dataLoader: Test data loader (can have batch_size > 1)
-        sparse_model: Sparse SNN model
-        dense_model: Dense SNN model
+def load_lzc_from_file(path):
+    """
+    Load precomputed LZC values from an energy file.
+    Each line is: <energy> <cycles> <lzc_score>
 
     Returns:
-        list: Results with per-sample metrics
+        list of dicts with keys: energy, cycles, lzc_score
+    """
+    records = []
+    with open(path) as f:
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) == 3:
+                records.append({
+                    'energy': float(parts[0]),
+                    'cycles': int(parts[1]),
+                    'lzc_score': int(parts[2])
+                })
+            elif len(parts) == 2:
+                # Legacy 2-column format
+                records.append({
+                    'energy': float(parts[0]),
+                    'cycles': 0,
+                    'lzc_score': int(parts[1])
+                })
+    print(f"  Loaded {len(records)} precomputed LZC values from {path}")
+    return records
+
+
+def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, precomputed_lzc):
+    """
+    Evaluate both models on entire dataset using batched inference.
+    Only collects what's needed for threshold finding: LZC value, predictions, true_complex.
     """
     results = []
-    count = 0
+    sample_idx = 0
     
     for batch in dataLoader:
         events, labels = batch
         batch_size = events.shape[0]
-        
-        # Move data to same device as model
         events = events.to(sparse_model.device)
         
-        # Batched forward pass (efficient!)
         with torch.no_grad():
-            sparse_output, _, sparse_recording = sparse_model.net(events, record=True)
-            dense_output, _, dense_recording = dense_model.net(events, record=True)
+            sparse_output, _, _ = sparse_model.net(events, record=False)
+            dense_output, _, _ = dense_model.net(events, record=False)
         
-        # Get predictions for entire batch
-        sparse_logits = sparse_output.mean(dim=1)  # [B, num_classes]
-        dense_logits = dense_output.mean(dim=1)    # [B, num_classes]
-        sparse_preds = sparse_logits.argmax(1)     # [B]
-        dense_preds = dense_logits.argmax(1)       # [B]
+        sparse_preds = sparse_output.mean(dim=1).argmax(1)
+        dense_preds = dense_output.mean(dim=1).argmax(1)
         
-        # Process each sample in the batch for per-sample metrics
         for i in range(batch_size):
-            # Get single sample for LZC computation
-            single_event = events[i:i+1]  # Keep batch dim
-            lz_value = compute_lzc_from_events(single_event)
-            
-            # Extract per-sample values
             label = labels[i].item() if torch.is_tensor(labels[i]) else labels[i]
             sparse_pred = sparse_preds[i].item()
             dense_pred = dense_preds[i].item()
+            lz_value = precomputed_lzc[sample_idx]['lzc_score']
             
-            # Set as complex IF dense_pred matches label and sparse_pred does NOT
-            if dense_pred == label and sparse_pred != label:
-                true_complex = 1
-            else:
-                true_complex = 0
-            
-            # Spike counts (approximate per-sample from batch recording)
-            spike_count_sparse = count_spikes_from_recording(sparse_recording) // batch_size
-            spike_count_dense = count_spikes_from_recording(dense_recording) // batch_size
+            true_complex = 1 if (dense_pred == label and sparse_pred != label) else 0
             
             results.append({
                 'label': label,
@@ -154,13 +155,10 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
                 'sparse_pred': sparse_pred,
                 'dense_pred': dense_pred,
                 'true_complex': true_complex,
-                'dense_spikes': spike_count_dense,
-                'sparse_spikes': spike_count_sparse
             })
-        
-            count += 1
-            if count % 10 == 0:
-                print(f"Processed {count} samples")
+            sample_idx += 1
+            if sample_idx % 10 == 0:
+                print(f"Processed {sample_idx} samples")
     
     return results
 
@@ -175,7 +173,7 @@ def threshold_sweep_and_roc(results, dataset_name="unknown", plotting_only=False
         plotting_only: If True, only return values without printing/plotting
 
     Returns:
-        tuple: (optimal_threshold, roc_auc, average_spike_dense, average_spike_sparse)
+        tuple: (optimal_threshold, roc_auc)
     """
     # Ground truth: 1 if dense model was needed, 0 if sparse sufficed
     y_true = np.array([r['true_complex'] for r in results])
@@ -186,22 +184,10 @@ def threshold_sweep_and_roc(results, dataset_name="unknown", plotting_only=False
     idx = np.argmax(gmean)
     optimal_threshold = thresholds[idx]
 
-    average_spike_dense = np.mean([r['dense_spikes'] for r in results])
-    average_spike_sparse = np.mean([r['sparse_spikes'] for r in results])
-
     if plotting_only:
-        return (
-            optimal_threshold,
-            roc_auc,
-            average_spike_dense,
-            average_spike_sparse
-        )
-
-    print(f"average spike dense: {average_spike_dense:.2f}")
-    print(f"average spike sparse: {average_spike_sparse:.2f}")
+        return optimal_threshold, roc_auc
 
     print(f"Optimal LZC threshold: {optimal_threshold:.4f} (G-mean={gmean[idx]:.4f}) (AUC={roc_auc:.4f})")
-
 
     # Plot
     plt.figure(figsize=(8, 6))
@@ -233,103 +219,152 @@ def threshold_sweep_and_roc(results, dataset_name="unknown", plotting_only=False
     graph_save_path = f"results/ROC_curves/{dataset_name}_Take{counter}.png"
     plt.savefig(graph_save_path)
     print(f"ROC curve saved to: {graph_save_path}")
-    plt.show()
+    plt.close()
 
-    return optimal_threshold, roc_auc, average_spike_dense, average_spike_sparse
+    return optimal_threshold, roc_auc
 
 
-def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold, results):
+# Energy per spike constant (placeholder — set to your model's value)
+ENERGY_PER_SPIKE = 5e-9 # Joules per spike (TODO: set correct value)
+
+
+def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold, results, precomputed_lzc):
     """
-    Route samples to appropriate model and evaluate accuracy.
-    Supports batched dataloaders.
+    Route samples and compute accuracy + energy metrics.
+    Runs single-sample inference with record=True on the routed model for exact spike counts.
 
-    Args:
-        dataLoader: Test data loader (can have batch_size > 1)
-        sparse_model: Sparse SNN model
-        dense_model: Dense SNN model
-        optimal_threshold: LZC threshold for routing
-        results: Pre-computed results from evaluate_models_on_dataset
-
-    Returns:
-        tuple: (total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts)
+    Reports three metric blocks:
+      1. Baseline: dense-only accuracy + energy (no LZC cost)
+      2. Sparse-routed: accuracy + energy (LZC + sparse model) for routed samples
+      3. Dense-routed: accuracy + energy (LZC + dense model) for routed samples
     """
     print("\nRouting and evaluating with threshold:", optimal_threshold, "\n")
-    correct_sparse = 0
-    correct_dense = 0
-    route_counts = {'sparse': 0, 'dense': 0}
 
-    # Flatten results into a sample index
+    # Accumulators
+    route_counts = {'sparse': 0, 'dense': 0}
+    correct_sparse_routed = 0
+    correct_dense_routed = 0
+    sparse_energies = []   # per-sample total energy (LZC + model) for sparse-routed
+    dense_energies = []    # per-sample total energy (LZC + model) for dense-routed
+    baseline_energies = [] # per-sample dense-only energy (no LZC cost)
+
+    # Overall accuracy on entire dataset (from evaluate_models_on_dataset predictions)
+    total_samples = len(results)
+    sparse_correct_all = sum(1 for r in results if r['sparse_pred'] == r['label'])
+    dense_correct_all = sum(1 for r in results if r['dense_pred'] == r['label'])
+    sparse_acc_overall = sparse_correct_all / total_samples
+    dense_acc_overall = dense_correct_all / total_samples
+
     sample_idx = 0
 
     for batch in dataLoader:
         events, labels = batch
         batch_size = events.shape[0]
-
-        # Move data to same device as model
         events = events.to(sparse_model.device)
 
         # Process each sample in the batch individually for routing
         for i in range(batch_size):
             if sample_idx >= len(results):
                 break
-                
-            single_event = events[i:i+1]  # Keep batch dim [1, T, C]
-            label = labels[i].item() if torch.is_tensor(labels[i]) else labels[i]
+
+            single_event = events[i:i+1]  # [1, T, C]
+            label = results[sample_idx]['label']
             lz_value = results[sample_idx]['lz_value']
+            lzc_energy = precomputed_lzc[sample_idx]['energy']
 
             with torch.no_grad():
+                # --- Baseline: always run dense (no LZC cost) ---
+                _, _, dense_rec = dense_model.net(single_event, record=True)
+                baseline_spikes = count_spikes_from_recording(dense_rec)
+                baseline_energies.append(baseline_spikes * ENERGY_PER_SPIKE)
+
+                # --- Routing decision ---
                 if lz_value < optimal_threshold:
+                    # Route to sparse
                     route_counts['sparse'] += 1
-                    sparse_output, _, _ = sparse_model.net(single_event, record=False)
-                    sparse_logits = sparse_output.mean(dim=1)
-                    pred = sparse_logits.argmax(1).item()
-                    if pred == label:
-                        correct_sparse += 1
+                    _, _, sparse_rec = sparse_model.net(single_event, record=True)
+                    model_spikes = count_spikes_from_recording(sparse_rec)
+                    model_energy = model_spikes * ENERGY_PER_SPIKE
+                    sparse_energies.append(lzc_energy + model_energy)
+
+                    if results[sample_idx]['sparse_pred'] == label:
+                        correct_sparse_routed += 1
                 else:
+                    # Route to dense (reuse the recording from baseline)
                     route_counts['dense'] += 1
-                    dense_output, _, _ = dense_model.net(single_event, record=False)
-                    dense_logits = dense_output.mean(dim=1)
-                    pred = dense_logits.argmax(1).item()
-                    if pred == label:
-                        correct_dense += 1
-            
+                    model_spikes = baseline_spikes  # already computed above
+                    model_energy = model_spikes * ENERGY_PER_SPIKE
+                    dense_energies.append(lzc_energy + model_energy)
+
+                    if results[sample_idx]['dense_pred'] == label:
+                        correct_dense_routed += 1
+
             sample_idx += 1
+            if sample_idx % 10 == 0:
+                print(f"  Routed {sample_idx}/{total_samples} samples")
 
-    accuracy_dense_routed = correct_dense / route_counts['dense'] if route_counts['dense'] > 0 else 0
-    accuracy_sparse_routed = correct_sparse / route_counts['sparse'] if route_counts['sparse'] > 0 else 0
+    # ==================== METRICS ====================
+    n_sparse = route_counts['sparse']
+    n_dense = route_counts['dense']
+    total_routed = n_sparse + n_dense
 
-    total_correct = correct_dense + correct_sparse
-    total_samples = route_counts['sparse'] + route_counts['dense']
-    total_accuracy = total_correct / total_samples if total_samples > 0 else 0
+    # Routed accuracy
+    acc_sparse_routed = correct_sparse_routed / n_sparse if n_sparse > 0 else 0
+    acc_dense_routed = correct_dense_routed / n_dense if n_dense > 0 else 0
+    total_correct_routed = correct_sparse_routed + correct_dense_routed
+    acc_overall_routed = total_correct_routed / total_routed if total_routed > 0 else 0
 
-    # Getting the accuracy on each model for the entire dataset
-    total_samples = len(results)
+    # Average energies
+    avg_sparse_energy = np.mean(sparse_energies) if sparse_energies else 0
+    avg_dense_energy = np.mean(dense_energies) if dense_energies else 0
+    avg_baseline_energy = np.mean(baseline_energies) if baseline_energies else 0
+    avg_routed_energy = np.mean(sparse_energies + dense_energies) if (sparse_energies + dense_energies) else 0
 
-    # Sparse model accuracy
-    sparse_correct = sum(1 for r in results if r['sparse_pred'] == r['label'])
-    sparse_accuracy_overall = sparse_correct / total_samples
+    # ==================== REPORTING ====================
+    print("\n" + "="*60)
+    print("BASELINE (Dense-Only, No Router)")
+    print("="*60)
+    print(f"  Accuracy:     {dense_acc_overall*100:.2f}%")
+    print(f"  Avg Energy:   {avg_baseline_energy:.4e} J  (no LZC cost)")
 
-    # Dense model accuracy
-    dense_correct = sum(1 for r in results if r['dense_pred'] == r['label'])
-    dense_accuracy_overall = dense_correct / total_samples
+    print("\n" + "="*60)
+    print("SPARSE-ROUTED SAMPLES")
+    print("="*60)
+    print(f"  Samples routed:           {n_sparse}")
+    print(f"  Accuracy (routed):        {acc_sparse_routed*100:.2f}%")
+    print(f"  Accuracy (entire dataset): {sparse_acc_overall*100:.2f}%")
+    print(f"  Accuracy improvement:     {((acc_sparse_routed/sparse_acc_overall - 1)*100 if sparse_acc_overall > 0 else 0):.2f}%")
+    print(f"  Avg Energy (LZC + model): {avg_sparse_energy:.4e} J")
 
-    sparse_accuracy_improvement = accuracy_sparse_routed/sparse_accuracy_overall - 1 if sparse_accuracy_overall > 0 else 0
-    dense_accuracy_improvement = accuracy_dense_routed/dense_accuracy_overall - 1 if dense_accuracy_overall > 0 else 0
+    print("\n" + "="*60)
+    print("DENSE-ROUTED SAMPLES")
+    print("="*60)
+    print(f"  Samples routed:           {n_dense}")
+    print(f"  Accuracy (routed):        {acc_dense_routed*100:.2f}%")
+    print(f"  Accuracy (entire dataset): {dense_acc_overall*100:.2f}%")
+    print(f"  Accuracy improvement:     {((acc_dense_routed/dense_acc_overall - 1)*100 if dense_acc_overall > 0 else 0):.2f}%")
+    print(f"  Avg Energy (LZC + model): {avg_dense_energy:.4e} J")
 
-    print(f"Sparse model accuracy on entire dataset: {sparse_accuracy_overall*100: .2f}%")
-    print(f"Sparse model accuracy AFTER routing: {accuracy_sparse_routed*100: .2f}%")
-    print(f"Sparse model accuracy improvement: {sparse_accuracy_improvement*100: .2f}%")
-    print(f"Samples routed to sparse model: {route_counts['sparse']}\n")
+    print("\n" + "="*60)
+    print("OVERALL ROUTED")
+    print("="*60)
+    print(f"  Total samples:    {total_routed}")
+    print(f"  Overall accuracy: {acc_overall_routed*100:.2f}%")
+    print(f"  Avg Energy:       {avg_routed_energy:.4e} J")
+    print(f"  Energy savings vs baseline: {((1 - avg_routed_energy/avg_baseline_energy)*100 if avg_baseline_energy > 0 else 0):.2f}%")
+    print("="*60 + "\n")
 
-    print(f"Dense model accuracy on entire dataset: {dense_accuracy_overall*100: .2f}%")
-    print(f"Dense model accuracy AFTER routing: {accuracy_dense_routed*100: .2f}%")
-    print(f"Dense model accuracy improvement: {dense_accuracy_improvement*100: .2f}%")
-    print(f"Samples routed to dense model: {route_counts['dense']}\n")
-
-    print(f"Overall Accuracy after routing: {total_accuracy*100: .2f}%")
-    print(f"Total Samples: {total_samples}")
-
-    return total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts
+    return {
+        'baseline_accuracy': dense_acc_overall,
+        'baseline_avg_energy': avg_baseline_energy,
+        'sparse_routed_accuracy': acc_sparse_routed,
+        'sparse_avg_energy': avg_sparse_energy,
+        'dense_routed_accuracy': acc_dense_routed,
+        'dense_avg_energy': avg_dense_energy,
+        'overall_routed_accuracy': acc_overall_routed,
+        'overall_avg_energy': avg_routed_energy,
+        'route_counts': route_counts,
+    }
 
 
 # ========== MAIN ==========
@@ -387,8 +422,8 @@ Examples:
     parser.add_argument('--net_dt', type=float, default=10e-3,
                        help='Simulation time step in seconds (default: 10e-3)')
     parser.add_argument('--batch_size', type=int, default=32,
-                       help='Batch size for evaluation (default: 1 for routing)')
-    parser.add_argument('--num_workers', type=int, default=4,
+                       help='Batch size for evaluation')
+    parser.add_argument('--num_workers', type=int, default=0,
                        help='DataLoader workers (default: 4)')
     parser.add_argument('--model_type', type=str, default='dense',
                        help='Model type for both models (default: dense)')
@@ -421,38 +456,23 @@ Examples:
     # Uncomment ONE of the following dataset sections:
 
     # ----- SHD Dataset -----
-    # print("Loading SHD dataset...")
-    # data = SHDDataset(
-    #     dataset_path=args.dataset_path,
-    #     NUM_CHANNELS=args.NUM_CHANNELS,
-    #     NUM_POLARITIES=args.NUM_POLARITIES,
-    #     n_frames=args.n_frames,
-    #     net_dt=args.net_dt
-    # )
-    # _, cached_test = data.load_shd()
-    # test_loader = DataLoader(
-    #     cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
-    #     num_workers=args.num_workers, pin_memory=True,
-    #     collate_fn=tonic.collation.PadTensors(batch_first=True)
-    # )
-
-    # ----- UCI-HAR Dataset -----
-    print("Loading UCI-HAR dataset...")
-    data = UCIHARDataset(
+    print("Loading SHD dataset...")
+    data = SHDDataset(
         dataset_path=args.dataset_path,
-        n_frames=128,
-        time_first=True,
-        normalize=True
+        NUM_CHANNELS=args.NUM_CHANNELS,
+        NUM_POLARITIES=args.NUM_POLARITIES,
+        n_frames=args.n_frames,
+        net_dt=args.net_dt
     )
-    _, cached_test = data.load_uci_har()
+    _, cached_test = data.load_shd()
     test_loader = DataLoader(
         cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
-        num_workers=args.num_workers, pin_memory=True
+        num_workers=args.num_workers, pin_memory=False,
+        collate_fn=tonic.collation.PadTensors(batch_first=True)
     )
-    
-    # Limit to 200 samples for faster testing
+    # Limit to 3 batches for faster testing
     import itertools
-    test_loader = list(itertools.islice(test_loader, 3))
+    test_loader = list(itertools.islice(test_loader, 5))
 
     # ----- DVSGesture Dataset -----
     # print("Loading DVSGesture dataset...")
@@ -478,48 +498,22 @@ Examples:
 
     # Load hyperparameters from checkpoint files
     print("\nLoading hyperparameters from checkpoints...")
-    sparse_hp = UCIHARSNN.load_hyperparams(args.sparse_model_path)
-    dense_hp = UCIHARSNN.load_hyperparams(args.dense_model_path)
 
-    print(f"Sparse model: tau_mem={sparse_hp['tau_mem']}, tau_syn={sparse_hp['tau_syn']}, spike_lam={sparse_hp['spike_lam']}")
-    print(f"Dense model:  tau_mem={dense_hp['tau_mem']}, tau_syn={dense_hp['tau_syn']}, spike_lam={dense_hp['spike_lam']}")
+    sparse_hp = SHDSNN.load_hyperparams(args.sparse_model_path)
+    dense_hp = SHDSNN.load_hyperparams(args.dense_model_path)
+
+    # sparse_hp = DVSGestureSNN.load_hyperparams(args.sparse_model_path)
+    # dense_hp = DVSGestureSNN.load_hyperparams(args.dense_model_path)
+
+
+    
 
     # ==================== MODEL CREATION ====================
     # Uncomment ONE of the following model sections (must match dataset above):
 
     # ----- SHD Models -----
-    # print("\nCreating SHD sparse model...")
-    # sparse_model = SHDSNN_FC(
-    #     input_size=sparse_hp['input_size'],
-    #     n_frames=sparse_hp['n_frames'],
-    #     tau_mem=sparse_hp['tau_mem'],
-    #     tau_syn=sparse_hp['tau_syn'],
-    #     spike_lam=sparse_hp['spike_lam'],
-    #     model_type=sparse_hp['model_type'],
-    #     device=device,
-    #     num_classes=sparse_hp['num_classes'],
-    #     dt=sparse_hp['dt'],
-    #     threshold=sparse_hp['threshold'],
-    #     has_bias=sparse_hp['has_bias']
-    # )
-    # print("Creating SHD dense model...")
-    # dense_model = SHDSNN_FC(
-    #     input_size=dense_hp['input_size'],
-    #     n_frames=dense_hp['n_frames'],
-    #     tau_mem=dense_hp['tau_mem'],
-    #     tau_syn=dense_hp['tau_syn'],
-    #     spike_lam=dense_hp['spike_lam'],
-    #     model_type=dense_hp['model_type'],
-    #     device=device,
-    #     num_classes=dense_hp['num_classes'],
-    #     dt=dense_hp['dt'],
-    #     threshold=dense_hp['threshold'],
-    #     has_bias=dense_hp['has_bias']
-    # )
-
-    # ----- UCI-HAR Models -----
-    print("\nCreating UCI-HAR sparse model...")
-    sparse_model = UCIHARSNN(
+    print("\nCreating SHD sparse model...")
+    sparse_model = SHDSNN(
         input_size=sparse_hp['input_size'],
         n_frames=sparse_hp['n_frames'],
         tau_mem=sparse_hp['tau_mem'],
@@ -532,8 +526,8 @@ Examples:
         threshold=sparse_hp['threshold'],
         has_bias=sparse_hp['has_bias']
     )
-    print("Creating UCI-HAR dense model...")
-    dense_model = UCIHARSNN(
+    print("Creating SHD dense model...")
+    dense_model = SHDSNN(
         input_size=dense_hp['input_size'],
         n_frames=dense_hp['n_frames'],
         tau_mem=dense_hp['tau_mem'],
@@ -547,9 +541,14 @@ Examples:
         has_bias=dense_hp['has_bias']
     )
 
+
+
+
+
+
     # ----- DVSGesture Models -----
     # print("\nCreating DVSGesture sparse model...")
-    # sparse_model = DVSGestureSNN_FC(
+    # sparse_model = DVSGestureSNN(
     #     input_size=sparse_hp['input_size'],
     #     n_frames=sparse_hp['n_frames'],
     #     tau_mem=sparse_hp['tau_mem'],
@@ -563,7 +562,7 @@ Examples:
     #     has_bias=sparse_hp['has_bias']
     # )
     # print("Creating DVSGesture dense model...")
-    # dense_model = DVSGestureSNN_FC(
+    # dense_model = DVSGestureSNN(
     #     input_size=dense_hp['input_size'],
     #     n_frames=dense_hp['n_frames'],
     #     tau_mem=dense_hp['tau_mem'],
@@ -592,15 +591,20 @@ Examples:
     print("="*80 + "\n")
     print("Starting evaluation...\n")
 
-    # 1. Evaluate both models on all test samples
-    results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model)
+    # Load precomputed LZC energy metrics
+    lzc_file = 'LZC_Energy/lzc_energy_SHD.txt'
+    print(f"\nLoading precomputed LZC values from: {lzc_file}")
+    precomputed_lzc = load_lzc_from_file(lzc_file)
 
-    # ----- UCI-HAR -----
-    optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = threshold_sweep_and_roc(results, dataset_name="uci_har")
+    # 1. Evaluate both models on all test samples (using precomputed LZC)
+    results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model, precomputed_lzc)
+
+    # 2. Find optimal routing threshold
+    optimal_threshold, roc_auc = threshold_sweep_and_roc(results, dataset_name="shd")
+    # optimal_threshold, roc_auc = threshold_sweep_and_roc(results, dataset_name="dvsgesture")
     
-    # 4. Route samples and evaluate
-    total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts = \
-        route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results)
+    # 3. Route samples and evaluate with energy metrics
+    metrics = route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results, precomputed_lzc)
 
 
 if __name__ == "__main__":

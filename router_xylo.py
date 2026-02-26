@@ -676,7 +676,8 @@ Examples:
         dataset_path=args.dataset_path,
         n_frames=128,
         time_first=True,
-        normalize=True
+        normalize=True,
+        binarize=True
     )
     _, cached_test = data.load_uci_har()
     test_loader = DataLoader(
