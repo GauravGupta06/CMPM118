@@ -132,22 +132,41 @@ class UCIHARSNN:
         return correct / total if total > 0 else 0.0
 
     def convert_for_hardware(self):
-        """Swap ExpSynTorch output layer → LIFTorch for Xylo deployment.
-        
-        Call this after loading trained weights. The Linear layer weights
-        carry over — only the output layer changes from smooth to spiking.
         """
-        self.net[4] = LIFTorch(
-            self.num_classes,
-            tau_mem=Constant(self.tau_mem),
-            tau_syn=Constant(self.tau_syn),
-            threshold=Constant(self.threshold),
-            bias=Constant(0.0),
-            dt=self.dt,
-            has_rec=False,
-            max_spikes_per_dt=1,
-        ).to(self.device)
-        print("Converted output layer: ExpSynTorch → LIFTorch (hardware-compatible)")
+        Replace the final (ExpSynTorch) output with a spiking LIF output layer
+        and rebuild the Rockpool Sequential so the replacement is actually used.
+        Call this AFTER loading the checkpoint so Linear weights are already loaded.
+        """
+        import copy
+        from rockpool.nn.combinators import Sequential as RockpoolSequential
+
+        # Collect current top-level modules in order (deep-copy to avoid accidental shared state)
+        mod_list = []
+        for name, mod in self.net._modules.items():
+            mod_list.append(copy.deepcopy(mod))
+
+        # If final module is ExpSynTorch, replace it with a LIFTorch neuron layer.
+        # If not (already LIF), do nothing.
+        if len(mod_list) == 0:
+            raise RuntimeError("Network has no modules to convert")
+
+        last = mod_list[-1]
+        if isinstance(last, ExpSynTorch):
+            mod_list[-1] = LIFTorch(
+                self.num_classes,
+                tau_mem=Constant(self.tau_mem),
+                tau_syn=Constant(self.tau_syn),
+                threshold=Constant(self.threshold),
+                bias=Constant(0.0),
+                dt=self.dt,
+                has_rec=False,
+                max_spikes_per_dt=1,
+            ).to(self.device)
+            # Rebuild the Sequential from the cleaned module list
+            self.net = RockpoolSequential(*mod_list).to(self.device)
+            print("Converted output layer: ExpSynTorch → LIFTorch (hardware-compatible)")
+        else:
+            print("convert_for_hardware: final module is not ExpSynTorch — no change made")
 
     def get_avg_spike_count(self, dataloader, max_batches=10):
         """Calculate average spikes per neuron per timestep across all LIF layers.

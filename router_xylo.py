@@ -216,21 +216,21 @@ def threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="uc
     os.makedirs("results/ROC_curves", exist_ok=True)
     
     # Initialize counter file if it doesn't exist
-    counter_file_path = "results/ROC_curves/roc_counter.txt"
-    if not os.path.exists(counter_file_path):
-        with open(counter_file_path, "w") as f:
-            f.write("0")
+    # counter_file_path = "results/ROC_curves/roc_counter.txt"
+    # if not os.path.exists(counter_file_path):
+    #     with open(counter_file_path, "w") as f:
+    #         f.write("0")
     
-    # Read and increment counter
-    with open(counter_file_path, "r") as f:
-        counter = int(f.read().strip())
-    counter += 1
-    with open(counter_file_path, "w") as f:
-        f.write(str(counter))
+    # # Read and increment counter
+    # with open(counter_file_path, "r") as f:
+    #     counter = int(f.read().strip())
+    # counter += 1
+    # with open(counter_file_path, "w") as f:
+    #     f.write(str(counter))
     
-    graph_save_path = f"results/ROC_curves/{dataset_name}_Take{counter}.png"
-    plt.savefig(graph_save_path)
-    print(f"ROC curve saved to: {graph_save_path}")
+    # graph_save_path = f"results/ROC_curves/{dataset_name}_Take{counter}.png"
+    # plt.savefig(graph_save_path)
+    # print(f"ROC curve saved to: {graph_save_path}")
     plt.show()
 
     return optimal_threshold, roc_auc, average_spike_dense, average_spike_sparse
@@ -680,6 +680,14 @@ Examples:
     parser.add_argument('--spike_lam_dense', type=float, default=1e-8,
                        help='Spike regularization for dense model (default: 1e-8)')
     
+    # Energy metrics arguments
+    parser.add_argument('--lzc_energy_file', type=str, default='./LZC_Energy/lzc_energy_UCI_HAR.txt',
+                        help='Path to LZC energy file (energy cycles lzc per line). If missing, LZC energy integration is skipped.')
+    parser.add_argument('--stm32_freq', type=float, default=80e6,
+                        help='STM32 CPU frequency in Hz used to convert cycles -> seconds (default: 80e6).')
+    parser.add_argument('--energy_per_cycle', type=float, default=1.8e-10,
+                        help='Energy per CPU cycle in Joules (default: 1.8e-10 J = 180 pJ).')
+    
     # Additional arguments (matching train_shd.py)
     parser.add_argument('--net_dt', type=float, default=0.02,
                        help='Simulation time step in seconds (default: 10e-3)')
@@ -689,8 +697,6 @@ Examples:
                        help='DataLoader workers (default: 4)')
     parser.add_argument('--model_type', type=str, default='dense',
                        help='Model type for both models (default: dense)')
-    parser.add_argument('--lzc_energy_file', type=str, default='./LZC_Energy/lzc_energy_UCI_HAR.txt',
-                        help='Path to LZC energy file (energy cycles lzc per line). If missing, LZC energy integration is skipped.')
 
     # Parse arguments
     args = parser.parse_args()
@@ -926,52 +932,269 @@ Examples:
     dense_stats = run_samples_on_xylo(modSamna_dense, dense_samples, record_power=True, verbose=True)
 
     # 7) Summarize
-    sparse_total_spikes = int(np.nansum(
-        np.array([s.get('n_output_spikes', 0)
-                for s in sparse_stats['per_sample']], dtype=float)
-    ))
+    # sparse_total_spikes = int(np.nansum(
+    #     np.array([s.get('n_output_spikes', 0)
+    #             for s in sparse_stats['per_sample']], dtype=float)
+    # ))
 
-    if sparse_total_spikes > 0:
-        sparse_eps = sparse_stats['total_energy'] / sparse_total_spikes
-    else:
-        sparse_eps = float('nan')
-        print("WARNING: Sparse model produced zero output spikes on HDK.")
+    # if sparse_total_spikes > 0:
+    #     sparse_eps = sparse_stats['total_energy'] / sparse_total_spikes
+    # else:
+    #     sparse_eps = float('nan')
+    #     print("WARNING: Sparse model produced zero output spikes on HDK.")
 
 
-    dense_total_spikes = int(np.nansum(
-        np.array([s.get('n_output_spikes', 0)
-                for s in dense_stats['per_sample']], dtype=float)
-    ))
+    # dense_total_spikes = int(np.nansum(
+    #     np.array([s.get('n_output_spikes', 0)
+    #             for s in dense_stats['per_sample']], dtype=float)
+    # ))
 
-    if dense_total_spikes > 0:
-        dense_eps = dense_stats['total_energy'] / dense_total_spikes
-    else:
-        dense_eps = float('nan')
-        print("WARNING: Dense model produced zero output spikes on HDK.")
+    # if dense_total_spikes > 0:
+    #     dense_eps = dense_stats['total_energy'] / dense_total_spikes
+    # else:
+    #     dense_eps = float('nan')
+    #     print("WARNING: Dense model produced zero output spikes on HDK.")
     
-    print("\nXYLO ENERGY SUMMARY")
-    print("--------------------")
-    print("Sparse model: samples:", sparse_stats['total_samples'])
-    print("Sparse total spikes:", sparse_total_spikes)
-    print("Sparse total energy (J):", sparse_stats['total_energy'])
-    print("Sparse avg energy/sample (J):", sparse_stats['avg_energy_per_sample'])
-    print("Sparse avg energy/spike (J):", sparse_eps)
-    print("Sparse failed runs:", len(sparse_stats['failed_indices']))
-    print("Sparse avg inference time:", sum(s['inf_duration'] for s in sparse_stats['per_sample']) / sparse_stats['total_samples'])
+    # print("\nXYLO ENERGY SUMMARY")
+    # print("--------------------")
+    # print("Sparse model: samples:", sparse_stats['total_samples'])
+    # print("Sparse total spikes:", sparse_total_spikes)
+    # print("Sparse total energy (J):", sparse_stats['total_energy'])
+    # print("Sparse avg energy/sample (J):", sparse_stats['avg_energy_per_sample'])
+    # print("Sparse avg energy/spike (J):", sparse_eps)
+    # print("Sparse failed runs:", len(sparse_stats['failed_indices']))
+    # print("Sparse avg inference time:", sum(s['inf_duration'] for s in sparse_stats['per_sample']) / sparse_stats['total_samples'])
+    # print()
+    # print("Dense model: samples:", dense_stats['total_samples'])
+    # print("Dense total spikes:", dense_total_spikes)
+    # print("Dense total energy (J):", dense_stats['total_energy'])
+    # print("Dense avg energy/sample (J):", dense_stats['avg_energy_per_sample'])
+    # print("Dense avg energy/spike (J):", dense_eps)
+    # print("Dense failed runs:", len(dense_stats['failed_indices']))
+    # print("Dense avg inference time:", sum(s['inf_duration'] for s in dense_stats['per_sample']) / dense_stats['total_samples'])
+
+    # ---------- LZC ENERGY METRICS ----------
+
+    # load optional LZC energy file
+    lzc_energies, lzc_cycles, lzc_scores = load_lzc_energy_table(args.lzc_energy_file)
+
+    # Make sure samples_list exists and results length
+    # samples_list, labels_list were created earlier from collect_samples_from_loader(test_loader)
+    n_samples_results = len(results)
+    n_samples_lzc = len(lzc_energies)
+    n_samples_sampleslist = len(samples_list)
+
+    # decide how many indices we can use from LZC file
+    use_lzc_n = min(n_samples_lzc, n_samples_results, n_samples_sampleslist)
+    if use_lzc_n == 0:
+        print("[LZC] No usable LZC energy rows found - skipping LZC integration.")
+        lzc_available = False
+    else:
+        if n_samples_lzc < n_samples_results:
+            print(f"[LZC] Warning: LZC file has {n_samples_lzc} rows; results has {n_samples_results} samples. Will use first {use_lzc_n} indices.")
+        lzc_available = True
+
+    # convenience: map sample index -> LZC energy (0 if no entry)
+    lzc_energy_by_index = [(lzc_energies[i] if i < use_lzc_n else 0.0) for i in range(max(n_samples_results, use_lzc_n))]
+
+    # compute totals for sparse/dense indices
+    sparse_lzc_total = 0.0
+    dense_lzc_total = 0.0
+    sparse_lzc_count = 0
+    dense_lzc_count = 0
+
+    for idx in sparse_indices:
+        if idx < use_lzc_n:
+            sparse_lzc_total += lzc_energy_by_index[idx]
+            sparse_lzc_count += 1
+
+    for idx in dense_indices:
+        if idx < use_lzc_n:
+            dense_lzc_total += lzc_energy_by_index[idx]
+            dense_lzc_count += 1
+
+    # fallback counts for per-sample averaging
+    sparse_sample_count = len(sparse_indices)
+    dense_sample_count = len(dense_indices)
+
+    # model-measured totals
+    sparse_model_total_energy = sparse_stats['total_energy']
+    dense_model_total_energy = dense_stats['total_energy']
+
+    # combined totals
+    combined_sparse_total = sparse_model_total_energy + sparse_lzc_total
+    combined_dense_total = dense_model_total_energy + dense_lzc_total
+
+    # combined per-sample averages
+    combined_sparse_avg_per_sample = combined_sparse_total / sparse_sample_count if sparse_sample_count > 0 else float('nan')
+    combined_dense_avg_per_sample = combined_dense_total / dense_sample_count if dense_sample_count > 0 else float('nan')
+
+    # energy per spike combined (if spikes > 0)
+    sparse_total_spikes = int(np.nansum([s.get('n_output_spikes', 0) for s in sparse_stats['per_sample']]))
+    dense_total_spikes = int(np.nansum([s.get('n_output_spikes', 0) for s in dense_stats['per_sample']]))
+
+    combined_sparse_eps = combined_sparse_total / sparse_total_spikes if sparse_total_spikes > 0 else float('nan')
+    combined_dense_eps = combined_dense_total / dense_total_spikes if dense_total_spikes > 0 else float('nan')
+
+    # percentage of combined energy attributable to LZC sampling
+    sparse_lzc_pct = (sparse_lzc_total / combined_sparse_total * 100.0) if combined_sparse_total > 0 else 0.0
+    dense_lzc_pct = (dense_lzc_total / combined_dense_total * 100.0) if combined_dense_total > 0 else 0.0
+
+    # ---------- END LZC ENERGY METRICS ----------
+    # ---------- LZC INFERENCE METRICS ----------
+
+    stm32_freq = float(args.stm32_freq) if hasattr(args, "stm32_freq") else 80e6
+    energy_per_cycle_arg = float(args.energy_per_cycle) if hasattr(args, "energy_per_cycle") else 1.8e-10
+
+    # Build a cycles lookup array (0 if missing)
+    lzc_cycles_by_index = [(lzc_cycles[i] if i < use_lzc_n else 0) for i in range(max(n_samples_results, use_lzc_n))]
+
+    # Totals: cycles and latency for each routing bucket (only sum rows we actually have)
+    sparse_lzc_cycles_total = 0
+    dense_lzc_cycles_total = 0
+    sparse_lzc_rows_used = 0
+    dense_lzc_rows_used = 0
+
+    for idx in sparse_indices:
+        if idx < use_lzc_n:
+            sparse_lzc_cycles_total += lzc_cycles_by_index[idx]
+            sparse_lzc_rows_used += 1
+
+    for idx in dense_indices:
+        if idx < use_lzc_n:
+            dense_lzc_cycles_total += lzc_cycles_by_index[idx]
+            dense_lzc_rows_used += 1
+
+    sparse_lzc_latency_total_s = sparse_lzc_cycles_total / stm32_freq
+    dense_lzc_latency_total_s = dense_lzc_cycles_total / stm32_freq
+
+    sparse_lzc_avg_latency_per_row_s = (sparse_lzc_latency_total_s / sparse_lzc_rows_used) if sparse_lzc_rows_used > 0 else 0.0
+    dense_lzc_avg_latency_per_row_s = (dense_lzc_latency_total_s / dense_lzc_rows_used) if dense_lzc_rows_used > 0 else 0.0
+
+    # But for user-friendly 'per routed sample' numbers we divide by sample count (some rows may be missing)
+    sparse_lzc_avg_latency_per_sample_s = (sparse_lzc_latency_total_s / sparse_sample_count) if sparse_sample_count > 0 else 0.0
+    dense_lzc_avg_latency_per_sample_s = (dense_lzc_latency_total_s / dense_sample_count) if dense_sample_count > 0 else 0.0
+
+    # ----------------------------
+    # Model-measured avg inference time for each model (from HDK recorded inf_duration per sample)
+    # Use the per-sample records in sparse_stats/dense_stats
+    def avg_inf_time_from_stats(stats):
+        if not stats or stats['total_samples'] == 0:
+            return 0.0
+        durations = [s.get('inf_duration', 0.0) for s in stats['per_sample']]
+        return float(np.nanmean(durations)) if len(durations) > 0 else 0.0
+
+    sparse_model_avg_inf_s = avg_inf_time_from_stats(sparse_stats)
+    dense_model_avg_inf_s = avg_inf_time_from_stats(dense_stats)
+
+    # Combined avg inference time per routed sample = model avg + LZC avg latency per routed sample
+    combined_sparse_avg_inference_time_s = sparse_model_avg_inf_s + sparse_lzc_avg_latency_per_sample_s
+    combined_dense_avg_inference_time_s = dense_model_avg_inf_s + dense_lzc_avg_latency_per_sample_s
+
+    # Add LZC-energy->J check: if we didn't read energies, convert cycles->energy using energy_per_cycle_arg
+    if not lzc_energies and use_lzc_n > 0 and len(lzc_cycles) > 0:
+        # create a derived energy list from cycle counts if original file didn't include energies
+        lzc_energies = [c * energy_per_cycle_arg for c in lzc_cycles[:use_lzc_n]]
+        # refresh energy_by_index
+        lzc_energy_by_index = [(lzc_energies[i] if i < use_lzc_n else 0.0) for i in range(max(n_samples_results, use_lzc_n))]
+        
+    # ---------- END LZC INFERENCE METRICS ----------
+
+    # create small summary dictionary and save
+    summary = {
+        'sparse': {
+            'samples': sparse_sample_count,
+            'model_total_energy_J': sparse_model_total_energy,
+            'lzc_total_energy_J': sparse_lzc_total,
+            'combined_total_energy_J': combined_sparse_total,
+            'combined_avg_energy_per_sample_J': combined_sparse_avg_per_sample,
+            'total_output_spikes': sparse_total_spikes,
+            'combined_avg_energy_per_spike_J': combined_sparse_eps,
+            'lzc_energy_pct_of_combined': sparse_lzc_pct,
+
+            # latency fields
+            'lzc_rows_used': sparse_lzc_rows_used, # Number of rows from lzc_energy_UCI_HAR.txt used
+            'lzc_cycles_total': sparse_lzc_cycles_total,
+            'lzc_latency_total_s': sparse_lzc_latency_total_s,
+            'lzc_avg_latency_per_row_s': sparse_lzc_avg_latency_per_row_s,
+            'lzc_avg_latency_per_sample_s': sparse_lzc_avg_latency_per_sample_s,
+            'model_avg_inf_duration_s': sparse_model_avg_inf_s,
+            'combined_avg_inference_time_s': combined_sparse_avg_inference_time_s
+        },
+        'dense': {
+            'samples': dense_sample_count,
+            'model_total_energy_J': dense_model_total_energy,
+            'lzc_total_energy_J': dense_lzc_total,
+            'combined_total_energy_J': combined_dense_total,
+            'combined_avg_energy_per_sample_J': combined_dense_avg_per_sample,
+            'total_output_spikes': dense_total_spikes,
+            'combined_avg_energy_per_spike_J': combined_dense_eps,
+            'lzc_energy_pct_of_combined': dense_lzc_pct,
+            
+            # latency fields
+            'lzc_rows_used': dense_lzc_rows_used, # Number of rows from lzc_energy_UCI_HAR.txt used
+            'lzc_cycles_total': dense_lzc_cycles_total,
+            'lzc_latency_total_s': dense_lzc_latency_total_s,
+            'lzc_avg_latency_per_row_s': dense_lzc_avg_latency_per_row_s,
+            'lzc_avg_latency_per_sample_s': dense_lzc_avg_latency_per_sample_s,
+            'model_avg_inf_duration_s': dense_model_avg_inf_s,
+            'combined_avg_inference_time_s': combined_dense_avg_inference_time_s
+        },
+        'global': {
+            'n_results_samples': n_samples_results,
+            'n_lzc_rows': n_samples_lzc,
+            'used_lzc_rows': use_lzc_n,
+            'stm32_freq_hz': stm32_freq,
+            'energy_per_cycle_J': energy_per_cycle_arg
+        },
+        'sparse_indices': sparse_indices[:50],  # keep short
+        'dense_indices': dense_indices[:50],
+        'timestamp': datetime.now().isoformat()
+    }
+
+    # ensure results dir exists and save JSON
+    os.makedirs('results', exist_ok=True)
+    summary_path = f"results/Xylo_energy_metrics/energy_summary_{datetime.now().strftime('%Y%m%dT%H%M%S')}.json"
+    with open(summary_path, 'w') as fh:
+        json.dump(summary, fh, indent=2)
+
+    print("\nXYLO ENERGY + LZC SUMMARY")
+    print("------------------------")
+    print("Sparse model: samples:", summary['sparse']['samples'])
+    print("  Model total energy (J):", summary['sparse']['model_total_energy_J'])
+    print("  LZC sampling energy (J):", summary['sparse']['lzc_total_energy_J'])
+    print("  Combined total energy (J):", summary['sparse']['combined_total_energy_J'])
+    print("  Combined avg energy/sample (J):", summary['sparse']['combined_avg_energy_per_sample_J'])
+    print("  Combined avg energy/spike (J):", summary['sparse']['combined_avg_energy_per_spike_J'])
+    print("  LZC contribution to combined energy (%):", summary['sparse']['lzc_energy_pct_of_combined'])
+    print("  LZC rows used:", summary['sparse']['lzc_rows_used'])
+    print("  LZC cycles total:", summary['sparse']['lzc_cycles_total'])
+    print("  LZC latency total (s):", summary['sparse']['lzc_latency_total_s'])
+    print("  LZC avg latency per routed-sample (s):", summary['sparse']['lzc_avg_latency_per_sample_s'])
+    print("  Model avg inference time (s):", summary['sparse']['model_avg_inf_duration_s'])
+    print("  Combined avg inference time per routed sample (s):", summary['sparse']['combined_avg_inference_time_s'])
     print()
-    print("Dense model: samples:", dense_stats['total_samples'])
-    print("Dense total spikes:", dense_total_spikes)
-    print("Dense total energy (J):", dense_stats['total_energy'])
-    print("Dense avg energy/sample (J):", dense_stats['avg_energy_per_sample'])
-    print("Dense avg energy/spike (J):", dense_eps)
-    print("Dense failed runs:", len(dense_stats['failed_indices']))
-    print("Dense avg inference time:", sum(s['inf_duration'] for s in dense_stats['per_sample']) / dense_stats['total_samples'])
-    
+    print("Dense model: samples:", summary['dense']['samples'])
+    print("  Model total energy (J):", summary['dense']['model_total_energy_J'])
+    print("  LZC sampling energy (J):", summary['dense']['lzc_total_energy_J'])
+    print("  Combined total energy (J):", summary['dense']['combined_total_energy_J'])
+    print("  Combined avg energy/sample (J):", summary['dense']['combined_avg_energy_per_sample_J'])
+    print("  Combined avg energy/spike (J):", summary['dense']['combined_avg_energy_per_spike_J'])
+    print("  LZC contribution to combined energy (%):", summary['dense']['lzc_energy_pct_of_combined'])
+    print("  LZC rows used:", summary['dense']['lzc_rows_used'])
+    print("  LZC cycles total:", summary['dense']['lzc_cycles_total'])
+    print("  LZC latency total (s):", summary['dense']['lzc_latency_total_s'])
+    print("  LZC avg latency per routed-sample (s):", summary['dense']['lzc_avg_latency_per_sample_s'])
+    print("  Model avg inference time (s):", summary['dense']['model_avg_inf_duration_s'])
+    print("  Combined avg inference time per routed sample (s):", summary['dense']['combined_avg_inference_time_s'])
+    print()
+    print(f"Saved combined energy summary to: {summary_path}")
+
     # ===== ENERGY SAVINGS CALCULATION =====
-    # TODO: Add inference time to energy summary (include latency from Xylo itself, with the STM32 stuff) & save results to a single JSON/text file (or several)
-    # TODO: Add LZC energy metrics. We also need to make sure the samples are in fixed order for this (i.e. shuffle=False)
-    
+    # TODO: Add inference time to energy summary (include latency from Xylo itself, with the STM32 stuff)
+    # TODO: Save results to a single JSON/text file (or several)
     # TODO: Calculate energy per spike
+    # TODO: Add LZC energy metrics. We also need to make sure the samples are in fixed order for this (i.e. shuffle=False)
     # TODO: Calculate threshold on the entire dataset but only sample for 70
     # TODO: Test new UCI HAR models in workspace folder
 
