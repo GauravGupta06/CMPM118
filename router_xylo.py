@@ -3,7 +3,7 @@ Router for Rockpool SNN models.
 Analyzes complexity of samples and routes between sparse and dense models for energy efficiency.
 
 Usage:
-    python router.py --sparse_model_path <path> --dense_model_path <path> [options]
+    python router_xylo.py --sparse_model_path <path> --dense_model_path <path> [options]
 
 Example:
     python router.py \
@@ -11,21 +11,23 @@ Example:
         --dense_model_path ./workspace/large/models/Rockpool_Non_Sparse_Take1_HAR_Input9_T128_FC_Rockpool_Epochs1.pth
 """
 
+import argparse
+import copy
+from datetime import datetime
+import json
+import matplotlib.pyplot as plt
 import numpy as np
 import os
+from scipy.stats import entropy
+from sklearn.metrics import roc_curve, auc
+import sys
 import tonic
 import torch
-from lempel_ziv_complexity import lempel_ziv_complexity
-from sklearn.metrics import roc_curve, auc
-import matplotlib.pyplot as plt
-from scipy.stats import entropy
-import json
-from datetime import datetime
-import argparse
-import sys
+from torch.utils.data import DataLoader
 
 from rockpool.devices.xylo import find_xylo_hdks
 from rockpool.devices.xylo import syns65302 as xa3 # XyloAudio 3
+from rockpool.nn.combinators import Sequential as RockpoolSequential
 from rockpool.transform import quantize_methods as q
 import samna
 
@@ -33,9 +35,7 @@ import samna
 from datasets.uci_har import UCIHARDataset
 from models.uci_har_model import UCIHARSNN
 
-
-
-from torch.utils.data import DataLoader
+from lempel_ziv_complexity import lempel_ziv_complexity
 
 
 # ========== COMPLEXITY METRICS ==========
@@ -161,7 +161,7 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model):
     return results
 
 
-def threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="unknown", plotting_only=False):
+def threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="uci_har", plotting_only=False):
     """
     Perform threshold sweep, compute ROC-AUC curve, and find optimal LZC threshold.
 
@@ -169,7 +169,7 @@ def threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="un
         results: Per-sample results from evaluate_models_on_dataset
         sparse_model: Sparse model (for extracting parameters)
         dense_model: Dense model (for extracting parameters)
-        dataset_name: Name of the dataset ("shd", "dvsgesture", "uci_har")
+        dataset_name: Name of the dataset ("uci_har" as default)
         plotting_only: If True, only return values without printing/plotting
 
     Returns:
@@ -407,22 +407,65 @@ def collect_samples_from_loader(test_loader):
     labels = []
     for batch in test_loader:
         events, labs = batch
+        
         # ensure tensor -> numpy
-        if torch.is_tensor(events):
-            ev_np = events.cpu().numpy()
-        else:
-            ev_np = np.asarray(events)
-        if torch.is_tensor(labs):
-            labs_np = labs.cpu().numpy()
-        else:
-            labs_np = np.asarray(labs)
+        # if torch.is_tensor(events):
+        #     ev_np = events.cpu().numpy()
+        # else:
+        #     ev_np = np.asarray(events)
+        # if torch.is_tensor(labs):
+        #     labs_np = labs.cpu().numpy()
+        # else:
+        #     labs_np = np.asarray(labs)
         # ev_np shape expected: [B, T, C]
+
+        ev_np = events.cpu().numpy()
+        labs_np = labs.cpu().numpy()
+
         B = ev_np.shape[0]
         for i in range(B):
             samples.append(ev_np[i])       # shape [T, C]
             labels.append(int(labs_np[i]))
     return samples, labels
 
+def load_lzc_energy_table(path):
+    """
+    Load a text file where each line is:
+      <energy_j> <cycles> <lzc>
+
+    Returns:
+      energies: list[float]
+      cycles: list[int]
+      lzcs: list[int]
+    """
+    energies = []
+    cycles = []
+    lzcs = []
+    if not path or not os.path.exists(path):
+        print(f"[LZC] Energy file not found at: {path}")
+        return energies, cycles, lzcs
+
+    with open(path, 'r') as f:
+        for lineno, line in enumerate(f):
+            s = line.strip()
+            if not s:
+                continue
+            parts = s.split()
+            if len(parts) < 1:
+                continue
+            # tolerant parsing: accept 1,2 or 3 columns (prefer first three)
+            try:
+                energy = float(parts[0])
+            except Exception:
+                print(f"[LZC] Warning: bad energy value on line {lineno+1}: {parts[0]}")
+                continue
+            cyc = int(parts[1]) if len(parts) >= 2 else 0
+            lzc = int(parts[2]) if len(parts) >= 3 else 0
+            energies.append(energy)
+            cycles.append(cyc)
+            lzcs.append(lzc)
+    print(f"[LZC] Loaded {len(energies)} LZC energy rows from {path}")
+    return energies, cycles, lzcs
 
 def build_xylo_config_from_graph(graph, dt):
     """
@@ -483,7 +526,10 @@ def run_samples_on_xylo(modSamna, samples, record_power=True, verbose=True, dtyp
     total_energy = 0.0
     failed = []
 
+    j = 0
     for i, s in enumerate(samples):
+        if j == 10: # Force stop after 30 samples; I just wanna test things first
+            break
         try:
             # Ensure numpy array in expected dtype/shape
             sample_np = np.asarray(s).astype(dtype)
@@ -573,6 +619,7 @@ def run_samples_on_xylo(modSamna, samples, record_power=True, verbose=True, dtyp
                 print(f"[ERROR] running sample {i} on XYLO: {e}")
             # continue with next sample
             continue
+        j += 1
 
     total_samples = len(per_sample)
     avg_energy = total_energy / total_samples if total_samples > 0 else 0.0
@@ -642,11 +689,15 @@ Examples:
                        help='DataLoader workers (default: 4)')
     parser.add_argument('--model_type', type=str, default='dense',
                        help='Model type for both models (default: dense)')
+    parser.add_argument('--lzc_energy_file', type=str, default='./LZC_Energy/lzc_energy_UCI_HAR.txt',
+                        help='Path to LZC energy file (energy cycles lzc per line). If missing, LZC energy integration is skipped.')
 
     # Parse arguments
     args = parser.parse_args()
     """
-    python router_xylo.py --sparse_model_path workspace/uci_har/sparse/models/Take1_T128_Epochs20.pth --dense_model_path workspace/uci_har/dense/models/Take2_T128_Epochs20.pth
+    python router_xylo.py --sparse_model_path workspace/uci_har/sparse/models/Take6_T128_Epochs100.pth --dense_model_path workspace/uci_har/dense/models/Take9_T128_Epochs100.pth
+
+    python router_xylo.py --sparse_model_path workspace/uci_har/sparse/models/Take5_T128_Epochs30.pth --dense_model_path workspace/uci_har/dense/models/Take9_T128_Epochs100.pth
     """
 
     # Setup device
@@ -677,7 +728,7 @@ Examples:
         n_frames=128,
         time_first=True,
         normalize=True,
-        binarize=True
+        binarize=True,
     )
     _, cached_test = data.load_uci_har()
     test_loader = DataLoader(
@@ -687,7 +738,7 @@ Examples:
     
     # Limit to 200 samples for faster testing
     import itertools
-    test_loader = list(itertools.islice(test_loader, 75))
+    test_loader = list(itertools.islice(test_loader, 75)) ############################ TO CHANGE
 
     # ==================== END DATASET LOADING ====================
 
@@ -709,13 +760,12 @@ Examples:
         tau_mem=sparse_hp['tau_mem'],
         tau_syn=sparse_hp['tau_syn'],
         spike_lam=sparse_hp['spike_lam'],
-        #model_type=sparse_hp['model_type'],
-        model_type="sparse",
+        model_type=sparse_hp['model_type'],
         device=device,
         num_classes=sparse_hp['num_classes'],
         dt=sparse_hp['dt'],
         threshold=sparse_hp['threshold'],
-        has_bias=sparse_hp['has_bias']
+        #has_bias=sparse_hp['has_bias']
     )
     print("Creating UCI-HAR dense model...")
     dense_model = UCIHARSNN(
@@ -724,13 +774,12 @@ Examples:
         tau_mem=dense_hp['tau_mem'],
         tau_syn=dense_hp['tau_syn'],
         spike_lam=dense_hp['spike_lam'],
-        #model_type=dense_hp['model_type'],
-        model_type="dense",
+        model_type=dense_hp['model_type'],
         device=device,
         num_classes=dense_hp['num_classes'],
         dt=dense_hp['dt'],
         threshold=dense_hp['threshold'],
-        has_bias=dense_hp['has_bias']
+        #has_bias=dense_hp['has_bias']
     )
 
     # ==================== END MODEL CREATION ====================
@@ -741,6 +790,9 @@ Examples:
 
     print(f"Loading dense model from: {args.dense_model_path}")
     dense_model.load_model(args.dense_model_path)
+
+    sparse_model.convert_for_hardware()
+    dense_model.convert_for_hardware()
 
     # Main execution
     print("\n" + "="*80)
@@ -757,7 +809,7 @@ Examples:
     # 3. Find optimal threshold via ROC analysis
     
     # ----- UCI-HAR -----
-    optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = threshold_sweep_and_roc(results, sparse_model, dense_model, dataset_name="uci_har")
+    optimal_threshold, roc_auc, avg_dense_spikes, avg_sparse_spikes = threshold_sweep_and_roc(results, sparse_model, dense_model)
 
     # 4. Route samples and evaluate
     total_accuracy, accuracy_dense_routed, accuracy_sparse_routed, route_counts = \
@@ -788,11 +840,69 @@ Examples:
     dense_samples = [samples_list[i] for i in dense_indices]
 
     # 5) build configs for both graphs (use your previously created sparse_graph/dense_graph)
-    sparse_graph = sparse_model.net.as_graph()
-    print(sparse_graph) # GraphHolder "TorchSequential_xxx" with N input nodes -> M output nodes
+    # sparse_graph = sparse_model.net.as_graph()
+    # print(sparse_graph) # GraphHolder "TorchSequential_xxx" with N input nodes -> M output nodes
 
-    dense_graph = dense_model.net.as_graph()
-    print(dense_graph)
+    # dense_graph = dense_model.net.as_graph()
+    # print(dense_graph)
+
+    # ---------- SERIALIZATION ----------
+
+    def collect_serializable_modules(seq_module):
+        """
+        Walk top-level children of seq_module and collect a list of deep-copied
+        modules that implement as_graph() successfully. If a top-level child
+        is not serializable but is a container (has its own _modules), try
+        to collect serializable grandchildren in order.
+        Returns list of modules (deep-copied).
+        """
+        selected = []
+        for name, child in seq_module._modules.items():
+            try:
+                # if this child itself supports as_graph(), take it whole
+                _ = child.as_graph()
+                selected.append(copy.deepcopy(child))
+                print(f"[TAKE] module '{name}' ({child.__class__.__name__})")
+                continue
+            except Exception:
+                # not serializable as-is — if it contains submodules, try to take any serializable grandchildren
+                if len(child._modules) > 0:
+                    any_taken = False
+                    for gname, gchild in child._modules.items():
+                        try:
+                            _ = gchild.as_graph()
+                            selected.append(copy.deepcopy(gchild))
+                            print(f"[TAKE-GRAND] {name}.{gname} ({gchild.__class__.__name__})")
+                            any_taken = True
+                        except Exception:
+                            print(f"[SKIP-GRAND] {name}.{gname} ({gchild.__class__.__name__})")
+                    if not any_taken:
+                        print(f"[SKIP] top-level container '{name}' ({child.__class__.__name__}) had no serializable grandchildren")
+                else:
+                    print(f"[SKIP] module '{name}' ({child.__class__.__name__}) is not serializable")
+
+        return selected
+
+    def build_serializable_sequential(seq_module):
+        """
+        Build a new Rockpool Sequential containing only serializable sub-modules
+        (deep-copied), preserving original topological order as best as possible.
+        """
+        modules = collect_serializable_modules(seq_module)
+        if len(modules) == 0:
+            raise RuntimeError("No serializable modules found in the provided sequence.")
+        new_seq = RockpoolSequential(*modules)
+        return new_seq
+
+    clean_sparse_net = build_serializable_sequential(sparse_model.net)
+    print("Clean sparse net modules:", [m.__class__.__name__ for m in clean_sparse_net._modules.values()])
+    sparse_graph = clean_sparse_net.as_graph()
+
+    clean_dense_net = build_serializable_sequential(dense_model.net)
+    print("Clean dense net modules:", [m.__class__.__name__ for m in clean_dense_net._modules.values()])
+    dense_graph = clean_dense_net.as_graph()
+
+    # ---------- END SERIALIZATION ----------
 
     sparse_config, sparse_quant_spec = build_xylo_config_from_graph(sparse_graph, args.net_dt)
     dense_config, dense_quant_spec = build_xylo_config_from_graph(dense_graph, args.net_dt)
@@ -816,19 +926,54 @@ Examples:
     dense_stats = run_samples_on_xylo(modSamna_dense, dense_samples, record_power=True, verbose=True)
 
     # 7) Summarize
+    sparse_total_spikes = int(np.nansum(
+        np.array([s.get('n_output_spikes', 0)
+                for s in sparse_stats['per_sample']], dtype=float)
+    ))
+
+    if sparse_total_spikes > 0:
+        sparse_eps = sparse_stats['total_energy'] / sparse_total_spikes
+    else:
+        sparse_eps = float('nan')
+        print("WARNING: Sparse model produced zero output spikes on HDK.")
+
+
+    dense_total_spikes = int(np.nansum(
+        np.array([s.get('n_output_spikes', 0)
+                for s in dense_stats['per_sample']], dtype=float)
+    ))
+
+    if dense_total_spikes > 0:
+        dense_eps = dense_stats['total_energy'] / dense_total_spikes
+    else:
+        dense_eps = float('nan')
+        print("WARNING: Dense model produced zero output spikes on HDK.")
+    
     print("\nXYLO ENERGY SUMMARY")
     print("--------------------")
     print("Sparse model: samples:", sparse_stats['total_samples'])
+    print("Sparse total spikes:", sparse_total_spikes)
     print("Sparse total energy (J):", sparse_stats['total_energy'])
     print("Sparse avg energy/sample (J):", sparse_stats['avg_energy_per_sample'])
+    print("Sparse avg energy/spike (J):", sparse_eps)
     print("Sparse failed runs:", len(sparse_stats['failed_indices']))
-
+    print("Sparse avg inference time:", sum(s['inf_duration'] for s in sparse_stats['per_sample']) / sparse_stats['total_samples'])
+    print()
     print("Dense model: samples:", dense_stats['total_samples'])
+    print("Dense total spikes:", dense_total_spikes)
     print("Dense total energy (J):", dense_stats['total_energy'])
     print("Dense avg energy/sample (J):", dense_stats['avg_energy_per_sample'])
+    print("Dense avg energy/spike (J):", dense_eps)
     print("Dense failed runs:", len(dense_stats['failed_indices']))
+    print("Dense avg inference time:", sum(s['inf_duration'] for s in dense_stats['per_sample']) / dense_stats['total_samples'])
     
     # ===== ENERGY SAVINGS CALCULATION =====
+    # TODO: Add inference time to energy summary (include latency from Xylo itself, with the STM32 stuff) & save results to a single JSON/text file (or several)
+    # TODO: Add LZC energy metrics. We also need to make sure the samples are in fixed order for this (i.e. shuffle=False)
+    
+    # TODO: Calculate energy per spike
+    # TODO: Calculate threshold on the entire dataset but only sample for 70
+    # TODO: Test new UCI HAR models in workspace folder
 
     energy_routed = sparse_stats['total_energy'] + dense_stats['total_energy']
     energy_dense_only = dense_stats['avg_energy_per_sample'] * len(results)
