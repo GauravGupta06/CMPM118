@@ -16,8 +16,15 @@ from torch.utils.data import DataLoader
 
 def main():
     parser = argparse.ArgumentParser(description="Train Rockpool SNN on SHD")
-    parser.add_argument('--model_type', type=str, default='dense', choices=['sparse', 'dense'],
-                        help='Model type: sparse (fewer spikes) or dense (more spikes)')
+    parser.add_argument('--model_type', type=str, default='dense',
+                        choices=['sparse', 'dense', 'baseline'],
+                        help='Model type: baseline (paper arch), dense (no sparsity penalty), '
+                             'sparse (with sparsity penalty)')
+    parser.add_argument('--arch', type=str, default='feedforward',
+                        choices=['feedforward', 'recurrent'],
+                        help='Network architecture: feedforward (2 LIF layers) or recurrent (1 LIF layer)')
+    parser.add_argument('--hidden_size', type=int, default=512,
+                        help='Number of hidden neurons per LIF layer (paper uses 512 for SHD)')
     parser.add_argument('--n_frames', type=int, default=100,
                         help='Number of time steps')
     parser.add_argument('--epochs', type=int, default=200,
@@ -38,27 +45,26 @@ def main():
                         help='Number of polarities')
     parser.add_argument('--net_dt', type=float, default=10e-3,
                         help='Time step')
+    parser.add_argument('--rate_lam', type=float, default=1e-3,
+                        help='Firing rate regularisation strength (targets 14 Hz per paper)')
+    parser.add_argument('--spike_lam', type=float, default=0.0,
+                        help='Sparsity penalty on total spike count (>0 for sparse model)')
 
     args = parser.parse_args()
 
     # Device setup
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-  
-
     # Load dataset
     data = SHDDataset(
         dataset_path=args.dataset_path,
-        NUM_CHANNELS=args.NUM_CHANNELS, 
+        NUM_CHANNELS=args.NUM_CHANNELS,
         NUM_POLARITIES=args.NUM_POLARITIES,
         n_frames=args.n_frames,
         net_dt=args.net_dt
     )
-    
-    cached_train, cached_test = data.load_shd()
 
-    # Create dataloaders with GPU optimizations
-    use_cuda = device.type == 'cuda'
+    cached_train, cached_test = data.load_shd()
 
     train_loader = DataLoader(
         cached_train, batch_size=args.batch_size, shuffle=True, drop_last=True,
@@ -72,22 +78,18 @@ def main():
         collate_fn=tonic.collation.PadTensors(batch_first=True)
     )
 
-    # Model hyperparameters (sparse vs dense)
-    # NOTE: spike_lam=0 for now to maximize accuracy
-    if args.model_type == 'sparse':
-        tau_mem = 0.1
-        spike_lam = 0.0
-    else:  # dense
-        tau_mem = 0.1
-        spike_lam = 0.0
-        print(f"   - spike_lam: {spike_lam} (disabled)")
+    # spike_lam: sparse model uses CLI value; baseline/dense force 0
+    spike_lam = args.spike_lam if args.model_type == 'sparse' else 0.0
 
     # Create model
     model = SHDSNN(
         input_size=args.NUM_CHANNELS,
         n_frames=args.n_frames,
-        tau_mem=tau_mem,
+        arch=args.arch,
+        hidden_size=args.hidden_size,
         spike_lam=spike_lam,
+        rate_lam=args.rate_lam,
+        target_rate=14.0,
         model_type=args.model_type,
         device=device,
         num_classes=20,
@@ -96,7 +98,6 @@ def main():
         threshold=1.0,
         has_bias=True
     )
-
 
     # Train
     model.train_model(
