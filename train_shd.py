@@ -49,6 +49,10 @@ def main():
                         help='Firing rate regularisation strength (targets 14 Hz per paper)')
     parser.add_argument('--spike_lam', type=float, default=0.0,
                         help='Sparsity penalty on total spike count (>0 for sparse model)')
+    parser.add_argument('--init_lr', type=float, default=1e-5,
+                        help='Initial LR for EaseInSchedule warmup (paper warms up to --lr=0.001)')
+    parser.add_argument('--early_stop', type=int, default=15,
+                        help='Early stopping patience in epochs (paper uses 15)')
 
     args = parser.parse_args()
 
@@ -94,9 +98,11 @@ def main():
         device=device,
         num_classes=20,
         lr=args.lr,
+        init_lr=args.init_lr,
         dt=args.net_dt,
         threshold=1.0,
-        has_bias=True
+        has_bias=True,
+        early_stop=args.early_stop,
     )
 
     # Train

@@ -32,7 +32,8 @@ class SHDSNN:
                  arch='feedforward', hidden_size=512,
                  spike_lam=0.0, rate_lam=1e-3, target_rate=14.0,
                  model_type="dense", device=None, num_classes=20,
-                 lr=0.001, dt=10e-3, threshold=1.0, has_bias=True):
+                 lr=0.001, init_lr=1e-5, dt=10e-3, threshold=1.0, has_bias=True,
+                 early_stop=15):
 
         self.device = device or (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
         self.input_size = input_size
@@ -46,7 +47,9 @@ class SHDSNN:
         self.target_rate = target_rate   # Hz
         self.model_type = model_type
         self.num_classes = num_classes
-        self.lr = lr
+        self.lr = lr          # target LR (warmup ceiling)
+        self.init_lr = init_lr  # starting LR for EaseInSchedule warmup
+        self.early_stop = early_stop
         self.dt = dt
         self.threshold = threshold
         self.has_bias = has_bias
@@ -89,13 +92,11 @@ class SHDSNN:
                 ExpSynTorch(num_classes, dt=dt, tau=Constant(tau_syn)),
             ).to(self.device)
 
+        # Start optimizer at init_lr; EaseInSchedule warms it up to lr each epoch
         self.optimizer = torch.optim.Adam(
-            [p for _, p in self.net.named_parameters()], lr=lr, betas=(0.9, 0.999)
+            [p for _, p in self.net.named_parameters()], lr=init_lr, betas=(0.9, 0.999)
         )
         self.loss_fn = nn.CrossEntropyLoss()
-        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optimizer, mode='max', factor=0.5, patience=10, min_lr=1e-6
-        )
 
         self.loss_hist = []
         self.acc_hist = []
@@ -143,11 +144,22 @@ class SHDSNN:
                 linear.weight[:, dead_mask] += 0.002
             print(f"  Dead neuron bump: layer {lif_idx} — {n_dead} dead neurons bumped")
 
+    def _ease_in_lr(self, batch_idx):
+        """
+        EaseInSchedule (paper): multiply LR by 1.05^batch each step until target lr,
+        then hold. Mirrors mlGeNN EaseInSchedule callback.
+        """
+        current_lr = self.optimizer.param_groups[0]['lr']
+        if current_lr < self.lr:
+            new_lr = current_lr * (1.05 ** batch_idx)
+            self.optimizer.param_groups[0]['lr'] = min(new_lr, self.lr)
+
     def train_model(self, train_loader, test_loader, num_epochs=200, print_every=20):
         """Train the model."""
         print(f"Starting training — arch={self.arch}, hidden={self.hidden_size}, "
               f"dt={self.dt*1e3:.0f}ms, target_rate={self.target_rate}Hz, "
-              f"rate_lam={self.rate_lam}, spike_lam={self.spike_lam}")
+              f"rate_lam={self.rate_lam}, spike_lam={self.spike_lam}, "
+              f"init_lr={self.init_lr}, target_lr={self.lr}, early_stop={self.early_stop}")
         self.epochs = num_epochs
 
         # Expected spikes per neuron per timestep at target_rate Hz
@@ -155,12 +167,19 @@ class SHDSNN:
         lif_indices = self._lif_layer_indices()
         cnt = 0
 
+        # Early stopping state
+        best_acc = 0.0
+        no_improve = 0
+
         for epoch in range(num_epochs):
             # Accumulate epoch-level spike counts per LIF layer for dead neuron bump
             epoch_spikes = [torch.zeros(self.hidden_size, device=self.device)
                             for _ in lif_indices]
 
             for batch, (data, targets) in enumerate(train_loader):
+                # EaseInSchedule: warm up LR at the start of each batch
+                self._ease_in_lr(batch)
+
                 data = data.to(self.device).float()
                 targets = targets.to(self.device)
 
@@ -175,7 +194,8 @@ class SHDSNN:
                 # Collect hidden spike tensors
                 hidden_spikes = self._collect_hidden_spikes(recording)
 
-                # Firing rate regularisation: penalise deviation from target_rate
+                # Two-sided firing rate regularisation (paper: reg_lambda_upper = reg_lambda_lower,
+                # reg_nu_upper=14): symmetric penalty around target_rate
                 rate_loss = torch.tensor(0.0, device=self.device)
                 for i, spikes in enumerate(hidden_spikes):
                     mean_rate = spikes.float().mean()
@@ -206,17 +226,31 @@ class SHDSNN:
 
                 if cnt % print_every == 0:
                     print(f"Epoch {epoch}, Iter {batch} | Loss: {loss.item():.2f} | "
-                          f"Train Acc: {acc*100:.2f}%")
-                    test_acc = self.validate_model(test_loader)
-                    self.test_acc_hist.append(test_acc)
-                    print(f"Test Acc: {test_acc*100:.2f}% | "
-                          f"LR: {self.optimizer.param_groups[0]['lr']:.6f}\n")
-                    self.scheduler.step(test_acc)
+                          f"Train Acc: {acc*100:.2f}% | "
+                          f"LR: {self.optimizer.param_groups[0]['lr']:.6f}")
 
                 cnt += 1
 
-            # Dead neuron bump at end of each epoch
+            # Dead neuron bump at end of each epoch (paper: bump dead neurons after each epoch)
             self._dead_neuron_bump(epoch_spikes)
+
+            # Epoch-level test evaluation + early stopping (paper: patience=15)
+            test_acc = self.validate_model(test_loader)
+            self.test_acc_hist.append(test_acc)
+            print(f"Epoch {epoch} | Test Acc: {test_acc*100:.2f}% | "
+                  f"LR: {self.optimizer.param_groups[0]['lr']:.6f}\n")
+
+            if test_acc > best_acc:
+                best_acc = test_acc
+                no_improve = 0
+            else:
+                no_improve += 1
+                if no_improve >= self.early_stop:
+                    print(f"Early stopping triggered at epoch {epoch} "
+                          f"(no improvement for {self.early_stop} epochs). "
+                          f"Best acc: {best_acc*100:.2f}%")
+                    self.epochs = epoch + 1  # record actual epochs trained
+                    break
 
     def validate_model(self, test_loader):
         """Validate the model on test data."""
