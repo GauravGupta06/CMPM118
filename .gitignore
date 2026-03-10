@@ -30,3 +30,4 @@ LZC_Energy/lzc_input_dvs_gesture.txt
 rockpoolDevelopment/data/SHD
 MNIST/*.Zone.Identifier
 data/uci_har/
+TC_Energy/TC_Energy_Metrics/build/
