@@ -2,13 +2,11 @@
 Router for Rockpool SNN models.
 Analyzes complexity of samples and routes between sparse and dense models for energy efficiency.
 
-Usage:
-    python simplified_router.py --sparse_model_path <path> --dense_model_path <path> [options]
+Supports both SHD (FC architecture) and DVSGesture (conv architecture) models via --dataset flag.
 
-Example:
-    python simplified_router.py \
-        --sparse_model_path /workspace/sparse/small/models/Rockpool_Sparse_Take2_HAR_Input9_T128_FC_Rockpool_Epochs30.pth \
-        --dense_model_path  /workspace/dense/large/models/Rockpool_Non_Sparse_Take4_HAR_Input9_T128_FC_Rockpool_Epochs30.pth
+Usage:
+    python router.py --dataset shd --sparse_model_path <path> --dense_model_path <path> [options]
+    python router.py --dataset dvsgesture --sparse_model_path <path> --dense_model_path <path> [options]
 """
 
 import numpy as np
@@ -121,6 +119,39 @@ def load_lzc_from_file(path):
     return records
 
 
+# ========== FRAMEWORK-AGNOSTIC HELPERS ==========
+
+# Energy per spike constant (placeholder — set to your model's value)
+ENERGY_PER_SPIKE = 5e-9  # Joules per spike (TODO: set correct value)
+
+
+def get_predictions_and_spikes(model, data):
+    """Works with both old Rockpool Sequential interface and new conv model interface."""
+    if hasattr(model, 'run_inference'):
+        # New DVSGesture conv model
+        logits, spike_count = model.run_inference(data, record=True)
+        preds = logits.argmax(dim=1)
+        return preds, spike_count
+    else:
+        # Rockpool Sequential fallback (SHD models)
+        output, _, recording = model.net(data, record=True)
+        logits = output.mean(dim=1)
+        preds = logits.argmax(dim=1)
+        spike_count = count_spikes_from_recording(recording)
+        return preds, spike_count
+
+
+def get_energy_estimate(model, data, method='per_timestep', precomputed_lzc_energy=0):
+    """Falls back to spike proxy if model doesn't have estimate_energy."""
+    if hasattr(model, 'estimate_energy') and method != 'spike_proxy':
+        energies = model.estimate_energy(data, method=method)
+        return [e + precomputed_lzc_energy for e in energies]
+    else:
+        _, spike_count = get_predictions_and_spikes(model, data)
+        model_energy = spike_count * ENERGY_PER_SPIKE
+        return [model_energy + precomputed_lzc_energy]
+
+
 def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, precomputed_lzc):
     """
     Evaluate both models on entire dataset using batched inference.
@@ -129,26 +160,36 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, precompute
     results = []
     sample_idx = 0
     
+    # Determine device
+    device = sparse_model.device if hasattr(sparse_model, 'device') else next(sparse_model.parameters()).device
+
     for batch in dataLoader:
         events, labels = batch
         batch_size = events.shape[0]
-        events = events.to(sparse_model.device)
-        
+        events = events.to(device).float()
+
         with torch.no_grad():
-            sparse_output, _, _ = sparse_model.net(events, record=False)
-            dense_output, _, _ = dense_model.net(events, record=False)
-        
-        sparse_preds = sparse_output.mean(dim=1).argmax(1)
-        dense_preds = dense_output.mean(dim=1).argmax(1)
-        
+            if hasattr(sparse_model, 'run_inference'):
+                # New DVSGesture conv model
+                sparse_logits, _ = sparse_model.run_inference(events, record=False)
+                dense_logits, _ = dense_model.run_inference(events, record=False)
+                sparse_preds = sparse_logits.argmax(1)
+                dense_preds = dense_logits.argmax(1)
+            else:
+                # Rockpool Sequential (SHD)
+                sparse_output, _, _ = sparse_model.net(events, record=False)
+                dense_output, _, _ = dense_model.net(events, record=False)
+                sparse_preds = sparse_output.mean(dim=1).argmax(1)
+                dense_preds = dense_output.mean(dim=1).argmax(1)
+
         for i in range(batch_size):
             label = labels[i].item() if torch.is_tensor(labels[i]) else labels[i]
             sparse_pred = sparse_preds[i].item()
             dense_pred = dense_preds[i].item()
             lz_value = precomputed_lzc[sample_idx]['lzc_score']
-            
+
             true_complex = 1 if (dense_pred == label and sparse_pred != label) else 0
-            
+
             results.append({
                 'label': label,
                 'lz_value': lz_value,
@@ -159,7 +200,7 @@ def evaluate_models_on_dataset(dataLoader, sparse_model, dense_model, precompute
             sample_idx += 1
             if sample_idx % 10 == 0:
                 print(f"Processed {sample_idx} samples")
-    
+
     return results
 
 
@@ -202,20 +243,20 @@ def threshold_sweep_and_roc(results, dataset_name="unknown", plotting_only=False
     plt.tight_layout()
 
     os.makedirs("results/ROC_curves", exist_ok=True)
-    
+
     # Initialize counter file if it doesn't exist
     counter_file_path = "results/ROC_curves/roc_counter.txt"
     if not os.path.exists(counter_file_path):
         with open(counter_file_path, "w") as f:
             f.write("0")
-    
+
     # Read and increment counter
     with open(counter_file_path, "r") as f:
         counter = int(f.read().strip())
     counter += 1
     with open(counter_file_path, "w") as f:
         f.write(str(counter))
-    
+
     graph_save_path = f"results/ROC_curves/{dataset_name}_Take{counter}.png"
     plt.savefig(graph_save_path)
     print(f"ROC curve saved to: {graph_save_path}")
@@ -224,11 +265,7 @@ def threshold_sweep_and_roc(results, dataset_name="unknown", plotting_only=False
     return optimal_threshold, roc_auc
 
 
-# Energy per spike constant (placeholder — set to your model's value)
-ENERGY_PER_SPIKE = 5e-9 # Joules per spike (TODO: set correct value)
-
-
-def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold, results, precomputed_lzc):
+def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold, results, precomputed_lzc, energy_method='spike_proxy'):
     """
     Route samples and compute accuracy + energy metrics.
     Runs single-sample inference with record=True on the routed model for exact spike counts.
@@ -239,6 +276,9 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
       3. Dense-routed: accuracy + energy (LZC + dense model) for routed samples
     """
     print("\nRouting and evaluating with threshold:", optimal_threshold, "\n")
+
+    # Determine device
+    device = sparse_model.device if hasattr(sparse_model, 'device') else next(sparse_model.parameters()).device
 
     # Accumulators
     route_counts = {'sparse': 0, 'dense': 0}
@@ -260,31 +300,46 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
     for batch in dataLoader:
         events, labels = batch
         batch_size = events.shape[0]
-        events = events.to(sparse_model.device)
+        events = events.to(device).float()
 
         # Process each sample in the batch individually for routing
         for i in range(batch_size):
             if sample_idx >= len(results):
                 break
 
-            single_event = events[i:i+1]  # [1, T, C]
+            single_event = events[i:i+1]  # [1, T, ...]
             label = results[sample_idx]['label']
             lz_value = results[sample_idx]['lz_value']
             lzc_energy = precomputed_lzc[sample_idx]['energy']
 
             with torch.no_grad():
                 # --- Baseline: always run dense (no LZC cost) ---
-                _, _, dense_rec = dense_model.net(single_event, record=True)
-                baseline_spikes = count_spikes_from_recording(dense_rec)
-                baseline_energies.append(baseline_spikes * ENERGY_PER_SPIKE)
+                if hasattr(dense_model, 'run_inference'):
+                    _, baseline_spikes = dense_model.run_inference(single_event, record=True)
+                    if hasattr(dense_model, 'estimate_energy') and energy_method != 'spike_proxy':
+                        baseline_e = dense_model.estimate_energy(single_event, method=energy_method)[0]
+                    else:
+                        baseline_e = baseline_spikes * ENERGY_PER_SPIKE
+                else:
+                    _, _, dense_rec = dense_model.net(single_event, record=True)
+                    baseline_spikes = count_spikes_from_recording(dense_rec)
+                    baseline_e = baseline_spikes * ENERGY_PER_SPIKE
+                baseline_energies.append(baseline_e)
 
                 # --- Routing decision ---
                 if lz_value < optimal_threshold:
                     # Route to sparse
                     route_counts['sparse'] += 1
-                    _, _, sparse_rec = sparse_model.net(single_event, record=True)
-                    model_spikes = count_spikes_from_recording(sparse_rec)
-                    model_energy = model_spikes * ENERGY_PER_SPIKE
+                    if hasattr(sparse_model, 'run_inference'):
+                        _, model_spikes = sparse_model.run_inference(single_event, record=True)
+                        if hasattr(sparse_model, 'estimate_energy') and energy_method != 'spike_proxy':
+                            model_energy = sparse_model.estimate_energy(single_event, method=energy_method)[0]
+                        else:
+                            model_energy = model_spikes * ENERGY_PER_SPIKE
+                    else:
+                        _, _, sparse_rec = sparse_model.net(single_event, record=True)
+                        model_spikes = count_spikes_from_recording(sparse_rec)
+                        model_energy = model_spikes * ENERGY_PER_SPIKE
                     sparse_energies.append(lzc_energy + model_energy)
 
                     if results[sample_idx]['sparse_pred'] == label:
@@ -292,8 +347,7 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
                 else:
                     # Route to dense (reuse the recording from baseline)
                     route_counts['dense'] += 1
-                    model_spikes = baseline_spikes  # already computed above
-                    model_energy = model_spikes * ENERGY_PER_SPIKE
+                    model_energy = baseline_e  # already computed above
                     dense_energies.append(lzc_energy + model_energy)
 
                     if results[sample_idx]['dense_pred'] == label:
@@ -372,39 +426,47 @@ def route_and_evaluate(dataLoader, sparse_model, dense_model, optimal_threshold,
 def main():
     # Create argument parser
     parser = argparse.ArgumentParser(
-        description="Router for Rockpool SHD models - analyzes complexity and routes between sparse/dense models",
+        description="Router for Rockpool SNN models - analyzes complexity and routes between sparse/dense models",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Basic usage with 700 frequency bins
-  python router.py \\
-    --sparse_model_path ./results/small/models/Sparse_Take1.pth \\
-    --dense_model_path ./results/large/models/Dense_Take1.pth
+  # SHD dataset
+  python router.py --dataset shd \\
+    --sparse_model_path ./results/shd/sparse/models/Sparse_Take1.pth \\
+    --dense_model_path ./results/shd/dense/models/Dense_Take1.pth
 
-  # Custom hyperparameters
-  python router.py \\
-    --sparse_model_path ./results/small/models/Sparse.pth \\
-    --dense_model_path ./results/large/models/Dense.pth \\
-    --tau_mem_sparse 0.015 \\
-    --tau_mem_dense 0.025
+  # DVSGesture dataset
+  python router.py --dataset dvsgesture \\
+    --sparse_model_path ./results/dvsgesture/sparse/models/Take1.pth \\
+    --dense_model_path ./results/dvsgesture/dense/models/Take1.pth \\
+    --energy_method per_timestep
         """
     )
 
     # Required arguments
+    parser.add_argument('--dataset', type=str, required=True, choices=['shd', 'dvsgesture'],
+                       help='Dataset to use: shd or dvsgesture')
     parser.add_argument('--sparse_model_path', type=str, required=True,
                        help='Path to pre-trained sparse model (.pth file)')
     parser.add_argument('--dense_model_path', type=str, required=True,
                        help='Path to pre-trained dense model (.pth file)')
 
+    # Energy method
+    parser.add_argument('--energy_method', type=str, default='per_timestep',
+                       choices=['per_timestep', 'per_spike', 'spike_proxy'],
+                       help='Energy estimation method (default: per_timestep)')
+
     # Dataset arguments
     parser.add_argument('--dataset_path', type=str, default='./data',
                        help='Path to dataset cache directory (default: ./data)')
     parser.add_argument('--input_size', type=int, default=700,
-                       help='Number of frequency bins (default: 700)')
+                       help='Number of frequency bins for SHD (default: 700)')
     parser.add_argument('--n_frames', type=int, default=100,
-                       help='Number of temporal bins (default: 100)')
+                       help='Number of temporal bins for SHD (default: 100)')
+    parser.add_argument('--max_timesteps', type=int, default=600,
+                       help='Max timesteps for DVSGesture (default: 600)')
 
-    # Model hyperparameter arguments
+    # Model hyperparameter arguments (SHD)
     parser.add_argument('--tau_mem_sparse', type=float, default=0.01,
                        help='Membrane time constant for sparse model (default: 0.01)')
     parser.add_argument('--tau_mem_dense', type=float, default=0.02,
@@ -413,7 +475,7 @@ Examples:
                        help='Spike regularization for sparse model (default: 1e-6)')
     parser.add_argument('--spike_lam_dense', type=float, default=1e-8,
                        help='Spike regularization for dense model (default: 1e-8)')
-    
+
     # Additional arguments (matching train_shd.py)
     parser.add_argument('--NUM_CHANNELS', type=int, default=700,
                        help='Number of frequency channels (default: 700)')
@@ -424,7 +486,7 @@ Examples:
     parser.add_argument('--batch_size', type=int, default=32,
                        help='Batch size for evaluation')
     parser.add_argument('--num_workers', type=int, default=0,
-                       help='DataLoader workers (default: 4)')
+                       help='DataLoader workers (default: 0)')
     parser.add_argument('--model_type', type=str, default='dense',
                        help='Model type for both models (default: dense)')
     parser.add_argument('--lr', type=float, default=0.001,
@@ -441,142 +503,124 @@ Examples:
     print("\n" + "="*80)
     print("CONFIGURATION")
     print("="*80)
+    print(f"Dataset:           {args.dataset}")
     print(f"Sparse model path: {args.sparse_model_path}")
     print(f"Dense model path:  {args.dense_model_path}")
     print(f"Dataset path:      {args.dataset_path}")
-    print(f"Input size:        {args.input_size} frequency bins")
-    print(f"N frames:          {args.n_frames}")
-    print(f"Tau mem (sparse):  {args.tau_mem_sparse}")
-    print(f"Tau mem (dense):   {args.tau_mem_dense}")
-    print(f"Spike lam (sparse):{args.spike_lam_sparse}")
-    print(f"Spike lam (dense): {args.spike_lam_dense}")
+    print(f"Energy method:     {args.energy_method}")
     print("="*80 + "\n")
 
-    # ==================== DATASET LOADING ====================
-    # Uncomment ONE of the following dataset sections:
+    # ==================== DATASET + MODEL LOADING ====================
 
-    # ----- SHD Dataset -----
-    print("Loading SHD dataset...")
-    data = SHDDataset(
-        dataset_path=args.dataset_path,
-        NUM_CHANNELS=args.NUM_CHANNELS,
-        NUM_POLARITIES=args.NUM_POLARITIES,
-        n_frames=args.n_frames,
-        net_dt=args.net_dt
-    )
-    _, cached_test = data.load_shd()
-    test_loader = DataLoader(
-        cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
-        num_workers=args.num_workers, pin_memory=False,
-        collate_fn=tonic.collation.PadTensors(batch_first=True)
-    )
-    # Limit to 3 batches for faster testing
-    import itertools
-    test_loader = list(itertools.islice(test_loader, 5))
+    if args.dataset == 'shd':
+        # ----- SHD Dataset -----
+        print("Loading SHD dataset...")
+        data = SHDDataset(
+            dataset_path=args.dataset_path,
+            NUM_CHANNELS=args.NUM_CHANNELS,
+            NUM_POLARITIES=args.NUM_POLARITIES,
+            n_frames=args.n_frames,
+            net_dt=args.net_dt
+        )
+        _, cached_test = data.load_shd()
+        test_loader = DataLoader(
+            cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
+            num_workers=args.num_workers, pin_memory=False,
+            collate_fn=tonic.collation.PadTensors(batch_first=True)
+        )
+        # Limit to 5 batches for faster testing
+        import itertools
+        test_loader = list(itertools.islice(test_loader, 5))
 
-    # ----- DVSGesture Dataset -----
-    # print("Loading DVSGesture dataset...")
-    # data = DVSGestureDataset(
-    #     dataset_path=args.dataset_path,
-    #     NUM_CHANNELS=args.NUM_CHANNELS,
-    #     NUM_POLARITIES=args.NUM_POLARITIES,
-    #     n_frames=args.n_frames,
-    #     net_dt=args.net_dt
-    # )
-    # _, cached_test = data.load_dvsgesture()
-    # test_loader = DataLoader(
-    #     cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
-    #     num_workers=args.num_workers, pin_memory=True,
-    #     collate_fn=tonic.collation.PadTensors(batch_first=True)
-    # )
+        # Load hyperparameters and create SHD models
+        print("\nLoading hyperparameters from checkpoints...")
+        sparse_hp = SHDSNN.load_hyperparams(args.sparse_model_path)
+        dense_hp = SHDSNN.load_hyperparams(args.dense_model_path)
 
-    # ==================== END DATASET LOADING ====================
+        print("\nCreating SHD sparse model...")
+        sparse_model = SHDSNN(
+            input_size=sparse_hp['input_size'],
+            n_frames=sparse_hp['n_frames'],
+            tau_mem=sparse_hp['tau_mem'],
+            tau_syn=sparse_hp['tau_syn'],
+            spike_lam=sparse_hp['spike_lam'],
+            model_type=sparse_hp['model_type'],
+            device=device,
+            num_classes=sparse_hp['num_classes'],
+            dt=sparse_hp['dt'],
+            threshold=sparse_hp['threshold'],
+            has_bias=sparse_hp['has_bias']
+        )
+        print("Creating SHD dense model...")
+        dense_model = SHDSNN(
+            input_size=dense_hp['input_size'],
+            n_frames=dense_hp['n_frames'],
+            tau_mem=dense_hp['tau_mem'],
+            tau_syn=dense_hp['tau_syn'],
+            spike_lam=dense_hp['spike_lam'],
+            model_type=dense_hp['model_type'],
+            device=device,
+            num_classes=dense_hp['num_classes'],
+            dt=dense_hp['dt'],
+            threshold=dense_hp['threshold'],
+            has_bias=dense_hp['has_bias']
+        )
 
+        lzc_file = 'LZC_Energy/lzc_energy_SHD.txt'
+        dataset_name = 'shd'
 
+    elif args.dataset == 'dvsgesture':
+        # ----- DVSGesture Dataset -----
+        print("Loading DVSGesture dataset...")
+        data = DVSGestureDataset(
+            dataset_path=args.dataset_path,
+            w=32,
+            h=32,
+            max_timesteps=args.max_timesteps,
+        )
+        _, cached_test = data.load_dvsgesture()
+        test_loader = DataLoader(
+            cached_test, batch_size=args.batch_size, shuffle=False, drop_last=True,
+            num_workers=args.num_workers, pin_memory=True,
+            collate_fn=tonic.collation.PadTensors(batch_first=True)
+        )
 
-    
+        # Load hyperparameters and create DVSGesture models
+        print("\nLoading hyperparameters from checkpoints...")
+        sparse_hp = DVSGestureSNN.load_hyperparams(args.sparse_model_path)
+        dense_hp = DVSGestureSNN.load_hyperparams(args.dense_model_path)
 
-    # Load hyperparameters from checkpoint files
-    print("\nLoading hyperparameters from checkpoints...")
+        print("\nCreating DVSGesture sparse model...")
+        sparse_model = DVSGestureSNN(
+            input_size=sparse_hp.get('input_size'),
+            n_frames=sparse_hp.get('n_frames', 600),
+            tau_mem=sparse_hp['tau_mem'],
+            spike_lam=sparse_hp['spike_lam'],
+            model_type=sparse_hp['model_type'],
+            device=device,
+            num_classes=sparse_hp['num_classes'],
+            dt=sparse_hp['dt'],
+            threshold=sparse_hp['threshold'],
+            has_bias=sparse_hp.get('has_bias', False),
+        )
+        print("Creating DVSGesture dense model...")
+        dense_model = DVSGestureSNN(
+            input_size=dense_hp.get('input_size'),
+            n_frames=dense_hp.get('n_frames', 600),
+            tau_mem=dense_hp['tau_mem'],
+            spike_lam=dense_hp['spike_lam'],
+            model_type=dense_hp['model_type'],
+            device=device,
+            num_classes=dense_hp['num_classes'],
+            dt=dense_hp['dt'],
+            threshold=dense_hp['threshold'],
+            has_bias=dense_hp.get('has_bias', False),
+        )
 
-    sparse_hp = SHDSNN.load_hyperparams(args.sparse_model_path)
-    dense_hp = SHDSNN.load_hyperparams(args.dense_model_path)
+        lzc_file = 'LZC_Energy/lzc_energy_DVSGesture.txt'
+        dataset_name = 'dvsgesture'
 
-    # sparse_hp = DVSGestureSNN.load_hyperparams(args.sparse_model_path)
-    # dense_hp = DVSGestureSNN.load_hyperparams(args.dense_model_path)
-
-
-    
-
-    # ==================== MODEL CREATION ====================
-    # Uncomment ONE of the following model sections (must match dataset above):
-
-    # ----- SHD Models -----
-    print("\nCreating SHD sparse model...")
-    sparse_model = SHDSNN(
-        input_size=sparse_hp['input_size'],
-        n_frames=sparse_hp['n_frames'],
-        tau_mem=sparse_hp['tau_mem'],
-        tau_syn=sparse_hp['tau_syn'],
-        spike_lam=sparse_hp['spike_lam'],
-        model_type=sparse_hp['model_type'],
-        device=device,
-        num_classes=sparse_hp['num_classes'],
-        dt=sparse_hp['dt'],
-        threshold=sparse_hp['threshold'],
-        has_bias=sparse_hp['has_bias']
-    )
-    print("Creating SHD dense model...")
-    dense_model = SHDSNN(
-        input_size=dense_hp['input_size'],
-        n_frames=dense_hp['n_frames'],
-        tau_mem=dense_hp['tau_mem'],
-        tau_syn=dense_hp['tau_syn'],
-        spike_lam=dense_hp['spike_lam'],
-        model_type=dense_hp['model_type'],
-        device=device,
-        num_classes=dense_hp['num_classes'],
-        dt=dense_hp['dt'],
-        threshold=dense_hp['threshold'],
-        has_bias=dense_hp['has_bias']
-    )
-
-
-
-
-
-
-    # ----- DVSGesture Models -----
-    # print("\nCreating DVSGesture sparse model...")
-    # sparse_model = DVSGestureSNN(
-    #     input_size=sparse_hp['input_size'],
-    #     n_frames=sparse_hp['n_frames'],
-    #     tau_mem=sparse_hp['tau_mem'],
-    #     tau_syn=sparse_hp['tau_syn'],
-    #     spike_lam=sparse_hp['spike_lam'],
-    #     model_type=sparse_hp['model_type'],
-    #     device=device,
-    #     num_classes=sparse_hp['num_classes'],
-    #     dt=sparse_hp['dt'],
-    #     threshold=sparse_hp['threshold'],
-    #     has_bias=sparse_hp['has_bias']
-    # )
-    # print("Creating DVSGesture dense model...")
-    # dense_model = DVSGestureSNN(
-    #     input_size=dense_hp['input_size'],
-    #     n_frames=dense_hp['n_frames'],
-    #     tau_mem=dense_hp['tau_mem'],
-    #     tau_syn=dense_hp['tau_syn'],
-    #     spike_lam=dense_hp['spike_lam'],
-    #     model_type=dense_hp['model_type'],
-    #     device=device,
-    #     num_classes=dense_hp['num_classes'],
-    #     dt=dense_hp['dt'],
-    #     threshold=dense_hp['threshold'],
-    #     has_bias=dense_hp['has_bias']
-    # )
-
-    # ==================== END MODEL CREATION ====================
+    # ==================== END DATASET + MODEL LOADING ====================
 
     # Load pre-trained weights
     print(f"\nLoading sparse model from: {args.sparse_model_path}")
@@ -592,7 +636,6 @@ Examples:
     print("Starting evaluation...\n")
 
     # Load precomputed LZC energy metrics
-    lzc_file = 'LZC_Energy/lzc_energy_SHD.txt'
     print(f"\nLoading precomputed LZC values from: {lzc_file}")
     precomputed_lzc = load_lzc_from_file(lzc_file)
 
@@ -600,11 +643,10 @@ Examples:
     results = evaluate_models_on_dataset(test_loader, sparse_model, dense_model, precomputed_lzc)
 
     # 2. Find optimal routing threshold
-    optimal_threshold, roc_auc = threshold_sweep_and_roc(results, dataset_name="shd")
-    # optimal_threshold, roc_auc = threshold_sweep_and_roc(results, dataset_name="dvsgesture")
-    
+    optimal_threshold, roc_auc = threshold_sweep_and_roc(results, dataset_name=dataset_name)
+
     # 3. Route samples and evaluate with energy metrics
-    metrics = route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results, precomputed_lzc)
+    metrics = route_and_evaluate(test_loader, sparse_model, dense_model, optimal_threshold, results, precomputed_lzc, energy_method=args.energy_method)
 
 
 if __name__ == "__main__":
