@@ -1,0 +1,3 @@
+/Users/laurenachen/CMPM118/TC_Energy/TC_Energy_Metrics/build/Debug/CMakeFiles/TC_Energy_Metrics.dir
+/Users/laurenachen/CMPM118/TC_Energy/TC_Energy_Metrics/build/Debug/CMakeFiles/edit_cache.dir
+/Users/laurenachen/CMPM118/TC_Energy/TC_Energy_Metrics/build/Debug/CMakeFiles/rebuild_cache.dir
