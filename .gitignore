@@ -31,3 +31,10 @@ rockpoolDevelopment/data/SHD
 MNIST/*.Zone.Identifier
 data/uci_har/
 TC_Energy/TC_Energy_Metrics/build/
+lzc_input_SHD.txt
+.DS_Store
+venv/
+results/
+lzc_energy_table.txt
+lzc_raw_metrics.txt
+lzc_macos
