@@ -85,17 +85,20 @@ class UCIHARSNN:
                 summed = torch.cumsum(output, dim=1)[:, -1, :]  # integrate over time, take last
                 
                 # Count spikes from LIF layers only
-                spike_count = torch.tensor(0.0, device=self.device)
+                spike_penalty = torch.tensor(0.0, device=self.device)
+                spike_elements = 0
+
                 for key, value in recording.items():
                     layer_idx = int(key.split('_')[0])
                     if isinstance(self.net[layer_idx], LIFTorch):
-                        if isinstance(value, dict):
-                            spike_count += value.get('spikes', torch.tensor(0)).sum()
-                        else:
-                            spike_count += value.sum()
+                        spikes = value.get('spikes', value) if isinstance(value, dict) else value
+                        spike_penalty += spikes.sum()
+                        spike_elements += spikes.numel()
 
-                loss = self.loss_fn(summed, targets) + spike_count * self.spike_lam
+                if spike_elements > 0:
+                    spike_penalty = spike_penalty / spike_elements
 
+                loss = self.loss_fn(summed, targets) + self.spike_lam * spike_penalty
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_([p for _, p in self.net.named_parameters()], max_norm=1.0)
                 self.optimizer.step()
