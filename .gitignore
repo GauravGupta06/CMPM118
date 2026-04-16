@@ -24,7 +24,7 @@ data/dvsgesture/
 LZC_Energy/lzc_input_UCI_HAR.txt
 LZC_Energy/lzc_input_SHD.txt
 LZC_Energy/lzc_input_dvs_gesture.txt
-
+LZC_Energy/lzc_input_dvs_gesture_T600.txt
 
 # Other
 rockpoolDevelopment/data/SHD

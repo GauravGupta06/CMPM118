@@ -230,7 +230,7 @@ class DVSGestureSNN(nn.Module):
                 total_spikes = torch.tensor(0.0, device=self.device)
                 for key, spk_tensor in recordings.items():
                     total_spikes = total_spikes + spk_tensor.sum()
-                loss = loss + self.spike_lam * total_spikes
+                loss = loss + self.spike_lam * (total_spikes / data.shape[0])
 
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.parameters(), max_norm=1.0)

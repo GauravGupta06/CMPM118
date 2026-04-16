@@ -20,7 +20,7 @@ def main():
     parser = argparse.ArgumentParser(description="Test DVSGesture SNN model")
     parser.add_argument('--model_path', type=str, required=True, help='Path to .pth checkpoint')
     parser.add_argument('--dataset_path', type=str, default='./data')
-    parser.add_argument('--batch_size', type=int, default=64)
+    parser.add_argument('--batch_size', type=int, default=50)
     parser.add_argument('--num_workers', type=int, default=0)
     parser.add_argument('--max_timesteps', type=int, default=600)
     args = parser.parse_args()
@@ -95,7 +95,7 @@ def main():
 
             if (batch_idx + 1) % 1 == 0:
                 print(f"  Processed {total} samples...")
-                break
+                # break
 
     # Compute metrics
     accuracy = correct / total if total > 0 else 0.0
