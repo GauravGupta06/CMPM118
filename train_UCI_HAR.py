@@ -52,12 +52,16 @@ def main():
     parser.add_argument('--sparse_threshold', type=float, default=2.0)
     parser.add_argument('--sparse_spike_lam', type=float, default=2e-3)
     parser.add_argument('--sparse_tau_syn', type=float, default=0.05)
-    
+    parser.add_argument('--sparse_max_spikes_per_dt', type=int, default=1)
+    parser.add_argument('--sparse_dropout_p', type=float, default=0.2)
+
     # Dense Model Defaults
     parser.add_argument('--dense_tau_mem', type=float, default=0.1)
     parser.add_argument('--dense_threshold', type=float, default=0.5)
     parser.add_argument('--dense_spike_lam', type=float, default=0.0)
     parser.add_argument('--dense_tau_syn', type=float, default=0.1)
+    parser.add_argument('--dense_max_spikes_per_dt', type=int, default=5)
+    parser.add_argument('--dense_dropout_p', type=float, default=0.0)
 
     parser.add_argument('--normalize', action='store_true', default=True,
                         help='Apply per-sample z-score normalization (default: True)')
@@ -96,11 +100,17 @@ def main():
         spike_lam = args.sparse_spike_lam
         threshold = args.sparse_threshold
         tau_syn = args.sparse_tau_syn
+        max_spikes_per_dt = args.sparse_max_spikes_per_dt
+        dropout_p = args.sparse_dropout_p
     else:  # dense
         tau_mem = args.dense_tau_mem
         spike_lam = args.dense_spike_lam
         threshold = args.dense_threshold
         tau_syn = args.dense_tau_syn
+        max_spikes_per_dt = args.dense_max_spikes_per_dt
+        dropout_p = args.dense_dropout_p
+
+    print(f"[UPDATED CODE] Using max_spikes_per_dt={max_spikes_per_dt}, dropout_p={dropout_p} for model_type={args.model_type}")
 
     # Create model
     model = UCIHARSNN(
@@ -115,6 +125,8 @@ def main():
         lr=args.lr,
         dt=args.net_dt,
         threshold=threshold,
+        max_spikes_per_dt=max_spikes_per_dt,
+        dropout_p=dropout_p,
     )
 
     # Train

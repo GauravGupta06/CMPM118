@@ -1,0 +1,1152 @@
+CMD: /opt/conda/bin/python train_UCI_HAR.py --model_type dense --n_frames 128 --epochs 100 --batch_size 64 --lr 0.001 --dataset_path ./data --output_path /workspace --dense_threshold 0.3 --dense_dropout_p 0.0 --dense_max_spikes_per_dt 5 --dense_spike_lam 0.0 --dense_tau_mem 0.1
+
+[UPDATED CODE] Using max_spikes_per_dt=5, dropout_p=0.0 for model_type=dense
+starting training
+Epoch 0, Iter 0 | Loss: 1354.23 | Train Acc: 15.62%
+Test Acc: 16.47% | LR: 0.001000
+Epoch 0, Iter 20 | Loss: 420.25 | Train Acc: 20.31%
+Test Acc: 21.57% | LR: 0.001000
+Epoch 0, Iter 40 | Loss: 331.63 | Train Acc: 21.88%
+Test Acc: 25.14% | LR: 0.001000
+Epoch 0, Iter 60 | Loss: 226.28 | Train Acc: 39.06%
+Test Acc: 29.08% | LR: 0.001000
+Epoch 0, Iter 80 | Loss: 209.41 | Train Acc: 37.50%
+Test Acc: 34.31% | LR: 0.001000
+Epoch 0, Iter 100 | Loss: 230.97 | Train Acc: 29.69%
+Test Acc: 38.18% | LR: 0.001000
+Epoch 1, Iter 6 | Loss: 146.56 | Train Acc: 48.44%
+Test Acc: 44.09% | LR: 0.001000
+Epoch 1, Iter 26 | Loss: 124.31 | Train Acc: 54.69%
+Test Acc: 47.25% | LR: 0.001000
+Epoch 1, Iter 46 | Loss: 127.79 | Train Acc: 45.31%
+Test Acc: 48.06% | LR: 0.001000
+Epoch 1, Iter 66 | Loss: 123.57 | Train Acc: 46.88%
+Test Acc: 49.15% | LR: 0.001000
+Epoch 1, Iter 86 | Loss: 66.81 | Train Acc: 71.88%
+Test Acc: 43.14% | LR: 0.001000
+Epoch 1, Iter 106 | Loss: 122.43 | Train Acc: 53.12%
+Test Acc: 54.45% | LR: 0.001000
+Epoch 2, Iter 12 | Loss: 111.62 | Train Acc: 59.38%
+Test Acc: 54.14% | LR: 0.001000
+Epoch 2, Iter 32 | Loss: 122.03 | Train Acc: 46.88%
+Test Acc: 56.25% | LR: 0.001000
+Epoch 2, Iter 52 | Loss: 64.67 | Train Acc: 68.75%
+Test Acc: 58.15% | LR: 0.001000
+Epoch 2, Iter 72 | Loss: 99.28 | Train Acc: 57.81%
+Test Acc: 57.91% | LR: 0.001000
+Epoch 2, Iter 92 | Loss: 126.10 | Train Acc: 65.62%
+Test Acc: 59.71% | LR: 0.001000
+Epoch 2, Iter 112 | Loss: 114.48 | Train Acc: 60.94%
+Test Acc: 57.37% | LR: 0.001000
+Epoch 3, Iter 18 | Loss: 86.10 | Train Acc: 60.94%
+Test Acc: 50.82% | LR: 0.001000
+Epoch 3, Iter 38 | Loss: 73.50 | Train Acc: 67.19%
+Test Acc: 58.53% | LR: 0.001000
+Epoch 3, Iter 58 | Loss: 84.50 | Train Acc: 53.12%
+Test Acc: 59.95% | LR: 0.001000
+Epoch 3, Iter 78 | Loss: 58.60 | Train Acc: 70.31%
+Test Acc: 59.54% | LR: 0.001000
+Epoch 3, Iter 98 | Loss: 91.02 | Train Acc: 64.06%
+Test Acc: 53.91% | LR: 0.001000
+Epoch 4, Iter 4 | Loss: 67.37 | Train Acc: 62.50%
+Test Acc: 60.97% | LR: 0.001000
+Epoch 4, Iter 24 | Loss: 47.20 | Train Acc: 73.44%
+Test Acc: 61.18% | LR: 0.001000
+Epoch 4, Iter 44 | Loss: 129.34 | Train Acc: 56.25%
+Test Acc: 61.48% | LR: 0.001000
+Epoch 4, Iter 64 | Loss: 60.72 | Train Acc: 71.88%
+Test Acc: 63.18% | LR: 0.001000
+Epoch 4, Iter 84 | Loss: 59.90 | Train Acc: 64.06%
+Test Acc: 61.75% | LR: 0.001000
+Epoch 4, Iter 104 | Loss: 48.55 | Train Acc: 64.06%
+Test Acc: 61.14% | LR: 0.001000
+Epoch 5, Iter 10 | Loss: 64.97 | Train Acc: 75.00%
+Test Acc: 60.87% | LR: 0.001000
+Epoch 5, Iter 30 | Loss: 64.90 | Train Acc: 67.19%
+Test Acc: 62.84% | LR: 0.001000
+Epoch 5, Iter 50 | Loss: 31.05 | Train Acc: 78.12%
+Test Acc: 63.82% | LR: 0.001000
+Epoch 5, Iter 70 | Loss: 38.67 | Train Acc: 78.12%
+Test Acc: 61.28% | LR: 0.001000
+Epoch 5, Iter 90 | Loss: 71.01 | Train Acc: 62.50%
+Test Acc: 64.91% | LR: 0.001000
+Epoch 5, Iter 110 | Loss: 99.26 | Train Acc: 62.50%
+Test Acc: 60.05% | LR: 0.001000
+Epoch 6, Iter 16 | Loss: 78.32 | Train Acc: 65.62%
+Test Acc: 65.12% | LR: 0.001000
+Epoch 6, Iter 36 | Loss: 79.61 | Train Acc: 75.00%
+Test Acc: 62.60% | LR: 0.001000
+Epoch 6, Iter 56 | Loss: 83.92 | Train Acc: 71.88%
+Test Acc: 66.13% | LR: 0.001000
+Epoch 6, Iter 76 | Loss: 88.29 | Train Acc: 68.75%
+Test Acc: 60.87% | LR: 0.001000
+Epoch 6, Iter 96 | Loss: 110.00 | Train Acc: 68.75%
+Test Acc: 63.79% | LR: 0.001000
+Epoch 7, Iter 2 | Loss: 55.48 | Train Acc: 81.25%
+Test Acc: 65.42% | LR: 0.001000
+Epoch 7, Iter 22 | Loss: 54.86 | Train Acc: 81.25%
+Test Acc: 62.40% | LR: 0.001000
+Epoch 7, Iter 42 | Loss: 42.40 | Train Acc: 75.00%
+Test Acc: 65.29% | LR: 0.001000
+Epoch 7, Iter 62 | Loss: 66.79 | Train Acc: 76.56%
+Test Acc: 63.28% | LR: 0.001000
+Epoch 7, Iter 82 | Loss: 98.70 | Train Acc: 64.06%
+Test Acc: 63.89% | LR: 0.001000
+Epoch 7, Iter 102 | Loss: 51.05 | Train Acc: 70.31%
+Test Acc: 65.12% | LR: 0.001000
+Epoch 8, Iter 8 | Loss: 48.49 | Train Acc: 68.75%
+Test Acc: 65.76% | LR: 0.001000
+Epoch 8, Iter 28 | Loss: 89.19 | Train Acc: 73.44%
+Test Acc: 68.21% | LR: 0.001000
+Epoch 8, Iter 48 | Loss: 38.80 | Train Acc: 79.69%
+Test Acc: 65.25% | LR: 0.001000
+Epoch 8, Iter 68 | Loss: 37.95 | Train Acc: 76.56%
+Test Acc: 67.15% | LR: 0.001000
+Epoch 8, Iter 88 | Loss: 45.15 | Train Acc: 68.75%
+Test Acc: 65.42% | LR: 0.001000
+Epoch 8, Iter 108 | Loss: 26.29 | Train Acc: 79.69%
+Test Acc: 65.59% | LR: 0.001000
+Epoch 9, Iter 14 | Loss: 69.79 | Train Acc: 71.88%
+Test Acc: 65.01% | LR: 0.001000
+Epoch 9, Iter 34 | Loss: 46.80 | Train Acc: 70.31%
+Test Acc: 66.47% | LR: 0.001000
+Epoch 9, Iter 54 | Loss: 30.44 | Train Acc: 70.31%
+Test Acc: 67.19% | LR: 0.001000
+Epoch 9, Iter 74 | Loss: 33.42 | Train Acc: 76.56%
+Test Acc: 66.27% | LR: 0.001000
+Epoch 9, Iter 94 | Loss: 71.04 | Train Acc: 73.44%
+Test Acc: 62.50% | LR: 0.001000
+Epoch 10, Iter 0 | Loss: 23.38 | Train Acc: 82.81%
+Test Acc: 65.39% | LR: 0.001000
+Epoch 10, Iter 20 | Loss: 29.91 | Train Acc: 85.94%
+Test Acc: 62.40% | LR: 0.001000
+Epoch 10, Iter 40 | Loss: 33.28 | Train Acc: 75.00%
+Test Acc: 67.90% | LR: 0.000500
+Epoch 10, Iter 60 | Loss: 56.71 | Train Acc: 71.88%
+Test Acc: 68.31% | LR: 0.000500
+Epoch 10, Iter 80 | Loss: 38.13 | Train Acc: 71.88%
+Test Acc: 66.78% | LR: 0.000500
+Epoch 10, Iter 100 | Loss: 62.04 | Train Acc: 71.88%
+Test Acc: 66.41% | LR: 0.000500
+Epoch 11, Iter 6 | Loss: 27.59 | Train Acc: 81.25%
+Test Acc: 69.06% | LR: 0.000500
+Epoch 11, Iter 26 | Loss: 54.22 | Train Acc: 75.00%
+Test Acc: 68.17% | LR: 0.000500
+Epoch 11, Iter 46 | Loss: 36.73 | Train Acc: 79.69%
+Test Acc: 66.75% | LR: 0.000500
+Epoch 11, Iter 66 | Loss: 51.61 | Train Acc: 67.19%
+Test Acc: 67.53% | LR: 0.000500
+Epoch 11, Iter 86 | Loss: 82.80 | Train Acc: 65.62%
+Test Acc: 63.65% | LR: 0.000500
+Epoch 11, Iter 106 | Loss: 44.38 | Train Acc: 71.88%
+Test Acc: 67.63% | LR: 0.000500
+Epoch 12, Iter 12 | Loss: 38.09 | Train Acc: 81.25%
+Test Acc: 66.88% | LR: 0.000500
+Epoch 12, Iter 32 | Loss: 22.35 | Train Acc: 87.50%
+Test Acc: 69.60% | LR: 0.000500
+Epoch 12, Iter 52 | Loss: 30.63 | Train Acc: 81.25%
+Test Acc: 66.71% | LR: 0.000500
+Epoch 12, Iter 72 | Loss: 44.96 | Train Acc: 78.12%
+Test Acc: 68.61% | LR: 0.000500
+Epoch 12, Iter 92 | Loss: 55.82 | Train Acc: 68.75%
+Test Acc: 66.75% | LR: 0.000500
+Epoch 12, Iter 112 | Loss: 17.33 | Train Acc: 79.69%
+Test Acc: 68.65% | LR: 0.000500
+Epoch 13, Iter 18 | Loss: 43.50 | Train Acc: 76.56%
+Test Acc: 67.19% | LR: 0.000500
+Epoch 13, Iter 38 | Loss: 36.34 | Train Acc: 78.12%
+Test Acc: 67.66% | LR: 0.000500
+Epoch 13, Iter 58 | Loss: 36.94 | Train Acc: 75.00%
+Test Acc: 68.75% | LR: 0.000500
+Epoch 13, Iter 78 | Loss: 61.36 | Train Acc: 71.88%
+Test Acc: 66.71% | LR: 0.000500
+Epoch 13, Iter 98 | Loss: 44.07 | Train Acc: 76.56%
+Test Acc: 67.22% | LR: 0.000500
+Epoch 14, Iter 4 | Loss: 31.40 | Train Acc: 81.25%
+Test Acc: 68.38% | LR: 0.000500
+Epoch 14, Iter 24 | Loss: 54.30 | Train Acc: 67.19%
+Test Acc: 65.62% | LR: 0.000500
+Epoch 14, Iter 44 | Loss: 31.43 | Train Acc: 82.81%
+Test Acc: 68.92% | LR: 0.000250
+Epoch 14, Iter 64 | Loss: 51.00 | Train Acc: 67.19%
+Test Acc: 67.63% | LR: 0.000250
+Epoch 14, Iter 84 | Loss: 24.95 | Train Acc: 78.12%
+Test Acc: 68.99% | LR: 0.000250
+Epoch 14, Iter 104 | Loss: 51.44 | Train Acc: 76.56%
+Test Acc: 68.78% | LR: 0.000250
+Epoch 15, Iter 10 | Loss: 41.80 | Train Acc: 76.56%
+Test Acc: 69.19% | LR: 0.000250
+Epoch 15, Iter 30 | Loss: 33.38 | Train Acc: 75.00%
+Test Acc: 69.94% | LR: 0.000250
+Epoch 15, Iter 50 | Loss: 24.89 | Train Acc: 81.25%
+Test Acc: 69.12% | LR: 0.000250
+Epoch 15, Iter 70 | Loss: 30.21 | Train Acc: 81.25%
+Test Acc: 67.53% | LR: 0.000250
+Epoch 15, Iter 90 | Loss: 41.64 | Train Acc: 76.56%
+Test Acc: 69.40% | LR: 0.000250
+Epoch 15, Iter 110 | Loss: 49.36 | Train Acc: 78.12%
+Test Acc: 67.97% | LR: 0.000250
+Epoch 16, Iter 16 | Loss: 11.28 | Train Acc: 90.62%
+Test Acc: 70.24% | LR: 0.000250
+Epoch 16, Iter 36 | Loss: 42.28 | Train Acc: 79.69%
+Test Acc: 69.97% | LR: 0.000250
+Epoch 16, Iter 56 | Loss: 40.32 | Train Acc: 75.00%
+Test Acc: 68.21% | LR: 0.000250
+Epoch 16, Iter 76 | Loss: 46.69 | Train Acc: 71.88%
+Test Acc: 66.47% | LR: 0.000250
+Epoch 16, Iter 96 | Loss: 47.07 | Train Acc: 73.44%
+Test Acc: 67.66% | LR: 0.000250
+Epoch 17, Iter 2 | Loss: 42.92 | Train Acc: 78.12%
+Test Acc: 65.66% | LR: 0.000250
+Epoch 17, Iter 22 | Loss: 23.46 | Train Acc: 87.50%
+Test Acc: 68.99% | LR: 0.000250
+Epoch 17, Iter 42 | Loss: 35.09 | Train Acc: 73.44%
+Test Acc: 67.15% | LR: 0.000250
+Epoch 17, Iter 62 | Loss: 53.37 | Train Acc: 75.00%
+Test Acc: 69.57% | LR: 0.000250
+Epoch 17, Iter 82 | Loss: 24.61 | Train Acc: 78.12%
+Test Acc: 68.48% | LR: 0.000250
+Epoch 17, Iter 102 | Loss: 34.17 | Train Acc: 78.12%
+Test Acc: 68.21% | LR: 0.000250
+Epoch 18, Iter 8 | Loss: 16.48 | Train Acc: 87.50%
+Test Acc: 69.02% | LR: 0.000250
+Epoch 18, Iter 28 | Loss: 32.22 | Train Acc: 76.56%
+Test Acc: 69.90% | LR: 0.000125
+Epoch 18, Iter 48 | Loss: 31.49 | Train Acc: 82.81%
+Test Acc: 69.36% | LR: 0.000125
+Epoch 18, Iter 68 | Loss: 22.27 | Train Acc: 82.81%
+Test Acc: 69.87% | LR: 0.000125
+Epoch 18, Iter 88 | Loss: 36.87 | Train Acc: 78.12%
+Test Acc: 69.12% | LR: 0.000125
+Epoch 18, Iter 108 | Loss: 42.03 | Train Acc: 78.12%
+Test Acc: 70.62% | LR: 0.000125
+Epoch 19, Iter 14 | Loss: 26.27 | Train Acc: 79.69%
+Test Acc: 69.06% | LR: 0.000125
+Epoch 19, Iter 34 | Loss: 28.24 | Train Acc: 81.25%
+Test Acc: 70.24% | LR: 0.000125
+Epoch 19, Iter 54 | Loss: 24.49 | Train Acc: 78.12%
+Test Acc: 68.78% | LR: 0.000125
+Epoch 19, Iter 74 | Loss: 18.32 | Train Acc: 89.06%
+Test Acc: 70.52% | LR: 0.000125
+Epoch 19, Iter 94 | Loss: 31.27 | Train Acc: 78.12%
+Test Acc: 69.50% | LR: 0.000125
+Epoch 20, Iter 0 | Loss: 24.07 | Train Acc: 87.50%
+Test Acc: 68.65% | LR: 0.000125
+Epoch 20, Iter 20 | Loss: 34.19 | Train Acc: 79.69%
+Test Acc: 69.94% | LR: 0.000125
+Epoch 20, Iter 40 | Loss: 28.73 | Train Acc: 75.00%
+Test Acc: 69.46% | LR: 0.000125
+Epoch 20, Iter 60 | Loss: 56.83 | Train Acc: 73.44%
+Test Acc: 68.75% | LR: 0.000125
+Epoch 20, Iter 80 | Loss: 13.91 | Train Acc: 85.94%
+Test Acc: 70.28% | LR: 0.000125
+Epoch 20, Iter 100 | Loss: 27.39 | Train Acc: 79.69%
+Test Acc: 69.33% | LR: 0.000125
+Epoch 21, Iter 6 | Loss: 30.63 | Train Acc: 79.69%
+Test Acc: 70.04% | LR: 0.000063
+Epoch 21, Iter 26 | Loss: 25.17 | Train Acc: 78.12%
+Test Acc: 69.84% | LR: 0.000063
+Epoch 21, Iter 46 | Loss: 29.71 | Train Acc: 81.25%
+Test Acc: 69.80% | LR: 0.000063
+Epoch 21, Iter 66 | Loss: 12.81 | Train Acc: 85.94%
+Test Acc: 69.87% | LR: 0.000063
+Epoch 21, Iter 86 | Loss: 27.40 | Train Acc: 81.25%
+Test Acc: 70.58% | LR: 0.000063
+Epoch 21, Iter 106 | Loss: 51.87 | Train Acc: 79.69%
+Test Acc: 69.36% | LR: 0.000063
+Epoch 22, Iter 12 | Loss: 31.22 | Train Acc: 84.38%
+Test Acc: 69.80% | LR: 0.000063
+Epoch 22, Iter 32 | Loss: 24.42 | Train Acc: 81.25%
+Test Acc: 69.23% | LR: 0.000063
+Epoch 22, Iter 52 | Loss: 24.33 | Train Acc: 84.38%
+Test Acc: 70.04% | LR: 0.000063
+Epoch 22, Iter 72 | Loss: 23.47 | Train Acc: 81.25%
+Test Acc: 70.21% | LR: 0.000063
+Epoch 22, Iter 92 | Loss: 53.77 | Train Acc: 75.00%
+Test Acc: 70.11% | LR: 0.000063
+Epoch 22, Iter 112 | Loss: 33.02 | Train Acc: 76.56%
+Test Acc: 70.07% | LR: 0.000031
+Epoch 23, Iter 18 | Loss: 26.06 | Train Acc: 82.81%
+Test Acc: 70.48% | LR: 0.000031
+Epoch 23, Iter 38 | Loss: 33.44 | Train Acc: 79.69%
+Test Acc: 69.90% | LR: 0.000031
+Epoch 23, Iter 58 | Loss: 20.92 | Train Acc: 81.25%
+Test Acc: 69.63% | LR: 0.000031
+Epoch 23, Iter 78 | Loss: 29.89 | Train Acc: 85.94%
+Test Acc: 70.38% | LR: 0.000031
+Epoch 23, Iter 98 | Loss: 32.48 | Train Acc: 68.75%
+Test Acc: 70.41% | LR: 0.000031
+Epoch 24, Iter 4 | Loss: 38.08 | Train Acc: 76.56%
+Test Acc: 70.45% | LR: 0.000031
+Epoch 24, Iter 24 | Loss: 30.46 | Train Acc: 81.25%
+Test Acc: 69.53% | LR: 0.000031
+Epoch 24, Iter 44 | Loss: 48.02 | Train Acc: 76.56%
+Test Acc: 69.84% | LR: 0.000031
+Epoch 24, Iter 64 | Loss: 37.11 | Train Acc: 70.31%
+Test Acc: 70.62% | LR: 0.000031
+Epoch 24, Iter 84 | Loss: 30.41 | Train Acc: 73.44%
+Test Acc: 70.45% | LR: 0.000031
+Epoch 24, Iter 104 | Loss: 37.02 | Train Acc: 82.81%
+Test Acc: 70.14% | LR: 0.000016
+Epoch 25, Iter 10 | Loss: 29.80 | Train Acc: 82.81%
+Test Acc: 69.97% | LR: 0.000016
+Epoch 25, Iter 30 | Loss: 8.29 | Train Acc: 89.06%
+Test Acc: 70.21% | LR: 0.000016
+Epoch 25, Iter 50 | Loss: 29.72 | Train Acc: 78.12%
+Test Acc: 70.01% | LR: 0.000016
+Epoch 25, Iter 70 | Loss: 19.97 | Train Acc: 87.50%
+Test Acc: 70.11% | LR: 0.000016
+Epoch 25, Iter 90 | Loss: 33.37 | Train Acc: 79.69%
+Test Acc: 69.97% | LR: 0.000016
+Epoch 25, Iter 110 | Loss: 13.30 | Train Acc: 84.38%
+Test Acc: 70.45% | LR: 0.000016
+Epoch 26, Iter 16 | Loss: 33.02 | Train Acc: 78.12%
+Test Acc: 70.41% | LR: 0.000016
+Epoch 26, Iter 36 | Loss: 15.65 | Train Acc: 84.38%
+Test Acc: 70.24% | LR: 0.000016
+Epoch 26, Iter 56 | Loss: 18.64 | Train Acc: 82.81%
+Test Acc: 69.90% | LR: 0.000016
+Epoch 26, Iter 76 | Loss: 19.68 | Train Acc: 89.06%
+Test Acc: 70.11% | LR: 0.000016
+Epoch 26, Iter 96 | Loss: 21.93 | Train Acc: 85.94%
+Test Acc: 70.18% | LR: 0.000008
+Epoch 27, Iter 2 | Loss: 34.56 | Train Acc: 76.56%
+Test Acc: 70.18% | LR: 0.000008
+Epoch 27, Iter 22 | Loss: 9.46 | Train Acc: 89.06%
+Test Acc: 70.28% | LR: 0.000008
+Epoch 27, Iter 42 | Loss: 45.51 | Train Acc: 78.12%
+Test Acc: 70.24% | LR: 0.000008
+Epoch 27, Iter 62 | Loss: 23.39 | Train Acc: 82.81%
+Test Acc: 70.21% | LR: 0.000008
+Epoch 27, Iter 82 | Loss: 21.98 | Train Acc: 78.12%
+Test Acc: 70.24% | LR: 0.000008
+Epoch 27, Iter 102 | Loss: 26.12 | Train Acc: 79.69%
+Test Acc: 70.41% | LR: 0.000008
+Epoch 28, Iter 8 | Loss: 32.67 | Train Acc: 82.81%
+Test Acc: 70.14% | LR: 0.000008
+Epoch 28, Iter 28 | Loss: 9.45 | Train Acc: 87.50%
+Test Acc: 70.14% | LR: 0.000008
+Epoch 28, Iter 48 | Loss: 41.72 | Train Acc: 75.00%
+Test Acc: 70.21% | LR: 0.000008
+Epoch 28, Iter 68 | Loss: 35.36 | Train Acc: 84.38%
+Test Acc: 70.04% | LR: 0.000008
+Epoch 28, Iter 88 | Loss: 29.36 | Train Acc: 79.69%
+Test Acc: 69.94% | LR: 0.000004
+Epoch 28, Iter 108 | Loss: 23.46 | Train Acc: 85.94%
+Test Acc: 69.97% | LR: 0.000004
+Epoch 29, Iter 14 | Loss: 25.41 | Train Acc: 82.81%
+Test Acc: 70.11% | LR: 0.000004
+Epoch 29, Iter 34 | Loss: 36.76 | Train Acc: 75.00%
+Test Acc: 70.21% | LR: 0.000004
+Epoch 29, Iter 54 | Loss: 19.67 | Train Acc: 79.69%
+Test Acc: 70.38% | LR: 0.000004
+Epoch 29, Iter 74 | Loss: 27.15 | Train Acc: 85.94%
+Test Acc: 70.35% | LR: 0.000004
+Epoch 29, Iter 94 | Loss: 29.48 | Train Acc: 73.44%
+Test Acc: 70.31% | LR: 0.000004
+Epoch 30, Iter 0 | Loss: 39.50 | Train Acc: 81.25%
+Test Acc: 70.07% | LR: 0.000004
+Epoch 30, Iter 20 | Loss: 22.93 | Train Acc: 84.38%
+Test Acc: 70.01% | LR: 0.000004
+Epoch 30, Iter 40 | Loss: 30.72 | Train Acc: 78.12%
+Test Acc: 70.01% | LR: 0.000004
+Epoch 30, Iter 60 | Loss: 41.76 | Train Acc: 79.69%
+Test Acc: 70.18% | LR: 0.000004
+Epoch 30, Iter 80 | Loss: 32.55 | Train Acc: 76.56%
+Test Acc: 70.11% | LR: 0.000002
+Epoch 30, Iter 100 | Loss: 48.36 | Train Acc: 71.88%
+Test Acc: 70.24% | LR: 0.000002
+Epoch 31, Iter 6 | Loss: 44.60 | Train Acc: 73.44%
+Test Acc: 70.18% | LR: 0.000002
+Epoch 31, Iter 26 | Loss: 33.93 | Train Acc: 84.38%
+Test Acc: 70.18% | LR: 0.000002
+Epoch 31, Iter 46 | Loss: 45.44 | Train Acc: 73.44%
+Test Acc: 70.14% | LR: 0.000002
+Epoch 31, Iter 66 | Loss: 19.59 | Train Acc: 84.38%
+Test Acc: 70.38% | LR: 0.000002
+Epoch 31, Iter 86 | Loss: 32.78 | Train Acc: 87.50%
+Test Acc: 70.38% | LR: 0.000002
+Epoch 31, Iter 106 | Loss: 33.13 | Train Acc: 79.69%
+Test Acc: 70.41% | LR: 0.000002
+Epoch 32, Iter 12 | Loss: 18.34 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000002
+Epoch 32, Iter 32 | Loss: 22.25 | Train Acc: 79.69%
+Test Acc: 70.21% | LR: 0.000002
+Epoch 32, Iter 52 | Loss: 29.86 | Train Acc: 81.25%
+Test Acc: 70.14% | LR: 0.000002
+Epoch 32, Iter 72 | Loss: 18.09 | Train Acc: 84.38%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 32, Iter 92 | Loss: 41.78 | Train Acc: 81.25%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 32, Iter 112 | Loss: 19.51 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 33, Iter 18 | Loss: 22.11 | Train Acc: 73.44%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 33, Iter 38 | Loss: 33.08 | Train Acc: 82.81%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 33, Iter 58 | Loss: 9.09 | Train Acc: 87.50%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 33, Iter 78 | Loss: 51.10 | Train Acc: 75.00%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 33, Iter 98 | Loss: 35.68 | Train Acc: 78.12%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 34, Iter 4 | Loss: 13.09 | Train Acc: 89.06%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 34, Iter 24 | Loss: 45.04 | Train Acc: 70.31%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 34, Iter 44 | Loss: 24.83 | Train Acc: 85.94%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 34, Iter 64 | Loss: 45.53 | Train Acc: 73.44%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 34, Iter 84 | Loss: 23.64 | Train Acc: 84.38%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 34, Iter 104 | Loss: 33.35 | Train Acc: 81.25%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 35, Iter 10 | Loss: 38.59 | Train Acc: 78.12%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 35, Iter 30 | Loss: 37.65 | Train Acc: 70.31%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 35, Iter 50 | Loss: 29.68 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 35, Iter 70 | Loss: 38.55 | Train Acc: 73.44%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 35, Iter 90 | Loss: 24.59 | Train Acc: 76.56%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 35, Iter 110 | Loss: 32.71 | Train Acc: 81.25%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 36, Iter 16 | Loss: 12.33 | Train Acc: 85.94%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 36, Iter 36 | Loss: 24.06 | Train Acc: 85.94%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 36, Iter 56 | Loss: 36.16 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 36, Iter 76 | Loss: 20.14 | Train Acc: 78.12%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 36, Iter 96 | Loss: 27.45 | Train Acc: 79.69%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 37, Iter 2 | Loss: 27.42 | Train Acc: 82.81%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 37, Iter 22 | Loss: 40.48 | Train Acc: 78.12%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 37, Iter 42 | Loss: 17.94 | Train Acc: 84.38%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 37, Iter 62 | Loss: 43.66 | Train Acc: 75.00%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 37, Iter 82 | Loss: 41.39 | Train Acc: 75.00%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 37, Iter 102 | Loss: 10.37 | Train Acc: 85.94%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 38, Iter 8 | Loss: 18.81 | Train Acc: 87.50%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 38, Iter 28 | Loss: 21.22 | Train Acc: 76.56%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 38, Iter 48 | Loss: 30.40 | Train Acc: 84.38%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 38, Iter 68 | Loss: 27.45 | Train Acc: 76.56%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 38, Iter 88 | Loss: 39.25 | Train Acc: 73.44%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 38, Iter 108 | Loss: 24.57 | Train Acc: 82.81%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 39, Iter 14 | Loss: 32.50 | Train Acc: 79.69%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 39, Iter 34 | Loss: 20.08 | Train Acc: 85.94%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 39, Iter 54 | Loss: 25.49 | Train Acc: 79.69%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 39, Iter 74 | Loss: 30.36 | Train Acc: 82.81%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 39, Iter 94 | Loss: 20.92 | Train Acc: 76.56%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 40, Iter 0 | Loss: 19.26 | Train Acc: 76.56%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 40, Iter 20 | Loss: 17.28 | Train Acc: 87.50%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 40, Iter 40 | Loss: 20.62 | Train Acc: 87.50%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 40, Iter 60 | Loss: 14.58 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 40, Iter 80 | Loss: 24.32 | Train Acc: 82.81%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 40, Iter 100 | Loss: 30.03 | Train Acc: 79.69%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 41, Iter 6 | Loss: 40.41 | Train Acc: 71.88%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 41, Iter 26 | Loss: 19.17 | Train Acc: 87.50%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 41, Iter 46 | Loss: 19.90 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 41, Iter 66 | Loss: 25.93 | Train Acc: 84.38%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 41, Iter 86 | Loss: 31.33 | Train Acc: 82.81%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 41, Iter 106 | Loss: 48.40 | Train Acc: 68.75%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 42, Iter 12 | Loss: 28.31 | Train Acc: 84.38%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 42, Iter 32 | Loss: 29.60 | Train Acc: 76.56%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 42, Iter 52 | Loss: 24.40 | Train Acc: 81.25%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 42, Iter 72 | Loss: 32.69 | Train Acc: 79.69%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 42, Iter 92 | Loss: 46.86 | Train Acc: 79.69%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 42, Iter 112 | Loss: 16.85 | Train Acc: 85.94%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 43, Iter 18 | Loss: 19.61 | Train Acc: 87.50%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 43, Iter 38 | Loss: 32.13 | Train Acc: 78.12%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 43, Iter 58 | Loss: 42.99 | Train Acc: 73.44%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 43, Iter 78 | Loss: 31.87 | Train Acc: 76.56%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 43, Iter 98 | Loss: 17.81 | Train Acc: 82.81%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 44, Iter 4 | Loss: 31.39 | Train Acc: 79.69%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 44, Iter 24 | Loss: 67.74 | Train Acc: 62.50%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 44, Iter 44 | Loss: 24.53 | Train Acc: 85.94%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 44, Iter 64 | Loss: 24.05 | Train Acc: 82.81%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 44, Iter 84 | Loss: 30.44 | Train Acc: 75.00%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 44, Iter 104 | Loss: 25.88 | Train Acc: 81.25%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 45, Iter 10 | Loss: 23.92 | Train Acc: 85.94%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 45, Iter 30 | Loss: 40.88 | Train Acc: 75.00%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 45, Iter 50 | Loss: 30.98 | Train Acc: 79.69%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 45, Iter 70 | Loss: 38.48 | Train Acc: 78.12%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 45, Iter 90 | Loss: 24.41 | Train Acc: 81.25%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 45, Iter 110 | Loss: 27.58 | Train Acc: 84.38%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 46, Iter 16 | Loss: 38.02 | Train Acc: 71.88%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 46, Iter 36 | Loss: 23.22 | Train Acc: 78.12%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 46, Iter 56 | Loss: 17.19 | Train Acc: 84.38%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 46, Iter 76 | Loss: 35.90 | Train Acc: 76.56%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 46, Iter 96 | Loss: 39.39 | Train Acc: 79.69%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 47, Iter 2 | Loss: 42.27 | Train Acc: 84.38%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 47, Iter 22 | Loss: 20.23 | Train Acc: 89.06%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 47, Iter 42 | Loss: 35.72 | Train Acc: 78.12%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 47, Iter 62 | Loss: 34.46 | Train Acc: 84.38%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 47, Iter 82 | Loss: 9.60 | Train Acc: 85.94%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 47, Iter 102 | Loss: 26.58 | Train Acc: 78.12%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 48, Iter 8 | Loss: 16.44 | Train Acc: 78.12%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 48, Iter 28 | Loss: 15.47 | Train Acc: 84.38%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 48, Iter 48 | Loss: 28.21 | Train Acc: 84.38%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 48, Iter 68 | Loss: 28.04 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 48, Iter 88 | Loss: 36.72 | Train Acc: 78.12%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 48, Iter 108 | Loss: 47.19 | Train Acc: 73.44%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 49, Iter 14 | Loss: 30.54 | Train Acc: 78.12%
+Test Acc: 70.01% | LR: 0.000001
+Epoch 49, Iter 34 | Loss: 36.08 | Train Acc: 78.12%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 49, Iter 54 | Loss: 41.58 | Train Acc: 73.44%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 49, Iter 74 | Loss: 37.70 | Train Acc: 79.69%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 49, Iter 94 | Loss: 28.61 | Train Acc: 76.56%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 50, Iter 0 | Loss: 35.82 | Train Acc: 78.12%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 50, Iter 20 | Loss: 28.10 | Train Acc: 78.12%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 50, Iter 40 | Loss: 31.61 | Train Acc: 79.69%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 50, Iter 60 | Loss: 32.75 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 50, Iter 80 | Loss: 25.47 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 50, Iter 100 | Loss: 19.52 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 51, Iter 6 | Loss: 10.37 | Train Acc: 84.38%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 51, Iter 26 | Loss: 15.02 | Train Acc: 90.62%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 51, Iter 46 | Loss: 47.24 | Train Acc: 79.69%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 51, Iter 66 | Loss: 29.74 | Train Acc: 82.81%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 51, Iter 86 | Loss: 35.53 | Train Acc: 84.38%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 51, Iter 106 | Loss: 21.93 | Train Acc: 82.81%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 52, Iter 12 | Loss: 42.29 | Train Acc: 79.69%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 52, Iter 32 | Loss: 21.91 | Train Acc: 79.69%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 52, Iter 52 | Loss: 41.16 | Train Acc: 68.75%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 52, Iter 72 | Loss: 34.99 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 52, Iter 92 | Loss: 23.12 | Train Acc: 81.25%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 52, Iter 112 | Loss: 26.75 | Train Acc: 79.69%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 53, Iter 18 | Loss: 25.13 | Train Acc: 78.12%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 53, Iter 38 | Loss: 35.01 | Train Acc: 76.56%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 53, Iter 58 | Loss: 45.61 | Train Acc: 79.69%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 53, Iter 78 | Loss: 42.57 | Train Acc: 76.56%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 53, Iter 98 | Loss: 39.47 | Train Acc: 79.69%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 54, Iter 4 | Loss: 14.98 | Train Acc: 90.62%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 54, Iter 24 | Loss: 21.72 | Train Acc: 87.50%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 54, Iter 44 | Loss: 18.51 | Train Acc: 85.94%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 54, Iter 64 | Loss: 38.47 | Train Acc: 78.12%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 54, Iter 84 | Loss: 29.39 | Train Acc: 79.69%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 54, Iter 104 | Loss: 27.57 | Train Acc: 78.12%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 55, Iter 10 | Loss: 35.34 | Train Acc: 76.56%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 55, Iter 30 | Loss: 30.96 | Train Acc: 78.12%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 55, Iter 50 | Loss: 22.59 | Train Acc: 89.06%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 55, Iter 70 | Loss: 32.77 | Train Acc: 75.00%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 55, Iter 90 | Loss: 17.10 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 55, Iter 110 | Loss: 10.25 | Train Acc: 89.06%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 56, Iter 16 | Loss: 39.12 | Train Acc: 73.44%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 56, Iter 36 | Loss: 30.47 | Train Acc: 76.56%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 56, Iter 56 | Loss: 10.83 | Train Acc: 90.62%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 56, Iter 76 | Loss: 25.74 | Train Acc: 79.69%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 56, Iter 96 | Loss: 43.92 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 57, Iter 2 | Loss: 34.95 | Train Acc: 76.56%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 57, Iter 22 | Loss: 37.04 | Train Acc: 82.81%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 57, Iter 42 | Loss: 30.95 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 57, Iter 62 | Loss: 31.37 | Train Acc: 76.56%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 57, Iter 82 | Loss: 37.06 | Train Acc: 67.19%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 57, Iter 102 | Loss: 23.56 | Train Acc: 89.06%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 58, Iter 8 | Loss: 26.52 | Train Acc: 81.25%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 58, Iter 28 | Loss: 16.27 | Train Acc: 84.38%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 58, Iter 48 | Loss: 43.71 | Train Acc: 78.12%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 58, Iter 68 | Loss: 26.59 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 58, Iter 88 | Loss: 28.90 | Train Acc: 78.12%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 58, Iter 108 | Loss: 30.45 | Train Acc: 79.69%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 59, Iter 14 | Loss: 13.28 | Train Acc: 87.50%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 59, Iter 34 | Loss: 26.12 | Train Acc: 78.12%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 59, Iter 54 | Loss: 25.49 | Train Acc: 85.94%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 59, Iter 74 | Loss: 20.91 | Train Acc: 81.25%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 59, Iter 94 | Loss: 30.04 | Train Acc: 76.56%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 60, Iter 0 | Loss: 22.33 | Train Acc: 78.12%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 60, Iter 20 | Loss: 25.40 | Train Acc: 81.25%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 60, Iter 40 | Loss: 31.28 | Train Acc: 81.25%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 60, Iter 60 | Loss: 20.10 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 60, Iter 80 | Loss: 40.68 | Train Acc: 73.44%
+Test Acc: 70.04% | LR: 0.000001
+Epoch 60, Iter 100 | Loss: 29.88 | Train Acc: 81.25%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 61, Iter 6 | Loss: 47.33 | Train Acc: 70.31%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 61, Iter 26 | Loss: 35.28 | Train Acc: 79.69%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 61, Iter 46 | Loss: 24.44 | Train Acc: 81.25%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 61, Iter 66 | Loss: 27.52 | Train Acc: 85.94%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 61, Iter 86 | Loss: 25.65 | Train Acc: 84.38%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 61, Iter 106 | Loss: 13.66 | Train Acc: 84.38%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 62, Iter 12 | Loss: 28.75 | Train Acc: 82.81%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 62, Iter 32 | Loss: 21.71 | Train Acc: 79.69%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 62, Iter 52 | Loss: 24.38 | Train Acc: 81.25%
+Test Acc: 70.52% | LR: 0.000001
+Epoch 62, Iter 72 | Loss: 40.94 | Train Acc: 82.81%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 62, Iter 92 | Loss: 19.88 | Train Acc: 71.88%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 62, Iter 112 | Loss: 27.25 | Train Acc: 78.12%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 63, Iter 18 | Loss: 28.20 | Train Acc: 82.81%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 63, Iter 38 | Loss: 44.84 | Train Acc: 79.69%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 63, Iter 58 | Loss: 27.02 | Train Acc: 78.12%
+Test Acc: 70.04% | LR: 0.000001
+Epoch 63, Iter 78 | Loss: 34.68 | Train Acc: 76.56%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 63, Iter 98 | Loss: 40.44 | Train Acc: 78.12%
+Test Acc: 70.04% | LR: 0.000001
+Epoch 64, Iter 4 | Loss: 30.30 | Train Acc: 85.94%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 64, Iter 24 | Loss: 33.39 | Train Acc: 79.69%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 64, Iter 44 | Loss: 26.91 | Train Acc: 75.00%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 64, Iter 64 | Loss: 25.16 | Train Acc: 71.88%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 64, Iter 84 | Loss: 41.14 | Train Acc: 84.38%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 64, Iter 104 | Loss: 41.70 | Train Acc: 73.44%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 65, Iter 10 | Loss: 21.02 | Train Acc: 87.50%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 65, Iter 30 | Loss: 45.44 | Train Acc: 73.44%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 65, Iter 50 | Loss: 38.40 | Train Acc: 75.00%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 65, Iter 70 | Loss: 31.54 | Train Acc: 75.00%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 65, Iter 90 | Loss: 27.49 | Train Acc: 84.38%
+Test Acc: 70.52% | LR: 0.000001
+Epoch 65, Iter 110 | Loss: 29.80 | Train Acc: 75.00%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 66, Iter 16 | Loss: 31.31 | Train Acc: 76.56%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 66, Iter 36 | Loss: 17.72 | Train Acc: 82.81%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 66, Iter 56 | Loss: 9.13 | Train Acc: 89.06%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 66, Iter 76 | Loss: 23.20 | Train Acc: 84.38%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 66, Iter 96 | Loss: 18.56 | Train Acc: 84.38%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 67, Iter 2 | Loss: 44.71 | Train Acc: 71.88%
+Test Acc: 70.52% | LR: 0.000001
+Epoch 67, Iter 22 | Loss: 25.82 | Train Acc: 75.00%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 67, Iter 42 | Loss: 18.53 | Train Acc: 82.81%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 67, Iter 62 | Loss: 22.10 | Train Acc: 81.25%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 67, Iter 82 | Loss: 19.18 | Train Acc: 81.25%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 67, Iter 102 | Loss: 42.92 | Train Acc: 76.56%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 68, Iter 8 | Loss: 37.15 | Train Acc: 82.81%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 68, Iter 28 | Loss: 38.81 | Train Acc: 75.00%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 68, Iter 48 | Loss: 14.02 | Train Acc: 85.94%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 68, Iter 68 | Loss: 44.86 | Train Acc: 73.44%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 68, Iter 88 | Loss: 43.51 | Train Acc: 81.25%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 68, Iter 108 | Loss: 35.78 | Train Acc: 78.12%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 69, Iter 14 | Loss: 16.78 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 69, Iter 34 | Loss: 15.63 | Train Acc: 89.06%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 69, Iter 54 | Loss: 35.07 | Train Acc: 76.56%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 69, Iter 74 | Loss: 21.54 | Train Acc: 82.81%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 69, Iter 94 | Loss: 32.82 | Train Acc: 79.69%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 70, Iter 0 | Loss: 23.64 | Train Acc: 84.38%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 70, Iter 20 | Loss: 41.01 | Train Acc: 76.56%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 70, Iter 40 | Loss: 20.60 | Train Acc: 85.94%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 70, Iter 60 | Loss: 27.92 | Train Acc: 76.56%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 70, Iter 80 | Loss: 13.57 | Train Acc: 95.31%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 70, Iter 100 | Loss: 17.32 | Train Acc: 81.25%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 71, Iter 6 | Loss: 18.12 | Train Acc: 82.81%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 71, Iter 26 | Loss: 14.08 | Train Acc: 87.50%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 71, Iter 46 | Loss: 37.38 | Train Acc: 76.56%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 71, Iter 66 | Loss: 17.59 | Train Acc: 90.62%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 71, Iter 86 | Loss: 40.84 | Train Acc: 76.56%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 71, Iter 106 | Loss: 32.88 | Train Acc: 79.69%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 72, Iter 12 | Loss: 34.18 | Train Acc: 78.12%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 72, Iter 32 | Loss: 30.39 | Train Acc: 76.56%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 72, Iter 52 | Loss: 27.49 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 72, Iter 72 | Loss: 34.88 | Train Acc: 76.56%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 72, Iter 92 | Loss: 24.25 | Train Acc: 81.25%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 72, Iter 112 | Loss: 30.84 | Train Acc: 78.12%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 73, Iter 18 | Loss: 20.14 | Train Acc: 81.25%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 73, Iter 38 | Loss: 37.89 | Train Acc: 75.00%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 73, Iter 58 | Loss: 27.91 | Train Acc: 79.69%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 73, Iter 78 | Loss: 54.54 | Train Acc: 78.12%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 73, Iter 98 | Loss: 41.66 | Train Acc: 71.88%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 74, Iter 4 | Loss: 28.43 | Train Acc: 76.56%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 74, Iter 24 | Loss: 27.32 | Train Acc: 78.12%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 74, Iter 44 | Loss: 31.25 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 74, Iter 64 | Loss: 25.32 | Train Acc: 84.38%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 74, Iter 84 | Loss: 27.90 | Train Acc: 76.56%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 74, Iter 104 | Loss: 32.86 | Train Acc: 82.81%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 75, Iter 10 | Loss: 39.92 | Train Acc: 78.12%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 75, Iter 30 | Loss: 27.19 | Train Acc: 79.69%
+Test Acc: 70.04% | LR: 0.000001
+Epoch 75, Iter 50 | Loss: 25.86 | Train Acc: 85.94%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 75, Iter 70 | Loss: 16.53 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 75, Iter 90 | Loss: 27.11 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 75, Iter 110 | Loss: 22.96 | Train Acc: 81.25%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 76, Iter 16 | Loss: 20.97 | Train Acc: 81.25%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 76, Iter 36 | Loss: 29.96 | Train Acc: 84.38%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 76, Iter 56 | Loss: 11.25 | Train Acc: 87.50%
+Test Acc: 70.45% | LR: 0.000001
+Epoch 76, Iter 76 | Loss: 25.96 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 76, Iter 96 | Loss: 23.83 | Train Acc: 79.69%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 77, Iter 2 | Loss: 19.68 | Train Acc: 84.38%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 77, Iter 22 | Loss: 25.02 | Train Acc: 89.06%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 77, Iter 42 | Loss: 21.64 | Train Acc: 84.38%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 77, Iter 62 | Loss: 13.86 | Train Acc: 78.12%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 77, Iter 82 | Loss: 31.51 | Train Acc: 73.44%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 77, Iter 102 | Loss: 4.86 | Train Acc: 93.75%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 78, Iter 8 | Loss: 49.24 | Train Acc: 76.56%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 78, Iter 28 | Loss: 25.73 | Train Acc: 82.81%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 78, Iter 48 | Loss: 22.45 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 78, Iter 68 | Loss: 40.20 | Train Acc: 79.69%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 78, Iter 88 | Loss: 38.47 | Train Acc: 73.44%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 78, Iter 108 | Loss: 16.30 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 79, Iter 14 | Loss: 37.52 | Train Acc: 71.88%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 79, Iter 34 | Loss: 24.81 | Train Acc: 82.81%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 79, Iter 54 | Loss: 45.44 | Train Acc: 73.44%
+Test Acc: 70.11% | LR: 0.000001
+Epoch 79, Iter 74 | Loss: 35.69 | Train Acc: 78.12%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 79, Iter 94 | Loss: 35.50 | Train Acc: 73.44%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 80, Iter 0 | Loss: 22.23 | Train Acc: 87.50%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 80, Iter 20 | Loss: 27.39 | Train Acc: 79.69%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 80, Iter 40 | Loss: 29.94 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 80, Iter 60 | Loss: 23.55 | Train Acc: 76.56%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 80, Iter 80 | Loss: 36.23 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 80, Iter 100 | Loss: 27.13 | Train Acc: 71.88%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 81, Iter 6 | Loss: 23.45 | Train Acc: 82.81%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 81, Iter 26 | Loss: 45.33 | Train Acc: 68.75%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 81, Iter 46 | Loss: 28.94 | Train Acc: 78.12%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 81, Iter 66 | Loss: 13.33 | Train Acc: 82.81%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 81, Iter 86 | Loss: 35.82 | Train Acc: 81.25%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 81, Iter 106 | Loss: 34.15 | Train Acc: 73.44%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 82, Iter 12 | Loss: 30.97 | Train Acc: 76.56%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 82, Iter 32 | Loss: 19.13 | Train Acc: 82.81%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 82, Iter 52 | Loss: 21.41 | Train Acc: 87.50%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 82, Iter 72 | Loss: 15.56 | Train Acc: 84.38%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 82, Iter 92 | Loss: 22.34 | Train Acc: 85.94%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 82, Iter 112 | Loss: 34.64 | Train Acc: 79.69%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 83, Iter 18 | Loss: 27.31 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 83, Iter 38 | Loss: 28.73 | Train Acc: 78.12%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 83, Iter 58 | Loss: 20.17 | Train Acc: 89.06%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 83, Iter 78 | Loss: 30.36 | Train Acc: 82.81%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 83, Iter 98 | Loss: 30.72 | Train Acc: 75.00%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 84, Iter 4 | Loss: 32.77 | Train Acc: 75.00%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 84, Iter 24 | Loss: 21.15 | Train Acc: 85.94%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 84, Iter 44 | Loss: 24.44 | Train Acc: 81.25%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 84, Iter 64 | Loss: 18.69 | Train Acc: 87.50%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 84, Iter 84 | Loss: 43.70 | Train Acc: 75.00%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 84, Iter 104 | Loss: 21.32 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 85, Iter 10 | Loss: 23.73 | Train Acc: 81.25%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 85, Iter 30 | Loss: 21.05 | Train Acc: 78.12%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 85, Iter 50 | Loss: 20.99 | Train Acc: 85.94%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 85, Iter 70 | Loss: 21.82 | Train Acc: 85.94%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 85, Iter 90 | Loss: 40.67 | Train Acc: 73.44%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 85, Iter 110 | Loss: 23.60 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 86, Iter 16 | Loss: 16.01 | Train Acc: 84.38%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 86, Iter 36 | Loss: 41.80 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 86, Iter 56 | Loss: 27.26 | Train Acc: 79.69%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 86, Iter 76 | Loss: 34.57 | Train Acc: 75.00%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 86, Iter 96 | Loss: 30.21 | Train Acc: 81.25%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 87, Iter 2 | Loss: 29.97 | Train Acc: 79.69%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 87, Iter 22 | Loss: 26.75 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 87, Iter 42 | Loss: 34.58 | Train Acc: 78.12%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 87, Iter 62 | Loss: 32.29 | Train Acc: 81.25%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 87, Iter 82 | Loss: 28.29 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 87, Iter 102 | Loss: 19.43 | Train Acc: 84.38%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 88, Iter 8 | Loss: 55.42 | Train Acc: 79.69%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 88, Iter 28 | Loss: 28.31 | Train Acc: 82.81%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 88, Iter 48 | Loss: 36.43 | Train Acc: 81.25%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 88, Iter 68 | Loss: 43.85 | Train Acc: 79.69%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 88, Iter 88 | Loss: 47.80 | Train Acc: 68.75%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 88, Iter 108 | Loss: 32.18 | Train Acc: 75.00%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 89, Iter 14 | Loss: 22.72 | Train Acc: 84.38%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 89, Iter 34 | Loss: 43.67 | Train Acc: 78.12%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 89, Iter 54 | Loss: 25.94 | Train Acc: 79.69%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 89, Iter 74 | Loss: 38.40 | Train Acc: 73.44%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 89, Iter 94 | Loss: 20.01 | Train Acc: 81.25%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 90, Iter 0 | Loss: 31.23 | Train Acc: 70.31%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 90, Iter 20 | Loss: 35.85 | Train Acc: 82.81%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 90, Iter 40 | Loss: 17.02 | Train Acc: 81.25%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 90, Iter 60 | Loss: 34.63 | Train Acc: 75.00%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 90, Iter 80 | Loss: 34.08 | Train Acc: 68.75%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 90, Iter 100 | Loss: 16.35 | Train Acc: 84.38%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 91, Iter 6 | Loss: 31.99 | Train Acc: 78.12%
+Test Acc: 70.41% | LR: 0.000001
+Epoch 91, Iter 26 | Loss: 37.13 | Train Acc: 79.69%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 91, Iter 46 | Loss: 59.73 | Train Acc: 73.44%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 91, Iter 66 | Loss: 31.36 | Train Acc: 81.25%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 91, Iter 86 | Loss: 34.89 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 91, Iter 106 | Loss: 17.10 | Train Acc: 85.94%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 92, Iter 12 | Loss: 19.79 | Train Acc: 76.56%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 92, Iter 32 | Loss: 27.44 | Train Acc: 75.00%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 92, Iter 52 | Loss: 29.47 | Train Acc: 75.00%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 92, Iter 72 | Loss: 37.68 | Train Acc: 76.56%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 92, Iter 92 | Loss: 17.94 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 92, Iter 112 | Loss: 7.10 | Train Acc: 92.19%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 93, Iter 18 | Loss: 16.76 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 93, Iter 38 | Loss: 45.98 | Train Acc: 71.88%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 93, Iter 58 | Loss: 21.24 | Train Acc: 84.38%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 93, Iter 78 | Loss: 21.93 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 93, Iter 98 | Loss: 30.58 | Train Acc: 82.81%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 94, Iter 4 | Loss: 43.04 | Train Acc: 79.69%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 94, Iter 24 | Loss: 23.31 | Train Acc: 90.62%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 94, Iter 44 | Loss: 41.62 | Train Acc: 76.56%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 94, Iter 64 | Loss: 18.26 | Train Acc: 87.50%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 94, Iter 84 | Loss: 32.63 | Train Acc: 82.81%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 94, Iter 104 | Loss: 17.18 | Train Acc: 85.94%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 95, Iter 10 | Loss: 37.08 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 95, Iter 30 | Loss: 23.65 | Train Acc: 82.81%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 95, Iter 50 | Loss: 12.43 | Train Acc: 84.38%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 95, Iter 70 | Loss: 19.03 | Train Acc: 79.69%
+Test Acc: 70.48% | LR: 0.000001
+Epoch 95, Iter 90 | Loss: 52.42 | Train Acc: 73.44%
+Test Acc: 70.38% | LR: 0.000001
+Epoch 95, Iter 110 | Loss: 39.26 | Train Acc: 73.44%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 96, Iter 16 | Loss: 12.85 | Train Acc: 81.25%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 96, Iter 36 | Loss: 27.54 | Train Acc: 84.38%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 96, Iter 56 | Loss: 19.13 | Train Acc: 78.12%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 96, Iter 76 | Loss: 28.62 | Train Acc: 75.00%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 96, Iter 96 | Loss: 40.21 | Train Acc: 78.12%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 97, Iter 2 | Loss: 22.75 | Train Acc: 78.12%
+Test Acc: 70.14% | LR: 0.000001
+Epoch 97, Iter 22 | Loss: 17.07 | Train Acc: 84.38%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 97, Iter 42 | Loss: 31.64 | Train Acc: 81.25%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 97, Iter 62 | Loss: 27.10 | Train Acc: 79.69%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 97, Iter 82 | Loss: 29.79 | Train Acc: 78.12%
+Test Acc: 70.07% | LR: 0.000001
+Epoch 97, Iter 102 | Loss: 34.02 | Train Acc: 71.88%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 98, Iter 8 | Loss: 25.49 | Train Acc: 82.81%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 98, Iter 28 | Loss: 14.94 | Train Acc: 85.94%
+Test Acc: 70.21% | LR: 0.000001
+Epoch 98, Iter 48 | Loss: 16.33 | Train Acc: 85.94%
+Test Acc: 70.31% | LR: 0.000001
+Epoch 98, Iter 68 | Loss: 39.35 | Train Acc: 78.12%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 98, Iter 88 | Loss: 23.46 | Train Acc: 84.38%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 98, Iter 108 | Loss: 15.06 | Train Acc: 84.38%
+Test Acc: 70.35% | LR: 0.000001
+Epoch 99, Iter 14 | Loss: 39.90 | Train Acc: 81.25%
+Test Acc: 70.28% | LR: 0.000001
+Epoch 99, Iter 34 | Loss: 25.60 | Train Acc: 82.81%
+Test Acc: 70.24% | LR: 0.000001
+Epoch 99, Iter 54 | Loss: 48.18 | Train Acc: 75.00%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 99, Iter 74 | Loss: 40.74 | Train Acc: 76.56%
+Test Acc: 70.18% | LR: 0.000001
+Epoch 99, Iter 94 | Loss: 16.56 | Train Acc: 85.94%
+Test Acc: 70.21% | LR: 0.000001
+
+Saving model...
+Model saved to: /workspace/uci_har/dense/models/Take11_T128_Epochs100.pth
+Graph saved to: /workspace/uci_har/dense/graphs/Take11_T128_Epochs100.png
+
+============================================================
+Final Test Accuracy: 70.28%
+============================================================
