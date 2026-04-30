@@ -24,8 +24,9 @@ class UCIHARSNN:
     """
 
     def __init__(self, input_size=9, n_frames=128, tau_mem=0.1, tau_syn=0.05, spike_lam=0.0,
-                 model_type="dense", device=None, num_classes=6, lr=0.001, dt=0.02, threshold=1.0):
-        
+                 model_type="dense", device=None, num_classes=6, lr=0.001, dt=0.02, threshold=1.0,
+                 max_spikes_per_dt=1, dropout_p=0.2):
+
         self.device = device or (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
         self.input_size = input_size
         self.n_frames = n_frames
@@ -37,18 +38,20 @@ class UCIHARSNN:
         self.lr = lr
         self.dt = dt
         self.threshold = threshold
+        self.max_spikes_per_dt = max_spikes_per_dt
+        self.dropout_p = dropout_p
 
         self.epochs = None
 
         # Build network: 9 → 256 → dropout → 6 (single wide LIF layer)
         self.net = Sequential(
             LinearTorch((input_size, 256), has_bias=False),
-            LIFTorch(256, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn), 
-                     threshold=Constant(threshold), bias=Constant(0.0), dt=dt, 
-                     has_rec=False, max_spikes_per_dt=1),
-            DropoutModule(p=0.2),
+            LIFTorch(256, tau_mem=Constant(tau_mem), tau_syn=Constant(tau_syn),
+                     threshold=Constant(threshold), bias=Constant(0.0), dt=dt,
+                     has_rec=False, max_spikes_per_dt=max_spikes_per_dt),
+            DropoutModule(p=dropout_p),
             LinearTorch((256, num_classes), has_bias=False),
-            ExpSynTorch(num_classes, dt=dt, tau=Constant(tau_syn))       
+            ExpSynTorch(num_classes, dt=dt, tau=Constant(tau_syn))
         ).to(self.device)
 
         # Training components
@@ -316,7 +319,8 @@ class UCIHARSNN:
                 'num_classes': self.num_classes,
                 'dt': self.dt,
                 'threshold': self.threshold,
-
+                'max_spikes_per_dt': self.max_spikes_per_dt,
+                'dropout_p': self.dropout_p,
             }
         }, model_path)
 

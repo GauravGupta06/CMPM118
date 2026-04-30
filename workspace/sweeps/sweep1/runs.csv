@@ -1,0 +1,7 @@
+name,model_type,take_num,model_path,model_exists,elapsed_sec,returncode,counter_before,counter_after,log_file,epochs,n_frames,batch_size,lr,cfg_threshold,cfg_dropout_p,cfg_max_spikes_per_dt,cfg_spike_lam,cfg_tau_mem
+dense_t03_d00,dense,11,/workspace/uci_har/dense/models/Take11_T128_Epochs100.pth,True,5269.6,0,10,11,/workspace/sweeps/sweep1/logs/dense_t03_d00.log,100,128,64,0.001,0.3,0.0,5,0.0,0.1
+dense_t03_d01,dense,12,/workspace/uci_har/dense/models/Take12_T128_Epochs100.pth,True,5316.1,0,11,12,/workspace/sweeps/sweep1/logs/dense_t03_d01.log,100,128,64,0.001,0.3,0.1,5,0.0,0.1
+dense_t02_d01,dense,13,/workspace/uci_har/dense/models/Take13_T128_Epochs100.pth,True,5278.2,0,12,13,/workspace/sweeps/sweep1/logs/dense_t02_d01.log,100,128,64,0.001,0.2,0.1,5,0.0,0.1
+sparse_t20_lam5e5,sparse,9,/workspace/uci_har/sparse/models/Take9_T128_Epochs100.pth,True,5357.4,0,8,9,/workspace/sweeps/sweep1/logs/sparse_t20_lam5e5.log,100,128,64,0.001,2.0,0.2,1,5e-05,0.005
+sparse_t20_lam0,sparse,10,/workspace/uci_har/sparse/models/Take10_T128_Epochs100.pth,True,5393.0,0,9,10,/workspace/sweeps/sweep1/logs/sparse_t20_lam0.log,100,128,64,0.001,2.0,0.2,1,0.0,0.005
+sparse_t30_lam0,sparse,11,/workspace/uci_har/sparse/models/Take11_T128_Epochs100.pth,True,5309.1,0,10,11,/workspace/sweeps/sweep1/logs/sparse_t30_lam0.log,100,128,64,0.001,3.0,0.2,1,0.0,0.005
