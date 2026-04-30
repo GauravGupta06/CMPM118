@@ -1,4 +1,17 @@
-"""DVSGesture dataset loader."""
+"""DVSGesture dataset loader matching Arfa et al. (2025) preprocessing.
+
+Preprocessing pipeline:
+  1. Denoise (1s temporal, 1px spatial default)
+  2. Downsample 128x128 → 32x32
+  3. ToFrame with 1ms time-window binning
+  4. Binarize
+  5. Cap at max_timesteps (600) frames
+  Output shape: [T, 2, 32, 32] where T ≤ max_timesteps
+
+IMPORTANT: DataLoader MUST use tonic.collation.PadTensors(batch_first=True) as collate_fn
+since samples have variable-length temporal dimensions. PadTensors pads shorter sequences
+with zeros, which simply causes membrane leak in LIF neurons — no special handling needed.
+"""
 
 import os
 import tonic
@@ -6,27 +19,36 @@ import numpy as np
 
 
 class DVSGestureDataset:
-    """DVSGesture dataset loader."""
+    """DVSGesture dataset loader with Arfa et al. (2025) preprocessing."""
 
-    def __init__(self, dataset_path, w=32, h=32, n_frames=32):
+    def __init__(self, dataset_path, w=32, h=32, max_timesteps=600):
         self.dataset_path = dataset_path
         self.w = w
         self.h = h
-        self.n_frames = n_frames
+        self.max_timesteps = max_timesteps
         self.num_classes = 11
         self.sensor_size = tonic.datasets.DVSGesture.sensor_size  # (128, 128, 2)
 
     def load_dvsgesture(self):
         """Load DVSGesture dataset with caching."""
-        cache_path = f"{self.dataset_path}/dvsgesture/{self.w}x{self.h}_T{self.n_frames}"
+        cache_path = f"{self.dataset_path}/dvsgesture/{self.w}x{self.h}_tw1ms_T{self.max_timesteps}"
         cache_exists = os.path.exists(f"{cache_path}/train") and os.path.exists(f"{cache_path}/test")
 
-        # Create transforms - output shape: [T, C*H*W] = [n_frames, w*h*2]
+        # Transform pipeline matching Arfa et al. (2025):
+        # - Denoise: remove isolated events (1px spatial, 1s temporal neighborhood)
+        # - Downsample: 128x128 → 32x32
+        # - ToFrame: 1ms bins (time_window=1000 since DVS timestamps are in µs)
+        # - Binarize: counts → 0/1
+        # - Temporal cap: max 600 timesteps (matches paper's SpiNNaker2 SRAM limit)
+        # - NO flatten: keep [T, 2, 32, 32] for conv architecture
+        max_t = self.max_timesteps
         transform = tonic.transforms.Compose([
-            tonic.transforms.Downsample(spatial_factor=(self.w/self.sensor_size[1], self.h/self.sensor_size[0])),
-            tonic.transforms.ToFrame(sensor_size=(self.w, self.h, 2), n_time_bins=self.n_frames),
-            lambda x: (x > 0).astype(np.float32),  # Binarize: counts → 0/1
-            lambda x: x.reshape(x.shape[0], -1),   # Flatten: [T, C, H, W] → [T, C*H*W]
+            tonic.transforms.Denoise(filter_time=1000000),  # 1s in µs
+            tonic.transforms.Downsample(spatial_factor=(self.w / self.sensor_size[1], self.h / self.sensor_size[0])),
+            tonic.transforms.ToFrame(sensor_size=(self.w, self.h, 2), time_window=1000),  # 1ms bins
+            lambda x: (x > 0).astype(np.float32),  # Binarize
+            lambda x: x[:max_t],  # Cap at max_timesteps
+            # NO flatten — output is [T, 2, 32, 32] where T ≤ max_timesteps
         ])
 
         # Load raw datasets only if cache doesn't exist

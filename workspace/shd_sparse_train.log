@@ -1,0 +1,384 @@
+Starting training — arch=feedforward, hidden=512, dt=10ms, target_rate=14.0Hz, rate_lam=0.001, spike_lam=0.001, init_lr=1e-05, target_lr=0.001, early_stop=15
+Epoch 0, Iter 0 | Loss: 200.87 | Train Acc: 3.12% | LR: 0.000010
+Epoch 0, Iter 20 | Loss: 345.11 | Train Acc: 6.25% | LR: 0.001000
+Epoch 0, Iter 40 | Loss: 551.84 | Train Acc: 12.50% | LR: 0.001000
+Epoch 0, Iter 60 | Loss: 688.08 | Train Acc: 3.12% | LR: 0.001000
+Epoch 0, Iter 80 | Loss: 644.05 | Train Acc: 12.50% | LR: 0.001000
+Epoch 0, Iter 100 | Loss: 638.80 | Train Acc: 15.62% | LR: 0.001000
+Epoch 0, Iter 120 | Loss: 646.22 | Train Acc: 12.50% | LR: 0.001000
+Epoch 0, Iter 140 | Loss: 807.89 | Train Acc: 6.25% | LR: 0.001000
+Epoch 0, Iter 160 | Loss: 839.59 | Train Acc: 6.25% | LR: 0.001000
+Traceback (most recent call last):
+  File "/app/train_shd.py", line 129, in <module>
+    main()
+  File "/app/train_shd.py", line 109, in main
+    model.train_model(
+  File "/app/models/shd_model.py", line 217, in train_model
+    loss.backward()
+  File "/opt/conda/lib/python3.11/site-packages/torch/_tensor.py", line 581, in backward
+    torch.autograd.backward(
+  File "/opt/conda/lib/python3.11/site-packages/torch/autograd/__init__.py", line 347, in backward
+    _engine_run_backward(
+  File "/opt/conda/lib/python3.11/site-packages/torch/autograd/graph.py", line 825, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 22.06 GiB of which 11.19 MiB is free. Process 1638044 has 7.16 GiB memory in use. Process 1639426 has 4.95 GiB memory in use. Process 1639427 has 4.95 GiB memory in use. Including non-PyTorch memory, this process has 4.97 GiB memory in use. Of the allocated memory 4.34 GiB is allocated by PyTorch, and 362.07 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Using device: cuda
+starting training
+Epoch 0, Iter 0 | Loss: 3.0220 | Train Acc: 3.12%
+Test Acc: 5.10% | LR: 0.001000
+
+Epoch 0, Iter 20 | Loss: 2.9343 | Train Acc: 17.97%
+Test Acc: 15.12% | LR: 0.001000
+
+Epoch 0, Iter 40 | Loss: 2.9553 | Train Acc: 7.81%
+Test Acc: 8.59% | LR: 0.001000
+
+Epoch 0, Iter 60 | Loss: 2.9407 | Train Acc: 6.25%
+Test Acc: 8.46% | LR: 0.001000
+
+Epoch 1, Iter 17 | Loss: 2.9383 | Train Acc: 8.59%
+Test Acc: 10.29% | LR: 0.001000
+
+Epoch 1, Iter 37 | Loss: 2.9502 | Train Acc: 9.38%
+Test Acc: 9.42% | LR: 0.001000
+
+Epoch 1, Iter 57 | Loss: 2.9241 | Train Acc: 16.41%
+Test Acc: 12.73% | LR: 0.001000
+
+Epoch 2, Iter 14 | Loss: 2.9122 | Train Acc: 7.81%
+Test Acc: 10.39% | LR: 0.001000
+
+Epoch 2, Iter 34 | Loss: 2.9202 | Train Acc: 20.31%
+Test Acc: 9.88% | LR: 0.001000
+
+Epoch 2, Iter 54 | Loss: 2.9314 | Train Acc: 14.06%
+Test Acc: 6.20% | LR: 0.001000
+
+Epoch 3, Iter 11 | Loss: 2.9483 | Train Acc: 12.50%
+Test Acc: 14.84% | LR: 0.001000
+
+Epoch 3, Iter 31 | Loss: 2.9300 | Train Acc: 7.03%
+Test Acc: 11.08% | LR: 0.001000
+
+Epoch 3, Iter 51 | Loss: 2.9895 | Train Acc: 2.34%
+Test Acc: 12.68% | LR: 0.001000
+
+Epoch 4, Iter 8 | Loss: 2.9102 | Train Acc: 10.16%
+Test Acc: 13.19% | LR: 0.000500
+
+Epoch 4, Iter 28 | Loss: 2.9407 | Train Acc: 3.91%
+Test Acc: 12.96% | LR: 0.000500
+
+Epoch 4, Iter 48 | Loss: 2.9031 | Train Acc: 9.38%
+Test Acc: 14.52% | LR: 0.000500
+
+Epoch 5, Iter 5 | Loss: 2.9023 | Train Acc: 9.38%
+Test Acc: 8.00% | LR: 0.000500
+
+Epoch 5, Iter 25 | Loss: 2.9101 | Train Acc: 5.47%
+Test Acc: 7.63% | LR: 0.000500
+
+Epoch 5, Iter 45 | Loss: 2.8750 | Train Acc: 15.62%
+Test Acc: 14.02% | LR: 0.000500
+
+Epoch 6, Iter 2 | Loss: 2.8974 | Train Acc: 14.06%
+Test Acc: 12.50% | LR: 0.000500
+
+Epoch 6, Iter 22 | Loss: 2.8940 | Train Acc: 14.06%
+Test Acc: 12.45% | LR: 0.000500
+
+Epoch 6, Iter 42 | Loss: 2.8660 | Train Acc: 9.38%
+Test Acc: 10.80% | LR: 0.000500
+
+Epoch 6, Iter 62 | Loss: 2.8634 | Train Acc: 11.72%
+Test Acc: 7.90% | LR: 0.000500
+
+Epoch 7, Iter 19 | Loss: 2.9278 | Train Acc: 14.06%
+Test Acc: 10.62% | LR: 0.000500
+
+Epoch 7, Iter 39 | Loss: 2.8857 | Train Acc: 16.41%
+Test Acc: 12.50% | LR: 0.000250
+
+Epoch 7, Iter 59 | Loss: 2.9044 | Train Acc: 9.38%
+Test Acc: 12.78% | LR: 0.000250
+
+Epoch 8, Iter 16 | Loss: 2.8663 | Train Acc: 10.94%
+Test Acc: 9.33% | LR: 0.000250
+
+Epoch 8, Iter 36 | Loss: 2.9194 | Train Acc: 9.38%
+Test Acc: 14.25% | LR: 0.000250
+
+Epoch 8, Iter 56 | Loss: 2.9794 | Train Acc: 4.69%
+Test Acc: 15.44% | LR: 0.000250
+
+Epoch 9, Iter 13 | Loss: 2.8628 | Train Acc: 7.81%
+Test Acc: 10.94% | LR: 0.000250
+
+Epoch 9, Iter 33 | Loss: 2.8802 | Train Acc: 12.50%
+Test Acc: 11.76% | LR: 0.000250
+
+Epoch 9, Iter 53 | Loss: 2.8839 | Train Acc: 12.50%
+Test Acc: 12.82% | LR: 0.000250
+
+Epoch 10, Iter 10 | Loss: 2.8595 | Train Acc: 13.28%
+Test Acc: 11.67% | LR: 0.000250
+
+Epoch 10, Iter 30 | Loss: 2.8672 | Train Acc: 14.06%
+Test Acc: 16.22% | LR: 0.000250
+
+Epoch 10, Iter 50 | Loss: 2.8442 | Train Acc: 13.28%
+Test Acc: 10.06% | LR: 0.000250
+
+Epoch 11, Iter 7 | Loss: 2.8660 | Train Acc: 14.06%
+Test Acc: 13.65% | LR: 0.000250
+
+Epoch 11, Iter 27 | Loss: 2.8289 | Train Acc: 17.19%
+Test Acc: 15.67% | LR: 0.000250
+
+Epoch 11, Iter 47 | Loss: 2.7785 | Train Acc: 15.62%
+Test Acc: 12.13% | LR: 0.000250
+
+Epoch 12, Iter 4 | Loss: 2.8226 | Train Acc: 11.72%
+Test Acc: 12.41% | LR: 0.000250
+
+Epoch 12, Iter 24 | Loss: 2.9417 | Train Acc: 6.25%
+Test Acc: 8.18% | LR: 0.000250
+
+Epoch 12, Iter 44 | Loss: 2.9506 | Train Acc: 7.03%
+Test Acc: 15.49% | LR: 0.000250
+
+Epoch 13, Iter 1 | Loss: 2.8037 | Train Acc: 17.97%
+Test Acc: 13.01% | LR: 0.000250
+
+Epoch 13, Iter 21 | Loss: 2.8731 | Train Acc: 10.94%
+Test Acc: 10.11% | LR: 0.000250
+
+Epoch 13, Iter 41 | Loss: 2.8559 | Train Acc: 10.94%
+Test Acc: 8.96% | LR: 0.000250
+
+Epoch 13, Iter 61 | Loss: 2.8876 | Train Acc: 10.94%
+Test Acc: 13.42% | LR: 0.000250
+
+Epoch 14, Iter 18 | Loss: 2.8816 | Train Acc: 7.81%
+Test Acc: 12.13% | LR: 0.000125
+
+Epoch 14, Iter 38 | Loss: 2.8255 | Train Acc: 15.62%
+Test Acc: 12.45% | LR: 0.000125
+
+Epoch 14, Iter 58 | Loss: 2.8220 | Train Acc: 14.06%
+Test Acc: 12.87% | LR: 0.000125
+
+Epoch 15, Iter 15 | Loss: 2.8654 | Train Acc: 10.16%
+Test Acc: 12.45% | LR: 0.000125
+
+Epoch 15, Iter 35 | Loss: 2.7840 | Train Acc: 17.19%
+Test Acc: 13.60% | LR: 0.000125
+
+Epoch 15, Iter 55 | Loss: 2.8862 | Train Acc: 10.94%
+Test Acc: 13.88% | LR: 0.000125
+
+Epoch 16, Iter 12 | Loss: 2.8294 | Train Acc: 14.84%
+Test Acc: 14.98% | LR: 0.000125
+
+Epoch 16, Iter 32 | Loss: 2.8847 | Train Acc: 9.38%
+Test Acc: 13.01% | LR: 0.000125
+
+Epoch 16, Iter 52 | Loss: 2.8014 | Train Acc: 13.28%
+Test Acc: 16.45% | LR: 0.000125
+
+Epoch 17, Iter 9 | Loss: 2.8503 | Train Acc: 12.50%
+Test Acc: 12.18% | LR: 0.000125
+
+Epoch 17, Iter 29 | Loss: 2.8470 | Train Acc: 14.84%
+Test Acc: 12.96% | LR: 0.000125
+
+Epoch 17, Iter 49 | Loss: 2.8025 | Train Acc: 12.50%
+Test Acc: 13.10% | LR: 0.000125
+
+Epoch 18, Iter 6 | Loss: 2.8049 | Train Acc: 17.19%
+Test Acc: 13.69% | LR: 0.000125
+
+Epoch 18, Iter 26 | Loss: 2.7660 | Train Acc: 10.16%
+Test Acc: 14.80% | LR: 0.000125
+
+Epoch 18, Iter 46 | Loss: 2.7983 | Train Acc: 17.97%
+Test Acc: 12.64% | LR: 0.000125
+
+Epoch 19, Iter 3 | Loss: 2.7912 | Train Acc: 18.75%
+Test Acc: 11.03% | LR: 0.000125
+
+Epoch 19, Iter 23 | Loss: 2.8686 | Train Acc: 8.59%
+Test Acc: 12.13% | LR: 0.000125
+
+Epoch 19, Iter 43 | Loss: 2.7991 | Train Acc: 17.97%
+Test Acc: 14.43% | LR: 0.000125
+
+Epoch 20, Iter 0 | Loss: 2.8670 | Train Acc: 9.38%
+Test Acc: 12.64% | LR: 0.000125
+
+Epoch 20, Iter 20 | Loss: 2.7218 | Train Acc: 13.28%
+Test Acc: 13.24% | LR: 0.000125
+
+Epoch 20, Iter 40 | Loss: 2.7973 | Train Acc: 12.50%
+Test Acc: 12.96% | LR: 0.000063
+
+Epoch 20, Iter 60 | Loss: 2.7984 | Train Acc: 14.84%
+Test Acc: 14.48% | LR: 0.000063
+
+Epoch 21, Iter 17 | Loss: 2.9211 | Train Acc: 8.59%
+Test Acc: 15.12% | LR: 0.000063
+
+Epoch 21, Iter 37 | Loss: 2.8723 | Train Acc: 5.47%
+Test Acc: 12.18% | LR: 0.000063
+
+Epoch 21, Iter 57 | Loss: 2.7763 | Train Acc: 10.16%
+Test Acc: 13.79% | LR: 0.000063
+
+Epoch 22, Iter 14 | Loss: 2.8200 | Train Acc: 14.06%
+Test Acc: 13.65% | LR: 0.000063
+
+Epoch 22, Iter 34 | Loss: 2.7856 | Train Acc: 17.19%
+Test Acc: 12.32% | LR: 0.000063
+
+Epoch 22, Iter 54 | Loss: 2.8144 | Train Acc: 10.94%
+Test Acc: 15.21% | LR: 0.000063
+
+Epoch 23, Iter 11 | Loss: 2.8146 | Train Acc: 13.28%
+Test Acc: 12.27% | LR: 0.000063
+
+Epoch 23, Iter 31 | Loss: 2.7696 | Train Acc: 15.62%
+Test Acc: 13.33% | LR: 0.000063
+
+Epoch 23, Iter 51 | Loss: 2.8252 | Train Acc: 16.41%
+Test Acc: 12.18% | LR: 0.000063
+
+Epoch 24, Iter 8 | Loss: 2.7914 | Train Acc: 15.62%
+Test Acc: 12.82% | LR: 0.000031
+
+Epoch 24, Iter 28 | Loss: 2.7553 | Train Acc: 19.53%
+Test Acc: 12.68% | LR: 0.000031
+
+Epoch 24, Iter 48 | Loss: 2.7575 | Train Acc: 14.06%
+Test Acc: 13.14% | LR: 0.000031
+
+Epoch 25, Iter 5 | Loss: 2.8478 | Train Acc: 11.72%
+Test Acc: 13.28% | LR: 0.000031
+
+Epoch 25, Iter 25 | Loss: 2.8541 | Train Acc: 7.81%
+Test Acc: 13.83% | LR: 0.000031
+
+Epoch 25, Iter 45 | Loss: 2.7615 | Train Acc: 13.28%
+Test Acc: 12.91% | LR: 0.000031
+
+Epoch 26, Iter 2 | Loss: 2.9489 | Train Acc: 8.59%
+Test Acc: 12.27% | LR: 0.000031
+
+Epoch 26, Iter 22 | Loss: 2.7444 | Train Acc: 13.28%
+Test Acc: 13.01% | LR: 0.000031
+
+Epoch 26, Iter 42 | Loss: 2.8305 | Train Acc: 17.19%
+Test Acc: 14.84% | LR: 0.000031
+
+Epoch 26, Iter 62 | Loss: 2.7915 | Train Acc: 12.50%
+Test Acc: 12.68% | LR: 0.000031
+
+Epoch 27, Iter 19 | Loss: 2.8272 | Train Acc: 11.72%
+Test Acc: 13.56% | LR: 0.000031
+
+Epoch 27, Iter 39 | Loss: 2.7482 | Train Acc: 18.75%
+Test Acc: 12.68% | LR: 0.000016
+
+Epoch 27, Iter 59 | Loss: 2.7467 | Train Acc: 13.28%
+Test Acc: 12.82% | LR: 0.000016
+
+Epoch 28, Iter 16 | Loss: 2.7955 | Train Acc: 9.38%
+Test Acc: 13.69% | LR: 0.000016
+
+Epoch 28, Iter 36 | Loss: 2.8217 | Train Acc: 7.81%
+Test Acc: 13.51% | LR: 0.000016
+
+Epoch 28, Iter 56 | Loss: 2.7725 | Train Acc: 17.19%
+Test Acc: 13.10% | LR: 0.000016
+
+Epoch 29, Iter 13 | Loss: 2.7851 | Train Acc: 17.19%
+Test Acc: 13.05% | LR: 0.000016
+
+Epoch 29, Iter 33 | Loss: 2.9125 | Train Acc: 7.03%
+Test Acc: 15.26% | LR: 0.000016
+
+Epoch 29, Iter 53 | Loss: 2.8425 | Train Acc: 11.72%
+Test Acc: 14.25% | LR: 0.000016
+
+
+Saving model...
+Model saved to: /workspace/shd/sparse/models/Take4_T100_Epochs30.pth
+Graph saved to: /workspace/shd/sparse/graphs/Take4_T100_Epochs30.png
+
+============================================================
+Final Test Accuracy: 13.10%
+============================================================
+
+Computing spike statistics on test set (batch_size=1 recommended for exact per-sample counts)...
+[spike_count] processed batch 0: batch_spikes_total=1406408.0, batch_size=1
+[spike_count] processed batch 50: batch_spikes_total=1546057.3, batch_size=1
+[spike_count] processed batch 100: batch_spikes_total=1102214.6, batch_size=1
+[spike_count] processed batch 150: batch_spikes_total=1085870.1, batch_size=1
+[spike_count] processed batch 200: batch_spikes_total=1382392.7, batch_size=1
+[spike_count] processed batch 250: batch_spikes_total=1537579.6, batch_size=1
+[spike_count] processed batch 300: batch_spikes_total=1347950.2, batch_size=1
+[spike_count] processed batch 350: batch_spikes_total=1287763.7, batch_size=1
+[spike_count] processed batch 400: batch_spikes_total=1350582.1, batch_size=1
+[spike_count] processed batch 450: batch_spikes_total=1134476.3, batch_size=1
+[spike_count] processed batch 500: batch_spikes_total=1047708.4, batch_size=1
+[spike_count] processed batch 550: batch_spikes_total=1206012.5, batch_size=1
+[spike_count] processed batch 600: batch_spikes_total=947844.1, batch_size=1
+[spike_count] processed batch 650: batch_spikes_total=1128038.1, batch_size=1
+[spike_count] processed batch 700: batch_spikes_total=1518282.5, batch_size=1
+[spike_count] processed batch 750: batch_spikes_total=1184542.8, batch_size=1
+[spike_count] processed batch 800: batch_spikes_total=1272763.2, batch_size=1
+[spike_count] processed batch 850: batch_spikes_total=1101483.7, batch_size=1
+[spike_count] processed batch 900: batch_spikes_total=1262361.1, batch_size=1
+[spike_count] processed batch 950: batch_spikes_total=1217280.6, batch_size=1
+[spike_count] processed batch 1000: batch_spikes_total=968091.4, batch_size=1
+[spike_count] processed batch 1050: batch_spikes_total=1023426.1, batch_size=1
+[spike_count] processed batch 1100: batch_spikes_total=1032252.0, batch_size=1
+[spike_count] processed batch 1150: batch_spikes_total=1144122.5, batch_size=1
+[spike_count] processed batch 1200: batch_spikes_total=1217892.7, batch_size=1
+[spike_count] processed batch 1250: batch_spikes_total=1459467.5, batch_size=1
+[spike_count] processed batch 1300: batch_spikes_total=1182442.9, batch_size=1
+[spike_count] processed batch 1350: batch_spikes_total=1163664.2, batch_size=1
+[spike_count] processed batch 1400: batch_spikes_total=1197705.3, batch_size=1
+[spike_count] processed batch 1450: batch_spikes_total=1215853.0, batch_size=1
+[spike_count] processed batch 1500: batch_spikes_total=1158424.9, batch_size=1
+[spike_count] processed batch 1550: batch_spikes_total=1045505.5, batch_size=1
+[spike_count] processed batch 1600: batch_spikes_total=1269092.5, batch_size=1
+[spike_count] processed batch 1650: batch_spikes_total=1183300.6, batch_size=1
+[spike_count] processed batch 1700: batch_spikes_total=1281584.8, batch_size=1
+[spike_count] processed batch 1750: batch_spikes_total=1377465.9, batch_size=1
+[spike_count] processed batch 1800: batch_spikes_total=1236143.4, batch_size=1
+[spike_count] processed batch 1850: batch_spikes_total=1352888.9, batch_size=1
+[spike_count] processed batch 1900: batch_spikes_total=1073562.0, batch_size=1
+[spike_count] processed batch 1950: batch_spikes_total=982245.4, batch_size=1
+[spike_count] processed batch 2000: batch_spikes_total=1256390.2, batch_size=1
+[spike_count] processed batch 2050: batch_spikes_total=1314669.8, batch_size=1
+[spike_count] processed batch 2100: batch_spikes_total=1455055.4, batch_size=1
+[spike_count] processed batch 2150: batch_spikes_total=1222491.8, batch_size=1
+[spike_count] processed batch 2200: batch_spikes_total=1215322.1, batch_size=1
+[spike_count] processed batch 2250: batch_spikes_total=1278069.3, batch_size=1
+
+Spike stats:
+  n_samples: 2264
+  total_spikes: 2768336728.62
+  avg_spikes_per_sample: 1222763.5727
+
+Using paper reference energy: 0.46 mJ/inference (4.600000e-04 J)
+
+Estimated energy metrics (based on paper normalization):
+  Energy per spike (J): 3.761970e-10
+  Estimated total energy for measured test set (J): 1.041440e+00
+  Paper energy (J/inference): 4.600000e-04
+
+Note: This estimate assumes energy scales roughly linearly with spike count on the referenced hardware. Report this assumption when using these figures.
+
+Saved energy estimate to results/shd/energy_estimates/shd_energy_estimate_20260311_223123.json

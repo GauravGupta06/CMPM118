@@ -14,7 +14,6 @@ COPY results/ ./results/
 COPY train_shd.py .
 COPY train_UCI_HAR.py .
 COPY train_dvsgesture.py .
-COPY hyperparam_search.py .
 
 COPY router.py .
 

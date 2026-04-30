@@ -1,0 +1,3333 @@
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.5
+  spike_lam:  5e-05
+  lr:         5e-05
+  epochs:     50
+  batch_size: 64
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+nohup: ignoring input
+usage: train_dvsgesture.py [-h] [--model_type {sparse,dense}] [--w W] [--h H]
+                           [--n_frames N_FRAMES] [--epochs EPOCHS]
+                           [--batch_size BATCH_SIZE]
+                           [--num_workers NUM_WORKERS] [--lr LR]
+                           [--dataset_path DATASET_PATH]
+                           [--output_path OUTPUT_PATH]
+train_dvsgesture.py: error: unrecognized arguments: --threshold 1.5 --spike_lam 5e-5 --tau_mem 0.005
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.5
+  spike_lam:  5e-05
+  lr:         5e-05
+  epochs:     50
+  batch_size: 64
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.31 | Train Acc: 10.94%
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+/opt/conda/lib/python3.11/site-packages/torch/cuda/__init__.py:129: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 304: OS call failed or operation not supported on this OS (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+/opt/conda/lib/python3.11/site-packages/torch/cuda/__init__.py:129: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 304: OS call failed or operation not supported on this OS (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+/opt/conda/lib/python3.11/site-packages/torch/cuda/__init__.py:129: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 304: OS call failed or operation not supported on this OS (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+/opt/conda/lib/python3.11/site-packages/torch/cuda/__init__.py:129: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 304: OS call failed or operation not supported on this OS (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    import scipy.interpolate as spint
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+    from ._interpolate import *
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 1 of 18: Resource temporarily unavailable
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 2 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 3 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    import scipy.interpolate as spint
+OpenBLAS blas_thread_init: pthread_create failed for thread 4 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 5 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 6 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+OpenBLAS blas_thread_init: pthread_create failed for thread 7 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    import scipy.special as spec
+OpenBLAS blas_thread_init: pthread_create failed for thread 8 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 9 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 10 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 11 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 12 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 13 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 14 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 15 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 16 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+OpenBLAS blas_thread_init: pthread_create failed for thread 17 of 18: Resource temporarily unavailable
+OpenBLAS blas_thread_init: ensure that your address space and process count limits are big enough (ulimit -a)
+OpenBLAS blas_thread_init: or set a smaller OPENBLAS_NUM_THREADS to fit into what you have available
+OpenBLAS blas_thread_init: RLIMIT_NPROC 4194304 current, 4194304 max
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/opt/conda/lib/python3.11/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/train_dvsgesture.py", line 15, in <module>
+    from models.dvsgesture_model import DVSGestureSNN
+  File "/app/models/__init__.py", line 3, in <module>
+    from .shd_model import SHDSNN
+  File "/app/models/shd_model.py", line 5, in <module>
+    from rockpool.nn.modules import LIFTorch, LinearTorch, ExpSynTorch
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/__init__.py", line 6, in <module>
+    from .timeseries import *
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/timeseries.py", line 30, in <module>
+    import scipy.interpolate as spint
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/__init__.py", line 192, in <module>
+    from ._interpolate import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/interpolate/_interpolate.py", line 9, in <module>
+    import scipy.special as spec
+  File "/opt/conda/lib/python3.11/site-packages/scipy/special/__init__.py", line 785, in <module>
+    from . import _ufuncs
+  File "<frozen importlib._bootstrap>", line 405, in parent
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1243, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/queue.py", line 180, in get
+    self.not_empty.wait(remaining)
+  File "/opt/conda/lib/python3.11/threading.py", line 331, in wait
+    gotit = waiter.acquire(True, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/data/_utils/signal_handling.py", line 73, in handler
+    _error_if_any_worker_fails()
+RuntimeError: DataLoader worker (pid 51130) is killed by signal: Interrupt. 
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/train_dvsgesture.py", line 127, in <module>
+    main()
+  File "/app/train_dvsgesture.py", line 107, in main
+    model.train_model(
+  File "/app/models/dvsgesture_model.py", line 248, in train_model
+    test_acc = self.validate_model(test_loader)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/models/dvsgesture_model.py", line 261, in validate_model
+    for data, targets in test_loader:
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1448, in _next_data
+    idx, data = self._get_data()
+                ^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1402, in _get_data
+    success, data = self._try_get_data()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1256, in _try_get_data
+    raise RuntimeError(
+RuntimeError: DataLoader worker (pid(s) 51130) exited unexpectedly
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.5
+  spike_lam:  5e-05
+  lr:         5e-05
+  epochs:     50
+  batch_size: 64
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.47 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.26 | Train Acc: 14.06%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 14 | Loss: 0.17 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000050
+
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.5
+  spike_lam:  1e-08
+  lr:         5e-05
+  epochs:     50
+  batch_size: 64
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 14 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 2, Iter 13 | Loss: 0.09 | Train Acc: 14.06%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 3, Iter 12 | Loss: 0.09 | Train Acc: 10.94%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 4, Iter 11 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 5, Iter 10 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 6, Iter 9 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 7, Iter 8 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 8, Iter 7 | Loss: 0.09 | Train Acc: 17.19%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 9, Iter 6 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 10, Iter 5 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 11, Iter 4 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 12, Iter 3 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 13, Iter 2 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 14, Iter 1 | Loss: 0.09 | Train Acc: 14.06%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 15, Iter 0 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 15, Iter 15 | Loss: 0.09 | Train Acc: 18.75%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 16, Iter 14 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 17, Iter 13 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 18, Iter 12 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 19, Iter 11 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 20, Iter 10 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 21, Iter 9 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 22, Iter 8 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 23, Iter 7 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 24, Iter 6 | Loss: 0.09 | Train Acc: 10.94%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 25, Iter 5 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 26, Iter 4 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 27, Iter 3 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 28, Iter 2 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 29, Iter 1 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 30, Iter 0 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 30, Iter 15 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 31, Iter 14 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 32, Iter 13 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 33, Iter 12 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 34, Iter 11 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 35, Iter 10 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 36, Iter 9 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 37, Iter 8 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 38, Iter 7 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 39, Iter 6 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 40, Iter 5 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 41, Iter 4 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000006
+
+Epoch 42, Iter 3 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000003
+
+Epoch 43, Iter 2 | Loss: 0.09 | Train Acc: 7.81%
+Test Acc: 9.38% | LR: 0.000003
+
+Epoch 44, Iter 1 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000003
+
+Epoch 45, Iter 0 | Loss: 0.09 | Train Acc: 10.94%
+Test Acc: 9.38% | LR: 0.000003
+
+Epoch 45, Iter 15 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000003
+
+Epoch 46, Iter 14 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000003
+
+Epoch 47, Iter 13 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000003
+
+Epoch 48, Iter 12 | Loss: 0.09 | Train Acc: 4.69%
+Test Acc: 9.38% | LR: 0.000003
+
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.11/multiprocessing/queues.py", line 244, in _feed
+    obj = _ForkingPickler.dumps(obj)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+  File "/opt/conda/lib/python3.11/site-packages/torch/multiprocessing/reductions.py", line 619, in reduce_storage
+    df = multiprocessing.reduction.DupFd(fd)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 198, in DupFd
+    return resource_sharer.DupFd(fd)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 53, in __init__
+    self._id = _resource_sharer.register(send, close)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 76, in register
+    self._start()
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 126, in _start
+    self._listener = Listener(authkey=process.current_process().authkey, backlog=128)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 458, in __init__
+    address = address or arbitrary_address(family)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 77, in arbitrary_address
+    return tempfile.mktemp(prefix='listener-', dir=util.get_temp_dir())
+                                                   ^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/util.py", line 149, in get_temp_dir
+    tempdir = tempfile.mkdtemp(prefix='pymp-')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 374, in mkdtemp
+    prefix, suffix, dir, output_type = _sanitize_params(prefix, suffix, dir)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 127, in _sanitize_params
+    dir = gettempdir()
+          ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 316, in gettempdir
+    return _os.fsdecode(_gettempdir())
+                        ^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 309, in _gettempdir
+    tempdir = _get_default_tempdir()
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 224, in _get_default_tempdir
+    raise FileNotFoundError(_errno.ENOENT,
+FileNotFoundError: [Errno 2] No usable temporary directory found in ['/tmp', '/var/tmp', '/usr/tmp', '/app']
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.11/multiprocessing/queues.py", line 244, in _feed
+    obj = _ForkingPickler.dumps(obj)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+  File "/opt/conda/lib/python3.11/site-packages/torch/multiprocessing/reductions.py", line 619, in reduce_storage
+    df = multiprocessing.reduction.DupFd(fd)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 198, in DupFd
+    return resource_sharer.DupFd(fd)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 53, in __init__
+    self._id = _resource_sharer.register(send, close)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 76, in register
+    self._start()
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 126, in _start
+    self._listener = Listener(authkey=process.current_process().authkey, backlog=128)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 458, in __init__
+    address = address or arbitrary_address(family)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 77, in arbitrary_address
+    return tempfile.mktemp(prefix='listener-', dir=util.get_temp_dir())
+                                                   ^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/util.py", line 149, in get_temp_dir
+    tempdir = tempfile.mkdtemp(prefix='pymp-')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 374, in mkdtemp
+    prefix, suffix, dir, output_type = _sanitize_params(prefix, suffix, dir)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 127, in _sanitize_params
+    dir = gettempdir()
+          ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 316, in gettempdir
+    return _os.fsdecode(_gettempdir())
+                        ^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 309, in _gettempdir
+    tempdir = _get_default_tempdir()
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 224, in _get_default_tempdir
+    raise FileNotFoundError(_errno.ENOENT,
+FileNotFoundError: [Errno 2] No usable temporary directory found in ['/tmp', '/var/tmp', '/usr/tmp', '/app']
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.11/multiprocessing/queues.py", line 244, in _feed
+    obj = _ForkingPickler.dumps(obj)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+  File "/opt/conda/lib/python3.11/site-packages/torch/multiprocessing/reductions.py", line 619, in reduce_storage
+    df = multiprocessing.reduction.DupFd(fd)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 198, in DupFd
+    return resource_sharer.DupFd(fd)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 53, in __init__
+    self._id = _resource_sharer.register(send, close)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 76, in register
+    self._start()
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 126, in _start
+    self._listener = Listener(authkey=process.current_process().authkey, backlog=128)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 458, in __init__
+    address = address or arbitrary_address(family)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 77, in arbitrary_address
+    return tempfile.mktemp(prefix='listener-', dir=util.get_temp_dir())
+                                                   ^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/util.py", line 149, in get_temp_dir
+    tempdir = tempfile.mkdtemp(prefix='pymp-')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 374, in mkdtemp
+    prefix, suffix, dir, output_type = _sanitize_params(prefix, suffix, dir)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 127, in _sanitize_params
+    dir = gettempdir()
+          ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 316, in gettempdir
+    return _os.fsdecode(_gettempdir())
+                        ^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 309, in _gettempdir
+    tempdir = _get_default_tempdir()
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 224, in _get_default_tempdir
+    raise FileNotFoundError(_errno.ENOENT,
+FileNotFoundError: [Errno 2] No usable temporary directory found in ['/tmp', '/var/tmp', '/usr/tmp', '/app']
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.11/multiprocessing/queues.py", line 244, in _feed
+    obj = _ForkingPickler.dumps(obj)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+  File "/opt/conda/lib/python3.11/site-packages/torch/multiprocessing/reductions.py", line 619, in reduce_storage
+    df = multiprocessing.reduction.DupFd(fd)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/reduction.py", line 198, in DupFd
+    return resource_sharer.DupFd(fd)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 53, in __init__
+    self._id = _resource_sharer.register(send, close)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 76, in register
+    self._start()
+  File "/opt/conda/lib/python3.11/multiprocessing/resource_sharer.py", line 126, in _start
+    self._listener = Listener(authkey=process.current_process().authkey, backlog=128)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 458, in __init__
+    address = address or arbitrary_address(family)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/connection.py", line 77, in arbitrary_address
+    return tempfile.mktemp(prefix='listener-', dir=util.get_temp_dir())
+                                                   ^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/multiprocessing/util.py", line 149, in get_temp_dir
+    tempdir = tempfile.mkdtemp(prefix='pymp-')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 374, in mkdtemp
+    prefix, suffix, dir, output_type = _sanitize_params(prefix, suffix, dir)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 127, in _sanitize_params
+    dir = gettempdir()
+          ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 316, in gettempdir
+    return _os.fsdecode(_gettempdir())
+                        ^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 309, in _gettempdir
+    tempdir = _get_default_tempdir()
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/tempfile.py", line 224, in _get_default_tempdir
+    raise FileNotFoundError(_errno.ENOENT,
+FileNotFoundError: [Errno 2] No usable temporary directory found in ['/tmp', '/var/tmp', '/usr/tmp', '/app']
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.5
+  spike_lam:  1e-08
+  lr:         5e-05
+  epochs:     50
+  batch_size: 64
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Traceback (most recent call last):
+  File "/app/train_dvsgesture.py", line 127, in <module>
+    main()
+  File "/app/train_dvsgesture.py", line 107, in main
+    model.train_model(
+  File "/app/models/dvsgesture_model.py", line 214, in train_model
+    output_spikes, recordings = self(data, record=True)
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/models/dvsgesture_model.py", line 150, in forward
+    lif0_out, _, lif0_rec = self.lif0(conv0_seq, record=True)  # [batch, T, 3600]
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/nn/modules/torch/torch_module.py", line 147, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/nn/modules/module.py", line 644, in __call__
+    outputs, new_state, recorded_state = self.evolve(
+                                         ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/nn/modules/torch/lif_torch.py", line 459, in evolve
+    output_data, _, _ = super().evolve(input_data, record)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/nn/modules/torch/torch_module.py", line 182, in evolve
+    output_data = nn.Module.__call__(self, input_data)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/nn/modules/torch/lif_torch.py", line 704, in forward
+    spikes = self.spike_generation_fn(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/autograd/function.py", line 575, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/rockpool/nn/modules/torch/lif_torch.py", line 45, in forward
+    nr_spikes -= (nr_spikes - max_spikes_per_dt.float()) * clamp_bool
+                  ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 22.06 GiB of which 2.06 MiB is free. Process 53148 has 14.75 GiB memory in use. Including non-PyTorch memory, this process has 7.28 GiB memory in use. Of the allocated memory 2.39 GiB is allocated by PyTorch, and 4.62 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.5
+  spike_lam:  1e-08
+  lr:         5e-05
+  epochs:     50
+  batch_size: 64
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.09 | Train Acc: 14.06%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 14 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 2, Iter 13 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01000
+  threshold:  1.2
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 11.72% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.08 | Train Acc: 18.75%
+Test Acc: 22.27% | LR: 0.000050
+
+Epoch 1, Iter 12 | Loss: 0.06 | Train Acc: 25.00%
+Test Acc: 34.77% | LR: 0.000050
+
+Epoch 1, Iter 27 | Loss: 0.06 | Train Acc: 21.88%
+Test Acc: 30.86% | LR: 0.000050
+
+Epoch 2, Iter 9 | Loss: 0.05 | Train Acc: 50.00%
+Test Acc: 35.16% | LR: 0.000050
+
+Epoch 2, Iter 24 | Loss: 0.05 | Train Acc: 53.12%
+Test Acc: 37.11% | LR: 0.000050
+
+Epoch 3, Iter 6 | Loss: 0.04 | Train Acc: 37.50%
+Test Acc: 39.06% | LR: 0.000050
+
+Epoch 3, Iter 21 | Loss: 0.04 | Train Acc: 53.12%
+Test Acc: 41.41% | LR: 0.000050
+
+Epoch 4, Iter 3 | Loss: 0.03 | Train Acc: 59.38%
+Test Acc: 46.09% | LR: 0.000050
+
+Epoch 4, Iter 18 | Loss: 0.04 | Train Acc: 46.88%
+Test Acc: 49.61% | LR: 0.000050
+
+Epoch 5, Iter 0 | Loss: 0.03 | Train Acc: 50.00%
+Test Acc: 50.39% | LR: 0.000050
+
+Epoch 5, Iter 15 | Loss: 0.03 | Train Acc: 59.38%
+Test Acc: 50.39% | LR: 0.000050
+
+Epoch 5, Iter 30 | Loss: 0.02 | Train Acc: 56.25%
+Test Acc: 55.08% | LR: 0.000050
+
+Epoch 6, Iter 12 | Loss: 0.03 | Train Acc: 71.88%
+Test Acc: 57.03% | LR: 0.000050
+
+Epoch 6, Iter 27 | Loss: 0.02 | Train Acc: 65.62%
+Test Acc: 59.77% | LR: 0.000050
+
+Epoch 7, Iter 9 | Loss: 0.02 | Train Acc: 56.25%
+Test Acc: 58.98% | LR: 0.000050
+
+Epoch 7, Iter 24 | Loss: 0.02 | Train Acc: 71.88%
+Test Acc: 61.72% | LR: 0.000050
+
+Epoch 8, Iter 6 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 65.23% | LR: 0.000050
+
+Epoch 8, Iter 21 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 67.97% | LR: 0.000050
+
+Epoch 9, Iter 3 | Loss: 0.02 | Train Acc: 87.50%
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01000
+  threshold:  1.5
+  spike_lam:  5e-05
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01000
+  threshold:  1.2
+  spike_lam:  5e-05
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 1.70 | Train Acc: 3.12%
+Test Acc: 9.77% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.75 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.39 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 12 | Loss: 0.23 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 27 | Loss: 0.19 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 2, Iter 9 | Loss: 0.13 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 2, Iter 24 | Loss: 0.11 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 3, Iter 6 | Loss: 0.10 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 3, Iter 21 | Loss: 0.10 | Train Acc: 0.00%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 4, Iter 3 | Loss: 0.10 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 4, Iter 18 | Loss: 0.10 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 5, Iter 0 | Loss: 0.10 | Train Acc: 18.75%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 5, Iter 15 | Loss: 0.10 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 5, Iter 30 | Loss: 0.10 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 6, Iter 12 | Loss: 0.10 | Train Acc: 0.00%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 6, Iter 27 | Loss: 0.10 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 7, Iter 9 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 7, Iter 24 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 8, Iter 6 | Loss: 0.09 | Train Acc: 18.75%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 8, Iter 21 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 9, Iter 3 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 9, Iter 18 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 10, Iter 0 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 10, Iter 15 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 10, Iter 30 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 11, Iter 12 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 11, Iter 27 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 12, Iter 9 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 12, Iter 24 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 13, Iter 6 | Loss: 0.09 | Train Acc: 12.50%
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+bash: --num_workers: command not found
+bash: --num_workers: command not found
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01000
+  threshold:  1.2
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.09 | Train Acc: 18.75%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 12 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 27 | Loss: 0.09 | Train Acc: 6.25%
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01380
+  threshold:  1.0
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+bash: --num_workers: command not found
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01380
+  threshold:  1.0
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.08 | Train Acc: 28.12%
+Test Acc: 16.80% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.06 | Train Acc: 25.00%
+Test Acc: 26.56% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.04 | Train Acc: 43.75%
+Test Acc: 42.58% | LR: 0.000050
+
+Epoch 1, Iter 12 | Loss: 0.04 | Train Acc: 46.88%
+Test Acc: 42.58% | LR: 0.000050
+
+Epoch 1, Iter 27 | Loss: 0.04 | Train Acc: 31.25%
+Test Acc: 45.70% | LR: 0.000050
+
+Epoch 2, Iter 9 | Loss: 0.04 | Train Acc: 59.38%
+Test Acc: 48.83% | LR: 0.000050
+
+Epoch 2, Iter 24 | Loss: 0.03 | Train Acc: 53.12%
+Test Acc: 51.95% | LR: 0.000050
+
+Epoch 3, Iter 6 | Loss: 0.04 | Train Acc: 46.88%
+Test Acc: 54.30% | LR: 0.000050
+
+Epoch 3, Iter 21 | Loss: 0.02 | Train Acc: 65.62%
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00100
+  threshold:  1.0
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 12 | Loss: 0.09 | Train Acc: 6.25%
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+bash: train_dvsgesture.py: command not found
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01000
+  threshold:  1.0
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 16
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 11.72% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.08 | Train Acc: 12.50%
+Test Acc: 12.11% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.07 | Train Acc: 31.25%
+Test Acc: 20.31% | LR: 0.000050
+
+Epoch 0, Iter 45 | Loss: 0.05 | Train Acc: 31.25%
+Test Acc: 29.69% | LR: 0.000050
+
+Epoch 0, Iter 60 | Loss: 0.04 | Train Acc: 50.00%
+Test Acc: 31.64% | LR: 0.000050
+
+Epoch 1, Iter 8 | Loss: 0.04 | Train Acc: 18.75%
+Test Acc: 30.08% | LR: 0.000050
+
+Epoch 1, Iter 23 | Loss: 0.03 | Train Acc: 37.50%
+Test Acc: 29.69% | LR: 0.000050
+
+Epoch 1, Iter 38 | Loss: 0.03 | Train Acc: 43.75%
+Test Acc: 33.20% | LR: 0.000050
+
+Epoch 1, Iter 53 | Loss: 0.04 | Train Acc: 62.50%
+Test Acc: 42.97% | LR: 0.000050
+
+Epoch 2, Iter 1 | Loss: 0.03 | Train Acc: 50.00%
+Test Acc: 41.80% | LR: 0.000050
+
+Epoch 2, Iter 16 | Loss: 0.03 | Train Acc: 43.75%
+Test Acc: 44.53% | LR: 0.000050
+
+Epoch 2, Iter 31 | Loss: 0.03 | Train Acc: 50.00%
+Test Acc: 49.22% | LR: 0.000050
+
+Epoch 2, Iter 46 | Loss: 0.03 | Train Acc: 62.50%
+Test Acc: 53.52% | LR: 0.000050
+
+Epoch 2, Iter 61 | Loss: 0.03 | Train Acc: 62.50%
+Test Acc: 49.61% | LR: 0.000050
+
+Epoch 3, Iter 9 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 53.91% | LR: 0.000050
+
+Epoch 3, Iter 24 | Loss: 0.03 | Train Acc: 56.25%
+Test Acc: 53.52% | LR: 0.000050
+
+Epoch 3, Iter 39 | Loss: 0.03 | Train Acc: 75.00%
+Test Acc: 55.86% | LR: 0.000050
+
+Epoch 3, Iter 54 | Loss: 0.02 | Train Acc: 62.50%
+Test Acc: 56.64% | LR: 0.000050
+
+Epoch 4, Iter 2 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 60.16% | LR: 0.000050
+
+Epoch 4, Iter 17 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 60.55% | LR: 0.000050
+
+Epoch 4, Iter 32 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 61.33% | LR: 0.000050
+
+Epoch 4, Iter 47 | Loss: 0.02 | Train Acc: 87.50%
+Test Acc: 62.89% | LR: 0.000050
+
+Epoch 4, Iter 62 | Loss: 0.03 | Train Acc: 50.00%
+Test Acc: 62.50% | LR: 0.000050
+
+Epoch 5, Iter 10 | Loss: 0.02 | Train Acc: 93.75%
+Test Acc: 61.72% | LR: 0.000050
+
+Epoch 5, Iter 25 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 61.72% | LR: 0.000050
+
+Epoch 5, Iter 40 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 64.45% | LR: 0.000050
+
+Epoch 5, Iter 55 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 65.62% | LR: 0.000050
+
+Epoch 6, Iter 3 | Loss: 0.02 | Train Acc: 87.50%
+Test Acc: 63.67% | LR: 0.000050
+
+Epoch 6, Iter 18 | Loss: 0.02 | Train Acc: 93.75%
+Test Acc: 66.41% | LR: 0.000050
+
+Epoch 6, Iter 33 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 60.94% | LR: 0.000050
+
+Epoch 6, Iter 48 | Loss: 0.02 | Train Acc: 87.50%
+Test Acc: 66.41% | LR: 0.000050
+
+Epoch 6, Iter 63 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 66.80% | LR: 0.000050
+
+Epoch 7, Iter 11 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 68.36% | LR: 0.000050
+
+Epoch 7, Iter 26 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 66.41% | LR: 0.000050
+
+Epoch 7, Iter 41 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 67.19% | LR: 0.000050
+
+Epoch 7, Iter 56 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 68.36% | LR: 0.000050
+
+Epoch 8, Iter 4 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 67.97% | LR: 0.000050
+
+Epoch 8, Iter 19 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 66.80% | LR: 0.000050
+
+Epoch 8, Iter 34 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 69.92% | LR: 0.000050
+
+Epoch 8, Iter 49 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 68.75% | LR: 0.000050
+
+Epoch 8, Iter 64 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 70.31% | LR: 0.000050
+
+Epoch 9, Iter 12 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 72.66% | LR: 0.000050
+
+Epoch 9, Iter 27 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 70.70% | LR: 0.000050
+
+Epoch 9, Iter 42 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 68.36% | LR: 0.000050
+
+Epoch 9, Iter 57 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 72.27% | LR: 0.000050
+
+Epoch 10, Iter 5 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 10, Iter 20 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 10, Iter 35 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 10, Iter 50 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 73.05% | LR: 0.000050
+
+Epoch 10, Iter 65 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 75.00% | LR: 0.000050
+
+Epoch 11, Iter 13 | Loss: 0.01 | Train Acc: 75.00%
+Test Acc: 75.39% | LR: 0.000050
+
+Epoch 11, Iter 28 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 75.39% | LR: 0.000050
+
+Epoch 11, Iter 43 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 73.83% | LR: 0.000050
+
+Epoch 11, Iter 58 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 73.05% | LR: 0.000050
+
+Epoch 12, Iter 6 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 73.05% | LR: 0.000050
+
+Epoch 12, Iter 21 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 74.61% | LR: 0.000050
+
+Epoch 12, Iter 36 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 73.44% | LR: 0.000050
+
+Epoch 12, Iter 51 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 74.61% | LR: 0.000050
+
+Epoch 12, Iter 66 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 75.78% | LR: 0.000050
+
+Epoch 13, Iter 14 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 73.05% | LR: 0.000050
+
+Epoch 13, Iter 29 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 73.44% | LR: 0.000050
+
+Epoch 13, Iter 44 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 76.56% | LR: 0.000050
+
+Epoch 13, Iter 59 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 75.39% | LR: 0.000050
+
+Epoch 14, Iter 7 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 75.00% | LR: 0.000050
+
+Epoch 14, Iter 22 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 77.73% | LR: 0.000050
+
+Epoch 14, Iter 37 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 75.78% | LR: 0.000050
+
+Epoch 14, Iter 52 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 76.95% | LR: 0.000050
+
+Epoch 15, Iter 0 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 75.78% | LR: 0.000050
+
+Epoch 15, Iter 15 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 76.17% | LR: 0.000050
+
+Epoch 15, Iter 30 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 75.39% | LR: 0.000050
+
+Epoch 15, Iter 45 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 76.95% | LR: 0.000050
+
+Epoch 15, Iter 60 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 77.34% | LR: 0.000050
+
+Epoch 16, Iter 8 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 78.12% | LR: 0.000050
+
+Epoch 16, Iter 23 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 77.73% | LR: 0.000050
+
+Epoch 16, Iter 38 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 76.95% | LR: 0.000050
+
+Epoch 16, Iter 53 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 77.34% | LR: 0.000050
+
+Epoch 17, Iter 1 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 77.73% | LR: 0.000050
+
+Epoch 17, Iter 16 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 77.73% | LR: 0.000050
+
+Epoch 17, Iter 31 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 76.95% | LR: 0.000050
+
+Epoch 17, Iter 46 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 75.78% | LR: 0.000050
+
+Epoch 17, Iter 61 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 76.95% | LR: 0.000050
+
+Epoch 18, Iter 9 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 78.91% | LR: 0.000050
+
+Epoch 18, Iter 24 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 77.34% | LR: 0.000050
+
+Epoch 18, Iter 39 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 75.78% | LR: 0.000050
+
+Epoch 18, Iter 54 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 77.34% | LR: 0.000050
+
+Epoch 19, Iter 2 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 80.08% | LR: 0.000050
+
+Epoch 19, Iter 17 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 77.34% | LR: 0.000050
+
+Epoch 19, Iter 32 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 76.95% | LR: 0.000050
+
+Epoch 19, Iter 47 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.91% | LR: 0.000050
+
+Epoch 19, Iter 62 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 78.91% | LR: 0.000050
+
+Epoch 20, Iter 10 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 78.91% | LR: 0.000050
+
+Epoch 20, Iter 25 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 79.69% | LR: 0.000050
+
+Epoch 20, Iter 40 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.12% | LR: 0.000050
+
+Epoch 20, Iter 55 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 79.30% | LR: 0.000050
+
+Epoch 21, Iter 3 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 78.52% | LR: 0.000050
+
+Epoch 21, Iter 18 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 77.73% | LR: 0.000050
+
+Epoch 21, Iter 33 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.52% | LR: 0.000050
+
+Epoch 21, Iter 48 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.91% | LR: 0.000025
+
+Epoch 21, Iter 63 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.69% | LR: 0.000025
+
+Epoch 22, Iter 11 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.91% | LR: 0.000025
+
+Epoch 22, Iter 26 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 22, Iter 41 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.08% | LR: 0.000025
+
+Epoch 22, Iter 56 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 78.91% | LR: 0.000025
+
+Epoch 23, Iter 4 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 23, Iter 19 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.12% | LR: 0.000025
+
+Epoch 23, Iter 34 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000025
+
+Epoch 23, Iter 49 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 23, Iter 64 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.69% | LR: 0.000025
+
+Epoch 24, Iter 12 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.52% | LR: 0.000025
+
+Epoch 24, Iter 27 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 79.69% | LR: 0.000025
+
+Epoch 24, Iter 42 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000025
+
+Epoch 24, Iter 57 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 25, Iter 5 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 25, Iter 20 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.08% | LR: 0.000025
+
+Epoch 25, Iter 35 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.08% | LR: 0.000025
+
+Epoch 25, Iter 50 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 79.69% | LR: 0.000025
+
+Epoch 25, Iter 65 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 26, Iter 13 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 79.69% | LR: 0.000025
+
+Epoch 26, Iter 28 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.47% | LR: 0.000025
+
+Epoch 26, Iter 43 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 79.69% | LR: 0.000025
+
+Epoch 26, Iter 58 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 27, Iter 6 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 79.30% | LR: 0.000025
+
+Epoch 27, Iter 21 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 79.69% | LR: 0.000013
+
+Epoch 27, Iter 36 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.47% | LR: 0.000013
+
+Epoch 27, Iter 51 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000013
+
+Epoch 27, Iter 66 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 78.91% | LR: 0.000013
+
+Epoch 28, Iter 14 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 79.30% | LR: 0.000013
+
+Epoch 28, Iter 29 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.47% | LR: 0.000013
+
+Epoch 28, Iter 44 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000013
+
+Epoch 28, Iter 59 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.08% | LR: 0.000013
+
+Epoch 29, Iter 7 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000013
+
+Epoch 29, Iter 22 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.25% | LR: 0.000013
+
+Epoch 29, Iter 37 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 81.25% | LR: 0.000013
+
+Epoch 29, Iter 52 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000006
+
+Epoch 30, Iter 0 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.86% | LR: 0.000006
+
+Epoch 30, Iter 15 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 79.69% | LR: 0.000006
+
+Epoch 30, Iter 30 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000006
+
+Epoch 30, Iter 45 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.25% | LR: 0.000006
+
+Epoch 30, Iter 60 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.47% | LR: 0.000006
+
+Epoch 31, Iter 8 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 80.47% | LR: 0.000006
+
+Epoch 31, Iter 23 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.86% | LR: 0.000006
+
+Epoch 31, Iter 38 | Loss: 0.00 | Train Acc: 93.75%
+Test Acc: 80.47% | LR: 0.000006
+
+Epoch 31, Iter 53 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.47% | LR: 0.000006
+
+Epoch 32, Iter 1 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.47% | LR: 0.000006
+
+Epoch 32, Iter 16 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 32, Iter 31 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 32, Iter 46 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000003
+
+Epoch 32, Iter 61 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 33, Iter 9 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.47% | LR: 0.000003
+
+Epoch 33, Iter 24 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 80.47% | LR: 0.000003
+
+Epoch 33, Iter 39 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000003
+
+Epoch 33, Iter 54 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 80.47% | LR: 0.000003
+
+Epoch 34, Iter 2 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000003
+
+Epoch 34, Iter 17 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 34, Iter 32 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.47% | LR: 0.000003
+
+Epoch 34, Iter 47 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.25% | LR: 0.000003
+
+Epoch 34, Iter 62 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 81.64% | LR: 0.000003
+
+Epoch 35, Iter 10 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 35, Iter 25 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 35, Iter 40 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000003
+
+Epoch 35, Iter 55 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 81.25% | LR: 0.000003
+
+Epoch 36, Iter 3 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 36, Iter 18 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 36, Iter 33 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000003
+
+Epoch 36, Iter 48 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000002
+
+Epoch 36, Iter 63 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000002
+
+Epoch 37, Iter 11 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.86% | LR: 0.000002
+
+Epoch 37, Iter 26 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000002
+
+Epoch 37, Iter 41 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000002
+
+Epoch 37, Iter 56 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000002
+
+Epoch 38, Iter 4 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000002
+
+Epoch 38, Iter 19 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000002
+
+Epoch 38, Iter 34 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.25% | LR: 0.000002
+
+Epoch 38, Iter 49 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.25% | LR: 0.000002
+
+Epoch 38, Iter 64 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.47% | LR: 0.000002
+
+Epoch 39, Iter 12 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000001
+
+Epoch 39, Iter 27 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.25% | LR: 0.000001
+
+Epoch 39, Iter 42 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 39, Iter 57 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 80.86% | LR: 0.000001
+
+Epoch 40, Iter 5 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 80.86% | LR: 0.000001
+
+Epoch 40, Iter 20 | Loss: 0.00 | Train Acc: 93.75%
+Test Acc: 81.25% | LR: 0.000001
+
+Epoch 40, Iter 35 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 40, Iter 50 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 40, Iter 65 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 41, Iter 13 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000001
+
+Epoch 41, Iter 28 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 41, Iter 43 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 41, Iter 58 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 42, Iter 6 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 42, Iter 21 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 42, Iter 36 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 42, Iter 51 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 42, Iter 66 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 43, Iter 14 | Loss: 0.00 | Train Acc: 93.75%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 43, Iter 29 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 43, Iter 44 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 43, Iter 59 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 44, Iter 7 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 44, Iter 22 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 44, Iter 37 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 44, Iter 52 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 45, Iter 0 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000001
+
+Epoch 45, Iter 15 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 45, Iter 30 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 45, Iter 45 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 45, Iter 60 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 81.25% | LR: 0.000001
+
+Epoch 46, Iter 8 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 46, Iter 23 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 46, Iter 38 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 46, Iter 53 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 47, Iter 1 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 47, Iter 16 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 47, Iter 31 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.25% | LR: 0.000001
+
+Epoch 47, Iter 46 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 47, Iter 61 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 48, Iter 9 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 48, Iter 24 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 48, Iter 39 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 81.64% | LR: 0.000001
+
+Epoch 48, Iter 54 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 49, Iter 2 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 49, Iter 17 | Loss: 0.00 | Train Acc: 93.75%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 49, Iter 32 | Loss: 0.00 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 49, Iter 47 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 82.03% | LR: 0.000001
+
+Epoch 49, Iter 62 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 82.03% | LR: 0.000001
+
+
+Saving model...
+Model saved to: /workspace/dvsgesture/sparse/models/Take2_T600_Epochs50.pth
+Graph saved to: /workspace/dvsgesture/sparse/graphs/Take2_T600_Epochs50.png
+
+============================================================
+Final Test Accuracy: 82.03%
+============================================================
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.2
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 11.72% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.08 | Train Acc: 18.75%
+Test Acc: 13.67% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.08 | Train Acc: 28.12%
+Test Acc: 14.84% | LR: 0.000050
+
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.35
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.00500
+  threshold:  1.35
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 12 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 1, Iter 27 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 2, Iter 9 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 2, Iter 24 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 3, Iter 6 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 3, Iter 21 | Loss: 0.09 | Train Acc: 0.00%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 4, Iter 3 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 4, Iter 18 | Loss: 0.09 | Train Acc: 0.00%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 5, Iter 0 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000050
+
+Epoch 5, Iter 15 | Loss: 0.09 | Train Acc: 3.12%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 5, Iter 30 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 6, Iter 12 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 6, Iter 27 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 7, Iter 9 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 7, Iter 24 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 8, Iter 6 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 8, Iter 21 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 9, Iter 3 | Loss: 0.09 | Train Acc: 0.00%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 9, Iter 18 | Loss: 0.09 | Train Acc: 25.00%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 10, Iter 0 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000025
+
+Epoch 10, Iter 15 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 10, Iter 30 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 11, Iter 12 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 11, Iter 27 | Loss: 0.09 | Train Acc: 12.50%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 12, Iter 9 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 12, Iter 24 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 13, Iter 6 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 13, Iter 21 | Loss: 0.09 | Train Acc: 6.25%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 14, Iter 3 | Loss: 0.09 | Train Acc: 0.00%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 14, Iter 18 | Loss: 0.09 | Train Acc: 15.62%
+Test Acc: 9.38% | LR: 0.000013
+
+Epoch 15, Iter 0 | Loss: 0.09 | Train Acc: 0.00%
+/opt/conda/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+nohup: ignoring input
+Using device: cuda
+
+Hyperparameters:
+  model_type: sparse
+  tau_mem:    0.01000
+  threshold:  1.3
+  spike_lam:  0.0
+  lr:         5e-05
+  epochs:     50
+  batch_size: 32
+  max_timesteps: 600
+  Model architecture: conv_arfa
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.09 | Train Acc: 9.38%
+Test Acc: 10.55% | LR: 0.000050
+
+Epoch 0, Iter 15 | Loss: 0.07 | Train Acc: 28.12%
+Test Acc: 17.97% | LR: 0.000050
+
+Epoch 0, Iter 30 | Loss: 0.06 | Train Acc: 53.12%
+Test Acc: 26.95% | LR: 0.000050
+
+Epoch 1, Iter 12 | Loss: 0.05 | Train Acc: 43.75%
+Test Acc: 32.42% | LR: 0.000050
+
+Epoch 1, Iter 27 | Loss: 0.05 | Train Acc: 43.75%
+Test Acc: 32.81% | LR: 0.000050
+
+Epoch 2, Iter 9 | Loss: 0.04 | Train Acc: 53.12%
+Test Acc: 41.41% | LR: 0.000050
+
+Epoch 2, Iter 24 | Loss: 0.04 | Train Acc: 46.88%
+Test Acc: 46.88% | LR: 0.000050
+
+Epoch 3, Iter 6 | Loss: 0.04 | Train Acc: 62.50%
+Test Acc: 42.58% | LR: 0.000050
+
+Epoch 3, Iter 21 | Loss: 0.03 | Train Acc: 56.25%
+Test Acc: 51.56% | LR: 0.000050
+
+Epoch 4, Iter 3 | Loss: 0.03 | Train Acc: 56.25%
+Test Acc: 51.56% | LR: 0.000050
+
+Epoch 4, Iter 18 | Loss: 0.03 | Train Acc: 62.50%
+Test Acc: 54.69% | LR: 0.000050
+
+Epoch 5, Iter 0 | Loss: 0.03 | Train Acc: 59.38%
+Test Acc: 58.98% | LR: 0.000050
+
+Epoch 5, Iter 15 | Loss: 0.03 | Train Acc: 56.25%
+Test Acc: 57.81% | LR: 0.000050
+
+Epoch 5, Iter 30 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 58.20% | LR: 0.000050
+
+Epoch 6, Iter 12 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 63.67% | LR: 0.000050
+
+Epoch 6, Iter 27 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 59.77% | LR: 0.000050
+
+Epoch 7, Iter 9 | Loss: 0.03 | Train Acc: 43.75%
+Test Acc: 62.89% | LR: 0.000050
+
+Epoch 7, Iter 24 | Loss: 0.02 | Train Acc: 65.62%
+Test Acc: 63.28% | LR: 0.000050
+
+Epoch 8, Iter 6 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 64.84% | LR: 0.000050
+
+Epoch 8, Iter 21 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 66.80% | LR: 0.000050
+
+Epoch 9, Iter 3 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 67.19% | LR: 0.000050
+
+Epoch 9, Iter 18 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 66.80% | LR: 0.000050
+
+Epoch 10, Iter 0 | Loss: 0.01 | Train Acc: 78.12%
+Test Acc: 66.80% | LR: 0.000050
+
+Epoch 10, Iter 15 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 66.80% | LR: 0.000050
+
+Epoch 10, Iter 30 | Loss: 0.01 | Train Acc: 96.88%
+Test Acc: 68.36% | LR: 0.000050
+
+Epoch 11, Iter 12 | Loss: 0.01 | Train Acc: 90.62%
+Test Acc: 65.62% | LR: 0.000050
+
+Epoch 11, Iter 27 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 71.09% | LR: 0.000050
+
+Epoch 12, Iter 9 | Loss: 0.02 | Train Acc: 84.38%
+Test Acc: 69.53% | LR: 0.000050
+
+Epoch 12, Iter 24 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 67.19% | LR: 0.000050
+
+Epoch 13, Iter 6 | Loss: 0.02 | Train Acc: 84.38%
+Test Acc: 70.70% | LR: 0.000050
+
+Epoch 13, Iter 21 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 14, Iter 3 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 70.31% | LR: 0.000050
+
+Epoch 14, Iter 18 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 73.44% | LR: 0.000050
+
+Epoch 15, Iter 0 | Loss: 0.01 | Train Acc: 90.62%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 15, Iter 15 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 72.27% | LR: 0.000050
+
+Epoch 15, Iter 30 | Loss: 0.01 | Train Acc: 78.12%
+Test Acc: 72.66% | LR: 0.000050
+
+Epoch 16, Iter 12 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 69.92% | LR: 0.000050
+
+Epoch 16, Iter 27 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 73.44% | LR: 0.000050
+
+Epoch 17, Iter 9 | Loss: 0.01 | Train Acc: 75.00%
+Test Acc: 74.22% | LR: 0.000050
+
+Epoch 17, Iter 24 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 70.31% | LR: 0.000050
+
+Epoch 18, Iter 6 | Loss: 0.01 | Train Acc: 78.12%
+Test Acc: 73.05% | LR: 0.000050
+
+Epoch 18, Iter 21 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 19, Iter 3 | Loss: 0.01 | Train Acc: 100.00%
+Test Acc: 70.70% | LR: 0.000050
+
+Epoch 19, Iter 18 | Loss: 0.02 | Train Acc: 84.38%
+Test Acc: 75.00% | LR: 0.000050
+
+Epoch 20, Iter 0 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 73.05% | LR: 0.000050
+
+Epoch 20, Iter 15 | Loss: 0.02 | Train Acc: 90.62%
+Test Acc: 71.09% | LR: 0.000050
+
+Epoch 20, Iter 30 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 72.66% | LR: 0.000050
+
+Epoch 21, Iter 12 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 73.44% | LR: 0.000050
+
+Epoch 21, Iter 27 | Loss: 0.01 | Train Acc: 78.12%
+Test Acc: 70.31% | LR: 0.000050
+
+Epoch 22, Iter 9 | Loss: 0.01 | Train Acc: 90.62%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 22, Iter 24 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 73.05% | LR: 0.000050
+
+Epoch 23, Iter 6 | Loss: 0.01 | Train Acc: 96.88%
+Test Acc: 71.48% | LR: 0.000050
+
+Epoch 23, Iter 21 | Loss: 0.01 | Train Acc: 78.12%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 24, Iter 3 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 70.31% | LR: 0.000050
+
+Epoch 24, Iter 18 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 71.88% | LR: 0.000050
+
+Epoch 25, Iter 0 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 72.66% | LR: 0.000025
+
+Epoch 25, Iter 15 | Loss: 0.01 | Train Acc: 90.62%
+Test Acc: 69.92% | LR: 0.000025
+
+Epoch 25, Iter 30 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 69.14% | LR: 0.000025
+
+Epoch 26, Iter 12 | Loss: 0.01 | Train Acc: 96.88%
+Test Acc: 68.36% | LR: 0.000025
+
+Epoch 26, Iter 27 | Loss: 0.01 | Train Acc: 93.75%
+Test Acc: 69.53% | LR: 0.000025
+
+Epoch 27, Iter 9 | Loss: 0.01 | Train Acc: 96.88%
+Test Acc: 67.58% | LR: 0.000025
+
+Epoch 27, Iter 24 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 69.53% | LR: 0.000025
+
+Epoch 28, Iter 6 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 68.75% | LR: 0.000025
+
+Epoch 28, Iter 21 | Loss: 0.01 | Train Acc: 81.25%
+Test Acc: 66.41% | LR: 0.000025
+
+Epoch 29, Iter 3 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 65.23% | LR: 0.000025
+
+Epoch 29, Iter 18 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 66.02% | LR: 0.000025
+
+Epoch 30, Iter 0 | Loss: 0.01 | Train Acc: 90.62%
+Test Acc: 64.06% | LR: 0.000013
+
+Epoch 30, Iter 15 | Loss: 0.01 | Train Acc: 90.62%
+Test Acc: 64.06% | LR: 0.000013
+
+Epoch 30, Iter 30 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 64.84% | LR: 0.000013
+
+Epoch 31, Iter 12 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 63.28% | LR: 0.000013
+
+Epoch 31, Iter 27 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 62.89% | LR: 0.000013
+
+Epoch 32, Iter 9 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 62.11% | LR: 0.000013
+
+Epoch 32, Iter 24 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 62.11% | LR: 0.000013
+
+Epoch 33, Iter 6 | Loss: 0.01 | Train Acc: 90.62%
+Test Acc: 60.94% | LR: 0.000013
+
+Epoch 33, Iter 21 | Loss: 0.01 | Train Acc: 87.50%
+Test Acc: 59.77% | LR: 0.000013
+
+Epoch 34, Iter 3 | Loss: 0.02 | Train Acc: 71.88%
+Test Acc: 62.50% | LR: 0.000013
+
+Epoch 34, Iter 18 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 59.77% | LR: 0.000013
+
+Epoch 35, Iter 0 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 60.94% | LR: 0.000006
+
+Epoch 35, Iter 15 | Loss: 0.02 | Train Acc: 84.38%
+Test Acc: 60.94% | LR: 0.000006
+
+Epoch 35, Iter 30 | Loss: 0.01 | Train Acc: 96.88%
+Test Acc: 60.16% | LR: 0.000006
+
+Epoch 36, Iter 12 | Loss: 0.02 | Train Acc: 84.38%
+Test Acc: 57.81% | LR: 0.000006
+
+Epoch 36, Iter 27 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 60.55% | LR: 0.000006
+
+Epoch 37, Iter 9 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 58.98% | LR: 0.000006
+
+Epoch 37, Iter 24 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 58.98% | LR: 0.000006
+
+Epoch 38, Iter 6 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 58.98% | LR: 0.000006
+
+Epoch 38, Iter 21 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 59.38% | LR: 0.000006
+
+Epoch 39, Iter 3 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 58.20% | LR: 0.000006
+
+Epoch 39, Iter 18 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 58.59% | LR: 0.000006
+
+Epoch 40, Iter 0 | Loss: 0.01 | Train Acc: 84.38%
+Test Acc: 57.81% | LR: 0.000003
+
+Epoch 40, Iter 15 | Loss: 0.02 | Train Acc: 90.62%
+Test Acc: 57.81% | LR: 0.000003
+
+Epoch 40, Iter 30 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 57.42% | LR: 0.000003
+
+Epoch 41, Iter 12 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 57.03% | LR: 0.000003
+
+Epoch 41, Iter 27 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 57.03% | LR: 0.000003
+
+Epoch 42, Iter 9 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 57.03% | LR: 0.000003
+
+Epoch 42, Iter 24 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 56.64% | LR: 0.000003
+
+Epoch 43, Iter 6 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 58.59% | LR: 0.000003
+
+Epoch 43, Iter 21 | Loss: 0.02 | Train Acc: 59.38%
+Test Acc: 56.64% | LR: 0.000003
+
+Epoch 44, Iter 3 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 56.64% | LR: 0.000003
+
+Epoch 44, Iter 18 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 57.42% | LR: 0.000003
+
+Epoch 45, Iter 0 | Loss: 0.02 | Train Acc: 78.12%
+Test Acc: 57.42% | LR: 0.000002
+
+Epoch 45, Iter 15 | Loss: 0.02 | Train Acc: 71.88%
+Test Acc: 56.64% | LR: 0.000002
+
+Epoch 45, Iter 30 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 57.03% | LR: 0.000002
+
+Epoch 46, Iter 12 | Loss: 0.02 | Train Acc: 84.38%
+Test Acc: 57.42% | LR: 0.000002
+
+Epoch 46, Iter 27 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 57.03% | LR: 0.000002
+
+Epoch 47, Iter 9 | Loss: 0.02 | Train Acc: 84.38%
+Test Acc: 57.03% | LR: 0.000002
+
+Epoch 47, Iter 24 | Loss: 0.02 | Train Acc: 71.88%
+Test Acc: 57.42% | LR: 0.000002
+
+Epoch 48, Iter 6 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 56.64% | LR: 0.000002
+
+Epoch 48, Iter 21 | Loss: 0.02 | Train Acc: 75.00%
+Test Acc: 56.64% | LR: 0.000002
+
+Epoch 49, Iter 3 | Loss: 0.02 | Train Acc: 68.75%
+Test Acc: 56.25% | LR: 0.000002
+
+Epoch 49, Iter 18 | Loss: 0.02 | Train Acc: 81.25%
+Test Acc: 57.03% | LR: 0.000002
+
+
+Saving model...
+Model saved to: /workspace/dvsgesture/sparse/models/Take3_T600_Epochs50.pth
+Graph saved to: /workspace/dvsgesture/sparse/graphs/Take3_T600_Epochs50.png
+
+============================================================
+Final Test Accuracy: 56.64%
+============================================================
