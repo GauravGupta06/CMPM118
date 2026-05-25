@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-05-05T16:39:34.829170",
+  "measurement": "dvsgesture_packed_binary_prefix_router",
+  "n_samples": 264,
+  "n_valid": 264,
+  "router": {
+    "metric": "binary_prefix_ones",
+    "input_representation": "binary-clipped DVSGesture count frames, first prefix_ms",
+    "threshold": 10000,
+    "prefix_ms": 400,
+    "w": 32,
+    "h": 32,
+    "max_timesteps": 600
+  },
+  "stm32_projection": {
+    "energy_per_cycle_J": 1.8e-10,
+    "mean_cycles": 435340.82575757575,
+    "median_cycles": 435341.0,
+    "min_cycles": 435340,
+    "max_cycles": 435342,
+    "mean_router_energy_uJ": 78.36134863636364,
+    "median_router_energy_uJ": 78.36138
+  },
+  "prefix_scores": {
+    "binary_ones_mean": 11037.765151515152,
+    "binary_ones_median": 9420.0,
+    "binary_ones_min": 1200,
+    "binary_ones_max": 34080,
+    "count_sum_mean": 18990.784090909092,
+    "count_bins_gt1_mean": 3933.162878787879,
+    "dense_route_fraction": 0.4583333333333333
+  },
+  "paths": {
+    "output": "Prefix_Router_Energy\\dvsgesture_prefix_router_binary_energy_DVSGesture_T600_dt1ms_p400ms_32x32_binary.txt",
+    "summary": "Prefix_Router_Energy\\dvsgesture_prefix_router_binary_energy_DVSGesture_T600_dt1ms_p400ms_32x32_binary_summary.json"
+  }
+}

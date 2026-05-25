@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-05-06T09:16:29.010854",
+  "measurement": "dvsgesture_coarse_lzc640_prefix_router",
+  "n_samples": 264,
+  "n_valid": 264,
+  "router": {
+    "metric": "coarse_lzc640",
+    "input_representation": "binary-clipped DVSGesture count frames, first prefix_ms",
+    "route_rule": "dense if coarse_lzc640 <= threshold",
+    "threshold": 53,
+    "prefix_ms": 400,
+    "time_bins": 20,
+    "grid": 4,
+    "coarse_bits": 640,
+    "w": 32,
+    "h": 32,
+    "max_timesteps": 600
+  },
+  "stm32_projection": {
+    "energy_per_cycle_J": 1.8e-10,
+    "mean_cycles": 21786200.90909091,
+    "median_cycles": 21799709.0,
+    "min_cycles": 21497943,
+    "max_cycles": 22041931,
+    "mean_router_energy_uJ": 3921.5161636363637,
+    "median_router_energy_uJ": 3923.94762
+  },
+  "scores": {
+    "coarse_lzc640_mean": 43.39393939393939,
+    "coarse_lzc640_median": 44.0,
+    "coarse_lzc640_min": 16,
+    "coarse_lzc640_max": 64,
+    "coarse_active_cells_mean": 293.7613636363636,
+    "binary_prefix_ones_mean": 11037.765151515152,
+    "count_sum_mean": 18990.784090909092,
+    "count_bins_gt1_mean": 3933.162878787879,
+    "dense_route_fraction": 0.8787878787878788
+  },
+  "paths": {
+    "output": "Prefix_Router_Energy\\dvsgesture_coarse_lzc_energy_DVSGesture_T600_dt1ms_p400ms_20tb_4x4.txt",
+    "summary": "Prefix_Router_Energy\\dvsgesture_coarse_lzc_energy_DVSGesture_T600_dt1ms_p400ms_20tb_4x4_summary.json"
+  }
+}

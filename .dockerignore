@@ -1,0 +1,26 @@
+.git
+.venv
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Local/editor metadata
+.claude
+.vscode
+*.Zone.Identifier
+
+# Large generated outputs from old experiments. Keep data/ in the image.
+results/
+workspace/
+new_test_results/shd/*/models/*.pth
+new_test_results/shd/*/graphs/*.png
+new_test_results/shd/*/energy_estimates/*.json
+
+# Local binaries and paper artifacts not needed for training.
+kubectl
+*.pdf
+*.png
+liblzc.so
+lzc

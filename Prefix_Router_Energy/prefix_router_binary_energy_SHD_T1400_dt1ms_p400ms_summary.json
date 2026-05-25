@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-05-03T17:34:49.215988",
+  "measurement": "packed_binary_prefix_router",
+  "n_samples": 2264,
+  "n_valid": 2264,
+  "router": {
+    "metric": "prefix_400ms_spikes",
+    "input_representation": "packed binarized SHD raster, first 400 ms",
+    "threshold": 6993
+  },
+  "stm32_projection": {
+    "energy_per_cycle_J": 1.8e-10,
+    "mean_cycles": 166303.54372791518,
+    "median_cycles": 166303.0,
+    "min_cycles": 166300,
+    "max_cycles": 166339,
+    "mean_router_energy_uJ": 29.934637871024737,
+    "median_router_energy_uJ": 29.93454
+  },
+  "prefix_scores": {
+    "mean": 6728.034893992933,
+    "median": 6659.0,
+    "min": 2259,
+    "max": 11366,
+    "dense_route_fraction": 0.41475265017667845
+  },
+  "system_energy": {
+    "dense_only_mJ_per_sample": 0.42,
+    "routed_model_only_mJ_per_sample": 0.3058191164648503,
+    "router_mJ_per_sample": 0.029934637871024735,
+    "routed_total_mJ_per_sample": 0.33575375433587507,
+    "energy_savings_percent_vs_dense": 20.058629920029748
+  },
+  "paths": {
+    "output": "Prefix_Router_Energy\\prefix_router_binary_energy_SHD_T1400_dt1ms_p400ms.txt",
+    "summary": "Prefix_Router_Energy\\prefix_router_binary_energy_SHD_T1400_dt1ms_p400ms_summary.json"
+  }
+}

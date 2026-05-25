@@ -3,6 +3,7 @@ __pycache__/
 .claude/
 .cursor/
 .vscode/
+*:Zone.Identifier
 
 # Raw data (large, not pushed)
 data/DVSGesture
@@ -19,6 +20,35 @@ data/UCI_HAR_Dataset
 data/uci_har/
 data/shd/
 data/dvsgesture/
+
+# Generated experiment artifacts and model checkpoints
+new_test_results/
+*.pth
+*.pt
+*.ckpt
+*.npz
+*.npy
+*.h5
+*.h5.zip
+*.tar.gz
+
+# Generated router payloads / cache files
+*.hex
+Prefix_Router_Energy/*_input_*
+Prefix_Router_Energy/*_expected_*.csv
+DVS_Routing_Metric_Search/*cache*.npz
+
+# Local compiled/helper binaries
+*.so
+*.dll
+*.dylib
+*.o
+*.obj
+
+# Paper/generated local copies that should not be pushed
+our_research_paper.pdf
+research_paper/*.pdf
+lzc_distribution_*.png
 
 # LZC input files and output files
 LZC_Energy/lzc_input_UCI_HAR.txt
