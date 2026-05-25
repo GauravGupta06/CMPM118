@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-05-24T19:35:01.150126",
+  "metric": {
+    "name": "coarse_lzc640",
+    "description": "LZC over 20 time bins x 2 polarities x 4x4 spatial active-cell mask from first 400 ms",
+    "prefix_bins": 400,
+    "time_bins": 20,
+    "grid": 4,
+    "sequence_bits": 640,
+    "auc_for_dense_needed": 0.42889227900669546,
+    "auc_for_dense_needed_flipped": 0.5711077209933045,
+    "score_mean": 43.39393939393939,
+    "score_median": 44.0,
+    "score_min": 16,
+    "score_max": 64
+  },
+  "baseline": {
+    "dense_accuracy": 0.8939393939393939,
+    "sparse_accuracy": 0.7196969696969697,
+    "dense_energy_avg_J": 0.04642407407819061,
+    "sparse_energy_avg_J": 0.011263664434754215
+  },
+  "router_energy_note": "Energy uses the existing STM32 popcount router rows scaled by router_energy_scale as a placeholder. Measure coarse_lzc640 on STM32 before using the energy column as final paper evidence.",
+  "router_energy_scale": 50.069711,
+  "threshold_sweep": {
+    "best_accuracy": {
+      "threshold": 26,
+      "route_dense_when_lower": false,
+      "accuracy": 0.8977272727272727,
+      "dense_fraction": 0.9810606060606061,
+      "avg_energy_J": 0.049590490167983434,
+      "energy_savings_percent": -6.8206338040468495
+    },
+    "best_energy_at_accuracy_ge_80": {
+      "threshold": 41,
+      "route_dense_when_lower": true,
+      "accuracy": 0.8068181818181818,
+      "dense_fraction": 0.4015151515151515,
+      "avg_energy_J": 0.02980200749104403,
+      "energy_savings_percent": 35.80484245986373
+    },
+    "best_energy_at_accuracy_ge_85": {
+      "threshold": 46,
+      "route_dense_when_lower": true,
+      "accuracy": 0.8560606060606061,
+      "dense_fraction": 0.6060606060606061,
+      "avg_energy_J": 0.03701536513309561,
+      "energy_savings_percent": 20.266874745306083
+    },
+    "best_energy_at_accuracy_ge_88": {
+      "threshold": 53,
+      "route_dense_when_lower": true,
+      "accuracy": 0.8863636363636364,
+      "dense_fraction": 0.8787878787878788,
+      "avg_energy_J": 0.04646200194020267,
+      "energy_savings_percent": -0.08169869354459625
+    },
+    "best_energy_at_accuracy_ge_sparse_accuracy": {
+      "threshold": 15,
+      "route_dense_when_lower": true,
+      "accuracy": 0.7196969696969697,
+      "dense_fraction": 0.0,
+      "avg_energy_J": 0.015187194514547187,
+      "energy_savings_percent": 67.2859506277543
+    }
+  },
+  "paths": {
+    "input_per_sample_csv": "new_test_results/dvsgesture/prefix_router_eval/dvsgesture_prefix_router_per_sample_20260524_193020.csv",
+    "per_sample_csv": "new_test_results/dvsgesture/lzc_router_eval/dvsgesture_coarse_lzc640_router_20260524_193501.csv",
+    "summary_json": "new_test_results/dvsgesture/lzc_router_eval/dvsgesture_coarse_lzc640_router_summary_20260524_193501.json"
+  }
+}

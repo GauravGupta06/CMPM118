@@ -1,0 +1,16 @@
+{
+  "active": true,
+  "calibration_choice": "full_200_epoch_paper_matched_reference",
+  "reason": "Use this model for DVS Gesture energy-per-spike calibration because it follows the paper-matched 200 max epoch reference training setup.",
+  "reference_model_path": "/workspace/new_test_results/dvsgesture/reference/models/ACTIVE_ENERGY_CALIBRATION_REFERENCE_acc8711_spikes305738.pth",
+  "reference_best_checkpoint_path": "/workspace/new_test_results/dvsgesture/reference/models/ACTIVE_BEST_ENERGY_CALIBRATION_REFERENCE_acc8711_spikes305738.pth",
+  "reference_energy_json": "/workspace/new_test_results/dvsgesture/reference/energy_estimates/ACTIVE_ENERGY_CALIBRATION_REFERENCE_acc8711_spikes305738.json",
+  "reference_accuracy_percent": 87.11,
+  "reference_best_epoch": 54,
+  "reference_avg_spikes_per_sample": 305738.3787878788,
+  "reference_total_spikes": 80714932.0,
+  "reference_n_samples": 264,
+  "paper_energy_per_inference_J": 0.459,
+  "reference_energy_per_spike_J": 0.000001501283554,
+  "supersedes_old_reference_avg_spikes_per_sample": 257304.70075757575
+}

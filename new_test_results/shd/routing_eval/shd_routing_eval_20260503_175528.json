@@ -1,0 +1,91 @@
+{
+  "n_samples": 2264,
+  "dense_accuracy": 0.8277385159010601,
+  "sparse_accuracy": 0.7641342756183745,
+  "routed_accuracy": 0.8078621908127208,
+  "dense_routed_accuracy": 0.8584825234441603,
+  "sparse_routed_accuracy": 0.7534372135655362,
+  "route_counts": {
+    "dense": 1173,
+    "sparse": 1091,
+    "dense_fraction": 0.5181095406360424,
+    "sparse_fraction": 0.4818904593639576
+  },
+  "avg_spikes_per_sample": {
+    "dense": 27734.652826855123,
+    "sparse": 14155.818462897527,
+    "routed_model_only": 20711.389134275618
+  },
+  "energy": {
+    "paper_dense_energy_J_per_inference": 0.00042,
+    "energy_per_spike_J": 1.5143510272943426e-08,
+    "baseline_dense_only_avg_J": 0.00041999999999999996,
+    "baseline_dense_only_total_J": 0.95088,
+    "sparse_only_avg_J": 0.0002143687823148109,
+    "sparse_only_total_J": 0.4853309231607319,
+    "lzc_avg_J": 0.00019859505527385158,
+    "lzc_total_J": 0.44961920514,
+    "routed_model_only_avg_J": 0.00031364313412183165,
+    "routed_model_only_total_J": 0.7100880556518269,
+    "routed_with_lzc_avg_J": 0.0005122381893956832,
+    "routed_with_lzc_total_J": 1.1597072607918268,
+    "energy_gain_model_only_J": 0.24079194434817308,
+    "energy_gain_with_lzc_J": -0.2088272607918269,
+    "energy_savings_model_only_percent": 25.32306330432579,
+    "energy_savings_with_lzc_percent": -21.961473665638877
+  },
+  "lzc": {
+    "score_mean": 40.619257950530034,
+    "score_min": 19.0,
+    "score_max": 75.0
+  },
+  "threshold": {
+    "threshold": 41.0,
+    "roc_auc": 0.5398015547378916,
+    "gmean": 0.532912331298139,
+    "positives": 222,
+    "negatives": 2042
+  },
+  "paths": {
+    "dense_model_path": "/workspace/new_test_results/shd/baseline/models/best_baseline_T1400_dt0.001.pth",
+    "sparse_model_path": "/workspace/new_test_results/shd/sparse/models/best_sparse_target6_epoch9_acc7652_preserved.pth",
+    "lzc_file": "LZC_Energy/lzc_energy_SHD.txt"
+  },
+  "hyperparams": {
+    "dense": {
+      "input_size": 700,
+      "n_frames": 1400,
+      "tau_mem": 0.02,
+      "tau_syn": 0.005,
+      "spike_lam": 0.0,
+      "model_type": "baseline",
+      "num_classes": 20,
+      "dt": 0.001,
+      "threshold": 1.0,
+      "has_bias": true,
+      "hidden_size": 512,
+      "rate_lam": 0.001,
+      "target_rate": 14.0,
+      "delay_mode": "none",
+      "max_delay_steps": 62
+    },
+    "sparse": {
+      "input_size": 700,
+      "n_frames": 1400,
+      "tau_mem": 0.02,
+      "tau_syn": 0.005,
+      "spike_lam": 0.0,
+      "model_type": "sparse",
+      "num_classes": 20,
+      "dt": 0.001,
+      "threshold": 1.0,
+      "has_bias": true,
+      "hidden_size": 512,
+      "rate_lam": 0.005,
+      "target_rate": 6.0,
+      "delay_mode": "none",
+      "max_delay_steps": 62
+    }
+  },
+  "timestamp": "2026-05-03T17:55:28.078814"
+}

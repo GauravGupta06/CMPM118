@@ -1,0 +1,1266 @@
+DVS_REFERENCE_FULL200_START_2026-05-05T19:31:46-07:00
+Using device: cuda
+
+Hyperparameters:
+  model_type: reference
+  beta:       0.93000
+  threshold:  1.0
+  surrogate_slope: 9.7
+  spike_lam:  0.0
+  lr:         0.0024
+  epochs:     200
+  batch_size: 32
+  max_timesteps: 600
+  frame mode: count
+  denoise_filter_time: 10000 us
+  paper energy: 459.0 mJ/gesture
+  reference_avg_spikes_per_sample: 257304.70075757575
+  best_checkpoint: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+  early_stop: patience=0, min_delta=0.001, target=None
+  best_metric: accuracy, min_save_acc=0.7, max_save_acc=1.0
+  Model architecture: conv_arfa_snntorch
+  Total weight params: 25504
+Starting training
+Epoch 0, Iter 0 | Loss: 0.0945 | Train Acc: 9.38% | Spikes/sample: 19950.12 | LR: 0.002400
+Epoch 0, Iter 10 | Loss: 0.0608 | Train Acc: 28.12% | Spikes/sample: 42134.25 | LR: 0.002400
+Epoch 0, Iter 20 | Loss: 0.0457 | Train Acc: 40.62% | Spikes/sample: 64801.62 | LR: 0.002400
+Epoch 0, Iter 30 | Loss: 0.0327 | Train Acc: 31.25% | Spikes/sample: 117858.22 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 0 complete | Avg Loss: 0.0514 | Train Acc: 30.30% | Spikes/sample: 69520.72 | Test Acc: 40.62% | Best saved: 40.62% @ epoch 0 | Best saved spikes/sample: 69520.72 | LR: 0.002400
+
+Epoch 1, Iter 0 | Loss: 0.0262 | Train Acc: 53.12% | Spikes/sample: 116805.25 | LR: 0.002400
+Epoch 1, Iter 10 | Loss: 0.0248 | Train Acc: 46.88% | Spikes/sample: 143813.22 | LR: 0.002400
+Epoch 1, Iter 20 | Loss: 0.0187 | Train Acc: 68.75% | Spikes/sample: 180681.62 | LR: 0.002400
+Epoch 1, Iter 30 | Loss: 0.0229 | Train Acc: 43.75% | Spikes/sample: 190238.66 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 1 complete | Avg Loss: 0.0240 | Train Acc: 53.31% | Spikes/sample: 161383.97 | Test Acc: 52.73% | Best saved: 52.73% @ epoch 1 | Best saved spikes/sample: 161383.97 | LR: 0.002400
+
+Epoch 2, Iter 0 | Loss: 0.0201 | Train Acc: 68.75% | Spikes/sample: 198736.50 | LR: 0.002400
+Epoch 2, Iter 10 | Loss: 0.0218 | Train Acc: 50.00% | Spikes/sample: 180407.53 | LR: 0.002400
+Epoch 2, Iter 20 | Loss: 0.0159 | Train Acc: 75.00% | Spikes/sample: 195268.22 | LR: 0.002400
+Epoch 2, Iter 30 | Loss: 0.0169 | Train Acc: 81.25% | Spikes/sample: 199073.41 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 2 complete | Avg Loss: 0.0195 | Train Acc: 63.54% | Spikes/sample: 191304.44 | Test Acc: 55.08% | Best saved: 55.08% @ epoch 2 | Best saved spikes/sample: 191304.44 | LR: 0.002400
+
+Epoch 3, Iter 0 | Loss: 0.0174 | Train Acc: 62.50% | Spikes/sample: 214805.62 | LR: 0.002400
+Epoch 3, Iter 10 | Loss: 0.0167 | Train Acc: 78.12% | Spikes/sample: 191926.50 | LR: 0.002400
+Epoch 3, Iter 20 | Loss: 0.0188 | Train Acc: 62.50% | Spikes/sample: 202596.34 | LR: 0.002400
+Epoch 3, Iter 30 | Loss: 0.0199 | Train Acc: 59.38% | Spikes/sample: 233854.78 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 3 complete | Avg Loss: 0.0181 | Train Acc: 64.68% | Spikes/sample: 204328.79 | Test Acc: 56.25% | Best saved: 56.25% @ epoch 3 | Best saved spikes/sample: 204328.79 | LR: 0.002400
+
+Epoch 4, Iter 0 | Loss: 0.0173 | Train Acc: 68.75% | Spikes/sample: 205279.88 | LR: 0.002400
+Epoch 4, Iter 10 | Loss: 0.0169 | Train Acc: 62.50% | Spikes/sample: 217497.88 | LR: 0.002400
+Epoch 4, Iter 20 | Loss: 0.0177 | Train Acc: 71.88% | Spikes/sample: 203111.38 | LR: 0.002400
+Epoch 4, Iter 30 | Loss: 0.0179 | Train Acc: 59.38% | Spikes/sample: 212857.88 | LR: 0.002400
+Epoch 4 complete | Avg Loss: 0.0169 | Train Acc: 67.23% | Spikes/sample: 212565.86 | Test Acc: 55.47% | Best saved: 56.25% @ epoch 3 | Best saved spikes/sample: 204328.79 | LR: 0.002400
+
+Epoch 5, Iter 0 | Loss: 0.0165 | Train Acc: 84.38% | Spikes/sample: 211986.59 | LR: 0.002400
+Epoch 5, Iter 10 | Loss: 0.0158 | Train Acc: 59.38% | Spikes/sample: 225209.44 | LR: 0.002400
+Epoch 5, Iter 20 | Loss: 0.0179 | Train Acc: 68.75% | Spikes/sample: 233230.16 | LR: 0.002400
+Epoch 5, Iter 30 | Loss: 0.0179 | Train Acc: 59.38% | Spikes/sample: 223620.19 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 5 complete | Avg Loss: 0.0156 | Train Acc: 71.97% | Spikes/sample: 222490.65 | Test Acc: 57.81% | Best saved: 57.81% @ epoch 5 | Best saved spikes/sample: 222490.65 | LR: 0.002400
+
+Epoch 6, Iter 0 | Loss: 0.0137 | Train Acc: 78.12% | Spikes/sample: 244509.69 | LR: 0.002400
+Epoch 6, Iter 10 | Loss: 0.0146 | Train Acc: 75.00% | Spikes/sample: 228728.97 | LR: 0.002400
+Epoch 6, Iter 20 | Loss: 0.0147 | Train Acc: 71.88% | Spikes/sample: 230686.59 | LR: 0.002400
+Epoch 6, Iter 30 | Loss: 0.0153 | Train Acc: 65.62% | Spikes/sample: 223826.28 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 6 complete | Avg Loss: 0.0152 | Train Acc: 73.58% | Spikes/sample: 224073.59 | Test Acc: 58.98% | Best saved: 58.98% @ epoch 6 | Best saved spikes/sample: 224073.59 | LR: 0.002400
+
+Epoch 7, Iter 0 | Loss: 0.0165 | Train Acc: 65.62% | Spikes/sample: 246592.91 | LR: 0.002400
+Epoch 7, Iter 10 | Loss: 0.0136 | Train Acc: 75.00% | Spikes/sample: 273090.72 | LR: 0.002400
+Epoch 7, Iter 20 | Loss: 0.0153 | Train Acc: 71.88% | Spikes/sample: 226916.91 | LR: 0.002400
+Epoch 7, Iter 30 | Loss: 0.0159 | Train Acc: 78.12% | Spikes/sample: 230239.66 | LR: 0.002400
+Epoch 7 complete | Avg Loss: 0.0143 | Train Acc: 75.57% | Spikes/sample: 228883.61 | Test Acc: 58.20% | Best saved: 58.98% @ epoch 6 | Best saved spikes/sample: 224073.59 | LR: 0.002400
+
+Epoch 8, Iter 0 | Loss: 0.0145 | Train Acc: 78.12% | Spikes/sample: 244120.56 | LR: 0.002400
+Epoch 8, Iter 10 | Loss: 0.0138 | Train Acc: 84.38% | Spikes/sample: 241970.81 | LR: 0.002400
+Epoch 8, Iter 20 | Loss: 0.0165 | Train Acc: 62.50% | Spikes/sample: 206200.12 | LR: 0.002400
+Epoch 8, Iter 30 | Loss: 0.0151 | Train Acc: 75.00% | Spikes/sample: 209940.88 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 8 complete | Avg Loss: 0.0136 | Train Acc: 77.18% | Spikes/sample: 230372.03 | Test Acc: 60.55% | Best saved: 60.55% @ epoch 8 | Best saved spikes/sample: 230372.03 | LR: 0.002400
+
+Epoch 9, Iter 0 | Loss: 0.0126 | Train Acc: 84.38% | Spikes/sample: 232741.16 | LR: 0.002400
+Epoch 9, Iter 10 | Loss: 0.0137 | Train Acc: 75.00% | Spikes/sample: 183300.56 | LR: 0.002400
+Epoch 9, Iter 20 | Loss: 0.0134 | Train Acc: 81.25% | Spikes/sample: 227190.03 | LR: 0.002400
+Epoch 9, Iter 30 | Loss: 0.0131 | Train Acc: 81.25% | Spikes/sample: 238094.09 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 9 complete | Avg Loss: 0.0131 | Train Acc: 79.92% | Spikes/sample: 229033.53 | Test Acc: 64.06% | Best saved: 64.06% @ epoch 9 | Best saved spikes/sample: 229033.53 | LR: 0.002400
+
+Epoch 10, Iter 0 | Loss: 0.0112 | Train Acc: 90.62% | Spikes/sample: 251338.97 | LR: 0.002400
+Epoch 10, Iter 10 | Loss: 0.0146 | Train Acc: 81.25% | Spikes/sample: 229221.84 | LR: 0.002400
+Epoch 10, Iter 20 | Loss: 0.0116 | Train Acc: 90.62% | Spikes/sample: 239652.75 | LR: 0.002400
+Epoch 10, Iter 30 | Loss: 0.0100 | Train Acc: 100.00% | Spikes/sample: 221897.41 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 10 complete | Avg Loss: 0.0118 | Train Acc: 84.38% | Spikes/sample: 231834.82 | Test Acc: 68.75% | Best saved: 68.75% @ epoch 10 | Best saved spikes/sample: 231834.82 | LR: 0.002400
+
+Epoch 11, Iter 0 | Loss: 0.0106 | Train Acc: 90.62% | Spikes/sample: 263656.41 | LR: 0.002400
+Epoch 11, Iter 10 | Loss: 0.0106 | Train Acc: 75.00% | Spikes/sample: 205078.75 | LR: 0.002400
+Epoch 11, Iter 20 | Loss: 0.0118 | Train Acc: 81.25% | Spikes/sample: 227837.69 | LR: 0.002400
+Epoch 11, Iter 30 | Loss: 0.0090 | Train Acc: 87.50% | Spikes/sample: 243972.72 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 11 complete | Avg Loss: 0.0104 | Train Acc: 86.74% | Spikes/sample: 231657.63 | Test Acc: 71.09% | Best saved: 71.09% @ epoch 11 | Best saved spikes/sample: 231657.63 | LR: 0.002400
+
+Epoch 12, Iter 0 | Loss: 0.0092 | Train Acc: 87.50% | Spikes/sample: 214951.69 | LR: 0.002400
+Epoch 12, Iter 10 | Loss: 0.0120 | Train Acc: 84.38% | Spikes/sample: 237308.22 | LR: 0.002400
+Epoch 12, Iter 20 | Loss: 0.0126 | Train Acc: 84.38% | Spikes/sample: 225394.28 | LR: 0.002400
+Epoch 12, Iter 30 | Loss: 0.0111 | Train Acc: 81.25% | Spikes/sample: 238349.25 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 12 complete | Avg Loss: 0.0094 | Train Acc: 88.35% | Spikes/sample: 235263.49 | Test Acc: 76.56% | Best saved: 76.56% @ epoch 12 | Best saved spikes/sample: 235263.49 | LR: 0.002400
+
+Epoch 13, Iter 0 | Loss: 0.0087 | Train Acc: 93.75% | Spikes/sample: 269410.25 | LR: 0.002400
+Epoch 13, Iter 10 | Loss: 0.0074 | Train Acc: 90.62% | Spikes/sample: 272778.56 | LR: 0.002400
+Epoch 13, Iter 20 | Loss: 0.0108 | Train Acc: 84.38% | Spikes/sample: 219058.25 | LR: 0.002400
+Epoch 13, Iter 30 | Loss: 0.0076 | Train Acc: 90.62% | Spikes/sample: 203657.19 | LR: 0.002400
+Epoch 13 complete | Avg Loss: 0.0089 | Train Acc: 90.34% | Spikes/sample: 236562.23 | Test Acc: 75.39% | Best saved: 76.56% @ epoch 12 | Best saved spikes/sample: 235263.49 | LR: 0.002400
+
+Epoch 14, Iter 0 | Loss: 0.0095 | Train Acc: 90.62% | Spikes/sample: 242013.47 | LR: 0.002400
+Epoch 14, Iter 10 | Loss: 0.0084 | Train Acc: 87.50% | Spikes/sample: 243596.47 | LR: 0.002400
+Epoch 14, Iter 20 | Loss: 0.0091 | Train Acc: 93.75% | Spikes/sample: 214502.34 | LR: 0.002400
+Epoch 14, Iter 30 | Loss: 0.0061 | Train Acc: 90.62% | Spikes/sample: 241967.88 | LR: 0.002400
+Epoch 14 complete | Avg Loss: 0.0086 | Train Acc: 89.39% | Spikes/sample: 240375.29 | Test Acc: 75.39% | Best saved: 76.56% @ epoch 12 | Best saved spikes/sample: 235263.49 | LR: 0.002400
+
+Epoch 15, Iter 0 | Loss: 0.0057 | Train Acc: 96.88% | Spikes/sample: 244882.31 | LR: 0.002400
+Epoch 15, Iter 10 | Loss: 0.0104 | Train Acc: 78.12% | Spikes/sample: 236944.53 | LR: 0.002400
+Epoch 15, Iter 20 | Loss: 0.0058 | Train Acc: 96.88% | Spikes/sample: 281318.25 | LR: 0.002400
+Epoch 15, Iter 30 | Loss: 0.0098 | Train Acc: 87.50% | Spikes/sample: 249862.50 | LR: 0.002400
+Epoch 15 complete | Avg Loss: 0.0084 | Train Acc: 90.15% | Spikes/sample: 241729.83 | Test Acc: 76.17% | Best saved: 76.56% @ epoch 12 | Best saved spikes/sample: 235263.49 | LR: 0.002400
+
+Epoch 16, Iter 0 | Loss: 0.0094 | Train Acc: 90.62% | Spikes/sample: 222375.47 | LR: 0.002400
+Epoch 16, Iter 10 | Loss: 0.0070 | Train Acc: 100.00% | Spikes/sample: 275929.09 | LR: 0.002400
+Epoch 16, Iter 20 | Loss: 0.0073 | Train Acc: 93.75% | Spikes/sample: 222300.34 | LR: 0.002400
+Epoch 16, Iter 30 | Loss: 0.0065 | Train Acc: 96.88% | Spikes/sample: 258804.91 | LR: 0.002400
+Epoch 16 complete | Avg Loss: 0.0081 | Train Acc: 91.86% | Spikes/sample: 239705.58 | Test Acc: 75.00% | Best saved: 76.56% @ epoch 12 | Best saved spikes/sample: 235263.49 | LR: 0.002400
+
+Epoch 17, Iter 0 | Loss: 0.0056 | Train Acc: 100.00% | Spikes/sample: 236775.62 | LR: 0.002400
+Epoch 17, Iter 10 | Loss: 0.0064 | Train Acc: 93.75% | Spikes/sample: 242424.06 | LR: 0.002400
+Epoch 17, Iter 20 | Loss: 0.0106 | Train Acc: 87.50% | Spikes/sample: 215789.50 | LR: 0.002400
+Epoch 17, Iter 30 | Loss: 0.0085 | Train Acc: 90.62% | Spikes/sample: 259364.53 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 17 complete | Avg Loss: 0.0075 | Train Acc: 93.09% | Spikes/sample: 239696.50 | Test Acc: 79.30% | Best saved: 79.30% @ epoch 17 | Best saved spikes/sample: 239696.50 | LR: 0.002400
+
+Epoch 18, Iter 0 | Loss: 0.0052 | Train Acc: 100.00% | Spikes/sample: 251762.38 | LR: 0.002400
+Epoch 18, Iter 10 | Loss: 0.0097 | Train Acc: 90.62% | Spikes/sample: 233512.66 | LR: 0.002400
+Epoch 18, Iter 20 | Loss: 0.0076 | Train Acc: 87.50% | Spikes/sample: 249924.28 | LR: 0.002400
+Epoch 18, Iter 30 | Loss: 0.0087 | Train Acc: 87.50% | Spikes/sample: 223561.34 | LR: 0.002400
+Epoch 18 complete | Avg Loss: 0.0073 | Train Acc: 93.56% | Spikes/sample: 243080.97 | Test Acc: 79.30% | Best saved: 79.30% @ epoch 17 | Best saved spikes/sample: 239696.50 | LR: 0.002400
+
+Epoch 19, Iter 0 | Loss: 0.0049 | Train Acc: 100.00% | Spikes/sample: 247780.62 | LR: 0.002400
+Epoch 19, Iter 10 | Loss: 0.0063 | Train Acc: 96.88% | Spikes/sample: 254643.53 | LR: 0.002400
+Epoch 19, Iter 20 | Loss: 0.0076 | Train Acc: 96.88% | Spikes/sample: 247752.19 | LR: 0.002400
+Epoch 19, Iter 30 | Loss: 0.0055 | Train Acc: 93.75% | Spikes/sample: 272295.91 | LR: 0.002400
+Epoch 19 complete | Avg Loss: 0.0068 | Train Acc: 93.66% | Spikes/sample: 246788.23 | Test Acc: 75.39% | Best saved: 79.30% @ epoch 17 | Best saved spikes/sample: 239696.50 | LR: 0.002400
+
+Epoch 20, Iter 0 | Loss: 0.0071 | Train Acc: 90.62% | Spikes/sample: 224775.19 | LR: 0.002400
+Epoch 20, Iter 10 | Loss: 0.0048 | Train Acc: 100.00% | Spikes/sample: 285556.91 | LR: 0.002400
+Epoch 20, Iter 20 | Loss: 0.0062 | Train Acc: 93.75% | Spikes/sample: 252463.56 | LR: 0.002400
+Epoch 20, Iter 30 | Loss: 0.0064 | Train Acc: 90.62% | Spikes/sample: 263164.53 | LR: 0.002400
+Epoch 20 complete | Avg Loss: 0.0065 | Train Acc: 94.41% | Spikes/sample: 246903.76 | Test Acc: 78.52% | Best saved: 79.30% @ epoch 17 | Best saved spikes/sample: 239696.50 | LR: 0.002400
+
+Epoch 21, Iter 0 | Loss: 0.0057 | Train Acc: 96.88% | Spikes/sample: 242118.00 | LR: 0.002400
+Epoch 21, Iter 10 | Loss: 0.0055 | Train Acc: 96.88% | Spikes/sample: 253958.19 | LR: 0.002400
+Epoch 21, Iter 20 | Loss: 0.0067 | Train Acc: 93.75% | Spikes/sample: 228076.62 | LR: 0.002400
+Epoch 21, Iter 30 | Loss: 0.0047 | Train Acc: 96.88% | Spikes/sample: 261236.22 | LR: 0.002400
+Epoch 21 complete | Avg Loss: 0.0064 | Train Acc: 94.89% | Spikes/sample: 250364.19 | Test Acc: 77.73% | Best saved: 79.30% @ epoch 17 | Best saved spikes/sample: 239696.50 | LR: 0.002400
+
+Epoch 22, Iter 0 | Loss: 0.0069 | Train Acc: 96.88% | Spikes/sample: 272830.16 | LR: 0.002400
+Epoch 22, Iter 10 | Loss: 0.0076 | Train Acc: 93.75% | Spikes/sample: 268752.50 | LR: 0.002400
+Epoch 22, Iter 20 | Loss: 0.0085 | Train Acc: 90.62% | Spikes/sample: 284176.88 | LR: 0.002400
+Epoch 22, Iter 30 | Loss: 0.0066 | Train Acc: 96.88% | Spikes/sample: 257988.22 | LR: 0.002400
+Epoch 22 complete | Avg Loss: 0.0061 | Train Acc: 95.08% | Spikes/sample: 250467.35 | Test Acc: 78.91% | Best saved: 79.30% @ epoch 17 | Best saved spikes/sample: 239696.50 | LR: 0.002400
+
+Epoch 23, Iter 0 | Loss: 0.0040 | Train Acc: 100.00% | Spikes/sample: 231882.22 | LR: 0.002400
+Epoch 23, Iter 10 | Loss: 0.0044 | Train Acc: 100.00% | Spikes/sample: 253356.72 | LR: 0.002400
+Epoch 23, Iter 20 | Loss: 0.0052 | Train Acc: 96.88% | Spikes/sample: 254469.88 | LR: 0.002400
+Epoch 23, Iter 30 | Loss: 0.0058 | Train Acc: 100.00% | Spikes/sample: 247287.47 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 23 complete | Avg Loss: 0.0058 | Train Acc: 95.45% | Spikes/sample: 251924.34 | Test Acc: 80.08% | Best saved: 80.08% @ epoch 23 | Best saved spikes/sample: 251924.34 | LR: 0.002400
+
+Epoch 24, Iter 0 | Loss: 0.0061 | Train Acc: 96.88% | Spikes/sample: 255946.66 | LR: 0.002400
+Epoch 24, Iter 10 | Loss: 0.0068 | Train Acc: 96.88% | Spikes/sample: 245690.47 | LR: 0.002400
+Epoch 24, Iter 20 | Loss: 0.0051 | Train Acc: 96.88% | Spikes/sample: 279288.06 | LR: 0.002400
+Epoch 24, Iter 30 | Loss: 0.0062 | Train Acc: 90.62% | Spikes/sample: 228356.34 | LR: 0.002400
+Epoch 24 complete | Avg Loss: 0.0057 | Train Acc: 95.83% | Spikes/sample: 251095.27 | Test Acc: 78.91% | Best saved: 80.08% @ epoch 23 | Best saved spikes/sample: 251924.34 | LR: 0.002400
+
+Epoch 25, Iter 0 | Loss: 0.0063 | Train Acc: 93.75% | Spikes/sample: 274532.28 | LR: 0.002400
+Epoch 25, Iter 10 | Loss: 0.0053 | Train Acc: 96.88% | Spikes/sample: 261924.84 | LR: 0.002400
+Epoch 25, Iter 20 | Loss: 0.0050 | Train Acc: 100.00% | Spikes/sample: 270630.19 | LR: 0.002400
+Epoch 25, Iter 30 | Loss: 0.0052 | Train Acc: 96.88% | Spikes/sample: 257943.38 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 25 complete | Avg Loss: 0.0054 | Train Acc: 95.74% | Spikes/sample: 254171.54 | Test Acc: 82.81% | Best saved: 82.81% @ epoch 25 | Best saved spikes/sample: 254171.54 | LR: 0.002400
+
+Epoch 26, Iter 0 | Loss: 0.0065 | Train Acc: 90.62% | Spikes/sample: 226173.38 | LR: 0.002400
+Epoch 26, Iter 10 | Loss: 0.0059 | Train Acc: 100.00% | Spikes/sample: 253073.75 | LR: 0.002400
+Epoch 26, Iter 20 | Loss: 0.0060 | Train Acc: 96.88% | Spikes/sample: 237871.81 | LR: 0.002400
+Epoch 26, Iter 30 | Loss: 0.0050 | Train Acc: 93.75% | Spikes/sample: 259865.81 | LR: 0.002400
+Epoch 26 complete | Avg Loss: 0.0054 | Train Acc: 96.31% | Spikes/sample: 254769.32 | Test Acc: 79.30% | Best saved: 82.81% @ epoch 25 | Best saved spikes/sample: 254171.54 | LR: 0.002400
+
+Epoch 27, Iter 0 | Loss: 0.0062 | Train Acc: 93.75% | Spikes/sample: 273161.72 | LR: 0.002400
+Epoch 27, Iter 10 | Loss: 0.0055 | Train Acc: 93.75% | Spikes/sample: 295981.38 | LR: 0.002400
+Epoch 27, Iter 20 | Loss: 0.0043 | Train Acc: 96.88% | Spikes/sample: 283580.72 | LR: 0.002400
+Epoch 27, Iter 30 | Loss: 0.0030 | Train Acc: 100.00% | Spikes/sample: 280794.25 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 27 complete | Avg Loss: 0.0050 | Train Acc: 96.88% | Spikes/sample: 256019.37 | Test Acc: 83.20% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 28, Iter 0 | Loss: 0.0058 | Train Acc: 100.00% | Spikes/sample: 252572.38 | LR: 0.002400
+Epoch 28, Iter 10 | Loss: 0.0057 | Train Acc: 93.75% | Spikes/sample: 228912.06 | LR: 0.002400
+Epoch 28, Iter 20 | Loss: 0.0039 | Train Acc: 100.00% | Spikes/sample: 243862.38 | LR: 0.002400
+Epoch 28, Iter 30 | Loss: 0.0040 | Train Acc: 100.00% | Spikes/sample: 275170.06 | LR: 0.002400
+Epoch 28 complete | Avg Loss: 0.0050 | Train Acc: 96.88% | Spikes/sample: 255769.93 | Test Acc: 82.81% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 29, Iter 0 | Loss: 0.0046 | Train Acc: 93.75% | Spikes/sample: 245836.69 | LR: 0.002400
+Epoch 29, Iter 10 | Loss: 0.0035 | Train Acc: 100.00% | Spikes/sample: 252818.53 | LR: 0.002400
+Epoch 29, Iter 20 | Loss: 0.0034 | Train Acc: 100.00% | Spikes/sample: 289918.09 | LR: 0.002400
+Epoch 29, Iter 30 | Loss: 0.0042 | Train Acc: 100.00% | Spikes/sample: 276107.44 | LR: 0.002400
+Epoch 29 complete | Avg Loss: 0.0048 | Train Acc: 97.16% | Spikes/sample: 257665.94 | Test Acc: 81.64% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 30, Iter 0 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 277493.81 | LR: 0.002400
+Epoch 30, Iter 10 | Loss: 0.0034 | Train Acc: 96.88% | Spikes/sample: 286855.25 | LR: 0.002400
+Epoch 30, Iter 20 | Loss: 0.0050 | Train Acc: 100.00% | Spikes/sample: 263268.91 | LR: 0.002400
+Epoch 30, Iter 30 | Loss: 0.0038 | Train Acc: 100.00% | Spikes/sample: 245332.22 | LR: 0.002400
+Epoch 30 complete | Avg Loss: 0.0047 | Train Acc: 97.06% | Spikes/sample: 260399.53 | Test Acc: 82.03% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 31, Iter 0 | Loss: 0.0045 | Train Acc: 100.00% | Spikes/sample: 254104.16 | LR: 0.002400
+Epoch 31, Iter 10 | Loss: 0.0031 | Train Acc: 100.00% | Spikes/sample: 270275.28 | LR: 0.002400
+Epoch 31, Iter 20 | Loss: 0.0045 | Train Acc: 100.00% | Spikes/sample: 245580.06 | LR: 0.002400
+Epoch 31, Iter 30 | Loss: 0.0039 | Train Acc: 100.00% | Spikes/sample: 271965.44 | LR: 0.002400
+Epoch 31 complete | Avg Loss: 0.0046 | Train Acc: 97.54% | Spikes/sample: 260285.41 | Test Acc: 81.25% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 32, Iter 0 | Loss: 0.0029 | Train Acc: 100.00% | Spikes/sample: 258425.03 | LR: 0.002400
+Epoch 32, Iter 10 | Loss: 0.0037 | Train Acc: 100.00% | Spikes/sample: 268443.19 | LR: 0.002400
+Epoch 32, Iter 20 | Loss: 0.0049 | Train Acc: 100.00% | Spikes/sample: 247062.62 | LR: 0.002400
+Epoch 32, Iter 30 | Loss: 0.0055 | Train Acc: 96.88% | Spikes/sample: 282900.44 | LR: 0.002400
+Epoch 32 complete | Avg Loss: 0.0043 | Train Acc: 98.01% | Spikes/sample: 261434.15 | Test Acc: 83.20% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 33, Iter 0 | Loss: 0.0039 | Train Acc: 100.00% | Spikes/sample: 263233.84 | LR: 0.002400
+Epoch 33, Iter 10 | Loss: 0.0047 | Train Acc: 93.75% | Spikes/sample: 276892.97 | LR: 0.002400
+Epoch 33, Iter 20 | Loss: 0.0028 | Train Acc: 100.00% | Spikes/sample: 238897.22 | LR: 0.002400
+Epoch 33, Iter 30 | Loss: 0.0055 | Train Acc: 93.75% | Spikes/sample: 304253.66 | LR: 0.002400
+Epoch 33 complete | Avg Loss: 0.0043 | Train Acc: 97.63% | Spikes/sample: 262471.29 | Test Acc: 82.42% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 34, Iter 0 | Loss: 0.0041 | Train Acc: 96.88% | Spikes/sample: 269803.28 | LR: 0.002400
+Epoch 34, Iter 10 | Loss: 0.0058 | Train Acc: 93.75% | Spikes/sample: 253513.97 | LR: 0.002400
+Epoch 34, Iter 20 | Loss: 0.0032 | Train Acc: 100.00% | Spikes/sample: 262565.34 | LR: 0.002400
+Epoch 34, Iter 30 | Loss: 0.0029 | Train Acc: 100.00% | Spikes/sample: 280389.00 | LR: 0.002400
+Epoch 34 complete | Avg Loss: 0.0042 | Train Acc: 98.30% | Spikes/sample: 262958.01 | Test Acc: 83.20% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 35, Iter 0 | Loss: 0.0030 | Train Acc: 100.00% | Spikes/sample: 282517.53 | LR: 0.002400
+Epoch 35, Iter 10 | Loss: 0.0037 | Train Acc: 100.00% | Spikes/sample: 277579.91 | LR: 0.002400
+Epoch 35, Iter 20 | Loss: 0.0039 | Train Acc: 100.00% | Spikes/sample: 252439.41 | LR: 0.002400
+Epoch 35, Iter 30 | Loss: 0.0039 | Train Acc: 93.75% | Spikes/sample: 260828.47 | LR: 0.002400
+Epoch 35 complete | Avg Loss: 0.0041 | Train Acc: 97.92% | Spikes/sample: 264076.77 | Test Acc: 82.81% | Best saved: 83.20% @ epoch 27 | Best saved spikes/sample: 256019.37 | LR: 0.002400
+
+Epoch 36, Iter 0 | Loss: 0.0034 | Train Acc: 100.00% | Spikes/sample: 251680.38 | LR: 0.002400
+Epoch 36, Iter 10 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 266826.59 | LR: 0.002400
+Epoch 36, Iter 20 | Loss: 0.0041 | Train Acc: 96.88% | Spikes/sample: 263510.59 | LR: 0.002400
+Epoch 36, Iter 30 | Loss: 0.0051 | Train Acc: 96.88% | Spikes/sample: 231866.22 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 36 complete | Avg Loss: 0.0040 | Train Acc: 98.01% | Spikes/sample: 264846.70 | Test Acc: 84.77% | Best saved: 84.77% @ epoch 36 | Best saved spikes/sample: 264846.70 | LR: 0.002400
+
+Epoch 37, Iter 0 | Loss: 0.0070 | Train Acc: 93.75% | Spikes/sample: 220751.16 | LR: 0.002400
+Epoch 37, Iter 10 | Loss: 0.0038 | Train Acc: 100.00% | Spikes/sample: 262370.97 | LR: 0.002400
+Epoch 37, Iter 20 | Loss: 0.0034 | Train Acc: 100.00% | Spikes/sample: 276511.00 | LR: 0.002400
+Epoch 37, Iter 30 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 266750.59 | LR: 0.002400
+Epoch 37 complete | Avg Loss: 0.0038 | Train Acc: 98.30% | Spikes/sample: 265896.17 | Test Acc: 83.59% | Best saved: 84.77% @ epoch 36 | Best saved spikes/sample: 264846.70 | LR: 0.002400
+
+Epoch 38, Iter 0 | Loss: 0.0034 | Train Acc: 96.88% | Spikes/sample: 299935.41 | LR: 0.002400
+Epoch 38, Iter 10 | Loss: 0.0038 | Train Acc: 96.88% | Spikes/sample: 274096.28 | LR: 0.002400
+Epoch 38, Iter 20 | Loss: 0.0036 | Train Acc: 100.00% | Spikes/sample: 251209.25 | LR: 0.002400
+Epoch 38, Iter 30 | Loss: 0.0065 | Train Acc: 87.50% | Spikes/sample: 273427.00 | LR: 0.002400
+Epoch 38 complete | Avg Loss: 0.0038 | Train Acc: 98.20% | Spikes/sample: 267045.92 | Test Acc: 82.42% | Best saved: 84.77% @ epoch 36 | Best saved spikes/sample: 264846.70 | LR: 0.002400
+
+Epoch 39, Iter 0 | Loss: 0.0028 | Train Acc: 100.00% | Spikes/sample: 273800.25 | LR: 0.002400
+Epoch 39, Iter 10 | Loss: 0.0032 | Train Acc: 100.00% | Spikes/sample: 286193.81 | LR: 0.002400
+Epoch 39, Iter 20 | Loss: 0.0044 | Train Acc: 93.75% | Spikes/sample: 258114.72 | LR: 0.002400
+Epoch 39, Iter 30 | Loss: 0.0030 | Train Acc: 100.00% | Spikes/sample: 278776.09 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 39 complete | Avg Loss: 0.0037 | Train Acc: 98.39% | Spikes/sample: 267672.66 | Test Acc: 86.33% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 40, Iter 0 | Loss: 0.0036 | Train Acc: 96.88% | Spikes/sample: 290966.75 | LR: 0.002400
+Epoch 40, Iter 10 | Loss: 0.0050 | Train Acc: 93.75% | Spikes/sample: 265566.91 | LR: 0.002400
+Epoch 40, Iter 20 | Loss: 0.0028 | Train Acc: 100.00% | Spikes/sample: 248466.22 | LR: 0.002400
+Epoch 40, Iter 30 | Loss: 0.0026 | Train Acc: 100.00% | Spikes/sample: 276708.72 | LR: 0.002400
+Epoch 40 complete | Avg Loss: 0.0036 | Train Acc: 98.48% | Spikes/sample: 269370.09 | Test Acc: 83.20% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 41, Iter 0 | Loss: 0.0033 | Train Acc: 96.88% | Spikes/sample: 289664.66 | LR: 0.002400
+Epoch 41, Iter 10 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 222969.53 | LR: 0.002400
+Epoch 41, Iter 20 | Loss: 0.0026 | Train Acc: 100.00% | Spikes/sample: 274827.09 | LR: 0.002400
+Epoch 41, Iter 30 | Loss: 0.0041 | Train Acc: 100.00% | Spikes/sample: 256674.75 | LR: 0.002400
+Epoch 41 complete | Avg Loss: 0.0035 | Train Acc: 98.67% | Spikes/sample: 269339.97 | Test Acc: 85.94% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 42, Iter 0 | Loss: 0.0035 | Train Acc: 100.00% | Spikes/sample: 222164.28 | LR: 0.002400
+Epoch 42, Iter 10 | Loss: 0.0043 | Train Acc: 93.75% | Spikes/sample: 245596.69 | LR: 0.002400
+Epoch 42, Iter 20 | Loss: 0.0039 | Train Acc: 96.88% | Spikes/sample: 278630.94 | LR: 0.002400
+Epoch 42, Iter 30 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 282036.47 | LR: 0.002400
+Epoch 42 complete | Avg Loss: 0.0035 | Train Acc: 98.86% | Spikes/sample: 269405.83 | Test Acc: 82.81% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 43, Iter 0 | Loss: 0.0044 | Train Acc: 96.88% | Spikes/sample: 260975.84 | LR: 0.002400
+Epoch 43, Iter 10 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 250792.75 | LR: 0.002400
+Epoch 43, Iter 20 | Loss: 0.0036 | Train Acc: 100.00% | Spikes/sample: 266755.19 | LR: 0.002400
+Epoch 43, Iter 30 | Loss: 0.0026 | Train Acc: 100.00% | Spikes/sample: 276910.28 | LR: 0.002400
+Epoch 43 complete | Avg Loss: 0.0034 | Train Acc: 98.96% | Spikes/sample: 271910.67 | Test Acc: 83.98% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 44, Iter 0 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 277995.47 | LR: 0.002400
+Epoch 44, Iter 10 | Loss: 0.0032 | Train Acc: 100.00% | Spikes/sample: 252411.78 | LR: 0.002400
+Epoch 44, Iter 20 | Loss: 0.0052 | Train Acc: 96.88% | Spikes/sample: 276675.22 | LR: 0.002400
+Epoch 44, Iter 30 | Loss: 0.0031 | Train Acc: 100.00% | Spikes/sample: 294316.16 | LR: 0.002400
+Epoch 44 complete | Avg Loss: 0.0032 | Train Acc: 98.96% | Spikes/sample: 271552.47 | Test Acc: 84.38% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 45, Iter 0 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 222917.75 | LR: 0.002400
+Epoch 45, Iter 10 | Loss: 0.0029 | Train Acc: 100.00% | Spikes/sample: 310935.44 | LR: 0.002400
+Epoch 45, Iter 20 | Loss: 0.0031 | Train Acc: 96.88% | Spikes/sample: 265246.00 | LR: 0.002400
+Epoch 45, Iter 30 | Loss: 0.0039 | Train Acc: 96.88% | Spikes/sample: 279154.47 | LR: 0.002400
+Epoch 45 complete | Avg Loss: 0.0034 | Train Acc: 98.96% | Spikes/sample: 270792.05 | Test Acc: 84.77% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 46, Iter 0 | Loss: 0.0033 | Train Acc: 100.00% | Spikes/sample: 266135.19 | LR: 0.002400
+Epoch 46, Iter 10 | Loss: 0.0030 | Train Acc: 100.00% | Spikes/sample: 269650.78 | LR: 0.002400
+Epoch 46, Iter 20 | Loss: 0.0034 | Train Acc: 96.88% | Spikes/sample: 243022.22 | LR: 0.002400
+Epoch 46, Iter 30 | Loss: 0.0031 | Train Acc: 96.88% | Spikes/sample: 293369.12 | LR: 0.002400
+Epoch 46 complete | Avg Loss: 0.0031 | Train Acc: 99.15% | Spikes/sample: 271524.49 | Test Acc: 84.38% | Best saved: 86.33% @ epoch 39 | Best saved spikes/sample: 267672.66 | LR: 0.002400
+
+Epoch 47, Iter 0 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 286882.34 | LR: 0.002400
+Epoch 47, Iter 10 | Loss: 0.0053 | Train Acc: 96.88% | Spikes/sample: 260357.97 | LR: 0.002400
+Epoch 47, Iter 20 | Loss: 0.0032 | Train Acc: 100.00% | Spikes/sample: 247598.78 | LR: 0.002400
+Epoch 47, Iter 30 | Loss: 0.0026 | Train Acc: 100.00% | Spikes/sample: 300878.41 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 47 complete | Avg Loss: 0.0030 | Train Acc: 99.34% | Spikes/sample: 272399.88 | Test Acc: 86.72% | Best saved: 86.72% @ epoch 47 | Best saved spikes/sample: 272399.88 | LR: 0.002400
+
+Epoch 48, Iter 0 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 299798.41 | LR: 0.002400
+Epoch 48, Iter 10 | Loss: 0.0036 | Train Acc: 96.88% | Spikes/sample: 282488.47 | LR: 0.002400
+Epoch 48, Iter 20 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 304116.16 | LR: 0.002400
+Epoch 48, Iter 30 | Loss: 0.0050 | Train Acc: 96.88% | Spikes/sample: 264613.66 | LR: 0.002400
+Epoch 48 complete | Avg Loss: 0.0029 | Train Acc: 99.24% | Spikes/sample: 274385.30 | Test Acc: 85.94% | Best saved: 86.72% @ epoch 47 | Best saved spikes/sample: 272399.88 | LR: 0.002400
+
+Epoch 49, Iter 0 | Loss: 0.0023 | Train Acc: 100.00% | Spikes/sample: 323861.38 | LR: 0.002400
+Epoch 49, Iter 10 | Loss: 0.0040 | Train Acc: 96.88% | Spikes/sample: 275556.88 | LR: 0.002400
+Epoch 49, Iter 20 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 250409.97 | LR: 0.002400
+Epoch 49, Iter 30 | Loss: 0.0059 | Train Acc: 93.75% | Spikes/sample: 274184.03 | LR: 0.002400
+Epoch 49 complete | Avg Loss: 0.0028 | Train Acc: 99.34% | Spikes/sample: 273838.86 | Test Acc: 84.77% | Best saved: 86.72% @ epoch 47 | Best saved spikes/sample: 272399.88 | LR: 0.002400
+
+Epoch 50, Iter 0 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 247493.56 | LR: 0.002400
+Epoch 50, Iter 10 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 290099.38 | LR: 0.002400
+Epoch 50, Iter 20 | Loss: 0.0033 | Train Acc: 96.88% | Spikes/sample: 265053.66 | LR: 0.002400
+Epoch 50, Iter 30 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 280374.53 | LR: 0.002400
+Epoch 50 complete | Avg Loss: 0.0028 | Train Acc: 99.43% | Spikes/sample: 275441.26 | Test Acc: 84.38% | Best saved: 86.72% @ epoch 47 | Best saved spikes/sample: 272399.88 | LR: 0.002400
+
+Epoch 51, Iter 0 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 257650.12 | LR: 0.002400
+Epoch 51, Iter 10 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 255173.25 | LR: 0.002400
+Epoch 51, Iter 20 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 262882.44 | LR: 0.002400
+Epoch 51, Iter 30 | Loss: 0.0062 | Train Acc: 96.88% | Spikes/sample: 233396.69 | LR: 0.002400
+Epoch 51 complete | Avg Loss: 0.0027 | Train Acc: 99.43% | Spikes/sample: 276008.77 | Test Acc: 86.33% | Best saved: 86.72% @ epoch 47 | Best saved spikes/sample: 272399.88 | LR: 0.002400
+
+Epoch 52, Iter 0 | Loss: 0.0026 | Train Acc: 100.00% | Spikes/sample: 296090.69 | LR: 0.002400
+Epoch 52, Iter 10 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 286932.69 | LR: 0.002400
+Epoch 52, Iter 20 | Loss: 0.0023 | Train Acc: 100.00% | Spikes/sample: 257670.75 | LR: 0.002400
+Epoch 52, Iter 30 | Loss: 0.0049 | Train Acc: 93.75% | Spikes/sample: 284268.94 | LR: 0.002400
+Epoch 52 complete | Avg Loss: 0.0028 | Train Acc: 99.43% | Spikes/sample: 275632.62 | Test Acc: 82.03% | Best saved: 86.72% @ epoch 47 | Best saved spikes/sample: 272399.88 | LR: 0.002400
+
+Epoch 53, Iter 0 | Loss: 0.0032 | Train Acc: 96.88% | Spikes/sample: 294290.47 | LR: 0.002400
+Epoch 53, Iter 10 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 274363.59 | LR: 0.002400
+Epoch 53, Iter 20 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 273502.56 | LR: 0.002400
+Epoch 53, Iter 30 | Loss: 0.0023 | Train Acc: 100.00% | Spikes/sample: 297617.59 | LR: 0.002400
+Epoch 53 complete | Avg Loss: 0.0026 | Train Acc: 99.34% | Spikes/sample: 276124.75 | Test Acc: 84.77% | Best saved: 86.72% @ epoch 47 | Best saved spikes/sample: 272399.88 | LR: 0.002400
+
+Epoch 54, Iter 0 | Loss: 0.0028 | Train Acc: 100.00% | Spikes/sample: 298721.88 | LR: 0.002400
+Epoch 54, Iter 10 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 275411.50 | LR: 0.002400
+Epoch 54, Iter 20 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 240349.78 | LR: 0.002400
+Epoch 54, Iter 30 | Loss: 0.0056 | Train Acc: 96.88% | Spikes/sample: 267870.75 | LR: 0.002400
+Saved best checkpoint to: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Epoch 54 complete | Avg Loss: 0.0025 | Train Acc: 99.43% | Spikes/sample: 276337.12 | Test Acc: 87.11% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 55, Iter 0 | Loss: 0.0033 | Train Acc: 100.00% | Spikes/sample: 306573.59 | LR: 0.002400
+Epoch 55, Iter 10 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 274508.22 | LR: 0.002400
+Epoch 55, Iter 20 | Loss: 0.0028 | Train Acc: 100.00% | Spikes/sample: 258051.31 | LR: 0.002400
+Epoch 55, Iter 30 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 288049.12 | LR: 0.002400
+Epoch 55 complete | Avg Loss: 0.0027 | Train Acc: 99.34% | Spikes/sample: 277307.27 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 56, Iter 0 | Loss: 0.0027 | Train Acc: 96.88% | Spikes/sample: 286191.47 | LR: 0.002400
+Epoch 56, Iter 10 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 265358.41 | LR: 0.002400
+Epoch 56, Iter 20 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 307568.50 | LR: 0.002400
+Epoch 56, Iter 30 | Loss: 0.0023 | Train Acc: 100.00% | Spikes/sample: 262807.91 | LR: 0.002400
+Epoch 56 complete | Avg Loss: 0.0025 | Train Acc: 99.43% | Spikes/sample: 278434.55 | Test Acc: 82.81% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 57, Iter 0 | Loss: 0.0045 | Train Acc: 100.00% | Spikes/sample: 253242.91 | LR: 0.002400
+Epoch 57, Iter 10 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 270405.78 | LR: 0.002400
+Epoch 57, Iter 20 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 290199.53 | LR: 0.002400
+Epoch 57, Iter 30 | Loss: 0.0028 | Train Acc: 96.88% | Spikes/sample: 274464.25 | LR: 0.002400
+Epoch 57 complete | Avg Loss: 0.0024 | Train Acc: 99.43% | Spikes/sample: 278705.49 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 58, Iter 0 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 269462.66 | LR: 0.002400
+Epoch 58, Iter 10 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 276087.78 | LR: 0.002400
+Epoch 58, Iter 20 | Loss: 0.0034 | Train Acc: 96.88% | Spikes/sample: 267798.69 | LR: 0.002400
+Epoch 58, Iter 30 | Loss: 0.0051 | Train Acc: 96.88% | Spikes/sample: 291989.69 | LR: 0.002400
+Epoch 58 complete | Avg Loss: 0.0025 | Train Acc: 99.34% | Spikes/sample: 279897.96 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 59, Iter 0 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 282007.47 | LR: 0.002400
+Epoch 59, Iter 10 | Loss: 0.0017 | Train Acc: 100.00% | Spikes/sample: 288282.97 | LR: 0.002400
+Epoch 59, Iter 20 | Loss: 0.0020 | Train Acc: 100.00% | Spikes/sample: 288143.19 | LR: 0.002400
+Epoch 59, Iter 30 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 243006.03 | LR: 0.002400
+Epoch 59 complete | Avg Loss: 0.0024 | Train Acc: 99.53% | Spikes/sample: 279637.78 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 60, Iter 0 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 261493.47 | LR: 0.002400
+Epoch 60, Iter 10 | Loss: 0.0023 | Train Acc: 100.00% | Spikes/sample: 256488.44 | LR: 0.002400
+Epoch 60, Iter 20 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 292575.50 | LR: 0.002400
+Epoch 60, Iter 30 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 277840.25 | LR: 0.002400
+Epoch 60 complete | Avg Loss: 0.0023 | Train Acc: 99.43% | Spikes/sample: 280185.58 | Test Acc: 86.72% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 61, Iter 0 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 298688.09 | LR: 0.002400
+Epoch 61, Iter 10 | Loss: 0.0041 | Train Acc: 100.00% | Spikes/sample: 306519.16 | LR: 0.002400
+Epoch 61, Iter 20 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 258740.00 | LR: 0.002400
+Epoch 61, Iter 30 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 291117.19 | LR: 0.002400
+Epoch 61 complete | Avg Loss: 0.0023 | Train Acc: 99.53% | Spikes/sample: 281016.96 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 62, Iter 0 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 284222.28 | LR: 0.002400
+Epoch 62, Iter 10 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 265695.62 | LR: 0.002400
+Epoch 62, Iter 20 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 281297.31 | LR: 0.002400
+Epoch 62, Iter 30 | Loss: 0.0044 | Train Acc: 96.88% | Spikes/sample: 307537.28 | LR: 0.002400
+Epoch 62 complete | Avg Loss: 0.0022 | Train Acc: 99.43% | Spikes/sample: 281217.34 | Test Acc: 86.72% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 63, Iter 0 | Loss: 0.0043 | Train Acc: 96.88% | Spikes/sample: 282120.78 | LR: 0.002400
+Epoch 63, Iter 10 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 259869.25 | LR: 0.002400
+Epoch 63, Iter 20 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 272686.41 | LR: 0.002400
+Epoch 63, Iter 30 | Loss: 0.0023 | Train Acc: 100.00% | Spikes/sample: 253463.53 | LR: 0.002400
+Epoch 63 complete | Avg Loss: 0.0021 | Train Acc: 99.72% | Spikes/sample: 281382.28 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 64, Iter 0 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 268175.38 | LR: 0.002400
+Epoch 64, Iter 10 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 280494.03 | LR: 0.002400
+Epoch 64, Iter 20 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 257254.03 | LR: 0.002400
+Epoch 64, Iter 30 | Loss: 0.0022 | Train Acc: 100.00% | Spikes/sample: 269189.69 | LR: 0.002400
+Epoch 64 complete | Avg Loss: 0.0021 | Train Acc: 99.53% | Spikes/sample: 282069.07 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 65, Iter 0 | Loss: 0.0025 | Train Acc: 100.00% | Spikes/sample: 311817.53 | LR: 0.002400
+Epoch 65, Iter 10 | Loss: 0.0023 | Train Acc: 100.00% | Spikes/sample: 280512.03 | LR: 0.002400
+Epoch 65, Iter 20 | Loss: 0.0020 | Train Acc: 100.00% | Spikes/sample: 291635.75 | LR: 0.002400
+Epoch 65, Iter 30 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 310787.84 | LR: 0.002400
+Epoch 65 complete | Avg Loss: 0.0021 | Train Acc: 99.53% | Spikes/sample: 282430.58 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 66, Iter 0 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 277820.88 | LR: 0.002400
+Epoch 66, Iter 10 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 264028.34 | LR: 0.002400
+Epoch 66, Iter 20 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 322168.41 | LR: 0.002400
+Epoch 66, Iter 30 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 295094.28 | LR: 0.002400
+Epoch 66 complete | Avg Loss: 0.0021 | Train Acc: 99.62% | Spikes/sample: 282471.09 | Test Acc: 85.94% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 67, Iter 0 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 312761.28 | LR: 0.002400
+Epoch 67, Iter 10 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 269198.00 | LR: 0.002400
+Epoch 67, Iter 20 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 273367.25 | LR: 0.002400
+Epoch 67, Iter 30 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 311861.81 | LR: 0.002400
+Epoch 67 complete | Avg Loss: 0.0020 | Train Acc: 99.72% | Spikes/sample: 283239.27 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 68, Iter 0 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 292180.31 | LR: 0.002400
+Epoch 68, Iter 10 | Loss: 0.0024 | Train Acc: 100.00% | Spikes/sample: 259825.88 | LR: 0.002400
+Epoch 68, Iter 20 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 286521.75 | LR: 0.002400
+Epoch 68, Iter 30 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 242423.78 | LR: 0.002400
+Epoch 68 complete | Avg Loss: 0.0019 | Train Acc: 99.91% | Spikes/sample: 284563.97 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 69, Iter 0 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 299076.97 | LR: 0.002400
+Epoch 69, Iter 10 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 276969.62 | LR: 0.002400
+Epoch 69, Iter 20 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 282455.22 | LR: 0.002400
+Epoch 69, Iter 30 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 271591.81 | LR: 0.002400
+Epoch 69 complete | Avg Loss: 0.0019 | Train Acc: 99.81% | Spikes/sample: 284062.13 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 70, Iter 0 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 292272.00 | LR: 0.002400
+Epoch 70, Iter 10 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 278707.25 | LR: 0.002400
+Epoch 70, Iter 20 | Loss: 0.0022 | Train Acc: 96.88% | Spikes/sample: 263587.25 | LR: 0.002400
+Epoch 70, Iter 30 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 284186.12 | LR: 0.002400
+Epoch 70 complete | Avg Loss: 0.0019 | Train Acc: 99.62% | Spikes/sample: 283976.02 | Test Acc: 85.94% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 71, Iter 0 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 297740.06 | LR: 0.002400
+Epoch 71, Iter 10 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 254111.03 | LR: 0.002400
+Epoch 71, Iter 20 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 304848.41 | LR: 0.002400
+Epoch 71, Iter 30 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 299649.09 | LR: 0.002400
+Epoch 71 complete | Avg Loss: 0.0018 | Train Acc: 99.81% | Spikes/sample: 284196.06 | Test Acc: 86.72% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 72, Iter 0 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 269504.31 | LR: 0.002400
+Epoch 72, Iter 10 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 311367.53 | LR: 0.002400
+Epoch 72, Iter 20 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 334344.75 | LR: 0.002400
+Epoch 72, Iter 30 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 252635.19 | LR: 0.002400
+Epoch 72 complete | Avg Loss: 0.0018 | Train Acc: 99.62% | Spikes/sample: 284748.04 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 73, Iter 0 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 286224.12 | LR: 0.002400
+Epoch 73, Iter 10 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 291122.16 | LR: 0.002400
+Epoch 73, Iter 20 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 304535.50 | LR: 0.002400
+Epoch 73, Iter 30 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 259442.31 | LR: 0.002400
+Epoch 73 complete | Avg Loss: 0.0018 | Train Acc: 99.91% | Spikes/sample: 284671.36 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 74, Iter 0 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 271804.56 | LR: 0.002400
+Epoch 74, Iter 10 | Loss: 0.0019 | Train Acc: 100.00% | Spikes/sample: 263077.69 | LR: 0.002400
+Epoch 74, Iter 20 | Loss: 0.0024 | Train Acc: 96.88% | Spikes/sample: 288114.66 | LR: 0.002400
+Epoch 74, Iter 30 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 262520.00 | LR: 0.002400
+Epoch 74 complete | Avg Loss: 0.0018 | Train Acc: 99.53% | Spikes/sample: 286341.52 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 75, Iter 0 | Loss: 0.0048 | Train Acc: 93.75% | Spikes/sample: 264938.50 | LR: 0.002400
+Epoch 75, Iter 10 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 283256.31 | LR: 0.002400
+Epoch 75, Iter 20 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 292126.03 | LR: 0.002400
+Epoch 75, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 292647.41 | LR: 0.002400
+Epoch 75 complete | Avg Loss: 0.0017 | Train Acc: 99.72% | Spikes/sample: 286438.59 | Test Acc: 85.94% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 76, Iter 0 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 285147.25 | LR: 0.002400
+Epoch 76, Iter 10 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 265639.50 | LR: 0.002400
+Epoch 76, Iter 20 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 305024.28 | LR: 0.002400
+Epoch 76, Iter 30 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 288594.22 | LR: 0.002400
+Epoch 76 complete | Avg Loss: 0.0017 | Train Acc: 99.81% | Spikes/sample: 285939.77 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 77, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 292348.59 | LR: 0.002400
+Epoch 77, Iter 10 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 297004.94 | LR: 0.002400
+Epoch 77, Iter 20 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 278836.59 | LR: 0.002400
+Epoch 77, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 282890.09 | LR: 0.002400
+Epoch 77 complete | Avg Loss: 0.0016 | Train Acc: 99.91% | Spikes/sample: 286202.26 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 78, Iter 0 | Loss: 0.0017 | Train Acc: 100.00% | Spikes/sample: 280209.97 | LR: 0.002400
+Epoch 78, Iter 10 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 263200.16 | LR: 0.002400
+Epoch 78, Iter 20 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 261472.59 | LR: 0.002400
+Epoch 78, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 299088.78 | LR: 0.002400
+Epoch 78 complete | Avg Loss: 0.0016 | Train Acc: 99.81% | Spikes/sample: 286300.72 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 79, Iter 0 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 315441.75 | LR: 0.002400
+Epoch 79, Iter 10 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 278366.75 | LR: 0.002400
+Epoch 79, Iter 20 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 277288.69 | LR: 0.002400
+Epoch 79, Iter 30 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 279488.06 | LR: 0.002400
+Epoch 79 complete | Avg Loss: 0.0015 | Train Acc: 99.81% | Spikes/sample: 287005.38 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 80, Iter 0 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 288081.72 | LR: 0.002400
+Epoch 80, Iter 10 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 293084.91 | LR: 0.002400
+Epoch 80, Iter 20 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 263189.28 | LR: 0.002400
+Epoch 80, Iter 30 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 284016.97 | LR: 0.002400
+Epoch 80 complete | Avg Loss: 0.0016 | Train Acc: 99.91% | Spikes/sample: 288192.09 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 81, Iter 0 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 276110.22 | LR: 0.002400
+Epoch 81, Iter 10 | Loss: 0.0043 | Train Acc: 93.75% | Spikes/sample: 283428.22 | LR: 0.002400
+Epoch 81, Iter 20 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 269048.56 | LR: 0.002400
+Epoch 81, Iter 30 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 266643.47 | LR: 0.002400
+Epoch 81 complete | Avg Loss: 0.0015 | Train Acc: 99.72% | Spikes/sample: 288965.61 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 82, Iter 0 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 299259.56 | LR: 0.002400
+Epoch 82, Iter 10 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 273302.12 | LR: 0.002400
+Epoch 82, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 292607.81 | LR: 0.002400
+Epoch 82, Iter 30 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 278978.22 | LR: 0.002400
+Epoch 82 complete | Avg Loss: 0.0015 | Train Acc: 99.81% | Spikes/sample: 288345.47 | Test Acc: 86.72% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 83, Iter 0 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 263309.06 | LR: 0.002400
+Epoch 83, Iter 10 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 280225.84 | LR: 0.002400
+Epoch 83, Iter 20 | Loss: 0.0021 | Train Acc: 100.00% | Spikes/sample: 292793.81 | LR: 0.002400
+Epoch 83, Iter 30 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 277865.03 | LR: 0.002400
+Epoch 83 complete | Avg Loss: 0.0015 | Train Acc: 99.91% | Spikes/sample: 288499.27 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 84, Iter 0 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 285331.75 | LR: 0.002400
+Epoch 84, Iter 10 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 290291.72 | LR: 0.002400
+Epoch 84, Iter 20 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 304462.03 | LR: 0.002400
+Epoch 84, Iter 30 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 302203.34 | LR: 0.002400
+Epoch 84 complete | Avg Loss: 0.0014 | Train Acc: 99.81% | Spikes/sample: 290157.51 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 85, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 281330.28 | LR: 0.002400
+Epoch 85, Iter 10 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 300746.53 | LR: 0.002400
+Epoch 85, Iter 20 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 269857.81 | LR: 0.002400
+Epoch 85, Iter 30 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 294650.84 | LR: 0.002400
+Epoch 85 complete | Avg Loss: 0.0014 | Train Acc: 99.81% | Spikes/sample: 289066.07 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 86, Iter 0 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 265324.00 | LR: 0.002400
+Epoch 86, Iter 10 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 303678.19 | LR: 0.002400
+Epoch 86, Iter 20 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 319534.78 | LR: 0.002400
+Epoch 86, Iter 30 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 272052.34 | LR: 0.002400
+Epoch 86 complete | Avg Loss: 0.0015 | Train Acc: 99.81% | Spikes/sample: 288585.90 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 87, Iter 0 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 278129.75 | LR: 0.002400
+Epoch 87, Iter 10 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 302591.41 | LR: 0.002400
+Epoch 87, Iter 20 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 275824.72 | LR: 0.002400
+Epoch 87, Iter 30 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 273470.44 | LR: 0.002400
+Epoch 87 complete | Avg Loss: 0.0014 | Train Acc: 99.91% | Spikes/sample: 288862.49 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 88, Iter 0 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 324270.00 | LR: 0.002400
+Epoch 88, Iter 10 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 269381.12 | LR: 0.002400
+Epoch 88, Iter 20 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 281533.22 | LR: 0.002400
+Epoch 88, Iter 30 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 256801.12 | LR: 0.002400
+Epoch 88 complete | Avg Loss: 0.0014 | Train Acc: 99.81% | Spikes/sample: 289233.23 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 89, Iter 0 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 252250.72 | LR: 0.002400
+Epoch 89, Iter 10 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 285055.25 | LR: 0.002400
+Epoch 89, Iter 20 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 304663.44 | LR: 0.002400
+Epoch 89, Iter 30 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 282619.03 | LR: 0.002400
+Epoch 89 complete | Avg Loss: 0.0014 | Train Acc: 99.81% | Spikes/sample: 288958.66 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 90, Iter 0 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 283890.09 | LR: 0.002400
+Epoch 90, Iter 10 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 297828.75 | LR: 0.002400
+Epoch 90, Iter 20 | Loss: 0.0036 | Train Acc: 96.88% | Spikes/sample: 282075.72 | LR: 0.002400
+Epoch 90, Iter 30 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 289540.75 | LR: 0.002400
+Epoch 90 complete | Avg Loss: 0.0013 | Train Acc: 99.81% | Spikes/sample: 289631.04 | Test Acc: 82.81% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 91, Iter 0 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 303307.53 | LR: 0.002400
+Epoch 91, Iter 10 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 314088.84 | LR: 0.002400
+Epoch 91, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 305653.81 | LR: 0.002400
+Epoch 91, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 308858.12 | LR: 0.002400
+Epoch 91 complete | Avg Loss: 0.0013 | Train Acc: 99.72% | Spikes/sample: 288915.58 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 92, Iter 0 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 284955.72 | LR: 0.002400
+Epoch 92, Iter 10 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 283743.94 | LR: 0.002400
+Epoch 92, Iter 20 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 312107.91 | LR: 0.002400
+Epoch 92, Iter 30 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 299851.75 | LR: 0.002400
+Epoch 92 complete | Avg Loss: 0.0013 | Train Acc: 99.81% | Spikes/sample: 289844.49 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 93, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 293954.72 | LR: 0.002400
+Epoch 93, Iter 10 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 315226.38 | LR: 0.002400
+Epoch 93, Iter 20 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 306404.31 | LR: 0.002400
+Epoch 93, Iter 30 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 322993.81 | LR: 0.002400
+Epoch 93 complete | Avg Loss: 0.0013 | Train Acc: 99.81% | Spikes/sample: 290601.00 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 94, Iter 0 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 295961.03 | LR: 0.002400
+Epoch 94, Iter 10 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 280193.59 | LR: 0.002400
+Epoch 94, Iter 20 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 287666.31 | LR: 0.002400
+Epoch 94, Iter 30 | Loss: 0.0033 | Train Acc: 96.88% | Spikes/sample: 288063.59 | LR: 0.002400
+Epoch 94 complete | Avg Loss: 0.0013 | Train Acc: 99.81% | Spikes/sample: 292215.75 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 95, Iter 0 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 281349.38 | LR: 0.002400
+Epoch 95, Iter 10 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 303660.41 | LR: 0.002400
+Epoch 95, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 264406.38 | LR: 0.002400
+Epoch 95, Iter 30 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 250569.12 | LR: 0.002400
+Epoch 95 complete | Avg Loss: 0.0012 | Train Acc: 99.81% | Spikes/sample: 291458.10 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 96, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 318872.75 | LR: 0.002400
+Epoch 96, Iter 10 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 293369.81 | LR: 0.002400
+Epoch 96, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 303031.12 | LR: 0.002400
+Epoch 96, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 281767.53 | LR: 0.002400
+Epoch 96 complete | Avg Loss: 0.0012 | Train Acc: 99.81% | Spikes/sample: 292053.16 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 97, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 316942.19 | LR: 0.002400
+Epoch 97, Iter 10 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 267770.19 | LR: 0.002400
+Epoch 97, Iter 20 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 278505.31 | LR: 0.002400
+Epoch 97, Iter 30 | Loss: 0.0035 | Train Acc: 96.88% | Spikes/sample: 268794.19 | LR: 0.002400
+Epoch 97 complete | Avg Loss: 0.0012 | Train Acc: 99.91% | Spikes/sample: 292460.00 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 98, Iter 0 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 309746.62 | LR: 0.002400
+Epoch 98, Iter 10 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 286696.41 | LR: 0.002400
+Epoch 98, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 309875.88 | LR: 0.002400
+Epoch 98, Iter 30 | Loss: 0.0035 | Train Acc: 96.88% | Spikes/sample: 271393.06 | LR: 0.002400
+Epoch 98 complete | Avg Loss: 0.0012 | Train Acc: 99.81% | Spikes/sample: 292548.45 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 99, Iter 0 | Loss: 0.0038 | Train Acc: 96.88% | Spikes/sample: 274219.38 | LR: 0.002400
+Epoch 99, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 301452.50 | LR: 0.002400
+Epoch 99, Iter 20 | Loss: 0.0015 | Train Acc: 100.00% | Spikes/sample: 309416.19 | LR: 0.002400
+Epoch 99, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 296973.75 | LR: 0.002400
+Epoch 99 complete | Avg Loss: 0.0012 | Train Acc: 99.81% | Spikes/sample: 291770.03 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 100, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 314607.88 | LR: 0.002400
+Epoch 100, Iter 10 | Loss: 0.0014 | Train Acc: 100.00% | Spikes/sample: 290486.44 | LR: 0.002400
+Epoch 100, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 318684.00 | LR: 0.002400
+Epoch 100, Iter 30 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 293077.91 | LR: 0.002400
+Epoch 100 complete | Avg Loss: 0.0012 | Train Acc: 99.81% | Spikes/sample: 293100.74 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 101, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 306827.41 | LR: 0.002400
+Epoch 101, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 303285.00 | LR: 0.002400
+Epoch 101, Iter 20 | Loss: 0.0039 | Train Acc: 96.88% | Spikes/sample: 299063.78 | LR: 0.002400
+Epoch 101, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 257385.84 | LR: 0.002400
+Epoch 101 complete | Avg Loss: 0.0011 | Train Acc: 99.81% | Spikes/sample: 293137.18 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 102, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 276907.16 | LR: 0.002400
+Epoch 102, Iter 10 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 290761.19 | LR: 0.002400
+Epoch 102, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 287180.44 | LR: 0.002400
+Epoch 102, Iter 30 | Loss: 0.0031 | Train Acc: 96.88% | Spikes/sample: 237759.22 | LR: 0.002400
+Epoch 102 complete | Avg Loss: 0.0011 | Train Acc: 99.91% | Spikes/sample: 293109.14 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 103, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 299953.59 | LR: 0.002400
+Epoch 103, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 303220.56 | LR: 0.002400
+Epoch 103, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 296242.97 | LR: 0.002400
+Epoch 103, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 293215.53 | LR: 0.002400
+Epoch 103 complete | Avg Loss: 0.0011 | Train Acc: 99.81% | Spikes/sample: 293203.70 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 104, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 293924.19 | LR: 0.002400
+Epoch 104, Iter 10 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 295259.00 | LR: 0.002400
+Epoch 104, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 286022.38 | LR: 0.002400
+Epoch 104, Iter 30 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 302563.00 | LR: 0.002400
+Epoch 104 complete | Avg Loss: 0.0011 | Train Acc: 99.91% | Spikes/sample: 292069.10 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 105, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 307247.41 | LR: 0.002400
+Epoch 105, Iter 10 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 283643.28 | LR: 0.002400
+Epoch 105, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 318738.88 | LR: 0.002400
+Epoch 105, Iter 30 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 307505.78 | LR: 0.002400
+Epoch 105 complete | Avg Loss: 0.0011 | Train Acc: 99.81% | Spikes/sample: 294219.83 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 106, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 271787.00 | LR: 0.002400
+Epoch 106, Iter 10 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 299757.44 | LR: 0.002400
+Epoch 106, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 270437.16 | LR: 0.002400
+Epoch 106, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 319427.69 | LR: 0.002400
+Epoch 106 complete | Avg Loss: 0.0011 | Train Acc: 99.91% | Spikes/sample: 293552.09 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 107, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 318383.81 | LR: 0.002400
+Epoch 107, Iter 10 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 266265.66 | LR: 0.002400
+Epoch 107, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 325834.28 | LR: 0.002400
+Epoch 107, Iter 30 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 303345.06 | LR: 0.002400
+Epoch 107 complete | Avg Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 295004.66 | Test Acc: 83.20% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 108, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 276753.41 | LR: 0.002400
+Epoch 108, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 277413.84 | LR: 0.002400
+Epoch 108, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 269566.34 | LR: 0.002400
+Epoch 108, Iter 30 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 267384.41 | LR: 0.002400
+Epoch 108 complete | Avg Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 294693.07 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 109, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 310310.31 | LR: 0.002400
+Epoch 109, Iter 10 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 291704.12 | LR: 0.002400
+Epoch 109, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 309047.16 | LR: 0.002400
+Epoch 109, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 309666.38 | LR: 0.002400
+Epoch 109 complete | Avg Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 294723.05 | Test Acc: 83.20% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 110, Iter 0 | Loss: 0.0031 | Train Acc: 100.00% | Spikes/sample: 254324.44 | LR: 0.002400
+Epoch 110, Iter 10 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 246417.69 | LR: 0.002400
+Epoch 110, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 296869.75 | LR: 0.002400
+Epoch 110, Iter 30 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 319786.25 | LR: 0.002400
+Epoch 110 complete | Avg Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 296045.92 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 111, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 319246.16 | LR: 0.002400
+Epoch 111, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 287032.72 | LR: 0.002400
+Epoch 111, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 323057.81 | LR: 0.002400
+Epoch 111, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 292499.22 | LR: 0.002400
+Epoch 111 complete | Avg Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 295245.27 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 112, Iter 0 | Loss: 0.0028 | Train Acc: 96.88% | Spikes/sample: 289500.69 | LR: 0.002400
+Epoch 112, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 306337.66 | LR: 0.002400
+Epoch 112, Iter 20 | Loss: 0.0013 | Train Acc: 100.00% | Spikes/sample: 252055.41 | LR: 0.002400
+Epoch 112, Iter 30 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 296202.25 | LR: 0.002400
+Epoch 112 complete | Avg Loss: 0.0010 | Train Acc: 99.91% | Spikes/sample: 293913.83 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 113, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 321310.78 | LR: 0.002400
+Epoch 113, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 284272.56 | LR: 0.002400
+Epoch 113, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 320523.03 | LR: 0.002400
+Epoch 113, Iter 30 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 309083.91 | LR: 0.002400
+Epoch 113 complete | Avg Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 294463.15 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 114, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 311207.25 | LR: 0.002400
+Epoch 114, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 289764.12 | LR: 0.002400
+Epoch 114, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 283067.19 | LR: 0.002400
+Epoch 114, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 313051.12 | LR: 0.002400
+Epoch 114 complete | Avg Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 295133.99 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 115, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 281554.47 | LR: 0.002400
+Epoch 115, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 265786.19 | LR: 0.002400
+Epoch 115, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 348760.88 | LR: 0.002400
+Epoch 115, Iter 30 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 293639.47 | LR: 0.002400
+Epoch 115 complete | Avg Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 293479.64 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 116, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 284876.62 | LR: 0.002400
+Epoch 116, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 301927.50 | LR: 0.002400
+Epoch 116, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 302165.06 | LR: 0.002400
+Epoch 116, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 308847.62 | LR: 0.002400
+Epoch 116 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 294942.70 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 117, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 295979.84 | LR: 0.002400
+Epoch 117, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 303903.78 | LR: 0.002400
+Epoch 117, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 290426.16 | LR: 0.002400
+Epoch 117, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 272146.19 | LR: 0.002400
+Epoch 117 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 296291.20 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 118, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 312842.53 | LR: 0.002400
+Epoch 118, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 296730.69 | LR: 0.002400
+Epoch 118, Iter 20 | Loss: 0.0011 | Train Acc: 100.00% | Spikes/sample: 263032.81 | LR: 0.002400
+Epoch 118, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 281487.72 | LR: 0.002400
+Epoch 118 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 296897.18 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 119, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 303542.06 | LR: 0.002400
+Epoch 119, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 327481.78 | LR: 0.002400
+Epoch 119, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 294737.19 | LR: 0.002400
+Epoch 119, Iter 30 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 352815.31 | LR: 0.002400
+Epoch 119 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 297755.40 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 120, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 312126.00 | LR: 0.002400
+Epoch 120, Iter 10 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 262489.91 | LR: 0.002400
+Epoch 120, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 289523.09 | LR: 0.002400
+Epoch 120, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 288632.84 | LR: 0.002400
+Epoch 120 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 295538.89 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 121, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 277641.75 | LR: 0.002400
+Epoch 121, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 309536.62 | LR: 0.002400
+Epoch 121, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 306342.78 | LR: 0.002400
+Epoch 121, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 286926.62 | LR: 0.002400
+Epoch 121 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 295234.96 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 122, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 314207.66 | LR: 0.002400
+Epoch 122, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 311744.81 | LR: 0.002400
+Epoch 122, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 311750.94 | LR: 0.002400
+Epoch 122, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 258603.25 | LR: 0.002400
+Epoch 122 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 296333.24 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 123, Iter 0 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 264157.22 | LR: 0.002400
+Epoch 123, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 286039.19 | LR: 0.002400
+Epoch 123, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 282037.56 | LR: 0.002400
+Epoch 123, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 313210.00 | LR: 0.002400
+Epoch 123 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 296469.74 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 124, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 300730.41 | LR: 0.002400
+Epoch 124, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 311826.41 | LR: 0.002400
+Epoch 124, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 281404.66 | LR: 0.002400
+Epoch 124, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 276707.38 | LR: 0.002400
+Epoch 124 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 295694.46 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 125, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 282322.91 | LR: 0.002400
+Epoch 125, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 314664.56 | LR: 0.002400
+Epoch 125, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 301277.06 | LR: 0.002400
+Epoch 125, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 286925.06 | LR: 0.002400
+Epoch 125 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 296578.50 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 126, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 291703.44 | LR: 0.002400
+Epoch 126, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 313745.31 | LR: 0.002400
+Epoch 126, Iter 20 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 295674.94 | LR: 0.002400
+Epoch 126, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 311044.78 | LR: 0.002400
+Epoch 126 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 296733.24 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 127, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 312676.66 | LR: 0.002400
+Epoch 127, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 294640.34 | LR: 0.002400
+Epoch 127, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 289854.25 | LR: 0.002400
+Epoch 127, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 299668.03 | LR: 0.002400
+Epoch 127 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 295870.83 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 128, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 302106.94 | LR: 0.002400
+Epoch 128, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 283408.03 | LR: 0.002400
+Epoch 128, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 297723.88 | LR: 0.002400
+Epoch 128, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 307640.28 | LR: 0.002400
+Epoch 128 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 297504.22 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 129, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 315506.28 | LR: 0.002400
+Epoch 129, Iter 10 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 310760.22 | LR: 0.002400
+Epoch 129, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 288653.72 | LR: 0.002400
+Epoch 129, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 276994.88 | LR: 0.002400
+Epoch 129 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 295625.09 | Test Acc: 83.20% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 130, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 276015.12 | LR: 0.002400
+Epoch 130, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 334595.44 | LR: 0.002400
+Epoch 130, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 271427.06 | LR: 0.002400
+Epoch 130, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 304407.06 | LR: 0.002400
+Epoch 130 complete | Avg Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 297143.48 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 131, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 307091.84 | LR: 0.002400
+Epoch 131, Iter 10 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 313577.69 | LR: 0.002400
+Epoch 131, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 290523.56 | LR: 0.002400
+Epoch 131, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 259746.78 | LR: 0.002400
+Epoch 131 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 297938.69 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 132, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 272802.47 | LR: 0.002400
+Epoch 132, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 285998.72 | LR: 0.002400
+Epoch 132, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 281306.41 | LR: 0.002400
+Epoch 132, Iter 30 | Loss: 0.0009 | Train Acc: 100.00% | Spikes/sample: 277747.72 | LR: 0.002400
+Epoch 132 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 297033.00 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 133, Iter 0 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 303201.66 | LR: 0.002400
+Epoch 133, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 303417.94 | LR: 0.002400
+Epoch 133, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 302409.41 | LR: 0.002400
+Epoch 133, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 289454.53 | LR: 0.002400
+Epoch 133 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 297813.57 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 134, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298490.09 | LR: 0.002400
+Epoch 134, Iter 10 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 297222.62 | LR: 0.002400
+Epoch 134, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 338203.97 | LR: 0.002400
+Epoch 134, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 283482.78 | LR: 0.002400
+Epoch 134 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 297551.04 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 135, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 315195.75 | LR: 0.002400
+Epoch 135, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 311216.28 | LR: 0.002400
+Epoch 135, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 296631.78 | LR: 0.002400
+Epoch 135, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 302112.50 | LR: 0.002400
+Epoch 135 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 296942.31 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 136, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 283709.16 | LR: 0.002400
+Epoch 136, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 296103.53 | LR: 0.002400
+Epoch 136, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 344957.66 | LR: 0.002400
+Epoch 136, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 290573.56 | LR: 0.002400
+Epoch 136 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 299162.62 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 137, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 282694.41 | LR: 0.002400
+Epoch 137, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 308139.28 | LR: 0.002400
+Epoch 137, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 320343.47 | LR: 0.002400
+Epoch 137, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 304878.88 | LR: 0.002400
+Epoch 137 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 297298.32 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 138, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 292734.97 | LR: 0.002400
+Epoch 138, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 313060.69 | LR: 0.002400
+Epoch 138, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 305401.47 | LR: 0.002400
+Epoch 138, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 330290.56 | LR: 0.002400
+Epoch 138 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 298087.20 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 139, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 294465.03 | LR: 0.002400
+Epoch 139, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 280484.38 | LR: 0.002400
+Epoch 139, Iter 20 | Loss: 0.0018 | Train Acc: 100.00% | Spikes/sample: 298101.50 | LR: 0.002400
+Epoch 139, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 306994.22 | LR: 0.002400
+Epoch 139 complete | Avg Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 298448.46 | Test Acc: 83.20% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 140, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 280188.62 | LR: 0.002400
+Epoch 140, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 285979.06 | LR: 0.002400
+Epoch 140, Iter 20 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 289330.56 | LR: 0.002400
+Epoch 140, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 334426.00 | LR: 0.002400
+Epoch 140 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 297892.49 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 141, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 301040.78 | LR: 0.002400
+Epoch 141, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 259170.88 | LR: 0.002400
+Epoch 141, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 301956.50 | LR: 0.002400
+Epoch 141, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 297419.72 | LR: 0.002400
+Epoch 141 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 299433.64 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 142, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 312125.69 | LR: 0.002400
+Epoch 142, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 284928.25 | LR: 0.002400
+Epoch 142, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 289351.41 | LR: 0.002400
+Epoch 142, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 322779.47 | LR: 0.002400
+Epoch 142 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298337.16 | Test Acc: 82.81% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 143, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300368.88 | LR: 0.002400
+Epoch 143, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 271549.03 | LR: 0.002400
+Epoch 143, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 278737.03 | LR: 0.002400
+Epoch 143, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298650.41 | LR: 0.002400
+Epoch 143 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298253.94 | Test Acc: 82.03% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 144, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 316258.59 | LR: 0.002400
+Epoch 144, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 312181.94 | LR: 0.002400
+Epoch 144, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 316962.94 | LR: 0.002400
+Epoch 144, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 316363.94 | LR: 0.002400
+Epoch 144 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298529.95 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 145, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 293329.22 | LR: 0.002400
+Epoch 145, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 317898.09 | LR: 0.002400
+Epoch 145, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 329424.97 | LR: 0.002400
+Epoch 145, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 297924.19 | LR: 0.002400
+Epoch 145 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298765.46 | Test Acc: 82.42% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 146, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 331980.84 | LR: 0.002400
+Epoch 146, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 286309.12 | LR: 0.002400
+Epoch 146, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 264532.88 | LR: 0.002400
+Epoch 146, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 326276.44 | LR: 0.002400
+Epoch 146 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 297454.17 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 147, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 290086.44 | LR: 0.002400
+Epoch 147, Iter 10 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 295637.47 | LR: 0.002400
+Epoch 147, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 287230.91 | LR: 0.002400
+Epoch 147, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 302587.41 | LR: 0.002400
+Epoch 147 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299494.57 | Test Acc: 83.20% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 148, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 322494.72 | LR: 0.002400
+Epoch 148, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 299757.38 | LR: 0.002400
+Epoch 148, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 324202.31 | LR: 0.002400
+Epoch 148, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 312455.06 | LR: 0.002400
+Epoch 148 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299060.54 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 149, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 296903.31 | LR: 0.002400
+Epoch 149, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 270262.84 | LR: 0.002400
+Epoch 149, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 271898.19 | LR: 0.002400
+Epoch 149, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 287185.72 | LR: 0.002400
+Epoch 149 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298865.40 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 150, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 327481.59 | LR: 0.002400
+Epoch 150, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 354651.66 | LR: 0.002400
+Epoch 150, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 280106.62 | LR: 0.002400
+Epoch 150, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 270126.50 | LR: 0.002400
+Epoch 150 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298953.05 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 151, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 294892.25 | LR: 0.002400
+Epoch 151, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298098.28 | LR: 0.002400
+Epoch 151, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 311330.34 | LR: 0.002400
+Epoch 151, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 296896.22 | LR: 0.002400
+Epoch 151 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299924.13 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 152, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 310037.44 | LR: 0.002400
+Epoch 152, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 315306.66 | LR: 0.002400
+Epoch 152, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 288579.84 | LR: 0.002400
+Epoch 152, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 327974.09 | LR: 0.002400
+Epoch 152 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299575.58 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 153, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 317306.69 | LR: 0.002400
+Epoch 153, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 305811.06 | LR: 0.002400
+Epoch 153, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 281659.22 | LR: 0.002400
+Epoch 153, Iter 30 | Loss: 0.0016 | Train Acc: 100.00% | Spikes/sample: 292595.22 | LR: 0.002400
+Epoch 153 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 299460.16 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 154, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 280623.91 | LR: 0.002400
+Epoch 154, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 310019.94 | LR: 0.002400
+Epoch 154, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 293063.66 | LR: 0.002400
+Epoch 154, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 314591.53 | LR: 0.002400
+Epoch 154 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 300007.21 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 155, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 259828.19 | LR: 0.002400
+Epoch 155, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 304421.91 | LR: 0.002400
+Epoch 155, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 308116.84 | LR: 0.002400
+Epoch 155, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 291623.09 | LR: 0.002400
+Epoch 155 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299536.95 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 156, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 327505.34 | LR: 0.002400
+Epoch 156, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 273024.53 | LR: 0.002400
+Epoch 156, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 310452.88 | LR: 0.002400
+Epoch 156, Iter 30 | Loss: 0.0008 | Train Acc: 100.00% | Spikes/sample: 267541.84 | LR: 0.002400
+Epoch 156 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299954.54 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 157, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300341.03 | LR: 0.002400
+Epoch 157, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 316864.75 | LR: 0.002400
+Epoch 157, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 291179.88 | LR: 0.002400
+Epoch 157, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 268958.81 | LR: 0.002400
+Epoch 157 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299258.53 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 158, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 277017.81 | LR: 0.002400
+Epoch 158, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 300961.66 | LR: 0.002400
+Epoch 158, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 312794.78 | LR: 0.002400
+Epoch 158, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 297677.84 | LR: 0.002400
+Epoch 158 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299791.77 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 159, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 286770.25 | LR: 0.002400
+Epoch 159, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 303491.09 | LR: 0.002400
+Epoch 159, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 290126.25 | LR: 0.002400
+Epoch 159, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298485.56 | LR: 0.002400
+Epoch 159 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299387.05 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 160, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 324249.84 | LR: 0.002400
+Epoch 160, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 327204.44 | LR: 0.002400
+Epoch 160, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 307628.78 | LR: 0.002400
+Epoch 160, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 308795.69 | LR: 0.002400
+Epoch 160 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298344.30 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 161, Iter 0 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 313783.47 | LR: 0.002400
+Epoch 161, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 288945.56 | LR: 0.002400
+Epoch 161, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 343578.31 | LR: 0.002400
+Epoch 161, Iter 30 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 311277.81 | LR: 0.002400
+Epoch 161 complete | Avg Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 298779.25 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 162, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 320392.59 | LR: 0.002400
+Epoch 162, Iter 10 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 290295.19 | LR: 0.002400
+Epoch 162, Iter 20 | Loss: 0.0007 | Train Acc: 100.00% | Spikes/sample: 297402.62 | LR: 0.002400
+Epoch 162, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 314641.94 | LR: 0.002400
+Epoch 162 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298647.14 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 163, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 275775.56 | LR: 0.002400
+Epoch 163, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 317693.91 | LR: 0.002400
+Epoch 163, Iter 20 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 295898.91 | LR: 0.002400
+Epoch 163, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 288664.91 | LR: 0.002400
+Epoch 163 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298014.90 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 164, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 291250.50 | LR: 0.002400
+Epoch 164, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 267960.75 | LR: 0.002400
+Epoch 164, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 287645.09 | LR: 0.002400
+Epoch 164, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 261263.88 | LR: 0.002400
+Epoch 164 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298134.93 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 165, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 293213.50 | LR: 0.002400
+Epoch 165, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 307159.81 | LR: 0.002400
+Epoch 165, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 263807.62 | LR: 0.002400
+Epoch 165, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 269112.75 | LR: 0.002400
+Epoch 165 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298117.25 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 166, Iter 0 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 290620.47 | LR: 0.002400
+Epoch 166, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 265828.84 | LR: 0.002400
+Epoch 166, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 278566.22 | LR: 0.002400
+Epoch 166, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 335163.38 | LR: 0.002400
+Epoch 166 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 297148.20 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 167, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 285204.62 | LR: 0.002400
+Epoch 167, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 308854.44 | LR: 0.002400
+Epoch 167, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 297274.09 | LR: 0.002400
+Epoch 167, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300456.97 | LR: 0.002400
+Epoch 167 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 297905.66 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 168, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 306523.97 | LR: 0.002400
+Epoch 168, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 293165.34 | LR: 0.002400
+Epoch 168, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 313693.47 | LR: 0.002400
+Epoch 168, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 298927.59 | LR: 0.002400
+Epoch 168 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298834.16 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 169, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 295254.41 | LR: 0.002400
+Epoch 169, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 326988.97 | LR: 0.002400
+Epoch 169, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 333532.41 | LR: 0.002400
+Epoch 169, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 318117.03 | LR: 0.002400
+Epoch 169 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299161.84 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 170, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 301083.38 | LR: 0.002400
+Epoch 170, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 285217.75 | LR: 0.002400
+Epoch 170, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 336941.81 | LR: 0.002400
+Epoch 170, Iter 30 | Loss: 0.0028 | Train Acc: 100.00% | Spikes/sample: 294031.56 | LR: 0.002400
+Epoch 170 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299690.32 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 171, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 295243.69 | LR: 0.002400
+Epoch 171, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 279714.59 | LR: 0.002400
+Epoch 171, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 347744.28 | LR: 0.002400
+Epoch 171, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 303247.50 | LR: 0.002400
+Epoch 171 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299795.00 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 172, Iter 0 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 310244.09 | LR: 0.002400
+Epoch 172, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 313773.09 | LR: 0.002400
+Epoch 172, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 297010.78 | LR: 0.002400
+Epoch 172, Iter 30 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299444.28 | LR: 0.002400
+Epoch 172 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300557.64 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 173, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 288924.34 | LR: 0.002400
+Epoch 173, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 291348.31 | LR: 0.002400
+Epoch 173, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 322602.84 | LR: 0.002400
+Epoch 173, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 294405.03 | LR: 0.002400
+Epoch 173 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299701.69 | Test Acc: 83.20% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 174, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 285718.16 | LR: 0.002400
+Epoch 174, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 296388.16 | LR: 0.002400
+Epoch 174, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 295963.41 | LR: 0.002400
+Epoch 174, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 290622.84 | LR: 0.002400
+Epoch 174 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299095.55 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 175, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 292409.53 | LR: 0.002400
+Epoch 175, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 301297.72 | LR: 0.002400
+Epoch 175, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 308470.94 | LR: 0.002400
+Epoch 175, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 286519.81 | LR: 0.002400
+Epoch 175 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 298707.30 | Test Acc: 82.03% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 176, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 295063.22 | LR: 0.002400
+Epoch 176, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 283304.44 | LR: 0.002400
+Epoch 176, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 255957.06 | LR: 0.002400
+Epoch 176, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 304248.25 | LR: 0.002400
+Epoch 176 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299217.53 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 177, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 274382.00 | LR: 0.002400
+Epoch 177, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 288419.16 | LR: 0.002400
+Epoch 177, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 292482.88 | LR: 0.002400
+Epoch 177, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 300924.84 | LR: 0.002400
+Epoch 177 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299844.07 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 178, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 287733.56 | LR: 0.002400
+Epoch 178, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 327950.09 | LR: 0.002400
+Epoch 178, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 301064.53 | LR: 0.002400
+Epoch 178, Iter 30 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 291372.34 | LR: 0.002400
+Epoch 178 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300345.04 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 179, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 322075.59 | LR: 0.002400
+Epoch 179, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 355437.00 | LR: 0.002400
+Epoch 179, Iter 20 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 304249.44 | LR: 0.002400
+Epoch 179, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 316281.81 | LR: 0.002400
+Epoch 179 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300231.87 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 180, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 299616.84 | LR: 0.002400
+Epoch 180, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 291146.88 | LR: 0.002400
+Epoch 180, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300759.28 | LR: 0.002400
+Epoch 180, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 312587.31 | LR: 0.002400
+Epoch 180 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300859.87 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 181, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 314026.34 | LR: 0.002400
+Epoch 181, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 307704.97 | LR: 0.002400
+Epoch 181, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 245730.31 | LR: 0.002400
+Epoch 181, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 296396.28 | LR: 0.002400
+Epoch 181 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300495.65 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 182, Iter 0 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 289858.41 | LR: 0.002400
+Epoch 182, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 326298.38 | LR: 0.002400
+Epoch 182, Iter 20 | Loss: 0.0027 | Train Acc: 100.00% | Spikes/sample: 287351.66 | LR: 0.002400
+Epoch 182, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 310752.62 | LR: 0.002400
+Epoch 182 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300319.24 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 183, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 317698.88 | LR: 0.002400
+Epoch 183, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 295000.22 | LR: 0.002400
+Epoch 183, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 302162.44 | LR: 0.002400
+Epoch 183, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 307566.03 | LR: 0.002400
+Epoch 183 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 299429.60 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 184, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 307554.22 | LR: 0.002400
+Epoch 184, Iter 10 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 289649.44 | LR: 0.002400
+Epoch 184, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 269958.31 | LR: 0.002400
+Epoch 184, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 277318.41 | LR: 0.002400
+Epoch 184 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299031.25 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 185, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 298193.69 | LR: 0.002400
+Epoch 185, Iter 10 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 304172.25 | LR: 0.002400
+Epoch 185, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 317446.72 | LR: 0.002400
+Epoch 185, Iter 30 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 303959.78 | LR: 0.002400
+Epoch 185 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299880.89 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 186, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 288628.00 | LR: 0.002400
+Epoch 186, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 296780.50 | LR: 0.002400
+Epoch 186, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 322956.62 | LR: 0.002400
+Epoch 186, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 299567.22 | LR: 0.002400
+Epoch 186 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300477.77 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 187, Iter 0 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 308805.34 | LR: 0.002400
+Epoch 187, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 301253.25 | LR: 0.002400
+Epoch 187, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 303413.72 | LR: 0.002400
+Epoch 187, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 266723.41 | LR: 0.002400
+Epoch 187 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 301392.69 | Test Acc: 84.77% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 188, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 334986.84 | LR: 0.002400
+Epoch 188, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 294518.25 | LR: 0.002400
+Epoch 188, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 286775.72 | LR: 0.002400
+Epoch 188, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 284081.56 | LR: 0.002400
+Epoch 188 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 301115.62 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 189, Iter 0 | Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 256475.88 | LR: 0.002400
+Epoch 189, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 281643.38 | LR: 0.002400
+Epoch 189, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 310695.88 | LR: 0.002400
+Epoch 189, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 295821.66 | LR: 0.002400
+Epoch 189 complete | Avg Loss: 0.0006 | Train Acc: 100.00% | Spikes/sample: 300220.87 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 190, Iter 0 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 295856.84 | LR: 0.002400
+Epoch 190, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 274289.72 | LR: 0.002400
+Epoch 190, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 263697.91 | LR: 0.002400
+Epoch 190, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 266557.28 | LR: 0.002400
+Epoch 190 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 299262.22 | Test Acc: 86.33% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 191, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 311788.59 | LR: 0.002400
+Epoch 191, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 316496.41 | LR: 0.002400
+Epoch 191, Iter 20 | Loss: 0.0010 | Train Acc: 100.00% | Spikes/sample: 283022.09 | LR: 0.002400
+Epoch 191, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 286530.19 | LR: 0.002400
+Epoch 191 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300147.85 | Test Acc: 85.55% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 192, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 317680.03 | LR: 0.002400
+Epoch 192, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 301545.50 | LR: 0.002400
+Epoch 192, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 296540.28 | LR: 0.002400
+Epoch 192, Iter 30 | Loss: 0.0012 | Train Acc: 100.00% | Spikes/sample: 275212.19 | LR: 0.002400
+Epoch 192 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300160.55 | Test Acc: 83.59% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 193, Iter 0 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 285580.84 | LR: 0.002400
+Epoch 193, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 309265.09 | LR: 0.002400
+Epoch 193, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 329507.72 | LR: 0.002400
+Epoch 193, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 259156.66 | LR: 0.002400
+Epoch 193 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300747.87 | Test Acc: 83.20% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 194, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 286206.00 | LR: 0.002400
+Epoch 194, Iter 10 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 299845.28 | LR: 0.002400
+Epoch 194, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 265867.88 | LR: 0.002400
+Epoch 194, Iter 30 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 291464.16 | LR: 0.002400
+Epoch 194 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 301625.51 | Test Acc: 85.16% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 195, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 286918.81 | LR: 0.002400
+Epoch 195, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 310412.00 | LR: 0.002400
+Epoch 195, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 311915.19 | LR: 0.002400
+Epoch 195, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 280852.12 | LR: 0.002400
+Epoch 195 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300820.78 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 196, Iter 0 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 299334.31 | LR: 0.002400
+Epoch 196, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 297923.84 | LR: 0.002400
+Epoch 196, Iter 20 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 278164.75 | LR: 0.002400
+Epoch 196, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 315609.03 | LR: 0.002400
+Epoch 196 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300793.36 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 197, Iter 0 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 277152.09 | LR: 0.002400
+Epoch 197, Iter 10 | Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 259593.22 | LR: 0.002400
+Epoch 197, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 315162.34 | LR: 0.002400
+Epoch 197, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 305758.53 | LR: 0.002400
+Epoch 197 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300509.41 | Test Acc: 85.94% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 198, Iter 0 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 292669.84 | LR: 0.002400
+Epoch 198, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 322594.19 | LR: 0.002400
+Epoch 198, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 288888.66 | LR: 0.002400
+Epoch 198, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 312138.97 | LR: 0.002400
+Epoch 198 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 301786.48 | Test Acc: 84.38% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+Epoch 199, Iter 0 | Loss: 0.0003 | Train Acc: 100.00% | Spikes/sample: 283813.00 | LR: 0.002400
+Epoch 199, Iter 10 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 319957.09 | LR: 0.002400
+Epoch 199, Iter 20 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 345943.19 | LR: 0.002400
+Epoch 199, Iter 30 | Loss: 0.0004 | Train Acc: 100.00% | Spikes/sample: 301487.62 | LR: 0.002400
+Epoch 199 complete | Avg Loss: 0.0005 | Train Acc: 100.00% | Spikes/sample: 300724.55 | Test Acc: 83.98% | Best saved: 87.11% @ epoch 54 | Best saved spikes/sample: 276337.12 | LR: 0.002400
+
+
+Loading best checkpoint for final save/eval: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+Model loaded from: /workspace/new_test_results/dvsgesture/reference/models/best_reference_full200_T600_dt1ms.pth
+
+Saving model...
+Model saved to: /workspace/new_test_results/dvsgesture/reference/models/Take1_T600_Epochs200.pth
+Graph saved to: /workspace/new_test_results/dvsgesture/reference/graphs/Take1_T600_Epochs200.png
+
+============================================================
+Final Test Accuracy: 87.11%
+============================================================
+
+Computing spike statistics on test set (batch_size=32)...
+[spike_count] processed batch 0: batch_spikes_total=11539494.0, batch_size=32
+
+Spike stats:
+  n_samples: 264
+  total_spikes: 80714932.00
+  avg_spikes_per_sample: 305738.3788
+
+Estimated energy metrics (based on paper normalization):
+  Energy per spike (J): 1.783877e-06
+  Estimated energy per sample (J): 5.453997e-01
+Saved energy estimate to /workspace/new_test_results/dvsgesture/reference/energy_estimates/dvsgesture_energy_estimate_20260506_055117.json

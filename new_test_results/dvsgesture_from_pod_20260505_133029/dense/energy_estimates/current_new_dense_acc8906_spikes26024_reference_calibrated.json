@@ -1,0 +1,27 @@
+{
+  "paper_energy_per_inference_J": 0.459,
+  "paper_energy_mJ": 459.0,
+  "paper_energy_per_timestep_mJ": 0.765,
+  "n_samples": 264,
+  "total_spikes": 6870298.0,
+  "avg_spikes_per_sample": 26023.85606060606,
+  "energy_per_spike_J": 1.7838772422290688e-06,
+  "estimated_total_energy_J": 12.255768249531886,
+  "estimated_energy_per_sample_J": 0.04642336458156018,
+  "uncertainty_fraction": 0.5,
+  "estimated_energy_total_J_uncertainty": [
+    6.127884124765943,
+    18.38365237429783
+  ],
+  "timestamp": "2026-05-05T04:59:01.280327",
+  "timestamp_reference_calibrated": "2026-05-05T20:07:05.637079",
+  "energy_calibration_source": "fixed_reference_energy_per_spike_from_paper_matched_reference_model",
+  "reference_model_path": "/workspace/new_test_results/dvsgesture/reference/models/paper_matched_reference_dense_T600_dt1ms_acc8672_spikes257305.pth",
+  "reference_energy_json": "/workspace/new_test_results/dvsgesture/reference/energy_estimates/paper_matched_reference_energy_calibration_acc8672_spikes257305.json",
+  "reference_avg_spikes_per_sample": 257304.70075757575,
+  "reference_energy_per_spike_J": 1.7838772422290688e-06,
+  "estimated_energy_per_sample_mJ": 46.42336458156018,
+  "old_model_self_calibrated_energy_per_spike_J": 1.7637662878669894e-05,
+  "old_model_self_calibrated_energy_per_sample_J": 0.4590000000000001,
+  "note": "Corrected to paper method: one reference energy-per-spike constant applied to this model spike count."
+}

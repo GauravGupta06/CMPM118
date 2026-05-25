@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-05-05T20:07:05.636913",
+  "calibration_source": "paper_matched_reference_model",
+  "reference_model_path": "/workspace/new_test_results/dvsgesture/reference/models/paper_matched_reference_dense_T600_dt1ms_acc8672_spikes257305.pth",
+  "reference_energy_json": "/workspace/new_test_results/dvsgesture/reference/energy_estimates/paper_matched_reference_energy_calibration_acc8672_spikes257305.json",
+  "paper_energy_per_inference_J": 0.459,
+  "reference_avg_spikes_per_sample": 257304.70075757575,
+  "reference_total_spikes": 67928441.0,
+  "reference_n_samples": 264,
+  "reference_energy_per_spike_J": 1.7838772422290688e-06,
+  "note": "Use this fixed energy_per_spike_J for all DVSGesture dense/sparse/routed model energy estimates."
+}

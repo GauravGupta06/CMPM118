@@ -1,0 +1,140 @@
+{
+  "n_samples": 264,
+  "accuracy": {
+    "dense": 0.8939393939393939,
+    "sparse": 0.7196969696969697,
+    "routed": 0.7954545454545454,
+    "dense_route_accuracy": 0.9173553719008265,
+    "sparse_route_accuracy": 0.6923076923076923,
+    "oracle_best_of_dense_sparse": 0.9356060606060606,
+    "both_correct": 0.678030303030303,
+    "both_wrong": 0.06439393939393939,
+    "dense_correct_sparse_wrong": 0.2159090909090909,
+    "sparse_correct_dense_wrong": 0.041666666666666664
+  },
+  "route_counts": {
+    "dense": 121,
+    "sparse": 143,
+    "dense_fraction": 0.4583333333333333,
+    "sparse_fraction": 0.5416666666666666
+  },
+  "router_metric": {
+    "name": "binary_prefix_occupancy_popcount_400ms",
+    "threshold": 10081,
+    "auc_for_dense_needed": 0.4822866344605475,
+    "binary_prefix_ones_mean": 11037.765151515152,
+    "binary_prefix_ones_median": 9420.0,
+    "binary_prefix_ones_min": 1200,
+    "binary_prefix_ones_max": 34080,
+    "count_prefix_sum_mean": 18990.784090909092,
+    "count_bins_gt1_mean": 3933.162878787879
+  },
+  "avg_spikes_per_sample": {
+    "dense": 26024.253787878788,
+    "sparse": 6314.147727272727,
+    "routed_model": 17377.55681818182
+  },
+  "energy": {
+    "baseline_dense_only_avg_J": 0.0464240740781906,
+    "baseline_dense_only_total_J": 12.25595555664232,
+    "sparse_only_avg_J": 0.011263664434754215,
+    "sparse_only_total_J": 2.973607410775113,
+    "routed_model_only_avg_J": 0.03099942813349714,
+    "routed_model_only_total_J": 8.183849027243244,
+    "router_avg_J": 7.836134863636365e-05,
+    "router_total_J": 0.020687396040000004,
+    "routed_total_avg_J": 0.0310777894821335,
+    "routed_total_J": 8.204536423283244,
+    "energy_gain_model_only_J": 4.0721065293990755,
+    "energy_gain_with_router_J": 4.051419133359076,
+    "energy_savings_model_only_percent": 33.22553276714625,
+    "energy_savings_with_router_percent": 33.056738127312656,
+    "router_overhead_percent_of_dense_baseline": 0.16879463983359605
+  },
+  "router_cycles": {
+    "mean": 435340.82575757575,
+    "median": 435341.0,
+    "min": 435340,
+    "max": 435342
+  },
+  "threshold_sweep": {
+    "best_accuracy": {
+      "threshold": 3350,
+      "accuracy": 0.8939393939393939,
+      "dense_fraction": 0.9545454545454546,
+      "avg_energy_J": 0.04585233380002827,
+      "energy_savings_percent": 1.2315598954098061
+    },
+    "best_energy_at_accuracy_ge_80": {
+      "threshold": 9100,
+      "accuracy": 0.803030303030303,
+      "dense_fraction": 0.5265151515151515,
+      "avg_energy_J": 0.033464738860229784,
+      "energy_savings_percent": 27.91511834169018
+    },
+    "best_energy_at_accuracy_ge_85": {
+      "threshold": 6653,
+      "accuracy": 0.8522727272727273,
+      "dense_fraction": 0.7689393939393939,
+      "avg_energy_J": 0.041004512252055446,
+      "energy_savings_percent": 11.67403321174949
+    },
+    "best_energy_at_accuracy_ge_sparse_accuracy": {
+      "threshold": 34081,
+      "accuracy": 0.7196969696969697,
+      "dense_fraction": 0.0,
+      "avg_energy_J": 0.011342025783390578,
+      "energy_savings_percent": 75.56865482273795
+    }
+  },
+  "timestamp": "2026-05-05T23:49:05.272621",
+  "paths": {
+    "dense_model_path": "/workspace/new_test_results/dvsgesture/dense/models/current_new_dense_acc8906_spikes26024.pth",
+    "sparse_model_path": "/workspace/new_test_results/dvsgesture/new_sparse/models/accepted_new_sparse_acc7188_spikes6314.pth",
+    "prefix_router_energy_file": "/workspace/Prefix_Router_Energy/dvsgesture_prefix_router_binary_energy_DVSGesture_T600_dt1ms_p400ms_32x32_binary.txt",
+    "expected_file": "/workspace/Prefix_Router_Energy/dvsgesture_prefix_router_binary_expected_DVSGesture_T600_dt1ms_p400ms_32x32_binary.csv",
+    "per_sample_csv": "/workspace/new_test_results/dvsgesture/prefix_router_eval/dvsgesture_prefix_router_per_sample_20260505_234905.csv",
+    "summary_json": "/workspace/new_test_results/dvsgesture/prefix_router_eval/dvsgesture_prefix_router_summary_20260505_234905.json"
+  },
+  "calibration": {
+    "paper_energy_J": 0.459,
+    "reference_avg_spikes_per_sample": 257304.70075757575,
+    "energy_per_spike_J": 1.7838772422290688e-06
+  },
+  "hyperparams": {
+    "dense": {
+      "input_size": null,
+      "n_frames": 600,
+      "tau_mem": null,
+      "spike_lam": 1e-06,
+      "model_type": "new_sparse",
+      "num_classes": 11,
+      "lr": 0.0002,
+      "dt": 0.001,
+      "threshold": 1.0,
+      "has_bias": false,
+      "architecture": "conv_arfa_snntorch",
+      "pooling": "sum",
+      "beta": 0.93,
+      "surrogate_slope": 9.7,
+      "reset_mechanism": "subtract"
+    },
+    "sparse": {
+      "input_size": null,
+      "n_frames": 600,
+      "tau_mem": null,
+      "spike_lam": 2.5e-05,
+      "model_type": "new_sparse",
+      "num_classes": 11,
+      "lr": 2e-05,
+      "dt": 0.001,
+      "threshold": 1.0,
+      "has_bias": false,
+      "architecture": "conv_arfa_snntorch",
+      "pooling": "sum",
+      "beta": 0.93,
+      "surrogate_slope": 9.7,
+      "reset_mechanism": "subtract"
+    }
+  }
+}

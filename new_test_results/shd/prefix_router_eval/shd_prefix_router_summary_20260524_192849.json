@@ -1,0 +1,97 @@
+{
+  "n_samples": 2264,
+  "accuracy": {
+    "dense": 0.8277385159010601,
+    "sparse": 0.7641342756183745,
+    "routed": 0.8144876325088339,
+    "dense_route_accuracy": 0.751863684771033,
+    "sparse_route_accuracy": 0.8588679245283019
+  },
+  "route_counts": {
+    "dense": 939,
+    "sparse": 1325,
+    "dense_fraction": 0.41475265017667845,
+    "sparse_fraction": 0.5852473498233216
+  },
+  "router_metric": {
+    "name": "prefix_400ms_spikes",
+    "threshold": 6993,
+    "auc_for_dense_needed": 0.6453342421755742,
+    "prefix_score_mean": 6728.034893992933,
+    "prefix_score_min": 2259,
+    "prefix_score_max": 11366
+  },
+  "avg_spikes_per_sample": {
+    "dense": 27734.654593639574,
+    "sparse": 14155.821554770318,
+    "routed_model": 20194.73409893993
+  },
+  "energy": {
+    "baseline_dense_only_avg_J": 0.00042000000000000007,
+    "baseline_dense_only_total_J": 0.9508800000000002,
+    "sparse_only_avg_J": 0.00021436881548065183,
+    "sparse_only_total_J": 0.48533099824819576,
+    "routed_model_only_avg_J": 0.0003058191438050182,
+    "routed_model_only_total_J": 0.6923745415745612,
+    "router_avg_J": 2.9934637871024736e-05,
+    "router_total_J": 0.06777202014,
+    "routed_total_avg_J": 0.000335753781676043,
+    "routed_total_J": 0.7601465617145614,
+    "energy_gain_model_only_J": 0.2585054584254389,
+    "energy_gain_with_router_J": 0.19073343828543876,
+    "energy_savings_model_only_percent": 27.185918141662345,
+    "energy_savings_with_router_percent": 20.05862341046596,
+    "paper_dense_energy_J_per_inference": 0.00042,
+    "energy_per_spike_J": 1.5143509308254347e-08
+  },
+  "router_cycles": {
+    "mean": 166303.54372791518,
+    "median": 166303.0,
+    "min": 166300,
+    "max": 166339
+  },
+  "timestamp": "2026-05-24T19:28:49.109543",
+  "paths": {
+    "dense_model_path": "new_test_results/shd/baseline/models/best_baseline_T1400_dt0.001.pth",
+    "sparse_model_path": "new_test_results/shd/sparse/models/best_sparse_target6_epoch9_acc7652_preserved.pth",
+    "prefix_router_energy_file": "Prefix_Router_Energy/prefix_router_binary_energy_SHD_T1400_dt1ms_p400ms.txt",
+    "per_sample_csv": "./new_test_results/shd/prefix_router_eval/shd_prefix_router_per_sample_20260524_192849.csv",
+    "summary_json": "./new_test_results/shd/prefix_router_eval/shd_prefix_router_summary_20260524_192849.json"
+  },
+  "hyperparams": {
+    "dense": {
+      "input_size": 700,
+      "n_frames": 1400,
+      "tau_mem": 0.02,
+      "tau_syn": 0.005,
+      "spike_lam": 0.0,
+      "model_type": "baseline",
+      "num_classes": 20,
+      "dt": 0.001,
+      "threshold": 1.0,
+      "has_bias": true,
+      "hidden_size": 512,
+      "rate_lam": 0.001,
+      "target_rate": 14.0,
+      "delay_mode": "none",
+      "max_delay_steps": 62
+    },
+    "sparse": {
+      "input_size": 700,
+      "n_frames": 1400,
+      "tau_mem": 0.02,
+      "tau_syn": 0.005,
+      "spike_lam": 0.0,
+      "model_type": "sparse",
+      "num_classes": 20,
+      "dt": 0.001,
+      "threshold": 1.0,
+      "has_bias": true,
+      "hidden_size": 512,
+      "rate_lam": 0.005,
+      "target_rate": 6.0,
+      "delay_mode": "none",
+      "max_delay_steps": 62
+    }
+  }
+}

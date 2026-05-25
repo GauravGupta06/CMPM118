@@ -1,0 +1,17 @@
+{
+  "paper_energy_per_inference_J": 0.459,
+  "paper_energy_mJ": 459.0,
+  "paper_energy_per_timestep_mJ": 0.765,
+  "n_samples": 264,
+  "total_spikes": 104148.0,
+  "avg_spikes_per_sample": 394.5,
+  "energy_per_spike_J": 0.0011634980988593157,
+  "estimated_total_energy_J": 121.17600000000002,
+  "estimated_energy_per_sample_J": 0.4590000000000001,
+  "uncertainty_fraction": 0.5,
+  "estimated_energy_total_J_uncertainty": [
+    60.58800000000001,
+    181.764
+  ],
+  "timestamp": "2026-05-04T03:57:58.571306"
+}
